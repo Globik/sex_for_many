@@ -1,0 +1,27 @@
+{
+  "name": "sex_for_many",
+  "version": "0.0.0",
+  "description": "Erotic videostreams with BTC and smart contract",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "koa-generic-session": "^2.0.1",
+    "koa-passport": "^4.1.1"
+  },
+  "engines": {
+    "node": "9.3.0",
+    "npm": "6.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Globik/sex_for_many"
+  },
+  "keywords": [
+    "node",
+    "mediasoup",
+    "koa"
+  ],
+  "license": "MIT"
+}
