@@ -1,0 +1,2 @@
+echo "subject: hello" | sendmail -v gru5@yandex.ru <  port.js
+mail -s "wow" gru5@yandex.ru < "port.js" <=correct but into spam

@@ -54,18 +54,26 @@ await next();
 })
 app.use(pubrouter.routes()).use(pubrouter.allowedMethods())
 app.use(async (ctx, next)=>{
-	console.log('ctx.status!',ctx.status);
+console.log('ctx.status!',ctx.status);
+//await next();
+
 try{
 await next();
+
 if(ctx.status === 404) ctx.throw(404,"fuck not found",{user:"fuck userss"});
 }catch(err){
-ctx.status=err.status || 500;
-console.log('THIS>STATUS: ', ctx.status);
+//ctx.status=err.status || 500;
+//console.log('THIS>STATUS: ', ctx.status);
+console.log("error");
 if(ctx.status=== 404){
-ctx.session.error='';
-ctx.redirect('/error');}
+ctx.session.error='not found';
+console.log('method: ',ctx.method);
+if(!ctx.state.xhr)ctx.body=await ctx.render("error",{});
+return;
+
 }
-});
+
+}});
 
 app.on('error',(err, ctx)=>{
 console.log(ctx.session);

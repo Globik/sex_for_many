@@ -83,4 +83,49 @@ return ctx.login(user)
 )(ctx,next)
 })
 pub.get('/logout', ctx=>{ctx.logout();ctx.redirect('/');});
+pub.get('/signup', async ctx=>{
+
+//if(ctx.isAuthenticated()) ctx.redirect(ctx.session.dorthin || '/');
+let m=ctx.session.bmessage;
+ctx.body=await ctx.render('signup',{errmsg: m});
+delete ctx.session.bmessage;
+})
+
+pub.post('/signup', (ctx,next)=>{
+if(ctx.isAuthenticated()){
+if(ctx.state.xhr){
+ctx.throw(409, 'Schon authenticated!')
+}else{
+return ctx.redirect('/')
+}}
+return passport.authenticate('local-signup', (err,user,info,status)=>{
+console.log(err,user,info,status)
+if(ctx.state.xhr){
+	console.log('XHR!!!!');
+	//23505 name already in use
+if(err){
+ctx.throw(409,err.message)
+}
+
+if(!user){
+ctx.body={success:false, message:info.message,code:info.code,bcode:info.bcode}
+}else{
+ctx.body={success:true, message:info.message,redirect:ctx.session.dorthin || '/'}
+return ctx.login(user)
+}
+}else{
+if(err){
+ctx.session.bmessage={success:false,message:err.message}; return ctx.redirect('/signup');
+}
+if(!user){
+ctx.session.bmessage={success:false,message:info.message,code:info.code,bcode:info.bcode}
+ctx.redirect('/signup')
+}else{	
+ctx.session.bmessage={success:true, msg: info.message}
+ctx.redirect('/')
+return ctx.login(user)
+}
+}})(ctx,next)
+})
+
 module.exports=pub;
