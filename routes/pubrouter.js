@@ -52,12 +52,12 @@ ctx.body=await ctx.render('login'/*,{errmsg:m}*/);
 pub.post('/login', (ctx,next)=>{
 if(ctx.isAuthenticated()){
 if(ctx.state.xhr){
-ctx.throw(409, 'Schon authenticated!')
+ctx.throw(409, 'Already authenticated!')
 }else{
 return ctx.redirect('/')
 }
 }
-return passport.authenticate('local', (err,user,info,status)=>{
+return passport.authenticate('local', function (err,user,info,status){
 if(ctx.state.xhr){
 if(err){ctx.body={success:false,info:err.message}; ctx.throw(500,err.message);}
 if(user===false){
@@ -94,7 +94,7 @@ delete ctx.session.bmessage;
 pub.post('/signup', (ctx,next)=>{
 if(ctx.isAuthenticated()){
 if(ctx.state.xhr){
-ctx.throw(409, 'Schon authenticated!')
+ctx.throw(409, 'Already authenticated!')
 }else{
 return ctx.redirect('/')
 }}
@@ -127,5 +127,18 @@ return ctx.login(user)
 }
 }})(ctx,next)
 })
+
+pub.get('/webrtc/:buser_name', async ctx=>{
+//	ctx.body=await ctx.render('error',{});
+ctx.body=await ctx.render('room',{model:'model', owner:true})
+});
+
+
+
+
+
+
+
+
 
 module.exports=pub;

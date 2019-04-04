@@ -19,7 +19,7 @@ var red_username_input=document.querySelector('.login-text');
 
 form.addEventListener('submit', baba, false);
 function baba(ev){
-	alert(1);
+//	alert(1);
 ev.preventDefault();
 if_cont(submit,'waiting','no')
 to_ajx(ev);
@@ -34,15 +34,15 @@ pars.password=tar.password.value;
 pars.age=tar.age.value;
 pars.gender=tar.fem.value;
 //alert(ev.target.username.value+' '+ev.target.age.value);
-alert('du');
-vax(tar.method,tar.action,pars, on_suc, on_fail, false);
+//alert('du');
+vax(tar.method, tar.action, pars, on_suc, on_fail, false);
 if_cont(submit,'no','waiting');
 
 
 
 }
 function on_suc(e){
-alert(miss(e));
+//alert(miss(e));
 if(e.success==false){notif_er(e)}else{notif(e);}}
 function on_fail(e){console.error(e);notif_err(e)}
 function notif(e){	

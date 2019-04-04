@@ -78,8 +78,9 @@ ${html_head.html_head({title:"sign up",cssl:["/css/login2.css"]})}
 -->
 <label for="password"><strong>Password</strong></label><label style="margin-left:10px;"><!-- <strong>show password</strong>--></label>
 <div class="inpwrap">
+<!-- required pattern=".{6,}" -->
 <input type="password" id="password" name="password"
-class="login-pwd" placeholder="Password" value="${dev_pwd?dev_pwd:''}" required pattern=".{6,}" maxlength="20"/>
+class="login-pwd" placeholder="Password" value="${dev_pwd?dev_pwd:''}"  maxlength="20"/>
 <label id="lShow" onclick="show_pwd(this);" title="show password">
 <strong id="sShow">show</strong></label></div>
 <small id="smally" class="blue">By creating an account you agree to our <a href="/">Terms & Privacy</a></small>

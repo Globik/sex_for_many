@@ -8,8 +8,8 @@ id serial PRIMARY KEY,
 -- email VARCHAR (100) UNIQUE CHECK(email ~*'^.+@.+\..+$'), any need?
 pwd VARCHAR (355) NOT NULL,
 bname varchar(50) UNIQUE NOT NULL, --unique nickname of a user
-brole brole_type_enum NOT NULL default 'non', -- admin,superadmin,moder, non, ban 
-age numeric NOT NULL CHECK(age <= 100),
+brole brole_type_enum NOT NULL default 'non', -- admin, superadmin, moder, non, ban 
+age numeric NOT NULL CHECK(age <= 100), -- TODO  check 0<age<100
 fem boolean NOT NULL, -- female?true : false
 agev boolean NOT NULL default false, -- age verify
 cron TIMESTAMP NOT NULL default now()::timestamp, -- when has registred 

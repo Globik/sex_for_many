@@ -18,18 +18,19 @@ done(e)
 }
 })
 
-passport.use(new LocalStrategy({usernameField:'email',passwordField:'password'}, (email,password,done)=>{
+passport.use(new LocalStrategy({usernameField:'username',passwordField:'password'}, (username, password, done)=>{
+	console.log("USERNAME AND PASSWORD: ",username,password);
 process.nextTick(async()=>{
 try{
-let user=await db.query('select id from busers where email=$1 and pwd=crypt($2,pwd)',[email,password])
-if(!user.rows[0]){return done(null, false, {message:'Wrong user email or password!'})}
-return done(null,user.rows[0],{message:'Erfolgreich loged in!!!'})
+let user=await db.query('select id from busers where bname=$1 and pwd=crypt($2,pwd)', [username, password])
+if(!user.rows[0]){return done(null, false, {message:'Wrong user name or password!'})}
+return done(null,user.rows[0],{message: 'Succsess! logged in!!!'})
 }catch(err){return done(err)} 
 })
 }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
-const get_str=n=>`insert into busers(pwd, bname, age,fem) values(crypt(${n.password},gen_salt('bf',8)),${n.username},${n.age},
+const get_str=n=>`insert into busers(pwd, bname, age, fem) values(crypt(${n.password},gen_salt('bf',8)),${n.username},${n.age},
 ${n.fem}) returning id`;
 
 passport.use('local-signup',new LocalStrategy({usernameField:'username',passReqToCallback:true},(req,username,password,done)=>{

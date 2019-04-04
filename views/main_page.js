@@ -13,17 +13,18 @@ return `<!DOCTYPE html><html lang="en">
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser,mainmenu:mainmenu,profiler:profiler})}</nav>
 ${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
-${buser && buser.role=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${endf}
 <main id="pagewrap"> 
 ${n.m?n.m.msg:''}<br><br>
 <h1>Сайт в разработке! Under construction!</h1>
-${buser?buser.name:'Guest<br>'}
+${buser?buser.bname:'Guest<br>'}
 ${buser?'<a href="/logout">logout</a>':'<a href="/login">login</a>'}
 <script>${clearCache()}</script>
 <hr>
 <h4>Users: </h4>
 ${users_list(lusers)}
+<a href="/webrtc/globi">globi</a>
 <hr>
 <h4>Roomers:</h4>
 <div id="roomContainer">

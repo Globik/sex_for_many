@@ -3,6 +3,10 @@ const DB_URL='postgress://globik:null@localhost:5432/test';
 const Koa=require('koa');
 const koaBody=require('koa-body');
 const passport=require('koa-passport');
+const WebSocket=require('ws');
+const {websock}=require('./libs/websock.js');
+const shortid=require('shortid');
+
 const url=require('url');
 const Pool=require('pg-pool');
 const PgStore=require('./libs/pg-sess.js');
@@ -11,6 +15,7 @@ const render=require('koa-rend');
 const serve=require('koa-static');
 const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
+const adminrouter=require('./routes/adminrouter.js');
 const mainmenu=require('./config/app.json');
 //const adminrouter=require('./routes/adminrouter.js');
 
@@ -52,7 +57,9 @@ app.use(async (ctx, next)=>{
 ctx.state.showmodule = mainmenu;//see config/app.json
 await next();	
 })
-app.use(pubrouter.routes()).use(pubrouter.allowedMethods())
+app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
+app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
+
 app.use(async (ctx, next)=>{
 console.log('ctx.status!',ctx.status);
 //await next();
@@ -60,14 +67,14 @@ console.log('ctx.status!',ctx.status);
 try{
 await next();
 
-if(ctx.status === 404) ctx.throw(404,"fuck not found",{user:"fuck userss"});
+if(ctx.status === 404) ctx.throw(404, "fuck not found",{user:"fuck userss"});
 }catch(err){
 //ctx.status=err.status || 500;
 //console.log('THIS>STATUS: ', ctx.status);
 console.log("error");
 if(ctx.status=== 404){
 ctx.session.error='not found';
-console.log('method: ',ctx.method);
+console.log('method: ', ctx.method);
 if(!ctx.state.xhr)ctx.body=await ctx.render("error",{});
 return;
 
@@ -75,17 +82,15 @@ return;
 
 }});
 
-app.on('error',(err, ctx)=>{
-console.log(ctx.session);
-console.log(ctx.request.session);
-console.log('app.on.error: ',err.message, ctx.request);
-console.log("SESSION in app on error: ");
-console.log("sess: ", ctx.request.session);
+app.on('error', function(err, ctx){
+console.log('app.on.error: ',err.message);
 });
 
-app.on('error',function(){console.log('app err')})
 pg_store.setup().then(function(){
-app.listen(PORT);
+const servak=app.listen(PORT);
+	const wss=new WebSocket.Server({server:servak});
+	//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
+websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
 console.log('soll on port: ', PORT, 'started.');
 }).catch(function(er){
 console.log("err setup pg_store", err.name);
