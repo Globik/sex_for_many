@@ -18,7 +18,7 @@ btcadr VARCHAR(100), -- his bitcoin address
 btcamt numeric NOT NULL default 0, --btc amount
 buser_d jsonb not null default '{}'); -- invoice 
 
--- insert into busers(pwd,bname,age,fem) values(crypt('1234', gen_salt('bf',8)),'Globik', 20, false) returning id;
+insert into busers(pwd,bname, age, fem) values(crypt('1234', gen_salt('bf',8)),'Globik', 20, false) returning id;
 
 -- sudo mv /home/globik/postgres/contrib/pgcrypto/pgcrypto.control /usr/local/pgsql/share/extension
 -- sudo mv /home/globik/postgres/contrib/pgcrypto/pgcrypto.so /usr/local/pgsql/lib

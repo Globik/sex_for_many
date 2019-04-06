@@ -367,7 +367,9 @@ didi.send_to_one_user_in_room(ws,furl,msg.target,msg);
 }else{
 if(msg.type=='message'){
 console.log('sending to all type message: ',msg)
-//insert_message(msg.msg,msg.roomname,msg.from_nick)} TODO remove this functionality 'history chat'
+	//insert_message(msg.msg,msg.roomname,msg.from_nick) TODO remove this functionality 'history chat'
+}
+	
 try{var jsob=JSON.stringify(msg)}catch(e){console.log('err json stringify in sending type message to all')}
 didi.emergency_to_all_in_room(ws,furl,jsob)
 }

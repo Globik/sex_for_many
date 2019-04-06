@@ -1,5 +1,7 @@
+// which psql heroku pg:psql --app frozen-atoll-47887
 const PORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;
 const Koa=require('koa');
 const koaBody=require('koa-body');
 const passport=require('koa-passport');
@@ -23,7 +25,8 @@ const mainmenu=require('./config/app.json');
 pgtypes.setTypeParser(1114, str=>str);
 const pars=url.parse(DB_URL);
 const cauth=pars.auth.split(':');
-const pg_opts = { user:cauth[0],password:cauth[1],host:pars.hostname,port:pars.port,database:pars.pathname.split('/')[1],ssl:false,
+const pg_opts = { user:cauth[0],password:cauth[1],host:pars.hostname,port:pars.port,database:pars.pathname.split('/')[1],
+	ssl:false
 	//Client:pgn
 	};
 const pool = new Pool(pg_opts);
@@ -74,7 +77,7 @@ if(ctx.status === 404) ctx.throw(404, "fuck not found",{user:"fuck userss"});
 console.log("error");
 if(ctx.status=== 404){
 ctx.session.error='not found';
-console.log('method: ', ctx.method);
+console.log('method: ', ctx.method, 'ctx.url: ', ctx.url);
 if(!ctx.state.xhr)ctx.body=await ctx.render("error",{});
 return;
 
@@ -83,14 +86,40 @@ return;
 }});
 
 app.on('error', function(err, ctx){
-console.log('app.on.error: ',err.message);
+console.log('app.on.error: ',err.message, 'ctx.url : ', ctx.url);
 });
 
 pg_store.setup().then(function(){
 const servak=app.listen(PORT);
 	const wss=new WebSocket.Server({server:servak});
 	//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
-websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
+//websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
+function noop(){}
+const interval=setInterval(function ping(){
+wss.clients.forEach(function each(ws){
+if(ws.isAlive===false)return ws.terminate();
+ws.isAlive=false;
+ws.ping(noop);	
+})	
+},50000)
+function heartbeat(){this.isAlive=true;}
+wss.on('connection', function(ws,url){
+console.log("websocket connected.");
+ws.isAlive=true;
+ws.on('pong',heartbeat);
+ws.on('message',function(msg){
+console.log("websocke message: ",msg);
+var send_to_client=0;
+if(send_to_client==0)ws.send(msg);
+});
+ws.on('error', function(er){console.log("websock err: ", err);})
+ws.on('close', function(){console.log("websocket closed");
+//ws.removeListener(heartbeat);
+});	
+	
+});
+
+
 console.log('soll on port: ', PORT, 'started.');
 }).catch(function(er){
 console.log("err setup pg_store", err.name);

@@ -130,7 +130,10 @@ return ctx.login(user)
 
 pub.get('/webrtc/:buser_name', async ctx=>{
 //	ctx.body=await ctx.render('error',{});
-ctx.body=await ctx.render('room',{model:'model', owner:true})
+//ctx.body=await ctx.render('room',{model:'model', owner:true})
+var model={};
+model.name=ctx.params.buser_name;
+ctx.body=await ctx.render('fake_room',{model});
 });
 
 
