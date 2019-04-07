@@ -90,7 +90,7 @@ console.log('app.on.error: ',err.message, 'ctx.url : ', ctx.url);
 });
 
 pg_store.setup().then(function(){
-const servak=app.listen(proc.env.PORT || HPORT);
+const servak=app.listen(process.env.PORT || HPORT);
 	const wss=new WebSocket.Server({server:servak});
 	//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
 //websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
