@@ -3,6 +3,7 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const walletValidator=require('wallet-address-validator');//0.2.4
 //const walletValidator=require('wallet-address-validator');//0.1.0
 //var moment=require('moment');
 //const {readf}=require('../libs/await-fs.js');//cofs
@@ -135,7 +136,15 @@ var model={};
 model.name=ctx.params.buser_name;
 ctx.body=await ctx.render('fake_room',{model});
 });
-
+//save btc address
+pub.post('/api/savebtcaddress', async ctx=>{
+	console.log('body: ',ctx.request.body);
+	let {btc_client, is_testnet}=ctx.request.body;
+	if(!btc_client){ctx.throw(400, "No data provided!");}
+	let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
+	if(!vali){ctx.throw(400,"not valid bitcoin address!");}
+ctx.body={status:"ok", data:"tested", is_testnet: is_testnet}
+});
 
 
 

@@ -1,13 +1,14 @@
 const file='haupt_page.js',endf=`<!-- ${file} -->`;
-const html_head=require('./html_head'),html_nav_menu=require('./html_nav_menu'),
-	 html_admin_nav_menu=require('./html_admin_nav_menu'),html_footer=require('./html_footer');
+const html_head=require('./html_head');
+const html_nav_menu=require('./html_nav_menu');
+const html_admin_nav_menu=require('./html_admin_nav_menu');
+const html_footer=require('./html_footer');
 var warnig=false,haupt_ban=false;
 
-const main_page=n=>{
+const main_page=function(n){
 const {lusers,showmodule:{mainmenu,profiler}}=n;
 const buser=n.user,roomers=n.roomers;
-//const mainmenu=n.mainmenu;
-//const pr
+
 return `<!DOCTYPE html><html lang="en">
 <head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",luser:buser})}</head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}

@@ -1,9 +1,10 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;
-const Koa=require('koa');
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
+const Koa=require('koa');
+//const koaBody=require('koa-body');
 const passport=require('koa-passport');
 const WebSocket=require('ws');
 const {websock}=require('./libs/websock.js');
@@ -12,6 +13,7 @@ const shortid=require('shortid');
 const url=require('url');
 const Pool=require('pg-pool');
 const PgStore=require('./libs/pg-sess.js');
+const PS=require('pg-pubsub');
 const pgtypes=require('pg').types;
 const render=require('koa-rend');
 const serve=require('koa-static');
@@ -31,6 +33,7 @@ const pg_opts = { user:cauth[0],password:cauth[1],host:pars.hostname,port:pars.p
 	};
 const pool = new Pool(pg_opts);
 const pg_store=new PgStore(pool);
+var ps=new PS(DB_URL);
 
 pool.on('connect', function(client){console.log('db connected!')})
 pool.on('error', function(err, client){console.log('db err: ', err.name)})
@@ -42,8 +45,8 @@ app.use(serve(__dirname+'/public'));
 app.use(session({store: pg_store}, app))
 
 render(app,{root:'views', development: true})
-
-app.use(koaBody())
+app.use(koaBody());
+//app.use(koaBody({multipart:true,formidable:{}}))
 require('./config/auth.js')(pool,passport)
 
 app.use(passport.initialize())
@@ -91,8 +94,14 @@ console.log('app.on.error: ',err.message, 'ctx.url : ', ctx.url);
 
 pg_store.setup().then(function(){
 const servak=app.listen(process.env.PORT || HPORT);
-	const wss=new WebSocket.Server({server:servak});
-	//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
+const wss=new WebSocket.Server({server:servak});
+ps.addChannel('events', function (msg){
+console.log('msg: ', msg);
+console.log('table: ', msg.table);
+send_to_all(wss, msg.data);
+}
+);
+//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
 //websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
 function noop(){}
 const interval=setInterval(function ping(){
@@ -120,11 +129,22 @@ ws.on('close', function(){console.log("websocket closed");
 });
 
 
-console.log('soll on port: ', PORT, 'started.');
+console.log('soll on port: ', HPORT, 'started.');
 }).catch(function(err){
-console.log("err setup pg_store", err.name);
+console.log("err setup pg_store", err.name,'\n',err);
 });
-
-process.on('unhundledRejection',(reason, p)=>{
+function send_to_all(wss, obj){
+wss.clients.forEach(function each(client){
+wsend(client,obj);
+})
+}
+function wsend(ws, obj){
+let a;
+try{
+a=JSON.stringify(obj);
+if(ws.readyState===WebSocket.OPEN)ws.send(a);	
+}catch(e){console.log('err stringify: ',e);}	
+}
+process.on('unhundledRejection',function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	

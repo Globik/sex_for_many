@@ -1,61 +1,45 @@
+const html_head=require('./html_head');
+const html_nav_menu=require('./html_nav_menu');
+const html_admin_nav_menu=require('./html_admin_nav_menu');
+const html_footer=require('./html_footer');
+const {js_help}=require('../libs/helper.js');
+var warnig=false,haupt_ban=false;
 const fake_room=function(n){
-return `<html><head><meta charset="utf-8"><title>websocket</title>
+const {lusers,showmodule:{mainmenu,profiler}}=n;
+const buser=n.user,roomers=n.roomers;
+return `<!DOCTYPE html><html lang="en">
+<head>
+<head>${html_head.html_head({title:"room",csslink:"/css/main2.css",luser:buser})}</head>
+<!-- 
+TODO meta names
+<meta charset="utf-8"><title>websocket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="shortcut icon" type="image/ico" href="/images/w4.png"> 
-</head><body>
+<link rel="shortcut icon" type="image/ico" href="/images/w4.png"> -->
+</head>
+
+<body>
+${warnig?'<div id="warnig">Warnig</div>':''}
+<nav class="back">${html_nav_menu.html_nav_menu({buser:buser,mainmenu:mainmenu,profiler:profiler})}</nav>
+${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
+${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+<main id="pagewrap"> 
 <h3>websocket</h3>
 <b>username: </b><span id="username">${n.model?n.model.name:'no_name'}</span><br>
-<input type="text" id="txt" placeholder="your message"/><button onclick="send();">send</button><br>
+<input type="text" id="chatxt" placeholder="your message"/><button onclick="send();">send</button>
+enctype="multipart/form-data"
+<form action="/api/savebtcaddress" name="btcForm" method="post" >
+<label for="btctxt">Enter your BTC address:</label>
+<input type="text" id="btctxt" name="btcadr" maxlength="34" spellcheck="false" value="uka" placeholder="btc address"/>
+<input name="reset" type="Reset"/>
+<input type="submit" value="save"/>
+</form>
+<br>
 <b>output:</b><br>
 <output id="out"></output>
-<script>
-var ws=null;
-var usname=username.textConent;
-var loc1=location.hostname+':'+location.port;
-var loc2='frozen-atoll-47887.herokuapp.com';
-var loc3=loc1 || loc2;
-var new_uri;
-if(window.location.protocol==="https:"){
-new_uri='wss:';
-}else{
-new_uri='ws:';
-}
-function get_socket(){
-if(!window.WebSocket)return;
-if(ws){console.log("ws already opened");retrun;}
-ws=new WebSocket(new_uri+'//'+loc3+'/'+usname);
-ws.onerror=function(e){out.innerHTML+="<b>socket error: </b>"+e+"<br>";}
-ws.onopen=function(){out.innerHTML+="<b>websocket opened!</b><br>";}
-ws.onclose=function(){out.innerHTML+="<b>websocket closed!</b><br>";}
-ws.onmessage=on_message;
-}
-get_socket();
-function on_message(evt){
-try{
-var msg=JSON.parse(evt.data);
-out.innerHTML+=evt.data+"<br>";;
-}catch(e){console.warn("error json parse");return;}
-if(msg.type=="msg"){
-
-}else{console.warn("unknown type");}
-}
-function send(){
-if(!txt.value)return;
-let d={};
-d.type="msg";
-d.msg=txt.value;
-wsend(d);
-}
-function wsend(d){
-if(!ws)return;
-let m;
-try{
-m=JSON.stringify(d);
-ws.send(m);
-}catch(e){console.warn("err json stringify");}
-}
-</script>
+</main>
+<footer id="footer">${html_footer.html_footer({})}</footer>
+${js_help(["/js/videoroom.js"])}
 </body></html>`;	
 }
 module.exports={fake_room};
