@@ -3,19 +3,20 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const request=require('../../node_modules/request');
 const walletValidator=require('wallet-address-validator');//0.2.4
-//const walletValidator=require('wallet-address-validator');//0.1.0
+
 //var moment=require('moment');
 //const {readf}=require('../libs/await-fs.js');//cofs
 //const fs=require('fs');
 //const email_enc=require('../libs/email_enc.js');
-//const {Encoder, Levels, Types}=require('../libs/qr-node.js');// any need??
-//const rk=require('request');
+//const {Encoder, Levels, Types}=require('../libs/qr-node.js');// any need?? i think no need . must be client side
+
 //const conf_pay=require('../config/pay.json');
 
 const pub=new Router();
 
-pub.get('/',async ctx=>{
+pub.get('/', async ctx=>{
 let result=null;
 //let bresult=null;
 //let db=ctx.db;
@@ -141,8 +142,8 @@ pub.post('/api/savebtcaddress', async ctx=>{
 	console.log('body: ',ctx.request.body);
 	let {btc_client, is_testnet}=ctx.request.body;
 	if(!btc_client){ctx.throw(400, "No data provided!");}
-	let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-	if(!vali){ctx.throw(400,"not valid bitcoin address!");}
+//	let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
+	//if(!vali){ctx.throw(400,"not valid bitcoin address!");}
 ctx.body={status:"ok", data:"tested", is_testnet: is_testnet}
 });
 
