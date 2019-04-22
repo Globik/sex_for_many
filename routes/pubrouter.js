@@ -3,7 +3,8 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
-const request=require('../../node_modules/request');
+//const request=require('../../node_modules/request');
+const reqw=require('request-promise-native');
 const walletValidator=require('wallet-address-validator');//0.2.4
 
 //var moment=require('moment');
@@ -138,16 +139,74 @@ model.name=ctx.params.buser_name;
 ctx.body=await ctx.render('fake_room',{model});
 });
 //save btc address
+var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
+const base_url_smart_tbtc="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution";//for test btc smartcontract
+/*
+ id serial primary key,
+name  text not null references busers(bname),
+cadr varchar(34) not null, -- client btc address
+padr varchar(34)  not null, -- public btc adress
+inv varchar(70) not null, -- invoice
+pc varchar(70) not null, -- payment code
+btc_amt numeric NOT NULL default 0, -- btc payment amount by address
+btc_all numeric not null default 0, -- total amount received by address
+is_t boolean not null default true -- is btc test
+*/ 
+//var sql_create_smarti="insert into cladr(name,cadr,padr,inv,pc) values($1,$2,$3,$4,$5)";
+var our_procent="10%";
 pub.post('/api/savebtcaddress', async ctx=>{
 	console.log('body: ',ctx.request.body);
-	let {btc_client, is_testnet}=ctx.request.body;
-	if(!btc_client){ctx.throw(400, "No data provided!");}
-//	let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-	//if(!vali){ctx.throw(400,"not valid bitcoin address!");}
-ctx.body={status:"ok", data:"tested", is_testnet: is_testnet}
+	let {btc_client, is_testnet, username}=ctx.request.body;
+	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
+let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
+if(!vali){ctx.throw(400,"not valid bitcoin address!");}
+let db=ctx.db;
+let bod=undefined;
+let data={};
+data.forwarding_address_primary=prim;//must be mine
+data.forwarding_address_secondary=btc_client;//must be client's one
+data.forwarding_address_primary_share=our_procent;
+data.callback_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
+
+let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
+try{
+bod=await reqw(mops);
+console.log('bod: ', bod);
+
+try{
+var sql_create_smarti="insert into cladr(name,cadr,padr,inv,pc) values($1,$2,$3,$4,$5)";
+
+let si=await db.query(sql_create_smarti,[
+username, 
+bod.forwarding_address_secondary, 
+bod.address, 
+bod.invoice,
+bod.payment_code
+]);
+console.log("db query: ", si);
+ 
+}catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
+}catch(e){ctx.throw(400, e.message);}
+
+ctx.body={status:"ok", data:"tested", is_testnet: is_testnet, bod:bod}
 });
 
-
+/*
+data.received_amount=200;
+data.invoice="invQ67P7jvsWDNQ4EY2ZnA4qbB75UY7RWpcZrnycaTzfgfz2iYUiD";
+data.code= "PMTvLqJhBnFJexwS1MqPPF6uJ8cLbYh87Re6Qz4wirnYiXrAojuBk";//payment code
+data.amount=4;//payment amount
+data.address="2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45"
+*/ 
+pub.post("/api/test_cb_smartc", async ctx=>{
+	console.log("it looks like callback came from bitaps\n",ctx.request.body);
+	let {received_amount, invoice, code,amount,address}=ctx.request.body;
+	let db=ctx.db;
+	try{
+	await db.query('update cladr set btc_amt=$1, btc_all=$2 where inv=$3',[amount,received_amount,invoice]);	
+	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
+	ctx.body=invoice;//{info:"ok",invoice:invoice}
+})
 
 
 

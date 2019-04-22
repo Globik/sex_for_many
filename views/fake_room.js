@@ -27,14 +27,17 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <h3>websocket</h3>
 <b>username: </b><span id="username">${n.model?n.model.name:'no_name'}</span><br>
 <input type="text" id="chatxt" placeholder="your message"/><button onclick="send();">send</button>
-enctype="multipart/form-data"
+<button onclick="test_cb();">test cb</button>
+<!--enctype="multipart/form-data" -->
 <form action="/api/savebtcaddress" name="btcForm" method="post" >
 <label for="btctxt">Enter your BTC address:</label>
-<input type="text" id="btctxt" name="btcadr" maxlength="34" spellcheck="false" value="uka" placeholder="btc address"/>
+<input type="text" id="btctxt" name="btcadr" maxlength="34" spellcheck="false" value="mi1BYcC463rVJzrbaApLVKSR9bVtGHVDbp"
+ placeholder="btc address"/>
+<input type="hidden" name="username" value="${buser && buser.bname?buser.bname:""}"/>
 <input name="reset" type="Reset"/>
 <input type="submit" value="save"/>
 </form>
-<br>
+<br><a id="publicbtc" href=""></a><br>
 <b>output:</b><br>
 <output id="out"></output>
 </main>

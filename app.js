@@ -1,7 +1,7 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
 
 const Koa=require('koa');
@@ -34,7 +34,11 @@ const pg_opts = { user:cauth[0],password:cauth[1],host:pars.hostname,port:pars.p
 	};
 const pool = new Pool(pg_opts);
 const pg_store=new PgStore(pool);
-var ps=new PS(DB_URL);
+var dop_ssl="";
+if(process.env.DEVELOPMENT==="yes"){
+	
+}else{dop_ssl="?ssl=true";}
+var ps=new PS(DB_URL+dop_ssl);
 
 pool.on('connect', function(client){console.log('db connected!')})
 pool.on('error', function(err, client){console.log('db err: ', err.name)})
@@ -62,6 +66,7 @@ await next()
 app.use(xhr());
 app.use(async (ctx, next)=>{
 ctx.state.showmodule = mainmenu;//see config/app.json
+ctx.db=pool;
 await next();	
 })
 app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
@@ -100,8 +105,12 @@ ps.addChannel('events', function (msg){
 console.log('msg: ', msg);
 console.log('table: ', msg.table);
 send_to_all(wss, msg.data);
-}
-);
+});
+ps.addChannel('on_smart_cb', function(msg){
+console.log('msg notify: ',msg);
+send_to_all(wss, msg.data);	
+});
+
 //websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
 //websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
 function noop(){}

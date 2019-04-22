@@ -1,8 +1,9 @@
 const request=require('request');
-//const prim="juhy6hu";
-//const sec="jijhu89j";
+var rp=require('request-promise-native');//1.0.7
+
+
 const prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
-const sec="i1BYcC463rVJzrbaApLVKSR9bVtGHVDbp";
+const sec= "mi1BYcC463rVJzrbaApLVKSR9bVtGHVDbp";
 const pr="10%";
 const base_url_smart="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution"
 
@@ -12,8 +13,17 @@ data.forwarding_address_secondary=sec;//must be client's one
 data.forwarding_address_primary_share=pr;
 //data.callback_link="http://ex.com/bitaps/notif"
 const mops={url: base_url_smart, method:"post", json:true,body:data};
+
+
+}
+rp(mops).then(function(b,body){console.log("data:",b,body)}/*,function(e){console.log('er3:',e)}*/).catch(function(er){
+console.log("hier err: ",er.name, er.message)
+})
+/*
 request(mops, function(e,b,body){
-if(e){console.log('err: ',e);return;}
+if(e){console.log('err in request: ',e);
+return;
+}
 console.log("status code: ",b.statusCode);
 if(b.statusCode !=200){console.log("some error here");}//400 { error_code: 7,message: 'invalid secondary forwarding address',details: '' }
 
@@ -22,8 +32,19 @@ console.log("body invoice: ",body.invoice);
 console.log("body payment_code: ",body.payment_code);
 console.log("address: ", body.address);
 })
+*/ 
 
+async function lu(){
+try{
+let b=await rp(mops);
+console.log('b: ', b);	
+}catch(e){
+console.log("err in await reqw: ", e.message);	
+}	
+}
 
+lu();
+ 
 /*
   "invoice": "invPoMqRtTZZGLNLsC2xDQUKwj3cyZtPJrPdwSRA4kvhoQV6Y77Dr", 
   "payment_code": "PMTvFcvDDMmSpDm9QqnPsWMBE8RyEmoQdSxHXmyM9zux9d5oGEvNe",
