@@ -251,6 +251,7 @@ console.log('t3 =',t3);//
 console.log(t3[0],t3[1]);
 */
 function session_create(){
+	alert('session create');
 let d={};
 d.transaction=transaction+"_10";//"session_create";
 d.janus="create";
@@ -258,6 +259,7 @@ wsend(d);
 // {"janus": "success", "transaction": "polydor", "data": {"id": 1800535620133879}} => session_id
 }
 function session_destroy(){
+	alert('session destroy');
 let d={};
 d.transaction=transaction+"_11";//"session_destroy";
 d.session_id=session_id;
@@ -478,29 +480,19 @@ element.play();
 element.volume=0;	
 }
 function stopVideo(){
-pauseVideo(localVideo);
-stopLocalStream(localStream);
-localStream=null;
+localVideo.pause();
+let stream=localVideo.srcObject;
+let tracks=stream.getTracks();
+tracks.forEach(function(track){
+console.warn('track: ',track);
+track.stop();	
+})
+localVideo.srcObject=null;
 }
 
-function stopLocalStream(stream){
-if(stream==null){console.log('stream is null');return;}
-var tracks=stream.getTracks();
-if(!tracks){console.log('no tracks');return;}	
-	for(var track in tracks){
-		console.log('track: ',track);
-	//track.stop();	
-	}
-}
-
-function pauseVideo(el){
-el.pause();
-if('srcObject' in el){
-el.srcObject=null;	
-}
-el.src='';	
-}
-
+localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);}
+localVideo.videoTracks.onremovetrack=function(ev){alert('track removed');console.log('a track removed: ', ev.track.label);}
+localVideo.onended=function(ev){console.log('VIDEO ENDED!');alert('video ended');}
 
 function createPeer(){
 // for both
