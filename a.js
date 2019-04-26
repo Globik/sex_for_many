@@ -110,6 +110,7 @@ sess=2;//ws.sid=0
 //pong
 return;	
 }
+console.log("before send target trans",a);
 send_target_trans(a[len-2], l, sess);
 }
 if(l.janus=="media"){
@@ -145,6 +146,10 @@ send_to_clients=1;
 console.log("ON AIR!");
 l.typ="atair";//for subscribers signal
 broadcast_room_no_me(ws, l);
+send_to_clients=1;	
+}else if(l.typ=="outair"){
+//publisher unpublished the stream. Notify all about it
+broadcast_room_no_me(ws,l)
 send_to_clients=1;	
 }else{}
 

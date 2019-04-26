@@ -131,6 +131,15 @@ roomid.textContent=roomId;
 room_exists=true;
 }else if(a.transi==41){
 spantransaction.textContent="destroy room "+ a.transi;
+detach_plugin();
+session_destroy();
+pubId=0;
+pubid.textContent=pubId;
+roomdesc.textContent=0;
+isaud.textContent=false;
+isvid.textContent=false;
+clear_keep_alive();
+stopVideo();
 }else if(a.transi==20){
 spantransaction.textContent="exists "+a.transi;
 if(a.plugindata.data.videoroom=="success"){
@@ -163,9 +172,15 @@ roomdesc.textContent=roomDesc;
 spantransaction.textContent="configure "+a.transi;	
 }else if(a.transi=="17"){
 spantransaction.textContent="unpublish "+a.transi;
+let d={};
+d.typ="outair";
+d.from=who_am_i;
+d.roomid=roomId;
+wsend(d);//notify all subscribers about unpublish
 }else if(a.transi=="18"){
 spantransaction.textContent="leave_room "+a.transi;	
-}else{}
+}else{console.log("unknown transi ",a.transi);}
+
 
 }else if(a.janus=="webrtcup"){ 
 console.warn("*** WEBRTCUP! ***", data);
@@ -214,6 +229,19 @@ isvid.textContent=isVid;
 isAud=a.receiving;
 isaud.textContent=isAud;	
 }else{}
+}else if(a.typ=="outair"){
+console.log("outair");
+//for subscribers;a publisher just unpublished the stream
+if(is_owner())return;
+pubId=0;
+pubid.textContent=pubId;
+roomdesc.textContent=0;
+isaud.textContent=false;
+isvid.textContent=false;
+clear_keep_alive();
+stopVideo();
+detach_plugin();
+session_destroy();
 }else if(a.typ=="msg"){}else{}
 // {"janus": "timeout", "session_id": 6925394170560529}
 }
@@ -307,7 +335,7 @@ d.transaction=transaction+"_13";
 d.session_id=session_id;
 d.janus="detach";
 d.plugin=plugin_name;
-d.opaque_id="fucker";//?? any need?
+d.opaque_id="fucker";//?? any need? for POST events
 //console.log(d);
 //{"janus": "success", "session_id": 4085346587175549, "transaction": "detach_plugin"}
 wsend(d);	
@@ -319,6 +347,7 @@ let d={};
 d.body={};
 d.body.request="join";
 d.body.room=roomId;//1234;
+console.log('roomId '+roomId);
 d.body.ptype=is_owner()?"publisher":"subscriber";
 if(!is_owner()){
 if(pubId==0){alert("No pubid feed?");return;}
@@ -370,7 +399,7 @@ d.handle_id=handle_id;
 d.janus="message";	
 d.body={};
 d.body.request="create"
-d.body.room=6666;
+d.body.room=roomId;
 d.body.description="fuck me please";
 d.body.publishers=1;
 wsend(d);
@@ -417,12 +446,12 @@ wsend(d);
 // .plugindata.data.participants[0].id
 }
 function leave_room(){
-	//exists
+	//for subscribers
 let d={};
 d.janus="message";
 d.body={};
 d.body.request="leave";
-d.body.room=1234;
+d.body.room=roomId;//1234;
 d.transaction=transaction+"_18";
 d.session_id=session_id;
 d.handle_id=handle_id;
@@ -433,13 +462,11 @@ wsend(d);
 //	 "data": {"videoroom": "event", "room": 1234, "leaving": "ok"}}}
 }
 function unpublish(){
-//for pblisher
+//for publisher
 let d={};
 d.body={};
 d.body.request="unpublish";
 d.body.room=1234;
-//d.body.ptype="publisher";
-//d.body.display="Globik";
 d.transaction=transaction+"_17";
 d.session_id=session_id;
 d.handle_id=handle_id;
@@ -476,7 +503,7 @@ wsend(d);
 //"videocodec": "vp8", "record": false, "num_participants": 1}]}}}
 }
 
-//set_keep_alive({session:session_id,handle:handle_id});
+
 function set_keep_alive(){
 console.warn("setting keep_alive");
 if(j_timer !=null){console.warn("why j_timer is not null?");}
@@ -495,8 +522,7 @@ j_timer=null;
 }
 
 function keep_alive(){
-if(session_id==0 /*|| handle_id==0*/){console.warn("what the fuck?");return;}
-//console.log("sess: ",obj.session," handl: ",obj.handle);
+if(session_id==0){console.warn("session is 0");return;}
 let d={};
 d.janus="keepalive";
 d.session_id=session_id;
@@ -564,7 +590,7 @@ if(event.candidate){
 console.warn("ON ICE CANDIDATE!");
 let d={};
 d.janus="trickle";
-d.transaction="candidate"
+d.transaction=transaction+"_50";
 d.session_id=session_id;
 d.handle_id=handle_id;
 d.candidate=event.candidate;
@@ -592,6 +618,11 @@ function on_negotiation_needed(){console.warn("ON NEGOTIATION NEEDED!");}
 function signaling_state_change(){console.log('signaling state: ',this.signalingState);}
 function on_connection_state_change(){
 console.warn('connection state: ', this.connectionState);
+if(this.connectionState=="disconnected"){
+	
+}else if(this.connectionState=="failed"){
+	
+}
 //last moment	
 }
 
@@ -645,7 +676,8 @@ let d={};
 d.janus="message";
 d.body={};
 d.body.request="start";
-d.body.room=1234;
+d.body.room=roomId;//1234;
+console.log(roomId);
 d.transaction=transaction +"_22";//"start";
 d.session_id=session_id;
 d.handle_id=handle_id;
