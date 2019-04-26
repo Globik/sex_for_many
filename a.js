@@ -88,7 +88,7 @@ break;
 
 
 sub.on('data',function(msg){
-console.log('data: ',msg.toString())
+//console.log('data: ',msg.toString())
 let abbi=msg.toString();
 
 let l;
@@ -106,6 +106,9 @@ sess=1;//ws.sid=l.data.id => new session
 }else if(c==11){
 console.log("'destroy' session_id");
 sess=2;//ws.sid=0
+}else if(c==25){
+//pong
+return;	
 }
 send_target_trans(a[len-2], l, sess);
 }
@@ -125,7 +128,7 @@ ws.hid=0;
 
 wsend({typ:"usid", msg: "Hi from server!"});
 ws.on('message', function d_msg(msg){
-console.log("msg came: ", msg);
+//console.log("msg came: ", msg);
 let l;var sens_to_clients=0;
 try{
 l=JSON.parse(msg);	
