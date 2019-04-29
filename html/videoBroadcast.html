@@ -136,10 +136,10 @@ session_destroy();
 pubId=0;
 pubid.textContent=pubId;
 roomdesc.textContent=0;
-isaud.textContent=false;
-isvid.textContent=false;
+//isaud.textContent=false;
+//isvid.textContent=false;
 clear_keep_alive();
-stopVideo();
+//stopVideo();
 }else if(a.transi==20){
 spantransaction.textContent="exists "+a.transi;
 if(a.plugindata.data.videoroom=="success"){
@@ -194,6 +194,7 @@ hanid.textContent=handle_id;
 clear_keep_alive();	
 }else if(a.janus=="media"){
 console.warn("MEDIA! "+data);
+alert("MEDIA!");
 // OK , you're on the air! Broadcast to all this event
 if(a.type=="video"){
 isVid=a.receiving;
@@ -213,7 +214,7 @@ wsend(d);
 }else{}
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
-wsend({typ:"onuser", username:who_am_i});
+wsend({typ:"onuser", username:who_am_i,roomid:roomId});
 }else if(a.typ=="atair"){
 //for subscribers
 roomDesc=a.roomdesc;
@@ -505,6 +506,7 @@ wsend(d);
 
 
 function set_keep_alive(){
+	//return;
 console.warn("setting keep_alive");
 if(j_timer !=null){console.warn("why j_timer is not null?");}
 j_timer=setTimeout(function tick(){	

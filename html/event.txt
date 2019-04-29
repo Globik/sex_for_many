@@ -1,0 +1,38 @@
+ [{"emitter":"MyJanusInstance","type":2,"timestamp":1556554517602250,"session_id":3016636914885029,
+"handle_id":3323883757158943,"opaque_id":"fucker","event":{"name":"attached","plugin":"janus.plugin.videoroom","opaque_id":"fucker"}}] 
+ [{"emitter":"MyJanusInstance","type":64,"timestamp":1556554529773901,"session_id":3016636914885029,
+"handle_id":3323883757158943,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"created","room":6666}}}] 
+[{"emitter":"MyJanusInstance","type":64,"timestamp":1556554575252819,"session_id":3016636914885029,
+"handle_id":3323883757158943,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"destroyed","room":6666}}}] 
+[{"emitter":"MyJanusInstance","type":2,"timestamp":1556554575264703,"session_id":3016636914885029,
+"handle_id":3323883757158943,"opaque_id":"fucker","event":{"name":"detached","plugin":"janus.plugin.videoroom","opaque_id":"fucker"}}] 
+
+***********************
+ [{"emitter":"MyJanusInstance","type":64,"timestamp":1556556803579088,"session_id":4760842994510338,
+"handle_id":4660629324196140,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"joined","room":6666,"id":68137993142981,"private_id":3758015461,"display":"Bob54"}}}]
+ [{"emitter":"MyJanusInstance","type":64,"timestamp":1556556806314121,"session_id":4760842994510338,
+"handle_id":4660629324196140,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom",
+"data":{"event":"configured","room":6666,"id":68137993142981,"audio_active":true,"video_active":true,"data_active":true,"bitrate":0}}}]
+ [{"emitter":"MyJanusInstance","type":64,"timestamp":1556556806389046,"session_id":4760842994510338,
+"handle_id":4660629324196140,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"published","room":6666,"id":68137993142981}}}]
+[{"emitter":"MyJanusInstance","type":1,"timestamp":1556556816727370,"session_id":5621397756859146,
+"event":{"name":"created","transport":{"transport":"janus.transport.nanomsg","id":"0xb8c78ca0"}}}]
+[{"emitter":"MyJanusInstance","type":2,"timestamp":1556556819862525,"session_id":5621397756859146,
+"handle_id":5705835987410263,"opaque_id":"fucker","event":{"name":"attached","plugin":"janus.plugin.videoroom","opaque_id":"fucker"}}] 
+[{"emitter":"MyJanusInstance","type":64,"timestamp":1556556826039803,"session_id":5621397756859146,
+"handle_id":5705835987410263,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"subscribing","room":6666,"feed":68137993142981,"private_id":0}}}] 
+[{"emitter":"MyJanusInstance","type":64,"timestamp":1556556826364374,"session_id":5621397756859146,
+"handle_id":5705835987410263,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"subscribed","room":6666,"feed":68137993142981}}}]
+[{"emitter":"MyJanusInstance","type":64,"timestamp":1556556838538415,"session_id":5621397756859146,
+"handle_id":5705835987410263,"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"unsubscribed","room":6666,"feed":68137993142981}}}] 
+[{"emitter":"MyJanusInstance","type":1,"timestamp":1556556840105150,"session_id":3061387950130478,
+"event":{"name":"timeout"}},{"emitter":"MyJanusInstance","type":64,"timestamp":1556556840105374,"
+event":{"plugin":"janus.plugin.videoroom","data":{"event":"unpublished","room":6666,"id":6638254927615433}}},
+{"emitter":"MyJanusInstance","type":64,"timestamp":1556556840105471,"event":{"plugin":"janus.plugin.videoroom",
+"data":{"event":"leaving","room":6666,"id":6638254927615433}}},
+{"emitter":"MyJanusInstance","type":2,"timestamp":1556556840105500,"session_id":3061387950130478,
+"handle_id":2928600994099275,"opaque_id":"fucker","event":{"name":"detached","plugin":"janus.plugin.videoroom","opaque_id":"fucker"}}] 
+ [{"emitter":"MyJanusInstance","type":2,"timestamp":1556556873006822,"session_id":5621397756859146,
+"handle_id":5705835987410263,"opaque_id":"fucker","event":{"name":"detached","plugin":"janus.plugin.videoroom","opaque_id":"fucker"}}] 
+
+ [{"emitter":"MyJanusInstance","type":1,"timestamp":1556556879290010,"session_id":5621397756859146,"event":{"name":"destroyed"}}] 
