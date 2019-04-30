@@ -48,11 +48,15 @@
 	<button onclick="create_room();">create room</button>
 	<button onclick="destroy_room();">destroy room</button>
 	<button onclick="exists_room();">exists room</button>
-	<button onclick="ajax();">post ajax</button>
+	<button onclick="ajax();">post ajax</button><br>
+	
+	<button onclick="super_start();">super start</button><!-- for publisher -->
+	<button onclick="publish_dva();">publish dva</button>
 	
 <b>output:</b><br>
 <output id="out"></output>
 <script>
+var supi=true;
 var plugin_name="janus.plugin.videoroom";
 //var a2=Math.random();
 var session_id=0;
@@ -98,6 +102,7 @@ session_id=a.data.id;//(a.data?a.data.id:0);
 sessid.textContent=session_id;
 spantransaction.textContent="create "+a.transi;
 set_keep_alive();
+if(supi)attach_plugin();
 }else if(a.transi=="11"){
 session_id=0;
 sessid.textContent=session_id;
@@ -107,6 +112,7 @@ clear_keep_alive();
 handle_id=a.data.id;
 hanid.textContent=handle_id;
 spantransaction.textContent="attach "+a.transi;
+if(supi){if(is_owner()){create_room();}else{}}
 //if(session_id==0){console.warn("why sessin_id is 0?");}
 //set_keep_alive({session:session_id,handle:handle_id});	
 }else if(a.transi=="13"){
@@ -116,10 +122,12 @@ spantransaction.textContent="detach "+a.transi;
 }else if(a.transi=="14"){
 // for subscribers
 spantransaction.textContent=a.transaction;
-if(a.plugindata.data.participants.length > 0){
+if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
 pubId=a.plugindata.data.participants[0].id;
+console.log("pubId: ",pubId);
 spantransaction.textContent="listparticipants "+a.transi;
 pubid.textContent=pubId;
+//console.log('pubId: ',pubId);
 who_is_he=a.plugindata.data.participants[0].display;
 spanHisNick=who_is_he;
 }
@@ -129,6 +137,7 @@ spantransaction.textContent="create room "+a.transi;
 roomId=a.plugindata.data.room;
 roomid.textContent=roomId;
 room_exists=true;
+if(supi)join_room();
 }else if(a.transi==41){
 spantransaction.textContent="destroy room "+ a.transi;
 detach_plugin();
@@ -153,21 +162,34 @@ console.log("Unknown transi ",a.transi);
 }
 }else if(a.janus=="event"){
 if(a.jsep && a.jsep.type=="answer"){
+	console.log("answer came");
 handle_answer(a.jsep);	
 }else if(a.jsep && a.jsep.type=="offer"){
+	console.log("offer came");
 handle_offer(a.jsep);	
 }
 if(a.transi=="15"){
 spantransaction.textContent="join_room "+a.transi;
 // if  publisher
-//{"janus":"event","session_id":643102042659517,"transaction":"Bob23_15","sender":7335137699849342,"plugindata":{"plugin":"janus.plugin.videoroom","data":{"videoroom":"joined","room":1234,"description":"Demo Room","id":4475055155860550,"private_id":3914707008,"publishers":[]}},"typ":"janus","transi":"15"}
+//{"janus":"event","session_id":643102042659517,
+//"transaction":"Bob23_15","sender":7335137699849342,
+//"plugindata":{"plugin":"janus.plugin.videoroom","data":{"videoroom":"joined","room":1234,"description":"Demo Room",
+//"id":4475055155860550,"private_id":3914707008,"publishers":[]}},"typ":"janus","transi":"15"}
+if(a.plugindata.data.id){
 pubId=a.plugindata.data.id//feed!(for subscribers)
-pubid.textContent=pubId;
-//plagindata.data: videoroom:joined, publishers:[],room:1234,description:demo,private_id:4..4..6
+pubid.textContent=pubId;//feed
+
 roomId=a.plugindata.data.room;
 roomid.textContent=roomId;
 roomDesc=a.plugindata.data.description;
 roomdesc.textContent=roomDesc;
+CREATE_LOCAL_STREAM();
+}
+//{"janus":"event","session_id":558601089819383,"transaction":"Bob56_15","sender":8960267080048488,
+//"plugindata":{"plugin":"janus.plugin.videoroom",
+//"data":{"videoroom":"event","error_code":425,"error":"Already in as a publisher on this handle"}},"typ":"janus","transi":"15"}
+
+
 }else if(a.transi=="16"){
 spantransaction.textContent="configure "+a.transi;	
 }else if(a.transi=="17"){
@@ -194,7 +216,7 @@ hanid.textContent=handle_id;
 clear_keep_alive();	
 }else if(a.janus=="media"){
 console.warn("MEDIA! "+data);
-alert("MEDIA!");
+//alert("MEDIA!");
 // OK , you're on the air! Broadcast to all this event
 if(a.type=="video"){
 isVid=a.receiving;
@@ -202,7 +224,7 @@ isvid.textContent=isVid;
 }else if(a.type=="audio"){
 isAud=a.receiving;
 isaud.textContent=isAud;	
-}else{}//datachannel
+}else{}
 let d={};
 d.typ="onair";
 d.roomdesc=roomDesc;
@@ -214,7 +236,7 @@ wsend(d);
 }else{}
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
-wsend({typ:"onuser", username:who_am_i,roomid:roomId});
+wsend({typ:"onuser", username:who_am_i,roomid:roomId,owner:true});
 }else if(a.typ=="atair"){
 //for subscribers
 roomDesc=a.roomdesc;
@@ -234,6 +256,7 @@ isaud.textContent=isAud;
 console.log("outair");
 //for subscribers;a publisher just unpublished the stream
 if(is_owner())return;
+
 pubId=0;
 pubid.textContent=pubId;
 roomdesc.textContent=0;
@@ -278,9 +301,19 @@ owner=false;
 undo_owner();	
 }
 }
-
 function do_owner(){}
 function undo_owner(){}
+
+function super_start(){
+if(!supi)return;
+if(!is_owner())return;
+session_create();
+//attach_plugin();
+//create_room();	
+//join_room();	
+}
+
+
 
 function ping(){
 let d={};
@@ -430,6 +463,7 @@ wsend(d);
 
 function list_participants(){
 // mainly for subscriber
+console.log('list_participants()');
 let d={};
 d.janus="message";
 d.session_id=session_id;
@@ -437,7 +471,8 @@ d.handle_id=handle_id;
 d.transaction=transaction+"_14";
 d.body={};
 d.body.request="listparticipants";
-d.body.room=1234;
+console.log('roomId: ',roomId);
+d.body.room=roomId;
 wsend(d);	
 // {"janus": "success", "session_id": 3758189572704366, 
 //"transaction": "list_participants", "sender": 7659999092093651, 
@@ -552,6 +587,20 @@ pc=createPeer();
 localStream.getTracks().forEach(function(track){pc.addTrack(track, localStream)});//owner true
 pc.createOffer(offer_opts).then(set_local_desc, on_error);
 }
+function getiLocal(stream){
+localStream=stream;
+playVideo(localVideo, stream);
+}
+function CREATE_LOCAL_STREAM(){
+if(!is_owner()){return;}
+navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(getiLocal).catch(function(e){console.error(e.name,e)})	
+}
+function publish_dva(){
+pc=createPeer();
+localStream.getTracks().forEach(function(track){pc.addTrack(track, localStream)});//owner true
+pc.createOffer(offer_opts).then(set_local_desc, on_error);
+}
+
 function playVideo(element, stream){
 // for owner
 if('srcObject' in element){element.srcObject=stream;}
@@ -621,7 +670,7 @@ function signaling_state_change(){console.log('signaling state: ',this.signaling
 function on_connection_state_change(){
 console.warn('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
-	
+	if(is_owner()){stopVideo();}
 }else if(this.connectionState=="failed"){
 	
 }

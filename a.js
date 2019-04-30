@@ -35,9 +35,9 @@ ctx.body=await ctx.render('seqpacket',{})
 const gr="\x1b[32m";
 const rs="\x1b[0m";
 pub_router.post('/testEvent', async function food(ctx){
-	console.log("==========================================================");
+
 console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
-console.log("================================================================");
+
 ctx.body={info:"ok"}	
 })
 
@@ -56,7 +56,7 @@ el.send(JSON.stringify(obj));
 }
 
 
-function send_target_trans(trans, obj, sid, owner){
+function send_target_trans(trans, obj, sid){
 console.log("send_target_trans(): ", trans);
 for(var el of wss.clients){
 console.log("OF el.trans: ",el.trans);
@@ -64,7 +64,8 @@ console.log("OF el.trans: ",el.trans);
 //console.log('el trans', el.trans);
 if(el.trans==trans){
 console.log("Yes. It's target trans! ",el.trans, trans,'el.sid ', el.sid,' sid ', sid);
-el.owner=owner;
+//el.owner=owner;
+//el.feed=feed;
 if(sid==1){
 if(el.sid==0){
 el.sid=obj.data.id;
@@ -98,10 +99,11 @@ sub.on('data',function(msg){
 //console.log('data: ',msg.toString())
 let abbi=msg.toString();
 
-let l;let owner=false;
+let l;
+//let owner=false;
 try{l=JSON.parse(abbi);}catch(e){console.log(e);return;}	
 l.typ="janus";
-let sess=0;
+let sess=0;var feed=0;
 if(l.transaction){
 let a=l.transaction.split("_");
 let len=a.length;
@@ -117,7 +119,7 @@ sess=2;//ws.sid=0
 //create room
 //console.log(l);
 if(l.plugindata.data.videoroom=="created"){
-owner=true;
+//varowner=true;
 droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
 }
 }else if(c==41){
@@ -125,12 +127,15 @@ droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
 if(l.plugindata && l.plugindata.data.videoroom=="destroyed"){
 droom.delete(l.plugindata.data.room);	
 }
+}else if(c==20){
+//room exists
+droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
 }else if(c==25){
 //pong
 return;	
 }
 console.log("before send target trans",a);
-send_target_trans(a[len-2], l, sess, owner);
+send_target_trans(a[len-2], l, sess);
 }
 if(l.janus=="media"){
 console.log("media is here",l);	 
@@ -146,6 +151,7 @@ ws.sid=0;
 ws.hid=0;
 ws.owner=false;
 ws.roomid=0;
+ws.feed=0;
 
 wsend({typ:"usid", msg: "Hi from server!"});
 ws.on('message', function d_msg(msg){
@@ -160,8 +166,10 @@ send_to_clients=1;
 }
 if(l.typ=="onuser"){
 console.log("Typ: ", l.typ);
+console.log('l: ',l);
 ws.trans=l.username;
-//ws.owner=l.owner;
+ws.owner=l.owner;
+
 ws.roomid=l.roomid;
 send_to_clients=1;	
 }else if(l.typ=="onair"){
@@ -180,11 +188,13 @@ ws.send(msg);
 }
 })
 ws.on('close',function(){
-console.log('ws closed')
+console.log('ws closed, owner: ',ws.owner);
 if(ws.owner){
 console.log("It's OWNER!");
+console.log('room size: ',droom.size);
 if(droom.has(ws.roomid)){
 let b=droom.get(ws.roomid);
+
 if(!b){console.log("No room id?");return;}
 let d={};
 d.session_id=b.session_id;
