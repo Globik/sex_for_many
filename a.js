@@ -34,12 +34,43 @@ ctx.body=await ctx.render('seqpacket',{})
 */ 
 const gr="\x1b[32m";
 const rs="\x1b[0m";
+const vroom=new Map();
 pub_router.post('/testEvent', async function food(ctx){
 
 console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
-
+let d=ctx.request.body;
+d.forEach(function(el){
+if(el.type==64){
+//room created or destroyed events
+let a=el.event.data.event;
+if(!a){console.log("no data event");return;}
+let rid=el.event.data.room;
+if(a=="created"){
+if(!vroom.has(rid)){
+console.log("no room, adding one: ",el.event.data.room);
+vroom.set(rid,{sid:el.session_id,hid:el.handle_id});
+console.log("vroom size: ", vroom.size);
+}
+}else if(a=="destroyed"){
+if(vroom.has(rid)){
+console.log("room for destroying: ", rid);
+vroom.delete(rid);
+console.log("vroom size: ", vroom.size);	
+}
+}	
+}	
+})
 ctx.body={info:"ok"}	
 })
+//room created:
+//[{"emitter":"MyJanusInstance","type":64,"timestamp":1556716877373518,
+//"session_id":7921853226865960,"handle_id":5868099884063956,"opaque_id":"fucker",
+//"event":{"plugin":"janus.plugin.videoroom","data":{"event":"created","room":6666}}}] 
+// room destroyd
+//[{"emitter":"MyJanusInstance","type":64,"timestamp":1556717692947533,
+//"session_id":1661877796617130,"handle_id":2268050969731239,"opaque_id":"fucker",
+//"event":{"plugin":"janus.plugin.videoroom","data":{"event":"destroyed","room":6666}}}] 
+
 
 app.use(pub_router.routes()).use(pub_router.allowedMethods())
 app.on('error',(err,ctx)=>{console.log(err.message,ctx.request.url)})
@@ -79,7 +110,6 @@ if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 break;	
 }
 }
-//)
 }
 
 function send_target_sess(session_id, obj){
@@ -129,6 +159,7 @@ droom.delete(l.plugindata.data.room);
 }
 }else if(c==20){
 //room exists
+if(l.plugindata && l.plugindata.data.room)
 droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
 }else if(c==25){
 //pong
@@ -145,7 +176,7 @@ send_target_sess(l.session_id, l);
 //ev.on('janus_msg',on_janus_msg);
 
 wss.on('connection', function(ws,req){
-console.log("websock client opened!");
+console.log("websock client opened!", req.url);
 ws.trans=null;
 ws.sid=0;
 ws.hid=0;
@@ -192,6 +223,7 @@ console.log('ws closed, owner: ',ws.owner);
 if(ws.owner){
 console.log("It's OWNER!");
 console.log('room size: ',droom.size);
+console.log("vroom size: ", vroom.size);
 if(droom.has(ws.roomid)){
 let b=droom.get(ws.roomid);
 
@@ -222,6 +254,7 @@ d3.session_id=b.session_id;
 d3.janus="destroy";
 subsend(d3);
 */ 
+console.log("DELETING ROOM=> ",ws.roomid, ' ',b.session_id,' ',b.handle_id);
 droom.delete(ws.roomid);
 }	
 }
