@@ -1,0 +1,32 @@
+<html>
+<head><title>gesamt</title><style>
+.red{color:red;}
+.green{color:green;}
+</style></head><body>
+<h3>gesamt</h3>
+<output id="out"></output>
+<script>
+var sock=null;
+function get_socket(){
+sock=new WebSocket("ws://localhost:3000/gesamt");
+
+sock.onopen=function(){
+outi("<b class=\"green\">websocket opened</b>");
+}
+sock.onerror=function(e){outi("<b>websocket error</b>");}
+sock.onmessage=function(evt){
+console.log("message", evt.data);
+outi("<b>msg: </b>" + evt.data);
+on_msg(evt.data)
+}
+sock.onclose=function(){
+outi("<b class=\"red\">Websocket closed</b>");
+}
+}
+get_socket();
+function outi(d){
+out.innerHTML+=d;	
+}
+</script>
+</body>
+</html>
