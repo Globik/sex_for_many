@@ -2,9 +2,12 @@
 <head><title>gesamt</title><style>
 .red{color:red;}
 .green{color:green;}
+.nochdiv{background:brown;color:red;}
 </style></head><body>
 <h3>gesamt</h3>
 <output id="out"></output>
+<div id="imgContainer"></div>
+<button onclick="remove_das();">remove das</button>
 <script>
 var sock=null;
 function get_socket(){
@@ -24,6 +27,33 @@ outi("<b class=\"red\">Websocket closed</b>");
 }
 }
 get_socket();
+function on_msg(d){
+//outi("data: "+d+"<br>");
+try{
+var ajson=JSON.parse(d);	
+}catch(e){return;}
+if(ajson.typ=="atair"){
+var  emg=document.createElement('img');
+var nochdiv=document.createElement('div');
+	emg.src=ajson.src;
+	nochdiv.appendChild(emg);
+	nochdiv.className="nochdiv";
+	nochdiv.setAttribute("data-roomid",ajson.roomid);
+	nochdiv.setAttribute("title",ajson.roomdesc);
+	imgContainer.appendChild(nochdiv);
+}else if(ajson.typ=="outair"){
+var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');	
+if(seli)seli.remove();
+}
+}
+function remove_das(){
+	var roomid=6666;
+var seli=document.querySelector('[data-roomid="'+roomid+'"]');
+if(seli){
+console.log('seli');
+seli.remove();
+}		
+}
 function outi(d){
 out.innerHTML+=d;	
 }

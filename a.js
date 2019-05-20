@@ -81,7 +81,7 @@ const wss=new WebSocket.Server({server:servak})
 function broadcast_room_no_me(ws, obj){
 wss.clients.forEach(function(el){
 if(el !==ws && el.readyState===WebSocket.OPEN){
-el.send(JSON.stringify(obj));	
+if(el.url !=="/gesamt")el.send(JSON.stringify(obj));	
 }
 })	
 }
@@ -119,6 +119,27 @@ if(el.sid == session_id){
 console.log("Yes, session matches. ",el.sid, session_id);
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 break;	
+}	
+}
+}
+
+function broadcast_new_room(obj){
+console.log("broadcast_new_room(): ");
+for(var el of wss.clients){
+if(el.url == "/gesamt"){
+console.log("Yes, its matches. ",el.url);
+if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
+//break;	
+}	
+}
+}
+function broadcast_room_gone(obj){
+console.log("broadcast_room_gone(): ");
+for(var el of wss.clients){
+if(el.url == "/gesamt"){
+console.log("Yes, its matches. ",el.url);
+if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
+//break;	
 }	
 }
 }
@@ -183,8 +204,9 @@ ws.hid=0;
 ws.owner=false;
 ws.roomid=0;
 ws.feed=0;
+ws.url=req.url;
 
-wsend({typ:"usid", msg: "Hi from server!"});
+if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});
 ws.on('message', function d_msg(msg){
 //console.log("msg came: ", msg);
 let l;var sens_to_clients=0;
@@ -207,10 +229,13 @@ send_to_clients=1;
 console.log("ON AIR!");
 l.typ="atair";//for subscribers signal
 broadcast_room_no_me(ws, l);
+broadcast_new_room(l);
 send_to_clients=1;	
 }else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
-broadcast_room_no_me(ws,l)
+l.typ="outair";
+broadcast_room_no_me(ws,l);
+broadcast_room_gone(l);
 send_to_clients=1;	
 }else{}
 

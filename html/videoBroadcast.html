@@ -29,7 +29,7 @@
 1. Create session 2. Attach plugin 3. Join room 4. publish
 
 <b>Local Video </b><br>
-<video id="localVideo" autoplay style="width: 160px;height: 120px; border:1px solid black;">no video supported</video>
+<video id="localVideo" autoplay style="width: 160px;height: 120px; border:5px solid black;">no video supported</video>
 
 	<br><button onclick="open_socket();">open socket</button><br>
 	<button onclick="ping();">ping janus</button>
@@ -52,7 +52,8 @@
 	<button onclick="ajax();">post ajax</button><br>
 	
 	<button onclick="super_start();">super start</button><!-- for publisher -->
-	<button onclick="publish_dva();">publish dva</button>
+	<button onclick="publish_dva();">publish dva</button><br>
+	<div id="imgContainer">IMG MUST HERE</div>;
 	
 <b>output:</b><br>
 <output id="out"></output>
@@ -104,32 +105,32 @@ if(a.janus=="success"){
 if(a.transi=="10"){
 session_id=a.data.id;//(a.data?a.data.id:0);
 sessid.textContent=session_id;
-spantransaction.textContent="create "+a.transi;
+spantransaction.textContent+=" create "+a.transi+" ";
 set_keep_alive();
 if(supi)attach_plugin();
 }else if(a.transi=="11"){
 session_id=0;
 sessid.textContent=session_id;
-spantransaction.textContent="destroy "+a.transi;
+spantransaction.textContent+=" destroy "+a.transi+" ";
 clear_keep_alive();
 }else if(a.transi=="12"){
 handle_id=a.data.id;
 hanid.textContent=handle_id;
-spantransaction.textContent="attach "+a.transi;
+spantransaction.textContent+=" attach "+a.transi;
 if(supi){if(is_owner()){create_room();}else{list_participants();}}
 //if(session_id==0){console.warn("why sessin_id is 0?");}
 //set_keep_alive({session:session_id,handle:handle_id});	
 }else if(a.transi=="13"){
 handle_id=0;
 hanid.textContent=handle_id;	
-spantransaction.textContent="detach "+a.transi;
+spantransaction.textContent+=" detach "+a.transi;
 }else if(a.transi=="14"){
 // for subscribers
-spantransaction.textContent=a.transaction;
+//spantransaction.textContent=a.transaction;
 if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
 pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
-spantransaction.textContent="listparticipants "+a.transi;
+spantransaction.textContent+=" listparticipants "+a.transi;
 pubid.textContent=pubId;
 //console.log('pubId: ',pubId);
 who_is_he=a.plugindata.data.participants[0].display;
@@ -138,13 +139,16 @@ if(supi){join_room();}
 }
 }else if(a.transi==40){
 //create room	
-spantransaction.textContent="create room "+a.transi;
+spantransaction.textContent+=" create room "+a.transi;
 roomId=a.plugindata.data.room;
 roomid.textContent=roomId;
 room_exists=true;
-if(supi)join_room();
+if(supi){
+//alert('create room');
+join_room();
+}
 }else if(a.transi==41){
-spantransaction.textContent="destroy room "+ a.transi;
+spantransaction.textContent+=" destroy room "+ a.transi;
 detach_plugin();
 session_destroy();
 pubId=0;
@@ -155,27 +159,34 @@ roomdesc.textContent=0;
 clear_keep_alive();
 //stopVideo();
 }else if(a.transi==20){
-spantransaction.textContent="exists "+a.transi;
+spantransaction.textContent+=" exists "+a.transi;
 if(a.plugindata.data.videoroom=="success"){
 room_exists=a.plugindata.data.exists;
-console.log(room_exists);
-if(supi){join_room();}
+console.log('room exists: ',room_exists);
+//if(supi){alert('exists');join_room();}
 //alert(room_exists);
-if(room_exists==false){console.log("CREATING NEW ROOM");create_room2();}
+if(room_exists==false){
+console.log("CREATING NEW ROOM");
+create_room2();
+}else{
+	if(supi)join_room();
+	}
 }
 }else{
 console.log("Unknown transi ",a.transi);
 }
-}else if(a.janus=="event"){
+}else if(a.janus=="event")
+{
 if(a.jsep && a.jsep.type=="answer"){
 	console.log("answer came");
 handle_answer(a.jsep);	
 }else if(a.jsep && a.jsep.type=="offer"){
-	console.log("offer came");
+console.log("offer came");
 handle_offer(a.jsep);	
 }
 if(a.transi=="15"){
-spantransaction.textContent="join_room "+a.transi;
+spantransaction.textContent+=" join_room "+a.transi;
+console.log("ON JOIN ROOM");
 // if  publisher
 //{"janus":"event","session_id":643102042659517,
 //"transaction":"Bob23_15","sender":7335137699849342,
@@ -190,6 +201,7 @@ roomid.textContent=roomId;
 roomDesc=a.plugindata.data.description;
 roomdesc.textContent=roomDesc;
 CREATE_LOCAL_STREAM();
+//get_image();
 }
 //{"janus":"event","session_id":558601089819383,"transaction":"Bob56_15","sender":8960267080048488,
 //"plugindata":{"plugin":"janus.plugin.videoroom",
@@ -197,16 +209,16 @@ CREATE_LOCAL_STREAM();
 
 
 }else if(a.transi=="16"){
-spantransaction.textContent="configure "+a.transi;	
+spantransaction.textContent+=" configure "+a.transi;	
 }else if(a.transi=="17"){
-spantransaction.textContent="unpublish "+a.transi;
+spantransaction.textContent+=" unpublish "+a.transi;
 let d={};
 d.typ="outair";
 d.from=who_am_i;
 d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 }else if(a.transi=="18"){
-spantransaction.textContent="leave_room "+a.transi;
+spantransaction.textContent+=" leave_room "+a.transi;
 
 pubId=0;
 pubid.textContent=pubId;
@@ -218,6 +230,13 @@ stopVideo();
 detach_plugin();
 session_destroy();
 	
+}else if(a.transi==19){
+	//janus event
+	spantransaction.textContent+=" subscribe room "+a.transi;
+	console.log("on subscribe room: ");
+}else if(a.transi==22){
+spantransaction.textContent+=" start "+a.transi;
+console.log("on start room: ");
 }else{console.log("unknown transi ",a.transi);}
 
 
@@ -242,6 +261,7 @@ isvid.textContent=isVid;
 isAud=a.receiving;
 isaud.textContent=isAud;	
 }else{}
+/*
 let d={};
 d.typ="onair";
 d.roomdesc=roomDesc;
@@ -250,6 +270,7 @@ d.feed=pubId;
 d.type=a.type;
 d.receiving=a.receiving
 wsend(d);
+*/
 }else{}
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
@@ -518,10 +539,11 @@ wsend(d);
 }
 function unpublish(){
 //for publisher
+if(!is_owner())return;
 let d={};
 d.body={};
 d.body.request="unpublish";
-d.body.room=1234;
+d.body.room=roomId;//1234;
 d.transaction=transaction+"_17";
 d.session_id=session_id;
 d.handle_id=handle_id;
@@ -610,6 +632,7 @@ pc.createOffer(offer_opts).then(set_local_desc, on_error);
 function getiLocal(stream){
 localStream=stream;
 playVideo(localVideo, stream);
+if(is_owner()){	}
 }
 function CREATE_LOCAL_STREAM(){
 if(!is_owner()){return;}
@@ -640,7 +663,9 @@ track.stop();
 localVideo.srcObject=null;
 }
 
-localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);}
+localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);
+//get_image();	
+}
 localVideo.videoTracks.onremovetrack=function(ev){alert('track removed');console.log('a track removed: ', ev.track.label);}
 localVideo.onended=function(ev){console.log('VIDEO ENDED!');alert('video ended');}
 
@@ -681,7 +706,10 @@ session_destroy();
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
 //disconnected failed connected completed
-if(this.iceConnectionState=="disconnected"){}	
+if(this.iceConnectionState=="disconnected"){
+}else if(this.iceConnectionState=="completed"){
+get_image();
+}else{}	
 }
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
 //	if("complete"  set timeout if one minute pass and no webrtcup make retour close all
@@ -692,7 +720,9 @@ function signaling_state_change(){console.log('signaling state: ',this.signaling
 function on_connection_state_change(){
 console.warn('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
-if(is_owner()){stopVideo();pc.close();pc=null;}else{pc.close();pc=null}
+if(is_owner()){
+	//stopVideo();
+	stop_stream();pc.close();pc=null;}else{pc.close();pc=null}
 }else if(this.connectionState=="failed"){
 	
 }
@@ -792,6 +822,30 @@ xhr.send(b);
 }
 function get_random_int(max){
 return Math.floor(Math.random()*Math.floor(max));	
+}
+function get_image(){
+console.log("get_image()");
+if(!is_owner()) return;
+var cnv=document.createElement('canvas');
+//var w=160;var h=120;
+var w=80;var h=60;
+cnv.width=w;cnv.height=h;
+var c=cnv.getContext('2d');
+c.drawImage(localVideo,0,0,w,h);
+var img_data=cnv.toDataURL('image/pmg',1.0);
+let d={};
+d.typ="onair";
+d.roomdesc=roomDesc;
+d.roomid=roomId;
+d.feed=pubId;
+d.src=img_data;
+//d.type=a.type;
+wsend(d)
+//test for canvas width, height
+var  emg=document.createElement('img');
+	emg.src=img_data;
+	imgContainer.appendChild(emg);
+
 }
 </script>
 </body>
