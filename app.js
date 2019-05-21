@@ -1,7 +1,7 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
 
 const Koa=require('koa');

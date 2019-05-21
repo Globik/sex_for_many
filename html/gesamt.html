@@ -38,7 +38,7 @@ var nochdiv=document.createElement('div');
 	emg.src=ajson.src;
 	nochdiv.appendChild(emg);
 	nochdiv.className="nochdiv";
-	nochdiv.setAttribute("data-roomid",ajson.roomid);
+	nochdiv.setAttribute("data-roomid", ajson.roomid);
 	nochdiv.setAttribute("title",ajson.roomdesc);
 	imgContainer.appendChild(nochdiv);
 }else if(ajson.typ=="outair"){
@@ -47,7 +47,7 @@ if(seli)seli.remove();
 }
 }
 function remove_das(){
-	var roomid=6666;
+var roomid=6666;
 var seli=document.querySelector('[data-roomid="'+roomid+'"]');
 if(seli){
 console.log('seli');

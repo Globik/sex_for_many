@@ -125,6 +125,7 @@ handle_id=0;
 hanid.textContent=handle_id;	
 spantransaction.textContent+=" detach "+a.transi;
 }else if(a.transi=="14"){
+	//1.create 2.attach 3.listparticipants 4.join room(19) - offer came, start 22 tricle 50
 // for subscribers
 //spantransaction.textContent=a.transaction;
 if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
@@ -182,6 +183,7 @@ if(a.jsep && a.jsep.type=="answer"){
 handle_answer(a.jsep);	
 }else if(a.jsep && a.jsep.type=="offer"){
 console.log("offer came");
+//for subscriber
 handle_offer(a.jsep);	
 }
 if(a.transi=="15"){
