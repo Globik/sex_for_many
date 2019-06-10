@@ -24,7 +24,8 @@
 	"request":"2.88.0",
 	"request-promise-native":"1.0.7",
 	"pg-pubsub": "^0.3.0",
-	"wallet-address-validator":"0.2.4"
+	"wallet-address-validator":"0.2.4",
+	"nanomsg":"4.0.2"
   },
   "engines": {
     "node": "9.3.0",

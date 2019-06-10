@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Via websocket</title>
+<style>.red{color:red;} .green{color:green;}</style>
+</head>
+<body>
+<h3>via websocket</h3>
+<button onclick="get_info();">get info</button>
+<output id="out"></output>
+<script>
+var sock=null;
+
+function da(){
+sock=new WebSocket("ws://" + window.location.hostname + ":8188");
+
+
+sock.onopen=function(){
+	alert("a");
+outi("<b class=\"green\">websocket opened</b>");
+}
+sock.onerror=function(e){outi("<b>websocket error</b>");}
+sock.onmessage=function(evt){
+console.log("message", evt.data);
+outi("<b>msg: </b>" + evt.data);
+on_msg(evt.data)
+}
+sock.onclose=function(){
+outi("<b class=\"red\">Websocket closed</b>");
+//clear_keep_alive();
+}
+}
+function on_msg(n){
+outi(n);	
+}
+function get_info(){
+	da();
+let d={};
+d.transaction="transi";
+d.janus="info";
+//wsend(d);	
+}
+function wsend(ob){
+try{
+let a=JSON.stringify(ob);
+if(sock)send(a);	
+}catch(e){}	
+}
+function outi(n){
+return out.innerHTML=n;	
+}
+</script>
+</body>
+</html>

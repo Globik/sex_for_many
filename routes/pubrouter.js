@@ -6,6 +6,7 @@ const Router=require('koa-router');
 //const request=require('../../node_modules/request');
 const reqw=require('request-promise-native');
 const walletValidator=require('wallet-address-validator');//0.2.4
+const gr = "\x1b[32m", rs = "\x1b[0m";
 
 //var moment=require('moment');
 //const {readf}=require('../libs/await-fs.js');//cofs
@@ -129,6 +130,12 @@ ctx.redirect('/')
 return ctx.login(user)
 }
 }})(ctx,next)
+})
+
+// for notification events from janus webrtc gateway
+pub.post('/testEvent', async function food(ctx){
+console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
+ctx.body={info:"ok"}
 })
 
 pub.get('/webrtc/:buser_name', async ctx=>{

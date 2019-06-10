@@ -91,12 +91,9 @@ function send_target_trans(trans, obj, sid){
 console.log("send_target_trans(): ", trans);
 for(var el of wss.clients){
 console.log("OF el.trans: ",el.trans);
-//wss.clients.forEach(function(el){
-//console.log('el trans', el.trans);
 if(el.trans==trans){
 console.log("Yes. It's target trans! ",el.trans, trans,'el.sid ', el.sid,' sid ', sid);
-//el.owner=owner;
-//el.feed=feed;
+
 if(sid==1){
 if(el.sid==0){
 el.sid=obj.data.id;
@@ -128,18 +125,16 @@ console.log("broadcast_new_room(): ");
 for(var el of wss.clients){
 if(el.url == "/gesamt"){
 console.log("Yes, its matches. ",el.url);
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-//break;	
+if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));	
 }	
 }
 }
-function broadcast_room_gone(obj){
+function broadcast_room_gone(obj){//?? todo delete this func
 console.log("broadcast_room_gone(): ");
 for(var el of wss.clients){
 if(el.url == "/gesamt"){
 console.log("Yes, its matches. ",el.url);
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-//break;	
 }	
 }
 }
@@ -194,7 +189,7 @@ console.log("media is here",l);
 send_target_sess(l.session_id, l);
 }
 })
-//ev.on('janus_msg',on_janus_msg);
+
 
 wss.on('connection', function(ws,req){
 console.log("websock client opened!", req.url);
@@ -263,22 +258,7 @@ d.body.request="destroy";
 d.body.room=ws.roomid;
 //janus:"message",body:{request:"destroy",room:6666}
 subsend(d);
-/*
-let d2={};
-d2.handle_id=b.handle_id;
-d2.transaction=ws.trans+"_13";
-d2.session_id=b.session_id;
-d2.janus="detach";
-d2.plugin="janus.plugin.videoroom";
-d2.opaque_id="fucker";
-subsend(d2);
 
-let d3={};
-d3.transaction=ws.trans+"_11";//"session_destroy";
-d3.session_id=b.session_id;
-d3.janus="destroy";
-subsend(d3);
-*/ 
 console.log("DELETING ROOM=> ",ws.roomid, ' ',b.session_id,' ',b.handle_id);
 droom.delete(ws.roomid);
 }	
