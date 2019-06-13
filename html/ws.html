@@ -5,7 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>product version</title>
-<style>.red{color:red;} .green{color:green;}</style>
+<style>
+.red{color:red;} .green{color:green;}
+#videoContainer{
+background:rgba(255,0,0,0);
+border:1px solid yellow;
+position:relative;
+display:block;
+width:100%;
+hight:90%;
+perspective:1000px;
+perspective-origin:25% 25%;
+transform-style:preserve-3d;
+}
+#prevideo{
+background:rgba(0,200,0,0.1);
+color:white;
+padding:10px;position:absolute;
+top:0;left:0;
+height:auto;width:25%;z-index:10;
+}
+#localVideo{
+width: 0%;
+height: 0%;
+ argin:0 auto;
+ border:1px solid red;
+ position:relative;
+ object-fit:cover;
+ transition-property:all;
+ transition-duration:.2s;
+ transform:translate3d(0%,0%,-980px);
+ z-idex:20;
+ }
+ 
+#localVideo.start{
+width: 50%;
+height: auto;
+ margin:0 auto;
+ border:1px solid red;
+ position:relative;
+ object-fit:cover; 
+ ransform:scale3d(50%,50%,1);
+ transform:translateZ(0px);
+}
+</style>
 </head>
 <body>
 <h3>closer to product</h3>
@@ -18,9 +61,9 @@
 <button onclick="super_start();">super start</button><!-- for publisher -->
 <button onclick="publish_dva();">publish dva</button><button onclick="unpublish();">unpublish</button><br>
 <br><b>Local Video </b><br>
-<section id="videoContainer" style="background:rgba(255,0,0,0.1);border:1px solid yellow;position:relative;display:block;width:100%;hight:90%;">
-<div style="background:rgba(0,0,0,0);color:white;padding:10px;position:absolute;top:0;left:0;height:100%;width:50%;z-index:10;">JJJKJ</div>
-<video id="localVideo" poster="" autoplay style="width: 50%;height: auto; margin:0 auto;border:5px solid black;position:relative;">no video supported</video>
+<section id="videoContainer">
+ <div id="prevideo">test</div> 
+<video id="localVideo" poster="" autoplay>no video supported</video>
 </section>
 
 <b>output:</b><output id="out"></output>
@@ -73,16 +116,13 @@ if(a.janus=="success"){
 if(a.transi=="10"){
 session_id=a.data.id;
 set_keep_alive();
-if(supi)attach_plugin();
+attach_plugin();
 }else if(a.transi=="11"){
 session_id=0;
 clear_keep_alive();
 }else if(a.transi=="12"){
 handle_id=a.data.id;
-//if(supi){
-	if(is_owner()){create_room();}else{list_participants();}
-	//}
-
+if(is_owner()){create_room();}else{list_participants();}
 }else if(a.transi=="13"){
 handle_id=0;
 console.log('detach');
@@ -141,7 +181,7 @@ handle_offer(a.jsep);
 if(a.transi=="15"){
 console.log("on join_room ")
 console.log("ON JOIN ROOM");
-
+//localVideo.className="start";
 if(a.plugindata.data.id){
 pubId=a.plugindata.data.id//feed!(for subscribers)
 roomId=a.plugindata.data.room;
@@ -264,7 +304,10 @@ d.transaction=transaction+"_24";//"info";
 d.janus="info";
 wsend(d);
 }
-
+localVideo.onloadedmetadata=function(e){
+	//alert('loaded')
+	e.target.className="start";
+}
 function session_create(){
 console.log('session create');
 let d={};
