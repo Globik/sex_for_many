@@ -6,41 +6,126 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>product version</title>
 <style>
+	*{box-sizing:border-box;}
 .red{color:red;} .green{color:green;}
-#videoContainer{
-background:rgba(255,0,0,0);
-border:1px solid yellow;
+#media-wrapper{
+background:red;
+width:100%;
+height:470px;
+max-width:1800px;
+display:block;
+position:relative;
+margin:0 auto;	
+}
+/*#media-wrapper::after{clear:both;content:"S";box-sizing:border-box;}*/
+#video-container{
+background:brown;
+order:1px solid yellow;
 position:relative;
 display:block;
+width:50%;
+height:100%;
+float:left;
+erspective:1000px;
+erspective-origin:25% 25%;
+ransform-style:preserve-3d;
+}
+
+#chat-container{
+	background:silver;
+	width:50%;
+	height:100%;
+	overflow:hidden;
+float:right;	
+}
+#video-wrapper{
 width:100%;
-hight:90%;
+height:87%;
+display:block;
+position:relative;	
 perspective:1000px;
-perspective-origin:25% 25%;
+perspective-origin:55% 55%;
 transform-style:preserve-3d;
 }
-#prevideo{
-background:rgba(0,200,0,0.1);
+#video-wrapper::after{
+position:absolute;
+background:black;
+box-sizing:border-box;
+top:0;
+left:0;
+font-size:2em;
+content:"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	
+z-index:30;
 color:white;
-padding:10px;position:absolute;
-top:0;left:0;
-height:auto;width:25%;z-index:10;
+width:100%;
+height:100%;
+padding:.8em;
+line-height:1.5;
+transition-property:all;
+transition-duration:.2s;
 }
+#video-wrapper.start::after{
+color:green;
+width:0;
+height:0;
+font-size:0;
+cotent:"";
+}
+#video-wrapper.connecting::after{
+content:"Connecting...";
+background:rgba(0,0,0,0);	
+}
+#video-wrapper.connected::after{
+content="";	
+}
+#under-chat{
+background:pink;
+width:100%;
+height:13%;
+display:block;
+position:relative;	
+}
+#chat{
+width:100%;
+height:87%;
+display:block;
+position:relative;
+overflow-y:auto;
+background:black;
+}
+ .chat-txt{
+width:80%;
+height:100%;	
+}
+.btn-send,.btn-start{
+width:20%;
+height:100%;	
+}
+#under-video{
+width:100%;
+height:13%;
+background:yellow;
+display:block;
+position:relative;	
+}
+
 #localVideo{
-width: 0%;
-height: 0%;
+idth: 0%;
+eight: 0%;
  argin:0 auto;
  border:1px solid red;
  position:relative;
- object-fit:cover;
+
  transition-property:all;
  transition-duration:.2s;
  transform:translate3d(0%,0%,-980px);
- z-idex:20;
+ z-index:20;
  }
  
 #localVideo.start{
-width: 50%;
-height: auto;
+overflow:hidden;
+width: 100%;
+height: 470px;
  margin:0 auto;
  border:1px solid red;
  position:relative;
@@ -61,9 +146,19 @@ height: auto;
 <button onclick="super_start();">super start</button><!-- for publisher -->
 <button onclick="publish_dva();">publish dva</button><button onclick="unpublish();">unpublish</button><br>
 <br><b>Local Video </b><br>
-<section id="videoContainer">
- <div id="prevideo">test</div> 
+
+<section id="media-wrapper">
+	<div>panel</div>
+<section id="video-container">
+<div id="video-wrapper">
 <video id="localVideo" poster="" autoplay>no video supported</video>
+</div>
+<div id="under-video"><button class="btn-start" onclick="do_start(this);">start</button></div>
+</section>
+<section id="chat-container"><div id="chat"></div>
+<div id="under-chat"><input class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send">send</button></div>
+</section>
+<div style="clear:both;"></div>
 </section>
 
 <b>output:</b><output id="out"></output>
@@ -88,6 +183,9 @@ var pc=null;
 var localStream;
 var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
+function gid(id){
+return document.getElementById(id);	
+}
 open_socket()
 function open_socket(){
 sock=new WebSocket("ws://localhost:3000/connect");
@@ -135,15 +233,17 @@ pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
 who_is_he=a.plugindata.data.participants[0].display;
 spanHisNick.textContent=who_is_he;
-if(supi){join_room();}
+
+join_room();
+
 }
 }else if(a.transi==40){
 console.log('create room')	
 roomId=a.plugindata.data.room;
 room_exists=true;
-//if(supi){
+
 join_room();
-//}
+
 }else if(a.transi==41){
 console.log('destroy room')
 detach_plugin();
@@ -161,7 +261,6 @@ if(room_exists==false){
 console.log("CREATING NEW ROOM");
 create_room2();
 }else{
-	//if(supi)
 	join_room();
 	}
 }
@@ -187,16 +286,18 @@ pubId=a.plugindata.data.id//feed!(for subscribers)
 roomId=a.plugindata.data.room;
 roomDesc=a.plugindata.data.description;
 console.log('description' ,roomDesc);
+//alert('ok');
 CREATE_LOCAL_STREAM();
 }
 }else if(a.transi=="16"){
-	console.log('on configure')	
+console.log('on configure')	
 }else if(a.transi=="17"){
 let d={};
 d.typ="outair";
 d.from=who_am_i;
 d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
+destroy_room();
 }else if(a.transi=="18"){
 spantransaction.textContent+=" leave_room "+a.transi;
 pubId=0;
@@ -283,6 +384,16 @@ owner=false;
 }
 }
 
+function do_start(el){
+if(!is_owner()){console.log('not owner');return;}
+if(el.textContent=="start"){
+super_start();
+el.textContent="stop";
+}else if(el.textContent=="stop"){
+unpublish();
+el.textContent="start";
+}
+}
 
 function super_start(){
 console.log('super_start()')
@@ -307,6 +418,9 @@ wsend(d);
 localVideo.onloadedmetadata=function(e){
 	//alert('loaded')
 	e.target.className="start";
+	let v=gid("video-wrapper");
+	v.className="start";
+	publish_dva();
 }
 function session_create(){
 console.log('session create');
@@ -572,10 +686,14 @@ session_destroy();
 
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
+let v=gid("video-wrapper");
 //disconnected failed connected completed
 if(this.iceConnectionState=="disconnected"){
+v.className="";
 }else if(this.iceConnectionState=="completed"){
 get_image();
+//on air
+v.className="start";
 }else{}	
 }
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
@@ -590,6 +708,10 @@ if(is_owner()){
 	stop_stream();pc.close();pc=null;}else{stop_stream();pc.close();pc=null}
 }else if(this.connectionState=="failed"){
 	
+}else if(this.connectionState=="connecting"){
+//before on air
+let v=gid("video-wrapper");
+v.className="connecting";
 }
 
 }
