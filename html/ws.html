@@ -29,7 +29,7 @@ float:left;
 }
 
 #chat-container{
-	background:silver;
+	background:rgba(0,0,0,0.9);
 	width:50%;
 	height:100%;
 	overflow:hidden;
@@ -101,6 +101,23 @@ width:80%;
 height:100%;
 padding-left:5px;	
 }
+.chat-div{
+display:block;
+position:relative;
+width:100%;
+white-space:pre-line;
+word-wrap:break-word;
+overflow-wrap:break-word;
+padding:0.6em;
+line-height:1.5;	
+margin-top:5px;
+margin-right:5px;
+background-color:rgba(25,25,25,0.8);
+border:1px solid rgba(255,255,255,0.8);
+}
+.chat-user{color:white;}
+.chat-message{color:white;}
+
 .btn-send,.btn-start{
 width:20%;
 height:100%;	
@@ -178,7 +195,7 @@ width:100%;
 
 <b>output:</b><output id="out"></output>
 <script>
-var supi=true;
+//var supi=true;
 var plugin_name="janus.plugin.videoroom";
 
 var session_id=0;
@@ -222,15 +239,23 @@ clear_keep_alive();
 }
 
 function send_up(){
-	alert('sendi');
+//alert('sendi');
 console.log('am sendi()');
 if(!chatTxt.value)return;
 let d={};
 d.typ="msg";
 d.msg=chatTxt.value;
 d.to=roomId;
-d.from="gest";
+d.from=is_owner()?who_am_i:"guest";
 wsend(d);	
+chatTxt.value="";
+}
+function insert_message(ob){
+var m=document.createElement('div');
+m.className="chat-div";
+m.innerHTML='<span class="chat-user">'+ob.from+'</span>:&nbsp;<span class="chat-message">'+ob.msg+'</span>';
+chat.appendChild(m);
+chat.scrollTop=chat.clientHeight;
 }
 
 function on_msg(data){
@@ -410,15 +435,8 @@ owner=true;
 owner=false;
 }
 }
-function insert_message(ob){
-var m=document.createElement('div');
-m.className="chat-div";
-m.innerHTML='<span></span>
-chat.appendChild(m);
-chat.scrollTop=chat.clientHeight;
-}
+
 function langi(){
-	
 var html=document.getElementsByTagName("html")[0];
 html.className="rus";
 }
