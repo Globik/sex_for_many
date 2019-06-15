@@ -138,6 +138,13 @@ if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 }	
 }
 }
+function send_to_url(msg, url){
+for(var el of wss.clients){
+if(el.url == url){
+if(el.readyState===WebSocket.OPEN)el.send(msg);
+}
+}
+}
 
 const droom=new Map();
 
@@ -212,7 +219,13 @@ if(l.janus){
 sub.send(msg);
 send_to_clients=1;
 }
-if(l.typ=="onuser"){
+if(l.typ=="msg"){
+	if(l.to){
+		send_to_url(msg, req.url);
+		send_to_clients=1;
+	}
+	
+}else if(l.typ=="onuser"){
 console.log("Typ: ", l.typ);
 console.log('l: ',l);
 ws.trans=l.username;

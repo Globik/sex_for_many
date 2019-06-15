@@ -26,9 +26,6 @@ display:block;
 width:50%;
 height:100%;
 float:left;
-erspective:1000px;
-erspective-origin:25% 25%;
-ransform-style:preserve-3d;
 }
 
 #chat-container{
@@ -71,6 +68,12 @@ height:0;
 font-size:0;
 cotent:"";
 }
+
+#video-wrapper.notowner::after{
+content:"do was du willst";	
+}
+.rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}
+
 #video-wrapper.connecting::after{
 content:"Connecting...";
 background:rgba(0,0,0,0);	
@@ -87,19 +90,23 @@ position:relative;
 }
 #chat{
 width:100%;
-height:87%;
+height:83%;
+height: calc(87% - 4%);
 display:block;
 position:relative;
 overflow-y:auto;
-background:black;
 }
- .chat-txt{
+.chat-txt{
 width:80%;
-height:100%;	
+height:100%;
+padding-left:5px;	
 }
 .btn-send,.btn-start{
 width:20%;
 height:100%;	
+background:yellow;
+cursor:pointer;
+z-index:30;
 }
 #under-video{
 width:100%;
@@ -110,9 +117,6 @@ position:relative;
 }
 
 #localVideo{
-idth: 0%;
-eight: 0%;
- argin:0 auto;
  border:1px solid red;
  position:relative;
 
@@ -131,7 +135,16 @@ height: 470px;
  position:relative;
  object-fit:cover; 
  ransform:scale3d(50%,50%,1);
- transform:translateZ(0px);
+ transform:translateZ(0);
+}
+#chatPanel{padding-left:5px;background:yellow;height:4%;}
+@media screen and (max-width: 690px){
+#chatPanel{background:red;}
+
+#video-container,#chat-container{
+float:none;
+width:100%;	
+}
 }
 </style>
 </head>
@@ -145,6 +158,7 @@ height: 470px;
 <button onclick="session_create();">session create</button><br>
 <button onclick="super_start();">super start</button><!-- for publisher -->
 <button onclick="publish_dva();">publish dva</button><button onclick="unpublish();">unpublish</button><br>
+<button onclick="langi();">ru</button>
 <br><b>Local Video </b><br>
 
 <section id="media-wrapper">
@@ -155,8 +169,9 @@ height: 470px;
 </div>
 <div id="under-video"><button class="btn-start" onclick="do_start(this);">start</button></div>
 </section>
-<section id="chat-container"><div id="chat"></div>
-<div id="under-chat"><input class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send">send</button></div>
+<section id="chat-container"><div id="chatPanel">chat</div><div id="chat"></div>
+<div id="under-chat"><input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send
+</button></div>
 </section>
 <div style="clear:both;"></div>
 </section>
@@ -188,7 +203,8 @@ return document.getElementById(id);
 }
 open_socket()
 function open_socket(){
-sock=new WebSocket("ws://localhost:3000/connect");
+if(sock){console.log("already in connection");return;}
+sock=new WebSocket("ws://localhost:3000/"+roomId);
 
 sock.onopen=function(){
 outi("<b class=\"green\">websocket opened</b>");
@@ -203,6 +219,18 @@ sock.onclose=function(){
 outi("<b class=\"red\">Websocket closed</b>");
 clear_keep_alive();
 }
+}
+
+function send_up(){
+	alert('sendi');
+console.log('am sendi()');
+if(!chatTxt.value)return;
+let d={};
+d.typ="msg";
+d.msg=chatTxt.value;
+d.to=roomId;
+d.from="gest";
+wsend(d);	
 }
 
 function on_msg(data){
@@ -232,7 +260,7 @@ if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
 pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
 who_is_he=a.plugindata.data.participants[0].display;
-spanHisNick.textContent=who_is_he;
+//spanHisNick.textContent=who_is_he;
 
 join_room();
 
@@ -278,15 +306,12 @@ console.log("offer came");
 handle_offer(a.jsep);	
 }
 if(a.transi=="15"){
-console.log("on join_room ")
 console.log("ON JOIN ROOM");
-//localVideo.className="start";
 if(a.plugindata.data.id){
 pubId=a.plugindata.data.id//feed!(for subscribers)
 roomId=a.plugindata.data.room;
 roomDesc=a.plugindata.data.description;
 console.log('description' ,roomDesc);
-//alert('ok');
 CREATE_LOCAL_STREAM();
 }
 }else if(a.transi=="16"){
@@ -299,7 +324,7 @@ d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 destroy_room();
 }else if(a.transi=="18"){
-spantransaction.textContent+=" leave_room "+a.transi;
+//spantransaction.textContent+=" leave_room "+a.transi;
 pubId=0;
 clear_keep_alive();
 stopVideo();
@@ -331,6 +356,8 @@ isAud=a.receiving;
 }else{}
 
 }else{}
+}else if(a.typ=="msg"){
+	insert_message(a);
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
 wsend({typ:"onuser", username:who_am_i, roomid:roomId, owner:is_owner()});
@@ -383,16 +410,44 @@ owner=true;
 owner=false;
 }
 }
+function insert_message(ob){
+var m=document.createElement('div');
+m.className="chat-div";
+m.innerHTML='<span></span>
+chat.appendChild(m);
+chat.scrollTop=chat.clientHeight;
+}
+function langi(){
+	
+var html=document.getElementsByTagName("html")[0];
+html.className="rus";
+}
+
 
 function do_start(el){
-if(!is_owner()){console.log('not owner');return;}
+	open_socket();
+	setTimeout(function(){
+if(is_owner()){
+
 if(el.textContent=="start"){
+	console.log('starting');
 super_start();
 el.textContent="stop";
 }else if(el.textContent=="stop"){
 unpublish();
 el.textContent="start";
 }
+}else{
+	if(el.textContent=="start"){
+		console.log('creating a session')
+	session_create();
+	el.textContent="stop";	
+	}else{
+	leave_room();
+	el.textContent="start";
+	}
+}
+},2000);
 }
 
 function super_start(){
@@ -417,10 +472,16 @@ wsend(d);
 }
 localVideo.onloadedmetadata=function(e){
 	//alert('loaded')
+	var v=gid("video-wrapper");
 	e.target.className="start";
-	let v=gid("video-wrapper");
+	if(is_owner()){
+	//e.target.className="start";
 	v.className="start";
 	publish_dva();
+}else{
+	v.className="start";
+}
+//v.className="start";
 }
 function session_create(){
 console.log('session create');
@@ -621,6 +682,7 @@ if(!is_owner()){return;}
 navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(getiLocal).catch(function(e){console.error(e.name,e)})	
 }
 function publish_dva(){
+if(!is_owner())return;
 pc=createPeer();
 localStream.getTracks().forEach(function(track){pc.addTrack(track, localStream)});//owner true
 pc.createOffer(offer_opts).then(set_local_desc, on_error);
