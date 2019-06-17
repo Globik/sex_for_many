@@ -186,7 +186,9 @@ width:100%;
 </div>
 <div id="under-video"><button class="btn-start" onclick="do_start(this);">start</button></div>
 </section>
-<section id="chat-container"><div id="chatPanel">chat</div><div id="chat"></div>
+<section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt"></span>
+<b>viewers: </b><span id="rviewers"></span>
+</div><div id="chat"></div>
 <div id="under-chat"><input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send
 </button></div>
 </section>
@@ -262,7 +264,8 @@ function on_msg(data){
 var a;
 try{a=JSON.parse(data);
 }catch(e){console.error(e);return;}
-if(a.typ=="janus"){
+if(a.typ=="janus")
+{
 if(a.janus=="success"){
 if(a.transi=="10"){
 session_id=a.data.id;
@@ -355,12 +358,17 @@ clear_keep_alive();
 stopVideo();
 detach_plugin();
 session_destroy();
-	
+	let d={};
+	d.typ="roomnot";
+	wsend(d);
 }else if(a.transi==19){
 //janus event
 console.log("on subscribe room ");
 }else if(a.transi==22){
 console.log("on start room: ");
+let d={};
+d.typ="roomok";
+wsend(d);
 }else{console.log("unknown transi ",a.transi);}
 
 
@@ -381,8 +389,15 @@ isAud=a.receiving;
 }else{}
 
 }else{}
+}else if(a.typ=="joinchat"){
+console.log("user_count: ",a.user_count);
+chatcnt.textContent=a.user_count;
+rviewers.textContent=a.viewers;	
+}else if(a.typ=="leavchat"){
+console.log("user_count: ", a.user_count);
+chatcnt.textContent=a.user_count;	
 }else if(a.typ=="msg"){
-	insert_message(a);
+insert_message(a);
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
 wsend({typ:"onuser", username:who_am_i, roomid:roomId, owner:is_owner()});
@@ -397,6 +412,9 @@ isVid=a.receiving;
 
 }else if(a.type=="audio"){
 isAud=a.receiving;
+let d={};
+d.typ=a.typ;
+wsend(d);
 }else{}
 }else if(a.typ=="outair"){
 console.log("outair");
@@ -408,6 +426,9 @@ stopVideo();
 if(pc==null)return;
 detach_plugin();
 session_destroy();
+let d={};
+d.typ="roomnot";
+wsend(d);
 }else if(a.typ=="msg"){}else{}
 
 }

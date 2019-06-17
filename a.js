@@ -145,6 +145,33 @@ if(el.readyState===WebSocket.OPEN)el.send(msg);
 }
 }
 }
+function get_user_count(url){
+let user_count=0;
+let viewers=0;
+for(var el of wss.clients){
+//console.log("el.url: ", el.url,'url ',url)
+if(el.url==url){
+user_count++;
+if(el.roomok){viewers++}
+}
+}
+return {user_count, viewers};	
+}
+function send_to_url_json(msg, url){
+var cnt=get_user_count(url);// how much users in chat room
+for(var el of wss.clients){
+if(el.url == url){
+if(el.readyState===WebSocket.OPEN){
+try{
+msg.user_count=cnt.user_count;
+msg.viewers=cnt.viewers;
+let a=JSON.stringify(msg);
+el.send(a);
+}catch(e){}
+}
+}
+}
+}
 
 const droom=new Map();
 
@@ -198,7 +225,7 @@ send_target_sess(l.session_id, l);
 })
 
 
-wss.on('connection', function(ws,req){
+wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
 ws.trans=null;
 ws.sid=0;
@@ -207,8 +234,11 @@ ws.owner=false;
 ws.roomid=0;
 ws.feed=0;
 ws.url=req.url;
-
+ws.roomok=false;
+//console.log('ws.url: ',ws.url);
+//send_to_url_json({typ: "joinchat"}, req.url)
 if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});
+
 ws.on('message', function d_msg(msg){
 //console.log("msg came: ", msg);
 let l;var sens_to_clients=0;
@@ -226,18 +256,22 @@ if(l.typ=="msg"){
 	}
 	
 }else if(l.typ=="onuser"){
+//	console.log("req.url:",ws.url);
 console.log("Typ: ", l.typ);
 console.log('l: ',l);
 ws.trans=l.username;
 ws.owner=l.owner;
-
 ws.roomid=l.roomid;
 send_to_clients=1;	
+send_to_url_json({typ: "joinchat"}, ws.url)
 }else if(l.typ=="onair"){
 console.log("ON AIR!");
 l.typ="atair";//for subscribers signal
 broadcast_room_no_me(ws, l);
 broadcast_new_room(l);
+send_to_clients=1;	
+}else if(l.typ=="atair"){
+ws.roomok=true;
 send_to_clients=1;	
 }else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
@@ -245,6 +279,13 @@ l.typ="outair";
 broadcast_room_no_me(ws,l);
 broadcast_room_gone(l);
 send_to_clients=1;	
+}else if(l.typ=="roomok"){
+// subscriber starting in room
+ws.roomok=true;	
+send_to_url_json({typ: "joinchat"},ws.url);
+}else if(l.typ=="roomnot"){
+ws.roomok=false;	
+send_to_url_json({typ: "joinchat"},ws.url);
 }else{}
 
 if(send_to_clients==0){
@@ -253,6 +294,7 @@ ws.send(msg);
 })
 ws.on('close',function(){
 console.log('ws closed, owner: ',ws.owner);
+send_to_url_json({typ: "leavchat"}, ws.url)
 if(ws.owner){
 console.log("It's OWNER!");
 console.log('room size: ',droom.size);
