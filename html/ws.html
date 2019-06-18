@@ -70,7 +70,7 @@ cotent:"";
 }
 
 #video-wrapper.notowner::after{
-content:"do was du willst";	
+content:"Press 'start' to get a feed. Press 'stop' to end a feed";	
 }
 .rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}
 
@@ -206,6 +206,7 @@ var transaction="";// unique_name + _Number code of request -> "Bob_10"
 var room_exists=false;
 var pubId=0;
 var owner=false;
+var v=gid("video-wrapper");
 var sock;
 var who_am_i;
 var who_is_he;
@@ -287,7 +288,7 @@ session_destroy();
 	console.log('on listparticipants');
 // for subscribers
 if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
-	alert(1);
+	//alert(1);
 pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
 who_is_he=a.plugindata.data.participants[0].display;
@@ -355,11 +356,12 @@ d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 destroy_room();
 }else if(a.transi=="18"){
+	//leave room(subscriber)
 //pubId=0;
-clear_keep_alive();
+//clear_keep_alive();
 stopVideo();
 detach_plugin();
-session_destroy();
+//session_destroy();
 	let d={};
 	d.typ="roomnot";
 	wsend(d);
@@ -799,10 +801,12 @@ console.log('ice connection state: ',this.iceConnectionState);
 let v=gid("video-wrapper");
 //disconnected failed connected completed
 if(this.iceConnectionState=="disconnected"){
-v.className="";
+if(is_owner()){v.className="";}else{v.className="notowner";}
 }else if(this.iceConnectionState=="closed"){
-	v.className="";
-	stopVideo();
+if(is_owner()){
+v.className="";
+stopVideo();
+}
 if(!is_owner()){btnStart.textContent='start';}
 }else if(this.iceConnectionState=="completed"){
 get_image();
