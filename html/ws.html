@@ -220,7 +220,7 @@ var j_timer=null;//keep alive session
 function gid(id){
 return document.getElementById(id);	
 }
-open_socket()
+//open_socket()
 function open_socket(){
 if(sock){console.log("already in connection");return;}
 sock=new WebSocket("ws://localhost:3000/"+roomId);
@@ -274,6 +274,7 @@ attach_plugin();
 }else if(a.transi=="11"){
 session_id=0;
 clear_keep_alive();
+if(pc)pc.close();
 }else if(a.transi=="12"){
 handle_id=a.data.id;
 if(is_owner()){create_room();}else{list_participants();}
@@ -303,9 +304,9 @@ join_room();
 }else if(a.transi==41){
 console.log('destroy room')
 detach_plugin();
-session_destroy();
+//session_destroy();
 pubId=0;
-clear_keep_alive();
+//clear_keep_alive();
 
 }else if(a.transi==20){
 console.log('exists');
@@ -352,7 +353,6 @@ d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 destroy_room();
 }else if(a.transi=="18"){
-//spantransaction.textContent+=" leave_room "+a.transi;
 pubId=0;
 clear_keep_alive();
 stopVideo();
@@ -390,13 +390,15 @@ isAud=a.receiving;
 
 }else{}
 }else if(a.typ=="joinchat"){
-console.log("user_count: ",a.user_count);
+console.log("user_count: ", a.user_count);
 chatcnt.textContent=a.user_count;
 rviewers.textContent=a.viewers;	
-}else if(a.typ=="leavchat"){
+}
+/*else if(a.typ=="leavchat"){
 console.log("user_count: ", a.user_count);
 chatcnt.textContent=a.user_count;	
-}else if(a.typ=="msg"){
+}*/
+else if(a.typ=="msg"){
 insert_message(a);
 }else if(a.typ=="usid"){
 console.log("who am I?: ", who_am_i);	
@@ -412,9 +414,9 @@ isVid=a.receiving;
 
 }else if(a.type=="audio"){
 isAud=a.receiving;
-let d={};
-d.typ=a.typ;
-wsend(d);
+//let d={};
+//d.typ=a.typ;
+//wsend(d);
 }else{}
 }else if(a.typ=="outair"){
 console.log("outair");
@@ -791,6 +793,9 @@ let v=gid("video-wrapper");
 //disconnected failed connected completed
 if(this.iceConnectionState=="disconnected"){
 v.className="";
+}else if(this.iceConnectionState=="closed"){
+	v.className="";
+	stopVideo();
 }else if(this.iceConnectionState=="completed"){
 get_image();
 //on air

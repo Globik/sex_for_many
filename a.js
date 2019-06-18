@@ -78,16 +78,17 @@ app.on('error',(err,ctx)=>{console.log(err.message,ctx.request.url)})
 const servak=app.listen(PORT);
 const wss=new WebSocket.Server({server:servak})
 
-function broadcast_room_no_me(ws, obj){
+function broadcast_to_all_no_me(ws, obj){
 wss.clients.forEach(function(el){
 if(el !==ws && el.readyState===WebSocket.OPEN){
-if(el.url !=="/gesamt")el.send(JSON.stringify(obj));	
+if(el.url == ws.url)el.send(JSON.stringify(obj));	
 }
 })	
 }
 
 
 function send_target_trans(trans, obj, sid){
+	//unique name of websocket client
 console.log("send_target_trans(): ", trans);
 for(var el of wss.clients){
 console.log("OF el.trans: ",el.trans);
@@ -97,38 +98,45 @@ console.log("Yes. It's target trans! ",el.trans, trans,'el.sid ', el.sid,' sid '
 if(sid==1){
 if(el.sid==0){
 el.sid=obj.data.id;
-console.log("Attaching a session_id");
+console.log("Attaching a session_id");// for webrtc sessions of janus
 }
 	
 }else if(sid==2){console.log('Detaching a session id');el.sid=0}
 console.log("NOW SENDING ",obj);
-
+try{
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
+}catch(e){}
 break;	
 }
 }
 }
 
 function send_target_sess(session_id, obj){
+//inform publisher webrtc feed is up
 console.log("send_target_sess(): ", session_id);
 for(var el of wss.clients){
 if(el.sid == session_id){
 console.log("Yes, session matches. ",el.sid, session_id);
+try{
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
+}catch(e){}
 break;	
 }	
 }
 }
 
-function broadcast_new_room(obj){
+function broadcast_room(obj){
 console.log("broadcast_new_room(): ");
 for(var el of wss.clients){
 if(el.url == "/gesamt"){
 console.log("Yes, its matches. ",el.url);
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));	
+try{
+if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
+}catch(e){}	
 }	
 }
 }
+/*
 function broadcast_room_gone(obj){//?? todo delete this func
 console.log("broadcast_room_gone(): ");
 for(var el of wss.clients){
@@ -138,7 +146,8 @@ if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 }	
 }
 }
-function send_to_url(msg, url){
+*/ 
+function send_target(msg, url){
 for(var el of wss.clients){
 if(el.url == url){
 if(el.readyState===WebSocket.OPEN)el.send(msg);
@@ -149,7 +158,6 @@ function get_user_count(url){
 let user_count=0;
 let viewers=0;
 for(var el of wss.clients){
-//console.log("el.url: ", el.url,'url ',url)
 if(el.url==url){
 user_count++;
 if(el.roomok){viewers++}
@@ -157,8 +165,8 @@ if(el.roomok){viewers++}
 }
 return {user_count, viewers};	
 }
-function send_to_url_json(msg, url){
-var cnt=get_user_count(url);// how much users in chat room
+function send_to_url(msg, url){
+var cnt=get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){
 if(el.url == url){
 if(el.readyState===WebSocket.OPEN){
@@ -176,11 +184,9 @@ el.send(a);
 const droom=new Map();
 
 sub.on('data',function(msg){
-//console.log('data: ',msg.toString())
 let abbi=msg.toString();
 
 let l;
-//let owner=false;
 try{l=JSON.parse(abbi);}catch(e){console.log(e);return;}	
 l.typ="janus";
 let sess=0;var feed=0;
@@ -227,21 +233,19 @@ send_target_sess(l.session_id, l);
 
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
-ws.trans=null;
-ws.sid=0;
-ws.hid=0;
-ws.owner=false;
-ws.roomid=0;
-ws.feed=0;
-ws.url=req.url;
-ws.roomok=false;
-//console.log('ws.url: ',ws.url);
-//send_to_url_json({typ: "joinchat"}, req.url)
-if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});
+ws.trans=null;//unique name
+ws.sid=0;//session
+//ws.hid=0;
+ws.owner=false;//is a publisher 
+//ws.roomid=0;
+//ws.feed=0;
+ws.url=req.url;// url == room id == user id
+ws.roomok=false;// is currently started subscriber
+if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});//for a user
 
 ws.on('message', function d_msg(msg){
-//console.log("msg came: ", msg);
-let l;var sens_to_clients=0;
+let l;
+var send_to_clients=0;
 try{
 l=JSON.parse(msg);	
 }catch(e){return;}
@@ -250,10 +254,10 @@ sub.send(msg);
 send_to_clients=1;
 }
 if(l.typ=="msg"){
-	if(l.to){
-		send_to_url(msg, req.url);
-		send_to_clients=1;
-	}
+if(l.to){
+send_target(msg, req.url);
+send_to_clients=1;
+}
 	
 }else if(l.typ=="onuser"){
 //	console.log("req.url:",ws.url);
@@ -263,29 +267,31 @@ ws.trans=l.username;
 ws.owner=l.owner;
 ws.roomid=l.roomid;
 send_to_clients=1;	
-send_to_url_json({typ: "joinchat"}, ws.url)
+send_to_url({typ: "joinchat"}, ws.url)
 }else if(l.typ=="onair"){
 console.log("ON AIR!");
 l.typ="atair";//for subscribers signal
-broadcast_room_no_me(ws, l);
-broadcast_new_room(l);
+broadcast_to_all_no_me(ws, l);
+broadcast_room(l);
 send_to_clients=1;	
-}else if(l.typ=="atair"){
+}
+/*else if(l.typ=="atair"){
 ws.roomok=true;
 send_to_clients=1;	
-}else if(l.typ=="outair"){
+}*/
+else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
 l.typ="outair";
-broadcast_room_no_me(ws,l);
-broadcast_room_gone(l);
+broadcast_to_all_no_me(ws,l);
+broadcast_room(l);
 send_to_clients=1;	
 }else if(l.typ=="roomok"){
 // subscriber starting in room
 ws.roomok=true;	
-send_to_url_json({typ: "joinchat"},ws.url);
+send_to_url({typ: "joinchat"}, ws.url);
 }else if(l.typ=="roomnot"){
 ws.roomok=false;	
-send_to_url_json({typ: "joinchat"},ws.url);
+send_to_url({typ: "joinchat"}, ws.url);
 }else{}
 
 if(send_to_clients==0){
@@ -294,14 +300,16 @@ ws.send(msg);
 })
 ws.on('close',function(){
 console.log('ws closed, owner: ',ws.owner);
-send_to_url_json({typ: "leavchat"}, ws.url)
+let roomid=Number(ws.url.substring(1));
+send_to_url({typ: "joinchat"}, ws.url)
 if(ws.owner){
 console.log("It's OWNER!");
 console.log('room size: ',droom.size);
 console.log("vroom size: ", vroom.size);
-if(droom.has(ws.roomid)){
-let b=droom.get(ws.roomid);
-
+console.log('ROOM ID: ',roomid);
+if(droom.has(roomid)){
+let b=droom.get(roomid);
+console.log("HAS ROOM ID!");
 if(!b){console.log("No room id?");return;}
 let d={};
 d.session_id=b.session_id;
@@ -310,12 +318,13 @@ d.transaction=ws.trans+"_41";
 d.janus="message";
 d.body={};
 d.body.request="destroy";
-d.body.room=ws.roomid;
+d.body.room=roomid;
 //janus:"message",body:{request:"destroy",room:6666}
-subsend(d);
+subsend(d);// todo detach plugin and session destroy
 
-console.log("DELETING ROOM=> ",ws.roomid, ' ',b.session_id,' ',b.handle_id);
-droom.delete(ws.roomid);
+console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
+droom.delete(roomid);
+broadcast_room({typ:"outair",roomid:roomid});
 }	
 }
 })
