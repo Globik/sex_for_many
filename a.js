@@ -27,24 +27,22 @@ app.use(serve(__dirname+'/html'));
 // http://localhost:3000/videoBroadcast.html
 //render(app,{root:'views', development:true});
 app.use(koaBody());
-/*
-pub_router.get('/',async ctx=>{
-ctx.body=await ctx.render('seqpacket',{})
-})
-*/ 
+
 const gr="\x1b[32m";
 const rs="\x1b[0m";
 const vroom=new Map();
+const feeds=new Map();
 pub_router.post('/testEvent', async function food(ctx){
 
 console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
 let d=ctx.request.body;
 d.forEach(function(el){
 if(el.type==64){
-//room created or destroyed events
+//room created or destroyed or published events
 let a=el.event.data.event;
 if(!a){console.log("no data event");return;}
-let rid=el.event.data.room;
+let rid = el.event.data.room;
+let feed_id=el.event.data.id;
 if(a=="created"){
 if(!vroom.has(rid)){
 console.log("no room, adding one: ",el.event.data.room);
@@ -57,6 +55,8 @@ console.log("room for destroying: ", rid);
 vroom.delete(rid);
 console.log("vroom size: ", vroom.size);	
 }
+}else if(a=="published"){
+feeds.set(rid,{feed:feed_id})
 }	
 }	
 })
@@ -66,6 +66,11 @@ ctx.body={info:"ok"}
 //[{"emitter":"MyJanusInstance","type":64,"timestamp":1556716877373518,
 //"session_id":7921853226865960,"handle_id":5868099884063956,"opaque_id":"fucker",
 //"event":{"plugin":"janus.plugin.videoroom","data":{"event":"created","room":6666}}}] 
+//published
+// [{"emitter":"MyJanusInstance","type":64,"timestamp":1560864728330905,
+//"session_id":6575463149050305,"handle_id":2966073333370175,
+//"opaque_id":"fucker","event":{"plugin":"janus.plugin.videoroom","data":{"event":"published","room":6666,"id":5046334534517545}}}] 
+
 // room destroyd
 //[{"emitter":"MyJanusInstance","type":64,"timestamp":1556717692947533,
 //"session_id":1661877796617130,"handle_id":2268050969731239,"opaque_id":"fucker",
@@ -136,17 +141,7 @@ if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 }	
 }
 }
-/*
-function broadcast_room_gone(obj){//?? todo delete this func
-console.log("broadcast_room_gone(): ");
-for(var el of wss.clients){
-if(el.url == "/gesamt"){
-console.log("Yes, its matches. ",el.url);
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-}	
-}
-}
-*/ 
+ 
 function send_target(msg, url){
 for(var el of wss.clients){
 if(el.url == url){
@@ -183,6 +178,7 @@ el.send(a);
 
 const droom=new Map();
 
+
 sub.on('data',function(msg){
 let abbi=msg.toString();
 
@@ -203,7 +199,7 @@ console.log("'destroy' session_id");
 sess=2;//ws.sid=0
 }else if(c==40){
 //create room
-//console.log(l);
+
 if(l.plugindata.data.videoroom=="created"){
 //varowner=true;
 droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
@@ -241,7 +237,15 @@ ws.owner=false;//is a publisher
 //ws.feed=0;
 ws.url=req.url;// url == room id == user id
 ws.roomok=false;// is currently started subscriber
-if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});//for a user
+let feedi;
+var roomi=Number(ws.url.substring(1));
+if(feeds.has(roomi)){
+	let feedy=feeds.get(roomi);
+	feedi=feedy.feed;
+}else{
+feedi=0;
+}
+if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!", pubid:feedi});//for a user
 
 ws.on('message', function d_msg(msg){
 let l;
@@ -265,7 +269,7 @@ console.log("Typ: ", l.typ);
 console.log('l: ',l);
 ws.trans=l.username;
 ws.owner=l.owner;
-ws.roomid=l.roomid;
+//ws.roomid=l.roomid;
 send_to_clients=1;	
 send_to_url({typ: "joinchat"}, ws.url)
 }else if(l.typ=="onair"){
@@ -274,17 +278,13 @@ l.typ="atair";//for subscribers signal
 broadcast_to_all_no_me(ws, l);
 broadcast_room(l);
 send_to_clients=1;	
-}
-/*else if(l.typ=="atair"){
-ws.roomok=true;
-send_to_clients=1;	
-}*/
-else if(l.typ=="outair"){
+}else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
 l.typ="outair";
 broadcast_to_all_no_me(ws,l);
 broadcast_room(l);
 send_to_clients=1;	
+feeds.delete(roomi);
 }else if(l.typ=="roomok"){
 // subscriber starting in room
 ws.roomok=true;	
@@ -323,9 +323,12 @@ d.body.room=roomid;
 subsend(d);// todo detach plugin and session destroy
 
 console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
+broadcast_to_all_no_me(ws, {typ:"outair"});
 droom.delete(roomid);
 broadcast_room({typ:"outair",roomid:roomid});
+feeds.delete(roomid);
 }	
+
 }
 })
 

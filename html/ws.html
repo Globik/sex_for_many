@@ -46,7 +46,7 @@ transform-style:preserve-3d;
 }
 #video-wrapper::after{
 position:absolute;
-background:black;
+background:rgba(0,0,0,0.3);
 box-sizing:border-box;
 top:0;
 left:0;
@@ -184,7 +184,7 @@ width:100%;
 <div id="video-wrapper">
 <video id="localVideo" poster="" autoplay>no video supported</video>
 </div>
-<div id="under-video"><button class="btn-start" onclick="do_start(this);">start</button></div>
+<div id="under-video"><button id="btnStart" class="btn-start" onclick="do_start(this);">start</button></div>
 </section>
 <section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt"></span>
 <b>viewers: </b><span id="rviewers"></span>
@@ -217,6 +217,7 @@ var pc=null;
 var localStream;
 var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
+var btnStart=gid("btnStart");
 function gid(id){
 return document.getElementById(id);	
 }
@@ -286,6 +287,7 @@ session_destroy();
 	console.log('on listparticipants');
 // for subscribers
 if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
+	alert(1);
 pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
 who_is_he=a.plugindata.data.participants[0].display;
@@ -353,7 +355,7 @@ d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 destroy_room();
 }else if(a.transi=="18"){
-pubId=0;
+//pubId=0;
 clear_keep_alive();
 stopVideo();
 detach_plugin();
@@ -393,18 +395,22 @@ isAud=a.receiving;
 console.log("user_count: ", a.user_count);
 chatcnt.textContent=a.user_count;
 rviewers.textContent=a.viewers;	
-}
-/*else if(a.typ=="leavchat"){
-console.log("user_count: ", a.user_count);
-chatcnt.textContent=a.user_count;	
-}*/
-else if(a.typ=="msg"){
+}else if(a.typ=="msg"){
 insert_message(a);
 }else if(a.typ=="usid"){
-console.log("who am I?: ", who_am_i);	
-wsend({typ:"onuser", username:who_am_i, roomid:roomId, owner:is_owner()});
+console.log("who am I?: ", who_am_i);
+pubId=a.pubid;	
+wsend({typ:"onuser", username:who_am_i, roomid:roomId, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers
+
+var v=gid("video-wrapper");
+	if(!is_owner()){
+	v.className="";//??
+}
+
+
+
 roomDesc=a.roomdesc;
 roomId=a.roomid;
 pubId=a.feed;
@@ -471,7 +477,7 @@ function do_start(el){
 if(is_owner()){
 
 if(el.textContent=="start"){
-	console.log('starting');
+console.log('starting');
 super_start();
 el.textContent="stop";
 }else if(el.textContent=="stop"){
@@ -479,8 +485,9 @@ unpublish();
 el.textContent="start";
 }
 }else{
-	if(el.textContent=="start"){
-		console.log('creating a session')
+if(el.textContent=="start"){
+console.log('creating a session: pubId: ',pubId);
+if(pubId==0){console.log('No pubid? Return.');return;}
 	session_create();
 	el.textContent="stop";	
 	}else{
@@ -796,6 +803,7 @@ v.className="";
 }else if(this.iceConnectionState=="closed"){
 	v.className="";
 	stopVideo();
+if(!is_owner()){btnStart.textContent='start';}
 }else if(this.iceConnectionState=="completed"){
 get_image();
 //on air
@@ -811,7 +819,7 @@ function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
 if(is_owner()){
-	stop_stream();pc.close();pc=null;}else{stop_stream();pc.close();pc=null}
+	stop_stream();pc.close();pc=null;}else{stop_stream();pubId=0;pc.close();pc=null}
 }else if(this.connectionState=="failed"){
 	
 }else if(this.connectionState=="connecting"){
