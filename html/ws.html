@@ -6,20 +6,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>product version</title>
 <style>
-	*{box-sizing:border-box;}
+*{box-sizing:border-box;}
 .red{color:red;} .green{color:green;}
 #media-wrapper{
-background:red;
+ackground:rgba(255,255,255,0.1);
 width:100%;
 height:470px;
 max-width:1800px;
 display:block;
 position:relative;
 margin:0 auto;	
+
 }
-/*#media-wrapper::after{clear:both;content:"S";box-sizing:border-box;}*/
+#mediaPanel{
+background:rgb(25,50,50);	
+color:white;
+position:relative;
+display:block;
+}
+#btccount{
+	position:absolute;
+	ackground:pink;
+	right:10px;
+	top:10px;
+	padding:5px;
+	border:1px solid black;
+	z-index:40;
+}
 #video-container{
-background:brown;
+ackground:rgba(20,25,25,0.9);
 order:1px solid yellow;
 position:relative;
 display:block;
@@ -29,7 +44,7 @@ float:left;
 }
 
 #chat-container{
-	background:rgba(0,0,0,0.9);
+	ackground:rgba(0,0,0,0.5);
 	width:50%;
 	height:100%;
 	overflow:hidden;
@@ -53,10 +68,10 @@ left:0;
 font-size:2em;
 content:"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	
 z-index:30;
-color:white;
+color: black;
 width:100%;
 height:100%;
-padding:.8em;
+padding:.9em;
 line-height:1.5;
 transition-property:all;
 transition-duration:.2s;
@@ -72,6 +87,7 @@ cotent:"";
 #video-wrapper.notowner::after{
 content:"Press 'start' to get a feed. Press 'stop' to end a feed";	
 }
+
 .rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}
 
 #video-wrapper.connecting::after{
@@ -121,18 +137,27 @@ border:1px solid rgba(255,255,255,0.8);
 .btn-send,.btn-start{
 width:20%;
 height:100%;	
-background:yellow;
+ackground:yellow;
 cursor:pointer;
 z-index:30;
+font-size:1.1em;
+font-weight:bold;
+letter-spacing:1px;
+border:2px solid black;
 }
 #under-video{
 width:100%;
 height:13%;
-background:yellow;
+background:rgba(0,0,0,0.3);
 display:block;
 position:relative;	
 }
-
+#btcInfo{
+position:relative;
+display:block;
+olor:red;	
+ont-size:1em;
+}
 #localVideo{
  border:1px solid red;
  position:relative;
@@ -154,14 +179,34 @@ height: 470px;
  ransform:scale3d(50%,50%,1);
  transform:translateZ(0);
 }
-#chatPanel{padding-left:5px;background:yellow;height:4%;}
-@media screen and (max-width: 690px){
-#chatPanel{background:red;}
+#chatPanel{padding-left:5px;ackground:yellow;height:4%;}
 
+#imgholder{
+position:absolute;
+height:20%;
+background:rgba(250,0,0,0.3);	
+right:1%;
+bottom:1%;
+z-index:40;
+border-radius:10px;
+
+}
+#btcadr{padding-left:0.3em;}
+
+@media screen and (max-width: 690px){
+#chatPanel{ackground:red;}
+#media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);} 
 #video-container,#chat-container{
 float:none;
 width:100%;	
+display:block;
+height: 470px;
 }
+#btcadr{font-size:0.7em;}
+}
+@media screen and (max-width: 320px){
+	#imgholder{height:12%;}
+	#video-wrapper::after{font-size:1em;padding-top:3em;}
 }
 </style>
 </head>
@@ -177,23 +222,30 @@ width:100%;
 <button onclick="publish_dva();">publish dva</button><button onclick="unpublish();">unpublish</button><br>
 <button onclick="langi();">ru</button>
 <br><b>Local Video </b><br>
-
+<div id="btcInfo"><span>BTC address for donations:</span>
+<a href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ" style="overflow:hidden;">a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ</a></div>
 <section id="media-wrapper">
-	<div>panel</div>
-<section id="video-container">
+<div id="mediaPanel"><b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
+<section id="video-container"><div id="btccount"><span id="btcc">3000</span>&nbsp;<span id="btcspan">bitcoins</span></div>
+<a href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ"><div id="imgholder"><img src="donatebutton.jpg" height="100%"></div></a>
+
 <div id="video-wrapper">
 <video id="localVideo" poster="" autoplay>no video supported</video>
 </div>
-<div id="under-video"><button id="btnStart" class="btn-start" onclick="do_start(this);">start</button></div>
+<div id="under-video"><!-- <div id="btcInfo"><span>BTC address for donations:</span></div> -->
+<button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
+
+</div>
 </section>
-<section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt"></span>
-<b>viewers: </b><span id="rviewers"></span>
+<section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt">0</span>
+
 </div><div id="chat"></div>
 <div id="under-chat"><input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send
 </button></div>
 </section>
 <div style="clear:both;"></div>
 </section>
+<div>suka</div>
 
 <b>output:</b><output id="out"></output>
 <script>
