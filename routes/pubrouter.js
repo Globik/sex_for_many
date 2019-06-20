@@ -42,6 +42,7 @@ bresult=bus.rows;
 	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
+console.log("DUCKER");
 ctx.body=await ctx.render('main_page',{lusers:result /*,m:m,roomers:bresult*/});
 //ctx.body={hallo:'ok'}
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
@@ -141,6 +142,8 @@ ctx.body={info:"ok"}
 pub.get('/webrtc/:buser_id', async ctx=>{
 //	ctx.body=await ctx.render('error',{});
 //ctx.body=await ctx.render('room',{model:'model', owner:true})
+console.log('USER ',ctx.state.user);
+console.log("FUCKER");
 var model={};
 model.name='ctx.params.buser_name';
 ctx.body=await ctx.render('room',{model});

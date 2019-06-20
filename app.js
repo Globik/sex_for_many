@@ -79,12 +79,12 @@ ctx.db=pool;
 await next();	
 })
 app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
-app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
+//app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
 
 app.use(async (ctx, next)=>{
 console.log('ctx.status!',ctx.status);
 //await next();
-
+/*
 try{
 await next();
 
@@ -101,7 +101,10 @@ return;
 
 }
 
-}});
+
+}
+*/
+});
 
 app.on('error', function(err, ctx){
 console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
@@ -309,10 +312,9 @@ d.body.room=ws.roomid;
 subsend(d);
 console.log("DELETING ROOM=> ",ws.roomid, ' ',b.session_id,' ',b.handle_id);
 droom.delete(ws.roomid);
-});	
-	
+}
 });
-
+})
 
 console.log('soll on port: ', HPORT, 'started.');
 }).catch(function(err){
