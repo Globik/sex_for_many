@@ -138,12 +138,12 @@ console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
 ctx.body={info:"ok"}
 })
 
-pub.get('/webrtc/:buser_name', async ctx=>{
+pub.get('/webrtc/:buser_id', async ctx=>{
 //	ctx.body=await ctx.render('error',{});
 //ctx.body=await ctx.render('room',{model:'model', owner:true})
 var model={};
-model.name=ctx.params.buser_name;
-ctx.body=await ctx.render('fake_room',{model});
+model.name='ctx.params.buser_name';
+ctx.body=await ctx.render('room',{model});
 });
 //save btc address
 var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";

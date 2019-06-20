@@ -104,7 +104,7 @@ return;
 }});
 
 app.on('error', function(err, ctx){
-console.log('app.on.error: ',err.message, 'ctx.url : ', ctx.url);
+console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
 });
 
 pg_store.setup().then(function(){
