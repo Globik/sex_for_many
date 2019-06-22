@@ -69,7 +69,7 @@ if(user===false){
 ctx.body={success:false,info:info.message}
 ctx.throw(401,info.message)
 }else{
-ctx.body={success:true, info:info.message, redirect:ctx.session.dorthin || '/'}
+ctx.body={success:true, info:info.message, redirect:/*ctx.session.dorthin ||*/ '/'}
 return ctx.login(user)
 }
 }else{
@@ -80,7 +80,7 @@ if(user===false){
 ctx.session.bmessage={success:false, error:info.message};
 ctx.redirect('/login')
 }else{
-ctx.redirect(ctx.session.dorthin || '/')
+ctx.redirect(/*ctx.session.dorthin ||*/ '/')
 return ctx.login(user)
 }
 }
@@ -115,7 +115,7 @@ ctx.throw(409,err.message)
 if(!user){
 ctx.body={success:false, message:info.message,code:info.code,bcode:info.bcode}
 }else{
-ctx.body={success:true, message:info.message,redirect:ctx.session.dorthin || '/'}
+ctx.body={success:true, message:info.message,redirect:/*ctx.session.dorthin ||*/ '/'}
 return ctx.login(user)
 }
 }else{
@@ -134,19 +134,25 @@ return ctx.login(user)
 })
 
 // for notification events from janus webrtc gateway
+/*
 pub.post('/testEvent', async function food(ctx){
 console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
 ctx.body={info:"ok"}
-})
+})*/
 
 pub.get('/webrtc/:buser_id', async ctx=>{
 //	ctx.body=await ctx.render('error',{});
-//ctx.body=await ctx.render('room',{model:'model', owner:true})
+
 console.log('USER ',ctx.state.user);
 console.log("FUCKER");
-var model={};
-model.name='ctx.params.buser_name';
-ctx.body=await ctx.render('room',{model});
+let us=ctx.state.user;
+let owner=false;
+var model = {name:"globi", id:15, src:"sss"};
+if(us){
+//model.name=us.bname;
+if(us.id==ctx.params.buser_id)owner=true;
+}
+ctx.body=await ctx.render('room',{model:model, owner:owner});
 });
 //save btc address
 var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";

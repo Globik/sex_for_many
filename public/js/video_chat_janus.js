@@ -5,8 +5,14 @@ var handle_id=0;
 var transaction="";// unique_name + _Number code of request -> "Bob_10"
 var room_exists=false;
 var pubId=0;
-var owner=false;
+
 var v=gid("video-wrapper");
+var owner=gid('owner');
+var yourNick=gid("yourNick");
+var buser=gid("buser");
+var modelName=gid("modelName");
+var modelId=gid('modelId');
+
 var sock;
 var who_am_i;
 var who_is_he;
@@ -19,25 +25,27 @@ var localStream;
 var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
 var btnStart=gid("btnStart");
-function gid(id){
-return document.getElementById(id);	
-}
-//open_socket()
+function gid(id){return document.getElementById(id);}
+set_user();
+open_socket()
 function open_socket(){
 if(sock){console.log("already in connection");return;}
-sock=new WebSocket("ws://localhost:3000/"+roomId);
+
+sock=new WebSocket("ws://localhost:3000/"+modelId.value);
 
 sock.onopen=function(){
-outi("<b class=\"green\">websocket opened</b>");
+console.log("websocket opened")
 }
-sock.onerror=function(e){outi("<b>websocket error</b>");}
+sock.onerror=function(e){
+console.log("websocket error ", e);
+}
 sock.onmessage=function(evt){
 console.log("message", evt.data);
-outi("<b>msg: </b>" + evt.data);
+//outi("<b>msg: </b>" + evt.data);
 on_msg(evt.data)
 }
 sock.onclose=function(){
-outi("<b class=\"red\">Websocket closed</b>");
+console.log("Websocket closed");
 clear_keep_alive();
 }
 }
@@ -47,17 +55,17 @@ function send_up(){
 console.log('am sendi()');
 if(!chatTxt.value)return;
 let d={};
-d.typ="msg";
-d.msg=chatTxt.value;
-d.to=roomId;
-d.from=is_owner()?who_am_i:"guest";
+d.typ = "msg";
+d.msg = chatTxt.value;
+d.to = modelId.value;
+d.from = yourNick.value;
 wsend(d);	
 chatTxt.value="";
 }
 function insert_message(ob){
 var m=document.createElement('div');
 m.className="chat-div";
-m.innerHTML='<span class="chat-user">'+ob.from+'</span>:&nbsp;<span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML='<span class="chat-user">'+ob.from+' :&nbsp;</span>&nbsp;<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight;
 }
@@ -130,7 +138,7 @@ console.log("Unknown transi ",a.transi);
 }else if(a.janus=="event")
 {
 if(a.jsep && a.jsep.type=="answer"){
-	console.log("answer came");
+console.log("answer came");
 handle_answer(a.jsep);	
 }else if(a.jsep && a.jsep.type=="offer"){
 console.log("offer came");
@@ -144,7 +152,7 @@ pubId=a.plugindata.data.id//feed!(for subscribers)
 roomId=a.plugindata.data.room;
 roomDesc=a.plugindata.data.description;
 console.log('description' ,roomDesc);
-CREATE_LOCAL_STREAM();
+//CREATE_LOCAL_STREAM();
 }
 }else if(a.transi=="16"){
 console.log('on configure')	
@@ -200,13 +208,14 @@ rviewers.textContent=a.viewers;
 }else if(a.typ=="msg"){
 insert_message(a);
 }else if(a.typ=="usid"){
+	set_user();
 console.log("who am I?: ", who_am_i);
 pubId=a.pubid;	
-wsend({typ:"onuser", username:who_am_i, roomid:roomId, owner:is_owner()});// todo remove roomid
+wsend({typ:"onuser", username:who_am_i, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers
 
-var v=gid("video-wrapper");
+//var v=gid("video-wrapper");
 	if(!is_owner()){
 	v.className="";//??
 }
@@ -246,26 +255,19 @@ wsend(d);
 function set_user(){
 let a=yourNick.value;
 if(!a){alert("set your name!");return;}
-a+=get_random_int(100);
+//a+=get_random_int(100);
 who_am_i=a;
 transaction=who_am_i;
-yourNick.value=who_am_i;
-spanYourNick.textContent=who_am_i;
+//yourNick.value=who_am_i;
+//spanYourNick.textContent=who_am_i;
 }
-set_user();
+//set_user();
 
 function is_owner(){
-if(!owner){return false;}else{return true;}	
+return (owner.value=="true"?true:false);	
 }
+function is_buser(){return (buser.value=="true"?true:false)}
 
-function on_chek(el){
-if(el.checked)
-{
-owner=true;	
-}else{
-owner=false;
-}
-}
 
 function langi(){
 var html=document.getElementsByTagName("html")[0];
@@ -274,13 +276,14 @@ html.className="rus";
 
 
 function do_start(el){
-	open_socket();
-	setTimeout(function(){
+	//open_socket();
+	//setTimeout(function(){
 if(is_owner()){
 
 if(el.textContent=="start"){
 console.log('starting');
-super_start();
+CREATE_LOCAL_STREAM();
+//super_start();
 el.textContent="stop";
 }else if(el.textContent=="stop"){
 unpublish();
@@ -297,7 +300,7 @@ if(pubId==0){console.log('No pubid? Return.');return;}
 	el.textContent="start";
 	}
 }
-},2000);
+//},2000);
 }
 
 function super_start(){
@@ -527,13 +530,21 @@ pc.createOffer(offer_opts).then(set_local_desc, on_error);
 function getiLocal(stream){
 localStream=stream;
 playVideo(localVideo, stream);
-if(is_owner()){	}
+if(is_owner()){
+super_start();
+}//?
 }
 function CREATE_LOCAL_STREAM(){
 if(!is_owner()){return;}
-navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(getiLocal).catch(function(e){console.error(e.name,e)})	
+
+navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(getiLocal)
+.catch(function(e){
+console.error(e.name,e);
+//throw("as");
+})	
 }
 function publish_dva(){
+	console.log("publish_dva()");
 if(!is_owner())return;
 pc=createPeer();
 localStream.getTracks().forEach(function(track){pc.addTrack(track, localStream)});//owner true

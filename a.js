@@ -93,15 +93,15 @@ if(el.url == ws.url)el.send(JSON.stringify(obj));
 
 
 function send_target_trans(trans, obj, sid){
-	//unique name of websocket client
+	//u nique name of websocket client
 console.log("send_target_trans(): ", trans);
 for(var el of wss.clients){
 console.log("OF el.trans: ",el.trans);
 if(el.trans==trans){
 console.log("Yes. It's target trans! ",el.trans, trans,'el.sid ', el.sid,' sid ', sid);
 
-if(sid==1){
-if(el.sid==0){
+if(sid == 1){
+if(el.sid == 0){
 el.sid=obj.data.id;
 console.log("Attaching a session_id");// for webrtc sessions of janus
 }
@@ -231,10 +231,8 @@ wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
 ws.trans=null;//unique name
 ws.sid=0;//session
-//ws.hid=0;
 ws.owner=false;//is a publisher 
-//ws.roomid=0;
-//ws.feed=0;
+
 ws.url=req.url;// url == room id == user id
 ws.roomok=false;// is currently started subscriber
 let feedi;
@@ -302,6 +300,7 @@ ws.on('close',function(){
 console.log('ws closed, owner: ',ws.owner);
 let roomid=Number(ws.url.substring(1));
 send_to_url({typ: "joinchat"}, ws.url)
+
 if(ws.owner){
 console.log("It's OWNER!");
 console.log('room size: ',droom.size);

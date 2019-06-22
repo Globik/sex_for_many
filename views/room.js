@@ -1,7 +1,8 @@
 // room.js based on busers.js
-const onroomstr="Press connect button to broadcast yourself. To stop broadcast press disconnect button. Or you can  just stop video right now.";
+const owner_start_str_en="Press connect button to broadcast yourself. To stop broadcast press disconnect button. Or you can  just stop video right now.";
 const onowneroff="To broadcast yourself please enable your webcam and press start video button.\nThen connect button.";
-const usoff="The member you are trying to view is currently offline. Please wait or choose another member to view.";
+const owner_offline_str_en="The member you are trying to view is currently offline. Please wait or choose another member to view.";
+const owner_online_str_en="Press start"
 const you_ban="You are banned.";
 const us_ban="This user is banned.";
 const str_langsam_stop="We are sorry, but no more activity is acceptable. Site is closing for a profilactic works in a pair of hours.";
@@ -32,27 +33,30 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <section>
 <a class="btc-img-a" style="" href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ">
 <div id="imgher" style="">
-<img src="donatebutton.jpg" height="100px"></div></a> 
+<img src="/images/donatebutton.jpg" height="100px"></div></a> 
 <div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
 <span style="">a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ</span></div>
 </section>
 
 <section id="media-wrapper">
-<div id="mediaPanel"><div id="online-detector" class="puls"></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
+<div id="mediaPanel"><div id="online-detector" class=""></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
 <section id="video-container">
 <div id="btccount"><span id="btcc">3000</span>&nbsp;<span id="btcspan">bitcoins</span></div>
 
 
-<div id="video-wrapper">
-<video id="localVideo" poster="" autoplay>no video supported</video>
+<div id="video-wrapper" class="${model && model.src?'':'owner-offline'}"
+data-ownerStartStrEn="${owner_start_str_en}" 
+data-ownerOfflineStrEn="${owner_offline_str_en}"
+data-ownerOnline="${owner_online_str_en}">
+<video id="localVideo" poster="${model && model.src?model.src:''}" autoplay>no video supported</video>
 </div>
 <div id="under-video">
 <button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
 
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt">0</span></div>
+<section id="chat-container"><div id="chatPanel"><b>chaters: </b><span id="chatcnt">0</span></div>
 <div id="chat"></div>
 <div id="under-chat">
 <input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send</button>
@@ -69,13 +73,19 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 </div>
 
 </div>
+<input type="hidden" id="owner" value="${n.owner}">
+<input type="hidden" id="buser" value="${buser?true:false}">
+<input type="hidden" id="yourNick" value="${buser ? buser.bname:'anonym'}">
+
+<input type="hidden" id="modelName" value="${model?model.name:''}">
+<input type="hidden" id="modelId" value="${model?model.id:''}">
 ${js_help(["/js/video_chat_janus.js"])}
 
 
-
+<!--
 {js_help(["/js/video_chat2.js","/js/login.js"])}
 {js_help(["/js/admin_videochat.js"])}
-
+-->
 </main><footer id="footer">${html_footer.html_footer({})}</footer>
 </body>
 </html>`;

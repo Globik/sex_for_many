@@ -77,13 +77,13 @@ background:rgba(0,0,0,0.3);
 box-sizing:border-box;
 top:0;
 left:0;
-font-size:2em;
-content:"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	
+font-size:1.2em;
+content: attr(data-ownerStartStrEn);/*"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	*/
 z-index:30;
 color: black;
 width:100%;
 height:100%;
-padding:1.1em;
+padding:1.8em;
 line-height:1.5;
 transition-property:all;
 transition-duration:.2s;
@@ -96,8 +96,11 @@ font-size:0;
 cotent:"";
 }
 
-#video-wrapper.notowner::after{
-content:"Press 'start' to get a feed. Press 'stop' to end a feed";	
+#video-wrapper.owner-online::after{
+content: attr(data-ownerOnline);	
+}
+#video-wrapper.owner-offline::after{
+content:attr(data-ownerOfflineStrEn);
 }
 
 .rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}

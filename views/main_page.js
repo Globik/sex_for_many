@@ -26,6 +26,7 @@ ${buser?'<a href="/logout">logout</a>':'<a href="/login">login</a>'}
 <h4>Users: </h4>
 ${users_list(lusers)}
 <a href="/webrtc/${buser?buser.bname:'no_name'}">${buser?buser.bname:'no name'}</a>
+<br><a href="/webrtc/${buser?buser.id:'no_name'}">${buser?buser.id:'no name'}</a>
 <hr>
 <h4>Roomers:</h4>
 <div id="roomContainer">

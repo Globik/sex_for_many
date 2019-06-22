@@ -12,7 +12,7 @@ const passport=require('koa-passport');
 const WebSocket=require('ws');
 const {websock}=require('./libs/websock.js');
 const shortid=require('shortid');
-
+const Router=require('koa-router');
 const nano=require('nanomsg');
 const subnano=nano.socket('pair');
 
@@ -52,8 +52,12 @@ pool.on('acquire', function(client){console.log('db acquired!')})
 
 subnano.connect(nano_adr);
 const droom=new Map();
+const feeds=new Map();
+const gr="\x1b[32m";
+const rs="\x1b[0m";
 
 const app=new Koa();
+const puber=new Router();
 app.keys=['your-secret']
 app.use(serve(__dirname+'/public'));
 app.use(session({store: pg_store}, app))
@@ -78,8 +82,32 @@ ctx.state.showmodule = mainmenu;//see config/app.json
 ctx.db=pool;
 await next();	
 })
+
+puber.post('/testEvent', async function food(ctx){
+console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
+let d=ctx.request.body;
+d.forEach(function(el){
+if(el.type==64){
+//room created or destroyed or published events
+let a=el.event.data.event;
+if(!a){console.log("no data event");return;}
+let rid = el.event.data.room;
+
+if(a=="created"){
+}else if(a=="destroyed"){
+if(vroom.has(rid)){
+}else if(a=="published"){
+let feed_id=el.event.data.id;
+feeds.set(rid,{feed:feed_id})
+}	
+}	
+}
+})
+ctx.body={info:"ok"}
+})
 app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
-//app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
+app.use(puber.routes()).use(puber.allowedMethods());
+app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
 
 app.use(async (ctx, next)=>{
 console.log('ctx.status!',ctx.status);
@@ -110,37 +138,35 @@ app.on('error', function(err, ctx){
 console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
 });
 
-pg_store.setup().then(function(){
+pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
+
+function on_run(){
 const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
 /* HELPERS FOR WS */
 
-function broadcast_room_no_me(ws, obj){
+function broadcast_to_all_no_me(ws, obj){
 wss.clients.forEach(function(el){
 if(el !==ws && el.readyState===WebSocket.OPEN){
-if(el.url !=="/gesamt")el.send(JSON.stringify(obj));	
+if(el.url == ws.url)el.send(JSON.stringify(obj));	
 }
 })	
 }
 
 
 function send_target_trans(trans, obj, sid){
-console.log("send_target_trans(): ", trans);
 for(var el of wss.clients){
-console.log("OF el.trans: ",el.trans);
 if(el.trans==trans){
-console.log("Yes. It's target trans! ",el.trans, trans,'el.sid ', el.sid,' sid ', sid);
-
 if(sid==1){
-if(el.sid==0){
+//if(el.sid==0){
 el.sid=obj.data.id;
 console.log("Attaching a session_id");
+//}
+}else if(sid==2){
+console.log('Detaching a session id');
+el.sid=0
 }
-	
-}else if(sid==2){console.log('Detaching a session id');el.sid=0}
-console.log("NOW SENDING ",obj);
-
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 break;	
 }
@@ -148,27 +174,59 @@ break;
 }
 
 function send_target_sess(session_id, obj){
-console.log("send_target_sess(): ", session_id);
 for(var el of wss.clients){
 if(el.sid == session_id){
-console.log("Yes, session matches. ",el.sid, session_id);
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 break;	
 }	
 }
 }
 
-function broadcast_room_event(obj){
-console.log("broadcast_new_room(): ");
+function broadcast_room(obj){
 for(var el of wss.clients){
 if(el.url == "/gesamt"){
-console.log("Yes, its matches. ",el.url);
 try{
 if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 }catch(e){console.log('err in broadcast room event: ', e)}
 }	
 }
 }
+
+function send_target(msg, url){
+for(var el of wss.clients){
+if(el.url == url){
+if(el.readyState===WebSocket.OPEN)el.send(msg);
+}
+}
+}
+
+function get_user_count(url){
+let user_count=0;
+let viewers=0;
+for(var el of wss.clients){
+if(el.url==url){
+user_count++;
+if(el.roomok){viewers++}
+}
+}
+return {user_count, viewers};	
+}
+function send_to_url(msg, url){
+var cnt=get_user_count(url);// how much users and viewers in a chat room
+for(var el of wss.clients){
+if(el.url == url){
+if(el.readyState===WebSocket.OPEN){
+try{
+msg.user_count=cnt.user_count;
+msg.viewers=cnt.viewers;
+let a=JSON.stringify(msg);
+el.send(a);
+}catch(e){}
+}
+}
+}
+}
+
 function subsend(ob){
 let a;
 try{a=JSON.stringify(ob);subnano.send(a);}catch(e){retrun;}	
@@ -176,11 +234,9 @@ try{a=JSON.stringify(ob);subnano.send(a);}catch(e){retrun;}
 /* END OF HELPERS */
 
 subnano.on('data',function(msg){
-//console.log('data: ',msg.toString())
 let abbi=msg.toString();
 
 let l;
-//let owner=false;
 try{l=JSON.parse(abbi);}catch(e){console.log(e);return;}	
 l.typ="janus";
 let sess=0;var feed=0;
@@ -225,15 +281,14 @@ send_target_sess(l.session_id, l);
 ps.addChannel('events', function (msg){
 console.log('msg: ', msg);
 console.log('table: ', msg.table);
-send_to_all(wss, msg.data);
+send_to_all(wss, msg.data);// may be to defined room?
 });
 ps.addChannel('on_smart_cb', function(msg){
 console.log('msg notify: ',msg);
-send_to_all(wss, msg.data);	
+send_to_all(wss, msg.data);	//todo reinvestigate behavor
 });
 
-//websock(wss,pool,sse,shortid,server,RTCPeerConnection,RTCSessionDescription,peerCapabilities,roomOptions);
-//websock(wss,pool, 'sse', shortid,' server', 'RTCPeerConnection ', 'RTCSessionDescription' , 'peerCapabilities,roomOptions');
+
 function noop(){}
 const interval=setInterval(function ping(){
 wss.clients.forEach(function each(ws){
@@ -245,18 +300,29 @@ ws.ping(noop);
 function heartbeat(){this.isAlive=true;}
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
-ws.trans=null;
-ws.sid=0;
-ws.hid=0;
-ws.owner=false;
-ws.roomid=0;
-ws.feed=0;
-ws.url=req.url;
-if(req.url !== "/gesamt")wsend({typ:"usid", msg: "Hi from server!"});
+ws.trans=null;//unique name
+ws.sid=0;//janus session
+ws.owner=false;//is a publisher 
+
+ws.url=req.url;// url == room id == user id
+ws.roomok=false;// is currently started subscriber//feed
+let feedi;
+var roomi=Number(ws.url.substring(1));//publisher's feed id from janus
+if(feeds.has(roomi)){
+let feedy=feeds.get(roomi);
+feedi=feedy.feed;
+}else{
+feedi=0;
+}
+if(req.url !== "/gesamt"){
+console.log("hi from server")
+wsend(ws, {typ:"usid", msg: "Hi from server!", pubid:feedi});//for a subscriber
+}else{console.log("no hi from server")}
 
 ws.isAlive=true;
 ws.on('pong',heartbeat);
-ws.on('message',function(msg){
+
+ws.on('message',function sock_msg(msg){
 console.log("websocke message: ",msg);
 var send_to_client=0;
 let l;
@@ -267,38 +333,60 @@ if(l.janus){
 subnano.send(msg);
 send_to_client=1;
 }
-
-if(l.typ=="onuser"){
+if(l.typ=="msg"){
+if(l.to){
+send_target(msg, req.url);
+send_to_client=1;
+}
+}else if(l.typ=="onuser"){
 console.log("Typ: ", l.typ);
 console.log('l: ',l);
 ws.trans=l.username;
 ws.owner=l.owner;
+send_to_url({typ: "joinchat"}, ws.url);
 
-ws.roomid=l.roomid;
 send_to_client=1;	
 }else if(l.typ=="onair"){
 console.log("ON AIR!");
+
 l.typ="atair";//for subscribers signal
-broadcast_room_no_me(ws, l);
-broadcast_room_event(l);
+broadcast_to_all_no_me(ws, l);
+broadcast_room(l);
+
 send_to_client=1;	
 }else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
 l.typ="outair";
-broadcast_room_no_me(ws,l);
-broadcast_room_event(l);
+broadcast_to_all_no_me(ws,l);
+broadcast_room(l);
+feeds.delete(roomi);
 send_to_client = 1;	
+}else if(l.typ=="roomok"){
+// subscriber starting in room
+ws.roomok=true;	
+send_to_url({typ: "joinchat"}, ws.url);
+}else if(l.typ=="roomnot"){
+ws.roomok=false;	
+send_to_url({typ: "joinchat"}, ws.url);
 }else{}
 
 
 if(send_to_client==0)ws.send(msg);
 });
 ws.on('error', function(er){console.log("websock err: ", err);})
+
 ws.on('close', function(){
 console.log("websocket closed");
-if(droom.has(ws.roomid)){
-let b=droom.get(ws.roomid);
+let roomid=Number(ws.url.substring(1));
+send_to_url({typ: "joinchat"}, ws.url)
 
+if(ws.owner){
+console.log("It's OWNER!");
+console.log('room size: ',droom.size);
+
+if(droom.has(roomid)){
+let b=droom.get(roomid);
+console.log("HAS ROOM ID!");
 if(!b){console.log("No room id?");return;}
 let d={};
 d.session_id=b.session_id;
@@ -307,31 +395,39 @@ d.transaction=ws.trans+"_41";
 d.janus="message";
 d.body={};
 d.body.request="destroy";
-d.body.room=ws.roomid;
+d.body.room=roomid;
 //janus:"message",body:{request:"destroy",room:6666}
-subsend(d);
-console.log("DELETING ROOM=> ",ws.roomid, ' ',b.session_id,' ',b.handle_id);
-droom.delete(ws.roomid);
+subsend(d);// todo detach plugin and session destroy
+
+console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
+broadcast_to_all_no_me(ws, {typ:"outair"});
+droom.delete(roomid);
+broadcast_room({typ:"outair",roomid:roomid});
+feeds.delete(roomid);
+}	
+
 }
 });
+//console.log('soll on port: ', HPORT, 'started.');
 })
-
 console.log('soll on port: ', HPORT, 'started.');
-}).catch(function(err){
-console.log("err setup pg_store", err.name,'\n',err);
-});
+}
+
+
 function send_to_all(wss, obj){
 wss.clients.forEach(function each(client){
 wsend(client,obj);
 })
 }
 function wsend(ws, obj){
+console.log("hallo wsend()")
 let a;
 try{
 a=JSON.stringify(obj);
 if(ws.readyState===WebSocket.OPEN)ws.send(a);	
 }catch(e){console.log('err in stringify: ',e);}	
 }
-process.on('unhundledRejection',function(reason, p){
+process.on('unhundledRejection', function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	
+// sudo mkdir /var/run/pgsql

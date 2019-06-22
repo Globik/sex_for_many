@@ -1,2 +1,2 @@
 # sex_for_many
-WebRTC, node.js, mediasoup.js, smart contract
+WebRTC, node.js, janus WebRTC gateway(nanomsg), smart contract
