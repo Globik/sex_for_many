@@ -717,13 +717,14 @@ var w=80;var h=60;
 cnv.width=w;cnv.height=h;
 var c=cnv.getContext('2d');
 c.drawImage(localVideo,0,0,w,h);
-var img_data=cnv.toDataURL('image/pmg',1.0);
+var img_data=cnv.toDataURL('image/png',1.0);
 let d={};
 d.typ="onair";
 d.roomdesc=roomDesc;
-d.roomid=roomId;
-d.feed=pubId;
+d.roomid=roomId;//??
+d.nick=transaction;
 d.src=img_data;
+
 wsend(d)
 
 /*

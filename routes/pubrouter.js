@@ -19,31 +19,26 @@ const gr = "\x1b[32m", rs = "\x1b[0m";
 const pub=new Router();
 
 pub.get('/', async ctx=>{
-let result=null;
-//let bresult=null;
-//let db=ctx.db;
-//let m=null;
-/*
-try{
-var us=await db.query(`select*from busers`);
-result=us.rows;
-}catch(e){console.log(e)}
-*/ 
-//console.log('ctx.state.user BUSERRRR: ',ctx.state.user);
-/*
+//let result=null;
+let bresult=null;
+let db=ctx.db;
+
 try{
 	//rooms.status.view.src busers.id.name
-let bus=await db.query(`select busers.id, busers.name,rooms.status,rooms.view,rooms.src 
-from busers inner join rooms on busers.name=rooms.room_name`);//where view>=1`)
+let bus=await db.query(`select*from room`);//where view>=1`)
 bresult=bus.rows;
-//console.log('bresult: ',bresult)
+//console.log('bresult: ',bresult);
+bresult.forEach(function(el,i){
+	//console.log('el: ',el);
+console.log(el.room_id,' ',el.descr,' ',el.nick,' ',el.v);	
+})
 }catch(e){console.log(e)}	
-*/
+
 	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
 console.log("DUCKER");
-ctx.body=await ctx.render('main_page',{lusers:result /*,m:m,roomers:bresult*/});
+ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/});
 //ctx.body={hallo:'ok'}
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });

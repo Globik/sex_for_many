@@ -14,23 +14,17 @@ return `<!DOCTYPE html><html lang="en">
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser,mainmenu:mainmenu,profiler:profiler})}</nav>
 ${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
-${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${endf}
 <main id="pagewrap"> 
 ${n.m?n.m.msg:''}<br><br>
-<h1>Сайт в разработке! Under construction!</h1>
-${buser?buser.bname:'Guest<br>'}
-${buser?'<a href="/logout">logout</a>':'<a href="/login">login</a>'}
-<script>${clearCache()}</script>
-<hr>
 <h4>Users: </h4>
-${users_list(lusers)}
-<a href="/webrtc/${buser?buser.bname:'no_name'}">${buser?buser.bname:'no name'}</a>
+{users_list(lusers)}
 <br><a href="/webrtc/${buser?buser.id:'no_name'}">${buser?buser.id:'no name'}</a>
 <hr>
 <h4>Roomers:</h4>
 <div id="imgContainer">
-${roomers && roomers.length >0 ? roomers_list(roomers) : '<-- <b id="noroomer">No rooms at the moment</b> -->'}
+${lusers && lusers.length >0 ? roomers_list(lusers) : ' <b id="noroomer">No rooms at the moment</b>'}
 </div>
 </main>
 <script src="/js/gesamt.js"></script>
@@ -60,7 +54,7 @@ if(Array.isArray(n)){
  n.forEach((el,i)=>{
 s+=`<li><a href="/webrtc/${el.name}">${el.name}</a>`;
 });
-	s+='</ul>';
+s+='</ul>';
    }
 return s;
 }
@@ -70,11 +64,11 @@ let s='';
 if(Array.isArray(n)){
  s+='<ul>';
  n.forEach((el,i)=>{
-s+=`<hr><div data-divroomid="${el.name}">
-<a href="/webrtc/${el.name}">${el.name}</a><br><br>
+s+=`<hr><div data-divroomid="${el.room_id}" title="${el.descr}">
+<a href="/webrtc/${el.room_id}">${el.room_id}</a><br><br>
 <b>img src: </b>${el.src ? `<img src="${el.src}"/>`:'no image'}<br><br>
-<b>status: </b><span class="rstatus" data-rstatus="${el.name}">${el.status}</span><br><br>
-<b>viewers: </b><span class="rviewers" data-rviewers="${el.name}">${el.view}</span><br><br>
+<b>nick: </b><span class="rstatus" data-rstatus="${el.nick}">${el.nick}</span><br><br>
+<b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span><br><br>
 </div><hr>`;
 });
 	s+='</ul>';

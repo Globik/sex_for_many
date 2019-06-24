@@ -358,7 +358,11 @@ console.log("ON AIR!");
 l.typ="atair";//for subscribers signal
 broadcast_to_all_no_me(ws, l);
 broadcast_room(l);
-
+//let viewn=get_user_count(ws.url)
+let sis=`insert into room(room_id,descr,src,nick) values($1,$2,$3,$4)`;
+//try{
+pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick],function(d,e){console.log('inserting a room: ',d);});
+//}catch(e){console.log(e);}
 send_to_client=1;	
 }else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
