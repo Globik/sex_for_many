@@ -29,11 +29,8 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 
 <main id="pagewrap"> 
 
-<h4>Donate some bitcoins:</h4>
+
 <section>
-<a class="btc-img-a" style="" href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ">
-<div id="imgher" style="">
-<img src="/images/donatebutton.jpg" height="100px"></div></a> 
 <div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
 <span style="">a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ</span></div>
@@ -42,18 +39,22 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class=""></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
 <section id="video-container">
-<div id="btccount"><span id="btcc">3000</span>&nbsp;<span id="btcspan">bitcoins</span></div>
+<div id="btccount"><span id="btcc">0</span>&nbsp;<span id="btcspan">bitcoins</span></div>
 
 
-<div id="video-wrapper" class="${model && model.src?'':'owner-offline'}"
+<div id="video-wrapper" class="${n.owner?'':n.model && n.model.src?'owner-online':'owner-offline'}"
 data-ownerStartStrEn="${owner_start_str_en}" 
 data-ownerOfflineStrEn="${owner_offline_str_en}"
 data-ownerOnline="${owner_online_str_en}">
 <video id="localVideo" poster="${model && model.src?model.src:''}" autoplay>no video supported</video>
+
+
 </div>
 <div id="under-video">
 <button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
-
+<a href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png">
+</a>
 </div>
 </section>
 <section id="chat-container"><div id="chatPanel"><b>chaters: </b><span id="chatcnt">0</span></div>
@@ -80,7 +81,6 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="modelName" value="${model?model.name:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
 ${js_help(["/js/video_chat_janus.js"])}
-
 
 <!--
 {js_help(["/js/video_chat2.js","/js/login.js"])}

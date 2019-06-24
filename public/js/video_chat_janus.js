@@ -4,7 +4,7 @@ var session_id=0;
 var handle_id=0;
 var transaction="";// unique_name + _Number code of request -> "Bob_10"
 var room_exists=false;
-var pubId=0;
+var pubId=0;//a feed
 
 var v=gid("video-wrapper");
 var owner=gid('owner');
@@ -12,11 +12,12 @@ var yourNick=gid("yourNick");
 var buser=gid("buser");
 var modelName=gid("modelName");
 var modelId=gid('modelId');
+var onlineDetector=gid("online-detector");
 
 var sock;
 var who_am_i;
 var who_is_he;
-var roomId=6666;
+var roomId=Number(modelId.value);
 var roomDesc=0;
 var isVid=false;
 var isAud=false;
@@ -25,9 +26,10 @@ var localStream;
 var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
 var btnStart=gid("btnStart");
-function gid(id){return document.getElementById(id);}
+
 set_user();
-open_socket()
+open_socket();
+
 function open_socket(){
 if(sock){console.log("already in connection");return;}
 
@@ -96,28 +98,20 @@ session_destroy();
 	console.log('on listparticipants');
 // for subscribers
 if(a.plugindata.data.participants && a.plugindata.data.participants.length > 0){
-	//alert(1);
 pubId=a.plugindata.data.participants[0].id;
 console.log("pubId: ",pubId);
 who_is_he=a.plugindata.data.participants[0].display;
-//spanHisNick.textContent=who_is_he;
-
 join_room();
-
 }
 }else if(a.transi==40){
 console.log('create room')	
 roomId=a.plugindata.data.room;
 room_exists=true;
-
 join_room();
-
 }else if(a.transi==41){
 console.log('destroy room')
 detach_plugin();
-//session_destroy();
 pubId=0;
-//clear_keep_alive();
 
 }else if(a.transi==20){
 console.log('exists');
@@ -152,11 +146,13 @@ pubId=a.plugindata.data.id//feed!(for subscribers)
 roomId=a.plugindata.data.room;
 roomDesc=a.plugindata.data.description;
 console.log('description' ,roomDesc);
-//CREATE_LOCAL_STREAM();
 }
 }else if(a.transi=="16"){
 console.log('on configure')	
+//onlineDetector.className="puls";
 }else if(a.transi=="17"){
+//unpublish(owner)
+onlineDetector.className="";
 let d={};
 d.typ="outair";
 d.from=who_am_i;
@@ -164,14 +160,11 @@ d.roomid=roomId;
 wsend(d);//notify all subscribers about unpublish
 destroy_room();
 }else if(a.transi=="18"){
-	//leave room(subscriber)
-//pubId=0;
-//clear_keep_alive();
+//leave room(subscriber)
 stopVideo();
 detach_plugin();
-//session_destroy();
 	let d={};
-	d.typ="roomnot";
+	d.typ="roomnot";//send statistik
 	wsend(d);
 }else if(a.transi==19){
 //janus event
@@ -214,14 +207,9 @@ pubId=a.pubid;
 wsend({typ:"onuser", username:who_am_i, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers
-
-//var v=gid("video-wrapper");
-	if(!is_owner()){
-	v.className="";//??
+if(!is_owner()){
+v.className="owner-online";
 }
-
-
-
 roomDesc=a.roomdesc;
 roomId=a.roomid;
 pubId=a.feed;
@@ -231,20 +219,19 @@ isVid=a.receiving;
 
 }else if(a.type=="audio"){
 isAud=a.receiving;
-//let d={};
-//d.typ=a.typ;
-//wsend(d);
 }else{}
 }else if(a.typ=="outair"){
 console.log("outair");
 //for subscribers;a publisher just unpublished the stream
 if(is_owner())return;
 pubId=0;
-clear_keep_alive();
+//clear_keep_alive();
 stopVideo();
+v.className="owner-offline";
+v.poster="";
 if(pc==null)return;
 detach_plugin();
-session_destroy();
+//session_destroy();
 let d={};
 d.typ="roomnot";
 wsend(d);
@@ -254,14 +241,10 @@ wsend(d);
 
 function set_user(){
 let a=yourNick.value;
-if(!a){alert("set your name!");return;}
-//a+=get_random_int(100);
+if(!a){return;}
 who_am_i=a;
 transaction=who_am_i;
-//yourNick.value=who_am_i;
-//spanYourNick.textContent=who_am_i;
 }
-//set_user();
 
 function is_owner(){
 return (owner.value=="true"?true:false);	
@@ -276,14 +259,11 @@ html.className="rus";
 
 
 function do_start(el){
-	//open_socket();
-	//setTimeout(function(){
 if(is_owner()){
 
 if(el.textContent=="start"){
 console.log('starting');
 CREATE_LOCAL_STREAM();
-//super_start();
 el.textContent="stop";
 }else if(el.textContent=="stop"){
 unpublish();
@@ -292,7 +272,7 @@ el.textContent="start";
 }else{
 if(el.textContent=="start"){
 console.log('creating a session: pubId: ',pubId);
-if(pubId==0){console.log('No pubid? Return.');return;}
+if(pubId==0){console.log('No pubid? Return.');v.poster="";return;}
 	session_create();
 	el.textContent="stop";	
 	}else{
@@ -300,11 +280,10 @@ if(pubId==0){console.log('No pubid? Return.');return;}
 	el.textContent="start";
 	}
 }
-//},2000);
 }
 
 function super_start(){
-	//todo remove it
+	//todo remove it?
 console.log('super_start()')
 if(!is_owner()){console.log('not the owner?');return;}
 session_create();
@@ -326,14 +305,14 @@ wsend(d);
 }
 localVideo.onloadedmetadata=function(e){
 	//alert('loaded')
-	var v=gid("video-wrapper");
+	//var v=gid("video-wrapper");
 	e.target.className="start";
 	if(is_owner()){
 	//e.target.className="start";
-	v.className="start";
+	//v.className="start";
 	publish_dva();
 }else{
-	v.className="start";
+	//v.className="start";
 }
 //v.className="start";
 }
@@ -530,9 +509,7 @@ pc.createOffer(offer_opts).then(set_local_desc, on_error);
 function getiLocal(stream){
 localStream=stream;
 playVideo(localVideo, stream);
-if(is_owner()){
 super_start();
-}//?
 }
 function CREATE_LOCAL_STREAM(){
 if(!is_owner()){return;}
@@ -540,11 +517,13 @@ if(!is_owner()){return;}
 navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(getiLocal)
 .catch(function(e){
 console.error(e.name,e);
-//throw("as");
+// no webcam or so
+message_box("No webcam?");
+btnStart.textContent="start";
 })	
 }
 function publish_dva(){
-	console.log("publish_dva()");
+console.log("publish_dva(), creating a peer");
 if(!is_owner())return;
 pc=createPeer();
 localStream.getTracks().forEach(function(track){pc.addTrack(track, localStream)});//owner true
@@ -570,10 +549,8 @@ track.stop();
 localVideo.srcObject=null;
 }
 
-localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);
-
-}
-localVideo.videoTracks.onremovetrack=function(ev){alert('track removed');console.log('a track removed: ', ev.track.label);}
+//localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);}
+//localVideo.videoTracks.onremovetrack=function(ev){alert('track removed');console.log('a track removed: ', ev.track.label);}
 localVideo.onended=function(ev){console.log('VIDEO ENDED!');alert('video ended');}
 
 function createPeer(){
@@ -603,25 +580,37 @@ wsend(d);
 }
 
 function stop_stream(){
+	console.log('stop_stream()');
 clear_keep_alive();
 stopVideo();
-detach_plugin();
-session_destroy();
+//detach_plugin();
+//session_destroy();
 }
 
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
-let v=gid("video-wrapper");
+//let v=gid("video-wrapper");
 //disconnected failed connected completed
 if(this.iceConnectionState=="disconnected"){
-if(is_owner()){v.className="";}else{v.className="notowner";}
+if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
 if(is_owner()){
 v.className="";
 stopVideo();
 }
-if(!is_owner()){btnStart.textContent='start';}
+if(!is_owner()){
+btnStart.textContent='start';
+if(pubId==0){v.className='owner-offline';v.poster="";
+	//alert('oner-offline');
+	}else{
+	v.className='owner-online';
+	//alert('oner-online');
+	}	
+}
+}else if(this.iceConnectionState=="connected"){
+	v.className="start";
 }else if(this.iceConnectionState=="completed"){
+onlineDetector.className="puls";
 get_image();
 //on air
 v.className="start";
@@ -636,12 +625,12 @@ function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
 if(is_owner()){
-	stop_stream();pc.close();pc=null;}else{stop_stream();pubId=0;pc.close();pc=null}
+stop_stream();pc.close();pc=null;}else{stop_stream();pubId=0;pc.close();pc=null}
 }else if(this.connectionState=="failed"){
 	
 }else if(this.connectionState=="connecting"){
 //before on air
-let v=gid("video-wrapper");
+//let v=gid("video-wrapper");
 v.className="connecting";
 }
 

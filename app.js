@@ -1,4 +1,5 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
+const plugin_name="janus.plugin.videoroom";
 const nano_adr='ipc:///tmp/janus.ipc';// to janus webrtc gateway nano transport
 const HPORT = 3000;
 const DB_URL='postgress://globik:null@localhost:5432/test';
@@ -95,13 +96,16 @@ let rid = el.event.data.room;
 
 if(a=="created"){
 }else if(a=="destroyed"){
-if(vroom.has(rid)){
+//if(vroom.has(rid)){
 }else if(a=="published"){
+	console.log(gr ,"published", rs);
+	if(!feeds.has(rid)){
 let feed_id=el.event.data.id;
 feeds.set(rid,{feed:feed_id})
-}	
-}	
 }
+}	
+}	
+
 })
 ctx.body={info:"ok"}
 })
@@ -310,8 +314,10 @@ let feedi;
 var roomi=Number(ws.url.substring(1));//publisher's feed id from janus
 if(feeds.has(roomi)){
 let feedy=feeds.get(roomi);
+console.log("feedy")
 feedi=feedy.feed;
 }else{
+	console.log("no feedy");
 feedi=0;
 }
 if(req.url !== "/gesamt"){
@@ -323,7 +329,7 @@ ws.isAlive=true;
 ws.on('pong',heartbeat);
 
 ws.on('message',function sock_msg(msg){
-console.log("websocke message: ",msg);
+//console.log("websocke message: ",msg);
 var send_to_client=0;
 let l;
 try{
@@ -397,12 +403,25 @@ d.body={};
 d.body.request="destroy";
 d.body.room=roomid;
 //janus:"message",body:{request:"destroy",room:6666}
-subsend(d);// todo detach plugin and session destroy
+subsend(d);
 
 console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
+
+d.session_id=b.session_id;
+d.handle_id=b.handle_id;
+d.transaction=ws.trans+"_13";
+d.janus="detach";
+d.plugin=plugin_name;
+subsend(d);
+
+d.transaction=ws.trans+"_11";
+d.session_id=b.session_id;
+d.janus="destroy";
+subsend(d);
+
 broadcast_to_all_no_me(ws, {typ:"outair"});
 droom.delete(roomid);
-broadcast_room({typ:"outair",roomid:roomid});
+broadcast_room({typ:"outair", roomid:roomid});
 feeds.delete(roomid);
 }	
 
