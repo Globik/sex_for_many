@@ -13,6 +13,7 @@ var buser=gid("buser");
 var modelName=gid("modelName");
 var modelId=gid('modelId');
 var onlineDetector=gid("online-detector");
+var underVideo=gid("under-video");
 
 var sock;
 var who_am_i;
@@ -51,6 +52,12 @@ console.log("Websocket closed");
 clear_keep_alive();
 }
 }
+function sendi(ev){
+if(ev.key==="Enter"){
+	send_up();
+}
+}
+chatTxt.addEventListener('keydown',sendi,false);
 
 function send_up(){
 //alert('sendi');
@@ -58,7 +65,7 @@ console.log('am sendi()');
 if(!chatTxt.value)return;
 let d={};
 d.typ = "msg";
-d.msg = chatTxt.value;
+d.msg = escape_html(chatTxt.value);
 d.to = modelId.value;
 d.from = yourNick.value;
 wsend(d);	
@@ -70,6 +77,10 @@ m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+' :&nbsp;</span>&nbsp;<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight;
+}
+function escape_html(s){
+var ix=s.replace(/[&<>"]/g,function(m){return '';})	
+return ix;
 }
 
 function on_msg(data){
@@ -272,7 +283,7 @@ el.textContent="start";
 }else{
 if(el.textContent=="start"){
 console.log('creating a session: pubId: ',pubId);
-if(pubId==0){console.log('No pubid? Return.');v.poster="";return;}
+if(pubId==0){console.log('No pubid? Return.');v.poster="";message_box("No stream available");return;}
 	session_create();
 	el.textContent="stop";	
 	}else{
@@ -304,17 +315,11 @@ d.janus="info";
 wsend(d);
 }
 localVideo.onloadedmetadata=function(e){
-	//alert('loaded')
-	//var v=gid("video-wrapper");
 	e.target.className="start";
+	underVideo.className="start";
 	if(is_owner()){
-	//e.target.className="start";
-	//v.className="start";
 	publish_dva();
-}else{
-	//v.className="start";
-}
-//v.className="start";
+}else{}
 }
 function session_create(){
 console.log('session create');
@@ -490,10 +495,6 @@ d.transaction=transaction+"_25";//"keep_alive";
 wsend(d);
 }
 
-function publish(){
-alert('for publisher');// todo : remove publish() function
-navigator.mediaDevices.getUserMedia({audio: true,video: true}).then(gotLocalStream).catch(function(e){console.error(e.name, e)})
-}
 
 function gotLocalStream(stream){
 	// todo remove it
@@ -580,7 +581,7 @@ wsend(d);
 }
 
 function stop_stream(){
-	console.log('stop_stream()');
+	alert('stop_stream()');
 clear_keep_alive();
 stopVideo();
 //detach_plugin();
@@ -589,9 +590,9 @@ stopVideo();
 
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
-//let v=gid("video-wrapper");
 //disconnected failed connected completed
 if(this.iceConnectionState=="disconnected"){
+	underVideo.className="";
 if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
 if(is_owner()){

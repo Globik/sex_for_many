@@ -1,6 +1,6 @@
 // room.js based on busers.js
-const owner_start_str_en="Press connect button to broadcast yourself. To stop broadcast press disconnect button. Or you can  just stop video right now.";
-const onowneroff="To broadcast yourself please enable your webcam and press start video button.\nThen connect button.";
+//const owner_start_str_en="Press connect button to broadcast yourself. To stop broadcast press disconnect button. Or you can  just stop video right now.";
+const owner_start_str_en="To broadcast yourself please enable your webcam and press 'start' button";
 const owner_offline_str_en="The member you are trying to view is currently offline. Please wait or choose another member to view.";
 const owner_online_str_en="Press start"
 const you_ban="You are banned.";
@@ -57,10 +57,10 @@ data-ownerOnline="${owner_online_str_en}">
 </a>
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel"><b>chaters: </b><span id="chatcnt">0</span></div>
+<section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span></div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send</button>
+<input id="chatTxt"  class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send</button>
 </div>
 </section>
 </section>

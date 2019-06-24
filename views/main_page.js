@@ -29,10 +29,12 @@ ${users_list(lusers)}
 <br><a href="/webrtc/${buser?buser.id:'no_name'}">${buser?buser.id:'no name'}</a>
 <hr>
 <h4>Roomers:</h4>
-<div id="roomContainer">
+<div id="imgContainer">
 ${roomers && roomers.length >0 ? roomers_list(roomers) : '<-- <b id="noroomer">No rooms at the moment</b> -->'}
 </div>
 </main>
+<script src="/js/gesamt.js"></script>
+
 ${endf}
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
 
