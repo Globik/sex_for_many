@@ -145,6 +145,9 @@ console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 function on_run(){
+pool.query("delete from room",[], function(err,res){
+if(err)console.log(err);	
+})
 const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
@@ -361,7 +364,7 @@ broadcast_room(l);
 //let viewn=get_user_count(ws.url)
 let sis=`insert into room(room_id,descr,src,nick) values($1,$2,$3,$4)`;
 //try{
-pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick],function(d,e){console.log('inserting a room: ',d);});
+pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick], function(err,res){if(err)console.log('inserting a room: ',err);});
 //}catch(e){console.log(e);}
 send_to_client=1;	
 }else if(l.typ=="outair"){
@@ -370,14 +373,22 @@ l.typ="outair";
 broadcast_to_all_no_me(ws,l);
 broadcast_room(l);
 feeds.delete(roomi);
+pool.query("delete from room where  room_id=$1", [l.roomid] ,function(r,reser){
+if(err){console.log(err);}	
+});
 send_to_client = 1;	
 }else if(l.typ=="roomok"){
 // subscriber starting in room
 ws.roomok=true;	
 send_to_url({typ: "joinchat"}, ws.url);
+pool.query("update room set v=v+1 where roomid=$1",[l.roomid],function(err,res){
+if(err)console.log(err);	
+});
 }else if(l.typ=="roomnot"){
 ws.roomok=false;	
 send_to_url({typ: "joinchat"}, ws.url);
+pool.query("update room set v=v-1 where roomid=$1",[l.roomid],function(err,res){
+if(err)console.log(err);})	
 }else{}
 
 
@@ -427,14 +438,19 @@ broadcast_to_all_no_me(ws, {typ:"outair"});
 droom.delete(roomid);
 broadcast_room({typ:"outair", roomid:roomid});
 feeds.delete(roomid);
-}	
+pool.query("delete from room where room_id=$1", [roomid] ,function(r,reser){
+if(err){console.log(err);}	
+})	
 
 }
-});
+};
 //console.log('soll on port: ', HPORT, 'started.');
 })
 console.log('soll on port: ', HPORT, 'started.');
+})
+
 }
+
 
 
 function send_to_all(wss, obj){

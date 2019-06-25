@@ -29,6 +29,17 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 
 <main id="pagewrap"> 
 
+<div class="btc-footer" style="background:yellow;">
+<h5>Before you start</h5>
+<div id="btc-container">
+<b>Enter your btc address for donation (optional):</b><br>
+<input class="btc-input" type="text" value="a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ"/><button class="btn-save">save</button>
+</div>
+<div id="btcGoal">
+<b>Describe your goal (optional)</b><br>
+<textarea id="txtArea" placeholder="Room description"></textarea><button class="btn-save">save</button>
+</div>
+</div>
 
 <section>
 <div id="btcInfo" style="">
@@ -65,15 +76,8 @@ data-ownerOnline="${owner_online_str_en}">
 </section>
 </section>
 <div style="clear:both;"></div> 
-<div class="btc-footer" style="">
 
-<div id="btc-container" style="">
-<label class="btc-label" style="">Enter your btc address:&nbsp;</label>
-<input class="btc-input" style="" type="text" value="a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ"/>
-<button class="btn-save" style="">save</button>
-</div>
 
-</div>
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'anonym'}">

@@ -200,10 +200,13 @@ height: 470px;
 	
 
 .btc-footer{display:block;position:relative;height:auto;padding:5px;}
-#btc-container{display:inline-block;border:1px solid green;vertical-align:top;padding:0;}
+#btc-container{display:block;vertical-align:top;padding:0.8rem;}
 .btc-label{padding:0;}
-.btc-input{height:30px;width:300px;}
-.btn-save{height:31px;padding:5px;width:auto;border:1px solid black;font-weight:bold;position;}
+.btc-input{height:40px;width:300px;}
+.btn-save{height:40px;padding:8px;width:80px;border:1px solid black;font-weight:bold;vertical-align:top;}
+
+#txtArea{padding-left:0.3rem;width:50%;height:40px;}
+#btcGoal{padding-left:0.8rem;}
 
 
 @media screen and (max-width: 690px){

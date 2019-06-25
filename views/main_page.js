@@ -24,7 +24,7 @@ ${n.m?n.m.msg:''}<br><br>
 <hr>
 <h4>Roomers:</h4>
 <div id="imgContainer">
-${lusers && lusers.length >0 ? roomers_list(lusers) : ' <b id="noroomer">No rooms at the moment</b>'}
+${lusers && lusers.length >0 ? roomers_list(lusers) : ''}
 </div>
 </main>
 <script src="/js/gesamt.js"></script>
@@ -66,7 +66,7 @@ if(Array.isArray(n)){
  n.forEach((el,i)=>{
 s+=`<hr><div data-divroomid="${el.room_id}" title="${el.descr}">
 <a href="/webrtc/${el.room_id}">${el.room_id}</a><br><br>
-<b>img src: </b>${el.src ? `<img src="${el.src}"/>`:'no image'}<br><br>
+<b>img src: </b>${el.src ? `<img src="${el.src}"/>`:''}<br><br>
 <b>nick: </b><span class="rstatus" data-rstatus="${el.nick}">${el.nick}</span><br><br>
 <b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span><br><br>
 </div><hr>`;

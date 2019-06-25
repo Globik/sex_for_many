@@ -14,7 +14,8 @@ var modelName=gid("modelName");
 var modelId=gid('modelId');
 var onlineDetector=gid("online-detector");
 var underVideo=gid("under-video");
-
+var txtArea=gid('txtArea');
+var btnStart=gid("btnStart");
 var sock;
 var who_am_i;
 var who_is_he;
@@ -26,7 +27,7 @@ var pc=null;
 var localStream;
 var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
-var btnStart=gid("btnStart");
+
 
 set_user();
 open_socket();
@@ -295,7 +296,7 @@ if(pubId==0){console.log('No pubid? Return.');v.poster="";message_box("No stream
 
 function super_start(){
 	//todo remove it?
-console.log('super_start()')
+alert('super_start()')
 if(!is_owner()){console.log('not the owner?');return;}
 session_create();
 }
@@ -720,7 +721,7 @@ c.drawImage(localVideo,0,0,w,h);
 var img_data=cnv.toDataURL('image/png',1.0);
 let d={};
 d.typ="onair";
-d.roomdesc=roomDesc;
+d.roomdesc=txtArea.value?txtArea.value:"My awsome room description";
 d.roomid=roomId;//??
 d.nick=transaction;
 d.src=img_data;
