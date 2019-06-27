@@ -296,7 +296,7 @@ if(pubId==0){console.log('No pubid? Return.');v.poster="";message_box("No stream
 
 function super_start(){
 	//todo remove it?
-alert('super_start()')
+console.log('super_start()')
 if(!is_owner()){console.log('not the owner?');return;}
 session_create();
 }

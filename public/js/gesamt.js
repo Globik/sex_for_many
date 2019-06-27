@@ -29,7 +29,9 @@ var nochdiv=document.createElement('div');
 	nochdiv.setAttribute("title",ajson.roomdesc);
 	imgContainer.appendChild(nochdiv);
 }else if(ajson.typ=="outair"){
-var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');	
+var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
+try{	
 if(seli)seli.remove();
+}catch(e){}
 }
 }

@@ -145,6 +145,7 @@ console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 function on_run(){
+console.log('soll on port: ', HPORT, 'started.');
 pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
 })
@@ -438,7 +439,7 @@ broadcast_to_all_no_me(ws, {typ:"outair"});
 droom.delete(roomid);
 broadcast_room({typ:"outair", roomid:roomid});
 feeds.delete(roomid);
-pool.query("delete from room where room_id=$1", [roomid] ,function(r,reser){
+pool.query("delete from room where room_id=$1", [roomid] ,function(err,res){
 if(err){console.log(err);}	
 })	
 
@@ -446,7 +447,7 @@ if(err){console.log(err);}
 };
 //console.log('soll on port: ', HPORT, 'started.');
 })
-console.log('soll on port: ', HPORT, 'started.');
+//console.log('soll on port: ', HPORT, 'started.');
 })
 
 }

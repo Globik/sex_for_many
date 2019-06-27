@@ -62,17 +62,12 @@ return s;
 function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
- s+='<ul>';
- n.forEach((el,i)=>{
-s+=`<hr><div data-divroomid="${el.room_id}" title="${el.descr}">
-<a href="/webrtc/${el.room_id}">${el.room_id}</a><br><br>
-<b>img src: </b>${el.src ? `<img src="${el.src}"/>`:''}<br><br>
-<b>nick: </b><span class="rstatus" data-rstatus="${el.nick}">${el.nick}</span><br><br>
-<b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span><br><br>
-</div><hr>`;
+ n.forEach(function(el,i){
+s+=`<div data-roomid="${el.room_id}" title="${el.descr}" class="nochdiv" style="background:red;">
+<figure>${el.src ? `<img src="${el.src}"/>`:''}<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a>
+<b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span></figcaption></figure></div>`;
 });
-	s+='</ul>';
-   }
+ }
 return s;
 }
 
