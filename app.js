@@ -373,7 +373,7 @@ l.typ="outair";
 broadcast_to_all_no_me(ws,l);
 broadcast_room(l);
 feeds.delete(roomi);
-pool.query("delete from room where  room_id=$1", [l.roomid] ,function(r,reser){
+pool.query("delete from room where  room_id=$1", [l.roomid] ,function(err,res){
 if(err){console.log(err);}	
 });
 send_to_client = 1;	

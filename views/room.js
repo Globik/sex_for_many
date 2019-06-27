@@ -37,7 +37,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 </div>
 <div id="btcGoal">
 <b>Describe your goal (optional)</b><br>
-<textarea id="txtArea" placeholder="Room description"></textarea><button class="btn-save">save</button>
+<textarea id="txtArea" placeholder="Room description" oninput="txtarea_input(this);"></textarea><button id="btnRD" class="btn-save" onclick="saveRDesc(this);">save</button>
 </div>
 </div>
 

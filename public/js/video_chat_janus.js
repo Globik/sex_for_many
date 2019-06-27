@@ -710,6 +710,31 @@ if(sock.readyState==1)sock.send(d);
 function get_random_int(max){
 return Math.floor(Math.random()*Math.floor(max));	
 }
+
+function saveRDesc(el){
+if(!txtArea.value)return;	
+if(el.textContent="save"){
+try{
+	localStorage.roomdesc=txtArea.value;
+	el.textContent="edit";
+}catch(e){}
+}else if(el.textContent=="edit"){
+el.textContent="save";	
+}
+}
+function fetchRD(){
+if(localStorage.roomdesc){
+txtArea.value=localStorage.roomdesc;
+btnRD.textContent="edit"	
+}else{txtArea.value="";}	
+}
+
+fetchRD();
+function txtarea_input(el){
+	//console.log(el.value);
+	btnRD.textContent="save";
+}
+
 function get_image(){
 console.log("get_image()");
 if(!is_owner()) return;
