@@ -2,24 +2,26 @@
 <head><title>gesamt</title><style>
 .red{color:red;}
 .green{color:green;}
-.nochdiv{background:brown;color:red;}
+.nochiv{background:brown;color:red;}
 </style></head><body>
 <h3>gesamt</h3>
+<button onclick="was();">enter</button>
 <output id="out"></output>
-<div id="imgContainer"></div>
+<!--
+<div data-roomid="${el.room_id}" title="${el.descr}" class="nochdiv" style="background:red;">
+<figure>${el.src ? `<img src="${el.src}"/>`:''}<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a>
+<b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span></figcaption></figure></div>`;
+-->
+<div id="imgContainer">
+<div data-roomid="5" title="awesome title" class="nochdiv" style="background:red;">
+	
+</div>
+</div>
 <button onclick="remove_das();">remove das</button>
 <script>
 var sock=null;
 function get_socket(){
-sock=new WebSocket("ws://localhost:3000/gesamt");
-
-sock.onopen=function(){
-outi("<b class=\"green\">websocket opened</b>");
-}
-sock.onerror=function(e){outi("<b>websocket error</b>");}
-sock.onmessage=function(evt){
-console.log("message", evt.data);
-outi("<b>msg: </b>" + evt.data);
+sock=new WebSocket("ws://localhost:300thydata);
 on_msg(evt.data)
 }
 sock.onclose=function(){
@@ -46,6 +48,7 @@ var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
 if(seli)seli.remove();
 }
 }
+
 function remove_das(){
 var roomid=6666;
 var seli=document.querySelector('[data-roomid="'+roomid+'"]');
