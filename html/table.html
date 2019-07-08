@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>table workaround</title>
+<style>
+body{
+margin:0;
+padding:0;
+background:gray;
+display:table;
+width:100%;
+}
+.main{
+background:pink;
+
+height:100%;
+}
+footer{
+background:green;
+display:table-row;
+}
+h1{background:red;margin:0;line-height:2 em;}
+.boxes{display:table;width:100%;height:50%;background:blue;}
+.box{display:table-cell;}
+
+</style>
+</head>
+<body>
+<p>duka</p>
+<h1>h</h1>
+<div class="boxes"><div class="box">box1</div><div class="box">box 2</div></div>
+<p>suka</p>
+</body></html>
