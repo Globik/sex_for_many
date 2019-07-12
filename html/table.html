@@ -10,7 +10,7 @@ body{
 margin:0;
 padding:0;
 background:gray;
-display:table;
+
 width:100%;
 }
 .main{
@@ -18,19 +18,32 @@ background:pink;
 
 height:100%;
 }
-footer{
-background:green;
-display:table-row;
-}
-h1{background:red;margin:0;line-height:2 em;}
-.boxes{display:table;width:100%;height:50%;background:blue;}
-.box{display:table-cell;}
 
+h1{background:red;}
+
+table{background:yellow;width:100%;}
+figure{backgrund:red;margin:0;padding:0;width:20%;}
+.suka{background:green;}
+.duka{bckground:pink;width:90px;}
+.views{width:90px;}
+th,td{border:1px solid green;text-align:center;}
+img{overflow:hidden;}
+figcaption{ackground:brown;width:90px;}
 </style>
 </head>
 <body>
 <p>duka</p>
 <h1>h</h1>
-<div class="boxes"><div class="box">box1</div><div class="box">box 2</div></div>
+<!--
+<div class="boxes">
+<div class="box box1"><figure><img width="100%"src="donatebutton.jpg"><figcaption>sdd</figcaption></figure></div>
+<div class="box box2">box 2</div>
+<div class="box box3">box3</div>
+</div> -->
+<table> 
+<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
+<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+<td>earn some money</td><td class="views">10</td></tr>
+</table>
 <p>suka</p>
 </body></html>
