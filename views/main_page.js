@@ -10,7 +10,17 @@ const {lusers,showmodule:{mainmenu,profiler}}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",luser:buser})}</head>
+<head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",luser:buser})}
+<style>
+table{background:yellow;width:100%;}
+figure{backgrund:red;margin:0;padding:0;width:20%;}
+.duka{bckground:pink;width:90px;}
+.views{width:90px;}
+th,td{border:1px solid green;text-align:center;}
+img{overflow:hidden;}
+figcaption{ackground:brown;width:90px;}
+</style>
+</head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser,mainmenu:mainmenu,profiler:profiler})}</nav>
 ${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
@@ -63,13 +73,23 @@ function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<div data-roomid="${el.room_id}" title="${el.descr}" class="nochdiv" style="background:red;">
-<figure>${el.src ? `<img src="${el.src}"/>`:''}<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a>
-<b>viewers: </b><span class="rviewers" data-rviewers="${el.v}">${el.v}</span></figcaption></figure></div>`;
+s+=`<table data-roomid="${el.room_id}" title="${el.descr}">
+<tr><th>name</th><th>status</th><th>viewers</th></tr>
+<tr><td class="duka">
+<figure>${el.src ? `<img src="${el.src}" width="80px" height="60px"/>`:''}
+<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a></figcaption>
+</figure></td><td>${el.descr}</td><td class="views">${el.v}</td></table>
+`;
 });
  }
 return s;
+//<table> 
+//<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
+//<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+//<td>earn some money</td><td class="views">10</td></tr>
+//</table>
 }
+
 
 	function clearCache(){
 		let s=``;

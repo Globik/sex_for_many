@@ -360,13 +360,15 @@ send_to_client=1;
 console.log("ON AIR!");
 
 l.typ="atair";//for subscribers signal
+l.v=get_user_count(ws.url).viewers
 broadcast_to_all_no_me(ws, l);
-broadcast_room(l);
-//let viewn=get_user_count(ws.url)
+//broadcast_room(l);
+
 let sis=`insert into room(room_id,descr,src,nick) values($1,$2,$3,$4)`;
-//try{
-pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick], function(err,res){if(err)console.log('inserting a room: ',err);});
-//}catch(e){console.log(e);}
+pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick], function(err,res){if(err)console.log('inserting a room: ',err);
+broadcast_room(l);
+});
+
 send_to_client=1;	
 }else if(l.typ=="outair"){
 //publisher unpublished the stream. Notify all about it
