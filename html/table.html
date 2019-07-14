@@ -32,15 +32,55 @@ figcaption{ackground:brown;width:90px;}
 </style>
 </head>
 <body>
-<p>duka</p>
+<p><button onclick="add();">add some tbody</button>
+<button onclick="del();">delete row</button>
+</p>
 <h1>h</h1>
 
-<table> 
+<table class="fl" id="fucktable">
+ 
 <tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
+<tbody id="tbod">
 <tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
 <td>earn some money</td><td class="views">10</td></tr>
+<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+<td>earn some money hbhbhb dubdubd dbubeuebu udubeudbeub uubbube bubdeubub xnxenxxjenjxn nuuebub go</td><td class="views">10</td></tr>
+<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+<td>earn some money</td><td class="views">10</td></tr>
+<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+<td>earn some money</td><td class="views">10</td></tr>
+</tbody>
 </table>
-<p>suka</p>
+<script>
+function add(){
+	/*
+var tb=document.createElement('tbody');	
+tb.className="fuck";
+tb.innerHTML+='<tbody><tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg">'+
+'<figcaption>globi</figcaption></figure></td><td>ean money</td><td class="views">10</td>'+
+'</tr>';
+fucktable.appendChild(tb);
+*/
+var tbod=document.getElementById("tbod");
+var row=tbod.insertRow(0);
+row.setAttribute('data-roomid',4000);
+console.log(row);
+var cell1=row.insertCell(0);
+var cell2=row.insertCell(1);
+var cell3=row.insertCell(2);
+var text=document.createTextNode("k");
+cell1.appendChild(text);
+var text2=document.createTextNode("bar");
+var text3=document.createTextNode("foo");
+cell2.appendChild(text2);
+cell3.appendChild(text3);
+//cell1.innerHTML="new cell 1";
+}
+function del(){
+var seli=document.querySelector('[data-roomid="4000"]');	
+	if(seli) seli.remove();
+}
+</script>
 </body></html>
 
 
