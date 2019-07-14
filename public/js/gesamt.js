@@ -20,15 +20,15 @@ try{
 var ajson=JSON.parse(d);	
 }catch(e){return;}
 if(ajson.typ=="atair"){
-var table=document.createElement('table');
-table.setAttribute('data-roomid',ajson.roomid);
-table.innerHTML='<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr><tr><td class="duka">'+
-'<figure><img src="'+ajson.src+'" width="80px" height="60px"/>'+
-'<figcaption><a href="/webrtc/'+ajson.roomid+'">'+ajson.nick+'</a></figcaption>'+
-'</figure></td><td>'+ajson.roomdesc+'</td><td class="views">'+ajson.v+'</td></tr>';
-imgContainer.appendChild(table);
+var tbod=document.getElementById("tbod");
+var row=tbod.insertRow(0);
+row.setAttribute('data-roomid',4000);
+//console.log(row);
 
-	
+row.innerHTML='<td><figure><img width="80px" height="60px" src="'+ajson.src+'">'+
+'<figcaption><a href="/webrtc/"'+ajson.room_id+'>'+ajson.nick+'</a></figcaption></figure>'+
+'</td><td>'+ajson.roomdesc+'</td><td class="views">'+ajson.v+'</td>';
+
 	
 }else if(ajson.typ=="outair"){
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');

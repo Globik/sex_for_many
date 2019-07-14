@@ -33,9 +33,13 @@ ${n.m?n.m.msg:''}<br><br>
 <br><a href="/webrtc/${buser?buser.id:'no_name'}">${buser?buser.id:'no name'}</a>
 <hr>
 <h4>Roomers:</h4>
-<div id="imgContainer">
+
+<table>
+<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
+<tbody id="tbod">
 ${lusers && lusers.length >0 ? roomers_list(lusers) : ''}
-</div>
+</tbody>
+</table>
 </main>
 <script src="/js/gesamt.js"></script>
 
@@ -73,9 +77,7 @@ function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<table data-roomid="${el.room_id}" title="${el.descr}">
-<tr><th>name</th><th>status</th><th>viewers</th></tr>
-<tr><td class="duka">
+s+=`<tr data-roomid="${el.room_id}"><td class="duka">
 <figure>${el.src ? `<img src="${el.src}" width="80px" height="60px"/>`:''}
 <figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a></figcaption>
 </figure></td><td>${el.descr}</td><td class="views">${el.v}</td></table>
@@ -83,6 +85,10 @@ s+=`<table data-roomid="${el.room_id}" title="${el.descr}">
 });
  }
 return s;
+
+//<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
+//<td>earn some money</td><td class="views">10</td></tr>
+
 //<table> 
 //<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
 //<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
