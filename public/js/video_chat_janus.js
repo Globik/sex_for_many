@@ -213,9 +213,11 @@ rviewers.textContent=a.viewers;
 }else if(a.typ=="msg"){
 insert_message(a);
 }else if(a.typ=="usid"){
-	set_user();
+set_user();
 console.log("who am I?: ", who_am_i);
 pubId=a.pubid;	
+//chatcnt.textContent=a.user_count;
+//rviewers.textContent=a.viewers;	
 wsend({typ:"onuser", username:who_am_i, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers

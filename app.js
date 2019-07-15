@@ -220,6 +220,8 @@ if(el.roomok){viewers++}
 return {user_count, viewers};	
 }
 function send_to_url(msg, url){
+	//if(url=="/gesamt") return;
+	console.log('send to url():',url)
 var cnt=get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){
 if(el.url == url){
@@ -229,7 +231,10 @@ msg.user_count=cnt.user_count;
 msg.viewers=cnt.viewers;
 let a=JSON.stringify(msg);
 el.send(a);
-}catch(e){}
+//return msg.viewers;
+}catch(e){
+	console.log(e);
+	}
 }
 }
 }
@@ -306,6 +311,7 @@ ws.ping(noop);
 })	
 },50000)
 function heartbeat(){this.isAlive=true;}
+
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
 ws.trans=null;//unique name
@@ -321,12 +327,14 @@ let feedy=feeds.get(roomi);
 console.log("feedy")
 feedi=feedy.feed;
 }else{
-	console.log("no feedy");
+console.log("no feedy");
 feedi=0;
 }
 if(req.url !== "/gesamt"){
 console.log("hi from server")
-wsend(ws, {typ:"usid", msg: "Hi from server!", pubid:feedi});//for a subscriber
+//let siska=get_user_count(ws.url)
+wsend(ws, {typ:"usid", msg: "Hi from server!", pubid:feedi,/*user_count:siska.user_count,viewers:siska.viewers*/});//for a subscriber
+//send_to_url({typ: "joinchat"}, req.url);
 }else{console.log("no hi from server")}
 
 ws.isAlive=true;
@@ -353,14 +361,14 @@ console.log("Typ: ", l.typ);
 console.log('l: ',l);
 ws.trans=l.username;
 ws.owner=l.owner;
-send_to_url({typ: "joinchat"}, ws.url);
+send_to_url({typ: "joinchat"}, req.url);
 
 send_to_client=1;	
 }else if(l.typ=="onair"){
 console.log("ON AIR!");
 
 l.typ="atair";//for subscribers signal
-l.v=get_user_count(ws.url).viewers
+//l.v=get_user_count(ws.url).viewers
 broadcast_to_all_no_me(ws, l);
 //broadcast_room(l);
 
@@ -383,13 +391,20 @@ send_to_client = 1;
 }else if(l.typ=="roomok"){
 // subscriber starting in room
 ws.roomok=true;	
-send_to_url({typ: "joinchat"}, ws.url);
+let ct=send_to_url({typ: "joinchat"}, ws.url);
+l.typ="viewers";
+l.viewers=ct;
+broadcast_room(l);
 pool.query("update room set v=v+1 where roomid=$1",[l.roomid],function(err,res){
-if(err)console.log(err);	
+if(err)console.log(err);
+	
 });
 }else if(l.typ=="roomnot"){
 ws.roomok=false;	
-send_to_url({typ: "joinchat"}, ws.url);
+let ct=send_to_url({typ: "joinchat"}, ws.url);
+l.typ="viewers";
+l.viewers=ct;
+broadcast_room(l);
 pool.query("update room set v=v-1 where roomid=$1",[l.roomid],function(err,res){
 if(err)console.log(err);})	
 }else{}
