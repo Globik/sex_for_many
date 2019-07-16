@@ -83,7 +83,7 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'anonym'}">
 
 <input type="hidden" id="modelName" value="${model?model.name:''}">
-<input type="hidden" id="modelId" value="${model?model.id:''}">
+<input type="hidden" id="modelId" value="${model?model:''}">
 ${js_help(["/js/video_chat_janus.js"])}
 
 <!--

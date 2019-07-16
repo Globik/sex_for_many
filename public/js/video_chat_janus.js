@@ -135,8 +135,8 @@ if(room_exists==false){
 console.log("CREATING NEW ROOM");
 create_room2();
 }else{
-	join_room();
-	}
+join_room();
+}
 }
 }else{
 console.log("Unknown transi ",a.transi);
@@ -175,9 +175,10 @@ destroy_room();
 //leave room(subscriber)
 stopVideo();
 detach_plugin();
-	let d={};
-	d.typ="roomnot";//send statistik
-	wsend(d);
+let d={};
+d.typ="roomnot";//send statistik
+d.roomid=modelId.value;
+wsend(d);
 }else if(a.transi==19){
 //janus event
 console.log("on subscribe room ");
@@ -185,6 +186,7 @@ console.log("on subscribe room ");
 console.log("on start room: ");
 let d={};
 d.typ="roomok";
+d.roomid=modelId.value;
 wsend(d);
 }else{console.log("unknown transi ",a.transi);}
 
@@ -216,8 +218,8 @@ insert_message(a);
 set_user();
 console.log("who am I?: ", who_am_i);
 pubId=a.pubid;	
-//chatcnt.textContent=a.user_count;
-//rviewers.textContent=a.viewers;	
+chatcnt.textContent=a.user_count;
+rviewers.textContent=a.viewers;	
 wsend({typ:"onuser", username:who_am_i, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers
@@ -584,11 +586,11 @@ wsend(d);
 }
 
 function stop_stream(){
-	alert('stop_stream()');
+	//alert('stop_stream()');
 clear_keep_alive();
 stopVideo();
-//detach_plugin();
-//session_destroy();
+detach_plugin();
+session_destroy();
 }
 
 function on_ice_connection_state_change(){
@@ -612,7 +614,7 @@ if(pubId==0){v.className='owner-offline';v.poster="";
 	}	
 }
 }else if(this.iceConnectionState=="connected"){
-	v.className="start";
+v.className="start";
 }else if(this.iceConnectionState=="completed"){
 onlineDetector.className="puls";
 get_image();
@@ -633,12 +635,16 @@ stop_stream();pc.close();pc=null;}else{stop_stream();pubId=0;pc.close();pc=null}
 }else if(this.connectionState=="failed"){
 	
 }else if(this.connectionState=="connecting"){
-//before on air
-//let v=gid("video-wrapper");
+setTimeout(function(){
+//stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
+},3000);
+
 v.className="connecting";
 }
-
 }
+
+
+
 
 function set_local_desc(desc){
 	//for owner

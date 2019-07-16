@@ -36,7 +36,7 @@ try{
 if(seli)seli.remove();
 }catch(e){}
 }else if(ajson.typ=="viewers"){
-console.log('typ viewers',ajson);
+console.log('typ viewers', ajson);
 var baba=document.querySelector('[data-room="'+ajson.room_id+'"]');
 if(baba)baba.textContent=ajson.viewers;
 }

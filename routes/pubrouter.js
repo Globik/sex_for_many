@@ -135,19 +135,19 @@ console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
 ctx.body={info:"ok"}
 })*/
 
-pub.get('/webrtc/:buser_id', async ctx=>{
-//	ctx.body=await ctx.render('error',{});
+pub.get('/fuck/:buser_id', async function(ctx){
+	console.log("FUCKER")
+	ctx.body={info:"ok"}
+})
 
-console.log('USER ',ctx.state.user);
+pub.get('/webrtc/:buser_id', async function(ctx){
 console.log("FUCKER");
 let us=ctx.state.user;
 let owner=false;
-var model = {name:"globi", id:15, src:"sss"};
 if(us){
-//model.name=us.bname;
-if(us.id==ctx.params.buser_id)owner=true;
+if(us.id==ctx.params.buser_id){owner=true;}
 }
-ctx.body=await ctx.render('room',{model:model, owner:owner});
+ctx.body= await ctx.render('room',{model:ctx.params.buser_id, owner:owner});
 });
 //save btc address
 var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
