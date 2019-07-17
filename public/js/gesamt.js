@@ -22,22 +22,25 @@ var ajson=JSON.parse(d);
 if(ajson.typ=="atair"){
 var tbod=document.getElementById("tbod");
 var row=tbod.insertRow(0);
-row.setAttribute('data-roomid', ajson.room_id);
+row.setAttribute('data-roomid', ajson.roomid);
 //console.log(row);
 
 row.innerHTML='<td><figure><img width="80px" height="60px" src="'+ajson.src+'">'+
-'<figcaption><a href="/webrtc/"'+ajson.room_id+'>'+ajson.nick+'</a></figcaption></figure>'+
-'</td><td>'+ajson.roomdesc+'</td><td class="views" data-room="'+ajson.room_id+'">'+ajson.v+'</td>';
+'<figcaption><a href="/webrtc/'+ajson.roomid+'">'+ajson.nick+'</a></figcaption></figure>'+
+'</td><td>'+ajson.roomdesc+'</td><td class="views" data-room="'+ajson.roomid+'">'+ajson.v+'</td>';
 
 	
 }else if(ajson.typ=="outair"){
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
+console.log(seli);
 try{	
-if(seli)seli.remove();
+if(seli){
+seli.remove();}
 }catch(e){}
 }else if(ajson.typ=="viewers"){
 console.log('typ viewers', ajson);
 var baba=document.querySelector('[data-room="'+ajson.room_id+'"]');
+//alert(ajson.viewers);
 if(baba)baba.textContent=ajson.viewers;
 }
 }

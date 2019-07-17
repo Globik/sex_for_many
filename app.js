@@ -221,9 +221,8 @@ if(el.roomok){viewers++}
 return {user_count, viewers};	
 }
 function send_to_url(msg, url){
-	//if(url=="/gesamt") return;
-	console.log('send to url():',url)
-var cnt=get_user_count(url);// how much users and viewers in a chat room
+console.log('send to url():',url)
+var cnt = get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){
 if(el.url == url){
 if(el.readyState===WebSocket.OPEN){
@@ -232,7 +231,6 @@ msg.user_count=cnt.user_count;
 msg.viewers=cnt.viewers;
 let a=JSON.stringify(msg);
 el.send(a);
-//return msg.viewers;
 }catch(e){console.log(e);}
 }
 }
@@ -388,13 +386,14 @@ if(err){console.log(err);}
 });
 send_to_client = 1;	
 }else if(l.typ=="roomok"){
-// subscriber starting in room
+
 ws.roomok=true;	
 send_to_url({typ: "joinchat"}, ws.url);
 let ct=get_user_count(req.url);
 l.typ="viewers";
-console.log('ct: ',ct)
+
 l.viewers=ct.viewers;
+
 broadcast_room(l);
 console.log("MUST BE0 !",l.roomid);
 pool.query("update room set v=v+1 where room_id=$1",[l.roomid],function(err,res){
@@ -402,13 +401,15 @@ if(err)console.log(err);
 console.log("MUST BE1 !",l.roomid);
 });
 send_to_client=1;
-}else if(l.typ=="roomnot"){
+}else if(l.typ == "roomnot"){
 ws.roomok=false;	
+//let ct=get_user_count(req.url);
 send_to_url({typ: "joinchat"}, ws.url);
 let ct=get_user_count(req.url);
 l.typ="viewers";
-l.viewers=ct;
+l.viewers=ct.viewers;
 broadcast_room(l);
+//send_to_url(l,'/gesamt');
 pool.query("update room set v=v-1 where room_id=$1",[l.roomid],function(err,res){
 if(err)console.log(err);})	
 send_to_client=1;
@@ -421,7 +422,7 @@ ws.on('error', function(er){console.log("websock err: ", err);})
 
 ws.on('close', function(){
 console.log("websocket closed");
-let roomid=Number(ws.url.substring(1));
+var roomid=Number(ws.url.substring(1));
 send_to_url({typ: "joinchat"}, ws.url)
 
 if(ws.owner){
