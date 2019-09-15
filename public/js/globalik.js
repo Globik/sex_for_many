@@ -148,6 +148,8 @@ return makaka23;
 }
 function gid(id){return document.getElementById(id);}
 function supportFormData(){return !! window.FormData;}
+function crel(tagname,text,className){var eli=document.createElement(tagname);
+	eli.textContent=text;eli.className=className;return eli;}
 function insert_after(newnode, refnode,tagname){
 try{
 del_after(refnode, tagname);
@@ -155,5 +157,7 @@ refnode.parentNode.insertBefore(newnode,refnode.nextSibling);
 }catch(e){console.log(e);}
 }
 function del_after(refnode, tagname){
+	if(!refnode.nextSibling)return;
+	//alert(1);
 if(refnode.nextSibling.tagName==tagname.toUpperCase())refnode.parentNode.removeChild(refnode.nextSibling);	
 }

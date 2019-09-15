@@ -78,9 +78,35 @@ await next()
 }
 }
 app.use(xhr());
+
+var changed_btc=false;
+var btc_pay=false;
+var is_test_btc=true;
 app.use(async (ctx, next)=>{
 ctx.state.showmodule = mainmenu;//see config/app.json
+console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
 ctx.db=pool;
+ctx.state.btc_pay=btc_pay;
+ctx.state.is_test_btc=is_test_btc;
+if(ctx.path=="/home/profile/enable_btc"){
+console.log("occured /home/profile/enable_btc");
+//if(changed_btc){
+if(!btc_pay){
+btc_pay=true;
+ctx.state.btc_pay=btc_pay;
+//changed_btc=false;
+}else{btc_pay=false;ctx.state.btc_pay=btc_pay;}
+
+}else if(ctx.path=="/home/profile/btc_test"){
+if(is_test_btc){
+is_test_btc=false;	
+ctx.state.is_test_btc=is_test_btc;
+}else{
+is_test_btc=true;
+ctx.state.is_test_btc=is_test_btc;	
+}
+}else{}
+
 await next();	
 })
 
