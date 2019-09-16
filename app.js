@@ -79,22 +79,27 @@ await next()
 }
 app.use(xhr());
 
-var changed_btc=false;
+var test_btc_address;
+var btc_percent;
 var btc_pay=false;
 var is_test_btc=true;
+
 app.use(async (ctx, next)=>{
 ctx.state.showmodule = mainmenu;//see config/app.json
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
 ctx.db=pool;
 ctx.state.btc_pay=btc_pay;
 ctx.state.is_test_btc=is_test_btc;
+
+ctx.state.test_btc_address=test_btc_address;
+ctx.state.btc_percent=btc_percent;
+
+if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){
 if(ctx.path=="/home/profile/enable_btc"){
 console.log("occured /home/profile/enable_btc");
-//if(changed_btc){
 if(!btc_pay){
 btc_pay=true;
 ctx.state.btc_pay=btc_pay;
-//changed_btc=false;
 }else{btc_pay=false;ctx.state.btc_pay=btc_pay;}
 
 }else if(ctx.path=="/home/profile/btc_test"){
@@ -105,7 +110,22 @@ ctx.state.is_test_btc=is_test_btc;
 is_test_btc=true;
 ctx.state.is_test_btc=is_test_btc;	
 }
+}else if(ctx.path=="/home/profile/set_btc_adr"){
+console.log("body: ",ctx.request.body);
+let {test}=ctx.request.body;
+if(test){
+console.log("TESTIII!!");
+test_btc_address=ctx.request.body.test_btc_adr;
+ctx.state.test_btc_address=test_btc_address;
+console.log("testa dr: ", ctx.state.test_btc_address);
+}
+btc_percent=ctx.request.body.percent;
+ctx.state.btc_percent=btc_percent;
+
+
 }else{}
+
+}
 
 await next();	
 })

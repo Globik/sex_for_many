@@ -128,12 +128,7 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
-// for notification events from janus webrtc gateway
-/*
-pub.post('/testEvent', async function food(ctx){
-console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
-ctx.body={info:"ok"}
-})*/
+
 
 pub.get('/fuck/:buser_id', async function(ctx){
 	console.log("FUCKER")
@@ -170,7 +165,7 @@ pub.post('/api/savebtcaddress', async ctx=>{
 	let {btc_client, is_testnet, username}=ctx.request.body;
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
 let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-if(!vali){ctx.throw(400,"not valid bitcoin address!");}
+if(!vali){ctx.throw(400,"not a valid testnet bitcoin address!");}
 let db=ctx.db;
 let bod=undefined;
 let data={};

@@ -1,5 +1,6 @@
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const walletValidator=require('wallet-address-validator');//0.2.4
 
 const adm=new Router();
 
@@ -15,6 +16,21 @@ ctx.body={info:"ok", btc_pay:ctx.state.btc_pay}
 adm.post("/home/profile/btc_test", auth, async ctx=>{
 console.log(ctx.request.body);
 ctx.body={info:"ok", is_test_btc:ctx.state.is_test_btc};	
+})
+
+adm.post("/home/profile/save_btc_adr", auth, async ctx=>{
+console.log(ctx.request.body);
+let {test_btc_adr,percent,test, btc_adr}=ctx.request.body;
+if(test){
+if(!test_btc_adr)ctx.throw(400,"No testnet bitcoin address provided!")
+let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
+if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
+ctx.body={info:"ok",test_btc_adr,percent,test}	
+}else{}
+})
+adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
+
+ctx.body={info:"ok"}	
 })
 module.exports=adm;
 function auth(ctx,next){

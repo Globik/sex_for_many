@@ -19,10 +19,11 @@ return true;}
 return false;}
 function is_dialogi(){return (typeof HTMLDialogElement==='function'?true:false);}
 function bzuka(el,n,ml){
-bvid('inbox3').innerHTML='<b>'+n+'</b>';
+//console.log("bzuka: ", el,n,ml);
+gid('inbox3').innerHTML='<b>'+n+'</b>';
 //dialogConfirm.style.display="block";
 dialogConfirm.showModal();
-playSound(sounds.message.buffer);
+//playSound(sounds.message.buffer);
 dialogConfirm.onclose=function(ev){
 ev.target.returnValue=='true'?luzda(el,ml):null;
 ev.target.returnValue=null;
@@ -36,13 +37,13 @@ var c=window.getComputedStyle(document.querySelector('.popi'),null).getPropertyV
 inbox2.innerHTML='<b>'+n+'</b>';
 playSound(sounds.complete.buffer);
 if(c)bvid('alert_id').style.zIndex=c+1;
-bvid('alert_id').classList.add('ak');
+gid('alert_id').classList.add('ak');
 setTimeout(function(){
 bvid('alert_id').classList.remove('ak');
 },5000)
 }
 function open_al(){
-bvid('message_box').onclick=function(e){
+gid('message_box').onclick=function(e){
 in_rem_hash();
 }}
 function in_rem_hash(){setTimeout(function(){rem_hash();},0);}
@@ -135,7 +136,7 @@ x.onerror=z;if(!bool){var v=miss(d);console.log('sending json');x.send(v);}else{
 
 function miss(n){var a;try{a=JSON.stringify(n);return a;}catch(er){throw er;}}
 function demiss(n){var b;try{b=JSON.parse(n);return b;}catch(er){throw er;}}
-function cr_event(name){
+function create_event(name){
 var makaka23=null;
 try{
 makaka23=new Event(name);return makaka23;
