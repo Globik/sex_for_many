@@ -24,13 +24,14 @@ let {test_btc_adr,percent,test, btc_adr}=ctx.request.body;
 if(test){
 if(!test_btc_adr)ctx.throw(400,"No testnet bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
+
 if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
 ctx.body={info:"ok",test_btc_adr,percent,test}	
 }else{}
 })
 adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
 
-ctx.body={info:"ok"}	
+ctx.body={info:"ok",test_btc_address: ctx.state.test_btc_address}	
 })
 module.exports=adm;
 function auth(ctx,next){

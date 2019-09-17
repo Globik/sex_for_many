@@ -14,6 +14,7 @@ var {showmodule:{mainmenu,profiler}}=n; const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css"})}
 <style>
 .is_test_btc{background:lightgreen;}
+.red{color:red;}
 </style>
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
@@ -33,17 +34,19 @@ hallo ${buser.bname}<br>
 <input type="checkbox" ${n.is_test_btc?"checked":""} onchange="set_btc_pay(this);">
 <hr>
 <div id="div_test_btc" class="${n.is_test_btc?'is_test_btc':''}">
-<label id="lbtc">Your test btc address:</label><br><!-- 2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45 -->
+<label id="lbtc">Your test btc address:</label><br>
+<!-- real BTC 2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45 -->
+<!-- tBTC mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE -->
 <input id="test_btc_address" type="text" maxlength="34" spellcheck="false" autocomplete="off" 
 value="${n.test_btc_address?n.test_btc_address:''}" placeholder="your test btc address">
-<button id="saveTestBtn" ${n.test_btc_address?'':''}>save</button><button onclick="reset_test_btc_adr();">reset</button>
+<button id="saveTestBtn" ${n.test_btc_address?'disabled':''}>save</button><button onclick="reset_test_btc_adr();">reset</button>
 </div><hr>
 <div id="div_real_btc" class="${n.is_test_btc?'':'is_test_btc'}">
 <label id="lbtcreal">Your real btc address:</label><br>
 <input id="btc_address" type="text" maxlength="34" spellcheck="false" autocomplete="off" placeholder="your btc address">
 <button onclick="save_btc();">save</button> <button onclick="reset_btc_adr();">reset</button>
 </div>
-<br><label id="lproz">your procent:</label><br><input id="btc_procent" value="${n.btc_percent?n.btc_percent:1}" placeholder="10" type="text">%
+<br><label id="lproz">your procent:</label><br><input id="btc_procent" value="${n.btc_percent?n.btc_percent:10}" placeholder="10" type="text">%
 
 </main>
 ${js_help(["/js/adm_btc_pay.js"])}

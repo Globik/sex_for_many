@@ -12,6 +12,7 @@ console.log(l);
 //alert(ev.checked);
 btc_enabled_span.textContent=l.btc_pay;
 btcPayInput.checked=l.btc_pay;
+setTimeout(function(){galert("Pay system "+ l.btc_pay);},100);
 }
 function set_btc_pay(el){
 let data={};
@@ -42,7 +43,7 @@ function save_test_btc(el){
 //shell(el, "Are you shure to disable payment system?", disablePayment_event);
 if(!test_btc_address.value){
 let span=crel("span","\tNo btc address provided!","red");
-insert_after(span, lbtc,"span")
+insert_after(span, lbtc,"span");
 return;
 }
 if(!btc_procent.value){
@@ -59,16 +60,19 @@ return;
 }
 del_after(lbtc,"span");
 del_after(lproz,"span");
-if(btcPayInput.checked)shell(el, "Disable payment system?", disablePayment_event);
+if(btcPayInput.checked){shell(el, "Disable payment system? You should.", disablePayment_event);return;}
+
 let data={};
 data.test_btc_adr=test_btc_address.value;
 data.percent=btc_procent.value;
 data.test=true;
-el.disabled=true;
+
 vax("post", "/home/profile/save_btc_adr", data, on_saved_test_btc_adr, on_save_test_btc_error, el,false);
 }
 function on_save_test_btc_error(er, p){
-	
+console.log('error: ',er);
+let span=crel("span","\t"+er,"red");
+insert_after(span, lbtc,"span");
 }
 function checki_percent(num){
 let a=Number(num);
@@ -79,9 +83,11 @@ if(a<50){return true;}else{return false}
 function reset_test_btc_adr(){
 test_btc_address.value="";
 del_after(lbtc,"span");
+saveTestBtn.disabled=false;
 }
 function on_saved_test_btc_adr(l,ev){
-console.log(l," ", ev.disabled);
+console.log(l," ", ev.target.disabled);
+ev.target.disabled=true;
 set_btc_adr(l.test_btc_adr, l.percent, l.test);
 }
 
@@ -116,4 +122,8 @@ data.percent=p;
 data.test=t;
 vax("post","/home/profile/set_btc_adr", data,on_seted_test_btc_adr,onerror,null, false);	
 }
-function on_seted_test_btc_adr(l){console.log(l);galert("Your testnet address is installed!");}
+function on_seted_test_btc_adr(l){
+console.log(l);
+galert("Your testnet address "+l.test_btc_address+" is installed!");
+if(!btcPayInput.checked)is_btc_enabled();
+}
