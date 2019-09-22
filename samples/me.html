@@ -1,0 +1,325 @@
+<html>
+<head><title>warnig</title>
+<style>
+
+#notes {
+  position: fixed;
+  top: 1em;
+  width: 100%;
+  cursor: default;
+  transition: height .45s ease-in-out;
+ pointer-events: none;
+  z-index: 1;
+}
+  .note-item { 
+    max-height: 12em;
+    opacity: 1;
+    will-change: opacity, transform;
+    transition: all .2s linear;
+    
+    backface-visibility: hidden;
+    width: 50vw;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    z-index: 2;
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+
+    align-content: flex-start;
+    
+    max-width: 20em;
+    font: inherit;
+    line-height: 1.25em;
+    color: #fff;
+    margin: 0 auto 1em auto;
+    transform: translateZ(0);
+    padding: .75em 1em;
+}
+    [data-show="false"] {
+      pointer-events: none;
+      opacity: 0 !important;
+      max-height: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    
+
+
+    [data-type="info"] {
+      background-color: #375e97;
+    }
+
+    [data-type="warn"] {
+      background-color: #EBAC00;
+      animation: shake .9s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    [data-type="error"] {
+      background-color: #fb6542;
+      animation: shake 0.54s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    [data-type="success"] {
+      background-color: #3f681c;
+    }
+    
+    .note-item-text {
+      flex: auto;
+      padding-right: .5em;
+      max-width: calc(100% - 1.25em);
+    }
+    
+    .note-item-btn {
+      width: 1.25em;
+      height: 1.25em;
+      cursor: pointer;
+      background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIiBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMTguMyw1LjcxTDE4LjMsNS43MWMtMC4zOS0wLjM5LTEuMDItMC4zOS0xLjQxLDBMMTIsMTAuNTlMNy4xMSw1LjdjLTAuMzktMC4zOS0xLjAyLTAuMzktMS40MSwwbDAsMCBjLTAuMzksMC4zOS0wLjM5LDEuMDIsMCwxLjQxTDEwLjU5LDEyTDUuNywxNi44OWMtMC4zOSwwLjM5LTAuMzksMS4wMiwwLDEuNDFoMGMwLjM5LDAuMzksMS4wMiwwLjM5LDEuNDEsMEwxMiwxMy40MWw0Ljg5LDQuODkgYzAuMzksMC4zOSwxLjAyLDAuMzksMS40MSwwbDAsMGMwLjM5LTAuMzksMC4zOS0xLjAyLDAtMS40MUwxMy40MSwxMmw0Ljg5LTQuODlDMTguNjgsNi43MywxOC42OCw2LjA5LDE4LjMsNS43MXoiLz48L3N2Zz4=) no-repeat 0 0 / contain;
+      transition: opacity .2s;
+    }
+.note-item-btn:hover{opacity: .6;}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+
+
+// page layout
+
+h3 {
+  margin-bottom: .75rem;
+}
+
+
+.btn {
+  transition: background-color .1s;
+  
+  cursor: pointer;
+  background-color: #f9f9f9;
+  color: #7f7f7f;
+  font: inherit;
+  padding: .25rem 0;
+  width: 4rem;
+  margin: .25rem .25rem 0 0;
+  text-align: center;
+}
+.btn:hover{background-color: #f9f95c;}
+.btn:first-child{margin-left:0;}
+ 
+    @media all and (max-width: 30em) {
+      .note-item{width: 75vw;
+      max-width: none;
+  }
+    } 
+</style>
+</head>
+<body>
+	<main>
+		<!--
+	<div id="notes">
+    <div class="note-item" data-type="info" role="alert">
+      <div class="note-item-text">Announcement</div>
+      <button class="note-item-btn" role="button" aria-label="Скрыть"></button>
+    </div>
+  </div> 
+	-->
+  <h3>
+   Простые сообщения
+  </h3>
+  <p id="content" class="box-x">
+    <button type="button" class="btn" data-type="info" data-text="Уведомление">
+      Info
+    </button>
+    <button type="button" class="btn" data-type="warn" data-text="Предупреждение">
+      Warn
+    </button>
+    <button type="button" class="btn" data-type="success" data-text="Успешное действие">
+      Success
+    </button>
+    <button type="button" class="btn" data-type="error" data-text="Ой, вот ведь незадача">
+      Error
+    </button>
+  </p>
+  <h3>
+  Длинные сообщения с HTML
+  </h3>
+    <p class="box-x">
+    <button type="button" class="btn" data-type="warn" data-text="<img src='https://placeimg.com/100/100/any' style='width:5em; height: 5em; border-radius: 100%; float: left; margin-right: .5em;'> <b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry.">
+      Warn
+    </button>
+    <button type="button" class="btn" data-type="error" data-text="<span style='display: block; font-size: 120%; padding-bottom: .25em; font-weight: 500;'>Lorem Ipsum</span>is simply dummy text of the printing and typesetting industry.">
+      Error
+    </button>
+    <button type="button" class="btn" data-type="info" data-text="<b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum <u>has been the industry's standard</u> dummy text ever since the 1500s">
+      Long Info
+    </button>
+  </p>
+  <h3>
+  Дополнительная фишка
+  </h3>
+  <p>
+  При заполнении экрана алертами показанные первее начнут автоматически удаляться, освобождая место для новых.
+  </p>
+</main>
+	<script>
+	/**
+ * Анонимная самовызывающаяся функция-обертка
+ * @param {document} d - получает документ
+ */
+!function(d) {
+
+  "use strict";
+
+  /**
+   * Полифилл для Object.assign()
+   */
+  Object.assign||Object.defineProperty(Object,"assign",{enumerable:!1,configurable:!0,writable:!0,value:function(e,r){"use strict";if(null==e)throw new TypeError("Cannot convert first argument to object");for(var t=Object(e),n=1;n<arguments.length;n++){var o=arguments[n];if(null!=o)for(var a=Object.keys(Object(o)),c=0,b=a.length;c<b;c++){var i=a[c],l=Object.getOwnPropertyDescriptor(o,i);void 0!==l&&l.enumerable&&(t[i]=o[i])}}return t}});
+
+  /**
+   * Полифилл для Element.remove()
+   */
+  "remove" in Element.prototype||(Element.prototype.remove=function(){this.parentNode&&this.parentNode.removeChild(this)});
+
+  /**
+   * Основная функция.
+   * @param {Object} [settings] - предвартиельные настройки
+   */
+  window.note = function(settings) {
+
+    /**
+     * Настройки по умолчанию
+     */
+    settings = Object.assign({},{
+      callback:    false,
+      content:     "",
+      time:        4.5,
+      type:        "info"
+    }, settings);
+
+    if(!settings.content.length) return;
+
+    /**
+     * Функция создания элементов
+     * @param {String} name - название DOM-элемента
+     * @param {Object} attr - объект с атрибутами
+     * @param {Object} append - DOM-элемент, в который будет добавлен новый узел
+     * @param {String} [content] - контент DOM-элемента
+     */
+    var create = function(name, attr, append, content) {
+      var node = d.createElement(name);
+      for(var val in attr) { if(attr.hasOwnProperty(val)) node.setAttribute(val, attr[val]); }
+      if(content) node.insertAdjacentHTML("afterbegin", content);
+      append.appendChild(node);
+      if(node.classList.contains("note-item-hidden")) node.classList.remove("note-item-hidden");
+      return node;
+    };
+
+    /**
+     * Генерация элементов
+     */
+    var noteBox = d.getElementById("notes") || create("div", { "id": "notes" }, d.body);
+    var noteItem = create("div", {
+        "class": "note-item",
+        "data-show": "false",
+        "role": "alert",
+        "data-type": settings.type
+      }, noteBox),
+      noteItemText = create("div", { "class": "note-item-text" }, noteItem, settings.content),
+      noteItemBtn = create("button", {
+        "class": "note-item-btn",
+        "type": "button",
+        "aria-label": "Скрыть"
+      }, noteItem);
+
+    /**
+     * Функция проверки видимости алерта во viewport
+     * @returns {boolean}
+     */
+    var isVisible = function() {
+      var coords = noteItem.getBoundingClientRect();
+      return (
+        coords.top >= 0 &&
+        coords.left >= 0 &&
+        coords.bottom <= (window.innerHeight || d.documentElement.clientHeight) && 
+        coords.right <= (window.innerWidth || d.documentElement.clientWidth) 
+      );
+    };
+    
+    /**
+     * Функция удаления алертов
+     * @param {Object} [el] - удаляемый алерт
+     */
+    var remove = function(el) {
+      el = el || noteItem;
+      el.setAttribute("data-show","false");
+      window.setTimeout(function() {
+        el.remove();
+      }, 250);
+      if(settings.callback) settings.callback(); // callback
+    };
+
+    /**
+     * Удаление алерта по клику на кнопку
+     */
+    noteItemBtn.addEventListener("click", function() { remove(); });
+
+    /**
+     * Визуальный вывод алерта
+     */
+    window.setTimeout(function() {
+      noteItem.setAttribute("data-show","true");
+    }, 250);
+
+
+    /**
+     * Проверка видимости алерта и очистка места при необходимости
+     */
+    if(!isVisible()) {console.log("!isVisible()");remove(noteBox.firstChild);}
+
+    /**
+     * Автоматическое удаление алерта спустя заданное время
+     */
+     console.log(settings.time);
+    window.setTimeout(remove, settings.time * 1000);
+
+  };
+
+}(document);
+
+
+// кнопки в примере
+var exampleBtns = document.querySelectorAll("[data-type][data-text]");
+
+exampleBtns.forEach(function(el) {
+el.addEventListener("click", function(e) {
+	console.log(e.target.dataset.text,' ',e.target.dataset.type);
+  note({
+    content: e.target.dataset.text,
+    type: e.target.dataset.type,
+    time: 5
+  });
+});
+});
+
+
+</script>
+
+</body>
+</html>
