@@ -12,7 +12,8 @@ console.log(l);
 //alert(ev.checked);
 btc_enabled_span.textContent=l.btc_pay;
 btcPayInput.checked=l.btc_pay;
-setTimeout(function(){galert("Pay system "+ l.btc_pay);},100);
+//setTimeout(function(){galert("Pay system "+ l.btc_pay);},100);
+note({content:"Pay system "+l.btc_pay,type:"info",time:5});
 }
 function set_btc_pay(el){
 let data={};
@@ -124,6 +125,8 @@ vax("post","/home/profile/set_btc_adr", data,on_seted_test_btc_adr,onerror,null,
 }
 function on_seted_test_btc_adr(l){
 console.log(l);
-galert("Your testnet address "+l.test_btc_address+" is installed!");
+//alert(l);
+//galert("Your testnet address "+l.test_btc_address+" is installed!");
+note({content:"Your testnet address "+l.test_btc_address+" is saved!",type:"success",time:5});
 if(!btcPayInput.checked)is_btc_enabled();
 }
