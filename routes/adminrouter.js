@@ -26,14 +26,27 @@ if(!test_btc_adr)ctx.throw(400,"No testnet bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
 
 if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
-ctx.body={info:"ok",test_btc_adr,percent,test}	
-}else{}
-})
-adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
+ctx.body={info:"ok",test_btc_adr, percent,test}	
+}else{
+if(!test_btc_adr)ctx.throw(400,"No bitcoin address provided!")
+let vali=walletValidator.validate(test_btc_adr,'bitcoin');
 
-ctx.body={info:"ok",test_btc_address: ctx.state.test_btc_address}	
+if(!vali){ctx.throw(400,"Not a valid bitcoin address!");}
+ctx.body={info:"ok",test_btc_adr, percent, test}	
+}
 })
+
+adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
+let {type} = ctx.request.body;
+if(type){
+ctx.body={info:"ok", btc_address: ctx.state.test_btc_address}
+}else{
+ctx.body={info: "ok", btc_address: ctx.state.btc_address}	
+}	
+})
+
 module.exports=adm;
+
 function auth(ctx,next){
 	//for xhr
 if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){return next()}else{ctx.throw(401, "Please log in.")}}

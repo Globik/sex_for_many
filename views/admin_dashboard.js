@@ -34,17 +34,21 @@ hallo ${buser.bname}<br>
 <input type="checkbox" ${n.is_test_btc?"checked":""} onchange="set_btc_pay(this);">
 <hr>
 <div id="div_test_btc" class="${n.is_test_btc?'is_test_btc':''}">
-<label id="lbtc">Your test btc address:</label><br>
-<!-- real BTC 2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45 -->
+<label id="lbtctest">Your test btc address:</label><br>
+<!-- 
+real BTC
+1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy
+-->
 <!-- tBTC mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE -->
-<input id="test_btc_address" type="text" maxlength="34" spellcheck="false" autocomplete="off" 
+<input id="test_btc_address" type="text" maxlength="35" spellcheck="false" autocomplete="off" 
 value="${n.test_btc_address?n.test_btc_address:''}" placeholder="your test btc address">
-<button id="saveTestBtn" ${n.test_btc_address?'disabled':''}>save</button><button onclick="reset_test_btc_adr();">reset</button>
+<button id="saveTestBtcBtn" ${n.test_btc_address?'disabled':''}>save</button><button onclick="reset_test_btc_adr();">reset</button>
 </div><hr>
 <div id="div_real_btc" class="${n.is_test_btc?'':'is_test_btc'}">
 <label id="lbtcreal">Your real btc address:</label><br>
-<input id="btc_address" type="text" maxlength="34" spellcheck="false" autocomplete="off" placeholder="your btc address">
-<button onclick="save_btc();">save</button> <button onclick="reset_btc_adr();">reset</button>
+<input id="btc_address" type="text" maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"
+value="${n.btc_address?n.btc_address:''}">
+<button id="saveBtcBtn" ${n.btc_address?'disabled':''}>save</button> <button onclick="reset_btc_adr();">reset</button>
 </div>
 <br><label id="lproz">your procent:</label><br><input id="btc_procent" value="${n.btc_percent?n.btc_percent:10}" placeholder="10" type="text">%
 

@@ -80,6 +80,7 @@ await next()
 app.use(xhr());
 
 var test_btc_address;
+var btc_address;
 var btc_percent;
 var btc_pay=false;
 var is_test_btc=true;
@@ -88,11 +89,12 @@ app.use(async (ctx, next)=>{
 ctx.state.showmodule = mainmenu;//see config/app.json
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
 ctx.db=pool;
-ctx.state.btc_pay=btc_pay;
-ctx.state.is_test_btc=is_test_btc;
+ctx.state.btc_pay= btc_pay;
+ctx.state.is_test_btc = is_test_btc;
 
-ctx.state.test_btc_address=test_btc_address;
-ctx.state.btc_percent=btc_percent;
+ctx.state.test_btc_address = test_btc_address;
+ctx.state.btc_address = btc_address;
+ctx.state.btc_percent = btc_percent;
 
 if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){
 if(ctx.path=="/home/profile/enable_btc"){
@@ -114,10 +116,11 @@ ctx.state.is_test_btc=is_test_btc;
 console.log("body: ",ctx.request.body);
 let {test}=ctx.request.body;
 if(test){
-console.log("TESTIII!!");
 test_btc_address=ctx.request.body.test_btc_adr;
 ctx.state.test_btc_address=test_btc_address;
-console.log("testa dr: ", ctx.state.test_btc_address);
+}else{
+btc_address = ctx.request.body.test_btc_adr;
+ctx.state.btc_address=btc_address;	
 }
 btc_percent=ctx.request.body.percent;
 ctx.state.btc_percent=btc_percent;
