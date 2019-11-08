@@ -20,28 +20,41 @@ ctx.body={info:"ok", is_test_btc:ctx.state.is_test_btc};
 
 adm.post("/home/profile/save_btc_adr", auth, async ctx=>{
 console.log(ctx.request.body);
+let db=ctx.db;
 let {test_btc_adr,percent,test, btc_adr}=ctx.request.body;
 if(test){
 if(!test_btc_adr)ctx.throw(400,"No testnet bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
 
 if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
-ctx.body={info:"ok",test_btc_adr, percent,test}	
+try{
+await db.query("delete from prim_adr where type=true");
+await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, true]);
+}catch(e){ctx.throw(400, e);}
+ctx.body={info:"ok",test_btc_adr, percent, test}	
 }else{
 if(!test_btc_adr)ctx.throw(400,"No bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin');
 
 if(!vali){ctx.throw(400,"Not a valid bitcoin address!");}
+try{
+await db.query("delete from prim_adr where type=false");
+await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, false]);
+}catch(e){ctx.throw(400, e);}
+
 ctx.body={info:"ok",test_btc_adr, percent, test}	
 }
 })
 
 adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
-let {type} = ctx.request.body;
-if(type){
-ctx.body={info:"ok", btc_address: ctx.state.test_btc_address}
+console.log("HERE request body ",ctx.request.body);
+let test = ctx.request.body.test;
+//console.log("TYPE: ", test);
+if(test){
+ctx.body={info:"fucker", btc_address: ctx.state.test_btc_address}
 }else{
-ctx.body={info: "ok", btc_address: ctx.state.btc_address}	
+//console.log("HERE ADR ", ctx.state.btc_address,"type ",test)
+ctx.body={info: "no fucker", btc_address: ctx.state.btc_address}	
 }	
 })
 

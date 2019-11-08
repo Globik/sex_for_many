@@ -152,6 +152,7 @@ vax("post","/home/profile/set_btc_adr", data, on_seted_test_btc_adr, onerror, nu
 
 function on_seted_test_btc_adr(l){
 console.log(l);
+alert(JSON.stringify(l));
 note({content:"Your BTC address "+l.btc_address+" is saved!",type:"success",time:5});
 if(!btcPayInput.checked)is_btc_enabled();
 }

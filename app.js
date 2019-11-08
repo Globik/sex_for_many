@@ -197,7 +197,15 @@ function on_run(){
 console.log('soll on port: ', HPORT, 'started.');
 pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
-})
+});
+pool.query("select*from prim_adr where type=true",[], 
+function(err,res){if(err)console.log(err);
+console.log("RESPONES ", res.rows);
+test_btc_address=res.rows[0].adr;});
+pool.query("select*from prim_adr where type=false",[], 
+function(err,res){if(err)console.log(err);
+console.log("RESPONES ", res.rows[0].adr);
+btc_address=res.rows[0].adr;});
 const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
