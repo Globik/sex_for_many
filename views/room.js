@@ -32,19 +32,22 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <div class="btc-footer" style="background:yellow;">
 <h5>Before you start</h5>
 <div id="btc-container">
-<b>Enter your btc address for donation (optional):</b><br>
-<input class="btc-input" type="text" value="a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ"/><button class="btn-save">save</button>
+<label id="bInput">Enter your ${n.is_test_btc?'test':''} btc address for donation (optional):</label><br>
+<input id="btcInput" class="btc-input" type="text" value="" maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"/>
+<button id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
 </div>
+<!--
 <div id="btcGoal">
 <b>Describe your goal (optional)</b><br>
 <textarea id="txtArea" placeholder="Room description" oninput="txtarea_input(this);"></textarea><button id="btnRD" class="btn-save" onclick="saveRDesc(this);">save</button>
 </div>
+-->
 </div>
 
 <section>
 <div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
-<span style="">a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ</span></div>
+<span style="">${n.is_test_btc}</span></div>
 </section>
 
 <section id="media-wrapper">
@@ -82,7 +85,7 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'anonym'}">
 
-<input type="hidden" id="modelName" value="${model?model.name:''}">
+<input type="hidden" id="modelName" value="${n.bmodelName}">
 <input type="hidden" id="modelId" value="${model?model:''}">
 ${js_help(["/js/video_chat_janus.js"])}
 

@@ -138,41 +138,42 @@ pub.get('/fuck/:buser_id', async function(ctx){
 pub.get('/webrtc/:buser_id', async function(ctx){
 console.log("FUCKER");
 let us=ctx.state.user;
+console.log("USER: ",us);
+let bmodelName;
 let owner=false;
 if(us){
-if(us.id==ctx.params.buser_id){owner=true;}
+if(us.id==ctx.params.buser_id){owner=true;bmodelName=us.name}
 }
-ctx.body= await ctx.render('room',{model:ctx.params.buser_id, owner:owner});
+ctx.body= await ctx.render('room',{model:ctx.params.buser_id, owner:owner,bmodelName:bmodelName});
 });
 //save btc address
-var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
+//var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
 const base_url_smart_tbtc="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution";//for test btc smartcontract
-/*
- id serial primary key,
-name  text not null references busers(bname),
-cadr varchar(34) not null, -- client btc address
-padr varchar(34)  not null, -- public btc adress
-inv varchar(70) not null, -- invoice
-pc varchar(70) not null, -- payment code
-btc_amt numeric NOT NULL default 0, -- btc payment amount by address
-btc_all numeric not null default 0, -- total amount received by address
-is_t boolean not null default true -- is btc test
-*/ 
-//var sql_create_smarti="insert into cladr(name,cadr,padr,inv,pc) values($1,$2,$3,$4,$5)";
-var our_procent="10%";
+const base_url_smart_btc='https://api.bitaps.com/btc/v1/create/payment/address/distribution'; //for real btc
+const cb_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
+
+
 pub.post('/api/savebtcaddress', async ctx=>{
 	console.log('body: ',ctx.request.body);
 	let {btc_client, is_testnet, username}=ctx.request.body;
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
+if(ctx.state.is_test_btc){
 let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-if(!vali){ctx.throw(400,"not a valid testnet bitcoin address!");}
+if(!vali){ctx.throw(400,"not a valid test bitcoin address!");}
+}else{
+let valir=walletValidator.validate(btc_client,'bitcoin');
+if(!valir){ctx.throw(400,"not a valid bitcoin address!");}	
+}
+
 let db=ctx.db;
 let bod=undefined;
 let data={};
-data.forwarding_address_primary=prim;//must be mine
+if (ctx.state.is_test_btc){
+
+data.forwarding_address_primary=ctx.state.test_btc_address;//must be mine
 data.forwarding_address_secondary=btc_client;//must be client's one
-data.forwarding_address_primary_share=our_procent;
-data.callback_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
+data.forwarding_address_primary_share=ctx.state.btc_percent;
+data.callback_link=cb_link;
 
 let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
 try{
@@ -180,9 +181,9 @@ bod=await reqw(mops);
 console.log('bod: ', bod);
 
 try{
-var sql_create_smarti="insert into cladr(name,cadr,padr,inv,pc) values($1,$2,$3,$4,$5)";
+let sql_create_smarti1="insert into cladr(name, cadrtest, padrtest, inv, pc) values($1,$2,$3,$4,$5)";
 
-let si=await db.query(sql_create_smarti,[
+let si=await db.query(sql_create_smarti1,[
 username, 
 bod.forwarding_address_secondary, 
 bod.address, 
@@ -194,7 +195,37 @@ console.log("db query: ", si);
 }catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
 }catch(e){ctx.throw(400, e.message);}
 
-ctx.body={status:"ok", data:"tested", is_testnet: is_testnet, bod:bod}
+ctx.body={status:"ok", data:"tested", bod:bod}
+}else{
+
+data.forwarding_address_primary=ctx.state.btc_address;//must be mine
+data.forwarding_address_secondary=btc_client;//must be client's one
+data.forwarding_address_primary_share=ctx.state.btc_percent;
+data.callback_link=cb_link;
+
+let mops={url: base_url_smart_btc, method:"post", json:true,body:data};
+try{
+bod=await reqw(mops);
+console.log('bod: ', bod);
+
+try{
+let sql_create_smarti="insert into cladr(name, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)";
+
+let si1=await db.query(sql_create_smarti,[
+username, 
+bod.forwarding_address_secondary, 
+bod.address, 
+bod.invoice,
+bod.payment_code
+]);
+console.log("db query: ", si1);
+ 
+}catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
+}catch(e){ctx.throw(400, e.message);}
+
+ctx.body={status:"ok", data:"real btc", bod:bod}
+	
+}
 });
 
 /*

@@ -29,15 +29,53 @@ var offer_opts={offerToReceiveAudio:0, offerToReceiveVideo:0};
 var j_timer=null;//keep alive session
 
 
+//set_user();
+//open_socket();
+var loc1=location.hostname+':'+location.port;
+var loc2='frozen-atoll-47887.herokuapp.com';
+var loc3=loc1 || loc2;
+var new_uri;
+
+if(window.location.protocol==="https:"){
+new_uri='wss:';
+}else{
+new_uri='ws:';
+}
+
 set_user();
 open_socket();
+
+function saveBTC(el){
+if(!btcInput.value)return;
+let d={};
+d.btc_client=btcInput.value;
+d.username=modelName.value;
+
+vax("post", "/api/savebtcaddress", d, on_saved_btc, on_save_btc_error, el,false);
+}
+function on_saved_btc(d){
+alert('success '+d);
+	
+}
+function on_save_btc_error(l){
+console.error(l);	
+let span=crel("span","\t"+l,"red");
+insert_after(span, bInput,"span");
+}
+function reset_btc(){
+btcInput.value="";
+del_after(bInput,"span");
+btnSaveAdr.disabled=false;	
+}
 
 function open_socket(){
 if(sock){console.log("already in connection");return;}
 
-sock=new WebSocket("ws://localhost:3000/"+modelId.value);
-
+sock=new WebSocket(new_uri+'//'+loc3+'/'+modelId.value);
+//sock=new WebSocket(new_uri+'//'+loc3+'/'+usname);
+//sock=new WebSocket('ws://localhost:3000');
 sock.onopen=function(){
+	//alert(loc3);
 console.log("websocket opened")
 }
 sock.onerror=function(e){
@@ -731,17 +769,21 @@ el.textContent="save";
 }
 }
 function fetchRD(){
+	/*
 if(localStorage.roomdesc){
 txtArea.value=localStorage.roomdesc;
 btnRD.textContent="edit"	
-}else{txtArea.value="";}	
+}else{txtArea.value="";}
+*/ 	
 }
 
-fetchRD();
+//fetchRD();
 function txtarea_input(el){
 	//console.log(el.value);
-	btnRD.textContent="save";
+	//btnRD.textContent="save";
 }
+	
+
 
 function get_image(){
 console.log("get_image()");

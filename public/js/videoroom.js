@@ -5,7 +5,7 @@ var loc1=location.hostname+':'+location.port;
 var loc2='frozen-atoll-47887.herokuapp.com';
 var loc3=loc1 || loc2;
 var new_uri;
-var btcForm=document.forms.btcForm;
+//var btcForm=document.forms.btcForm;
 if(window.location.protocol==="https:"){
 new_uri='wss:';
 }else{
@@ -53,7 +53,7 @@ var f2=ev.target.btcadr;
 var f3=ev.target.submit;
 let m={};
 m.btc_client=f2.value;
-m.is_testnet=true;
+//m.is_testnet=true;
 m.username=ev.target.username.value;
 console.log(m);
 vax(ev.target.method,ev.target.action, m, form_btc_ondata, onerror,ev,false);

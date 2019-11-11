@@ -4,14 +4,15 @@
 --drop table cladr if exists;
 create table cladr(
 id serial primary key,
-name  text not null references busers(bname),
-cadr varchar(40) not null, -- client btc address
-padr varchar(40)  not null, -- public btc adress
+bname  text not null references busers(bname),
+cadr varchar(40) , -- client btc address
+padr varchar(40) , -- public btc adress
+cadrtest varchar(40), --client test btc adress
+padrtest varchar(40), -- public test btc address
 inv varchar(70) not null, -- invoice
 pc varchar(70) not null, -- payment code
 btc_amt numeric NOT NULL default 0, -- btc payment amount by address
-btc_all numeric not null default 0, -- total amount received by address
-is_t boolean not null default true -- is btc test
+btc_all numeric not null default 0 -- total amount received by address
 );
 
 CREATE OR REPLACE FUNCTION notify_smart() RETURNS TRIGGER AS $$
