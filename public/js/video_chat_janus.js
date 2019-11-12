@@ -46,7 +46,7 @@ set_user();
 open_socket();
 
 function saveBTC(el){
-if(!btcInput.value)return;
+if(!btcInput.value){alert("Please give correct btc adress");return;}
 let d={};
 d.btc_client=btcInput.value;
 d.username=modelName.value;
@@ -55,7 +55,6 @@ vax("post", "/api/savebtcaddress", d, on_saved_btc, on_save_btc_error, el,false)
 }
 function on_saved_btc(d){
 alert('success '+d);
-	
 }
 function on_save_btc_error(l){
 console.error(l);	

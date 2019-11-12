@@ -28,14 +28,16 @@ ${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
 <main id="pagewrap"> 
-
-<div class="btc-footer" style="background:yellow;">
+${n.owner?
+`<div class="btc-footer" style="background:yellow;">
 <h5>Before you start</h5>
 <div id="btc-container">
 <label id="bInput">Enter your ${n.is_test_btc?'test':''} btc address for donation (optional):</label><br>
-<input id="btcInput" class="btc-input" type="text" value="" maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"/>
-<button id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
-</div>
+<input id="btcInput" class="btc-input" type="text" 
+value="${n.is_test_btc && n.result?n.result.cadrtest:n.result.cadr}" 
+maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"/>
+<button ${n.result?'disabled':''} id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
+</div>`:''}
 <!--
 <div id="btcGoal">
 <b>Describe your goal (optional)</b><br>
@@ -45,9 +47,9 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 </div>
 
 <section>
-<div id="btcInfo" style="">
+${n.owner?'':`<div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
-<span style="">${n.is_test_btc}</span></div>
+<span style="">${n.is_test_btc?n.result.padrtest:n.result.padr}</span>`}</div>
 </section>
 
 <section id="media-wrapper">
@@ -66,9 +68,8 @@ data-ownerOnline="${owner_online_str_en}">
 </div>
 <div id="under-video">
 <button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
-<a href="bitcoin:a33yhX82ob8kawDdRmW9xAwcoqxrjuKS8SQ">
-<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png">
-</a>
+${n.onwer?`<a href="bitcoin:${n.is_test_btc && n.result?n.result.padrtest:n.result.padr}">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
 </div>
 </section>
 <section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span></div>

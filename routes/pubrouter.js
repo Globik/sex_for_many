@@ -138,13 +138,25 @@ pub.get('/fuck/:buser_id', async function(ctx){
 pub.get('/webrtc/:buser_id', async function(ctx){
 console.log("FUCKER");
 let us=ctx.state.user;
+let db=ctx.db;
 console.log("USER: ",us);
+let a;
 let bmodelName;
 let owner=false;
-if(us){
-if(us.id==ctx.params.buser_id){owner=true;bmodelName=us.name}
+let sis='select busers.bname , cladr.padrtest, cladr.cadrtest from busers left join cladr on busers.bname=cladr.bname where busers.id=$1';
+try{
+var result=await db.query(sis,[ctx.params.buser_id]);
+}catch(e){
+console.log('db error: ',e);
 }
-ctx.body= await ctx.render('room',{model:ctx.params.buser_id, owner:owner,bmodelName:bmodelName});
+console.log('result:', result.rows[0]);
+a=result.rows[0];
+//if(result.rows.length)a=reslult.rows[0];
+if(us){
+if(us.id==ctx.params.buser_id){owner=true;bmodelName=us.bname}
+}
+
+ctx.body= await ctx.render('room',{result:a, model:ctx.params.buser_id, owner:owner,bmodelName:bmodelName});
 });
 //save btc address
 //var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
@@ -172,7 +184,7 @@ if (ctx.state.is_test_btc){
 
 data.forwarding_address_primary=ctx.state.test_btc_address;//must be mine
 data.forwarding_address_secondary=btc_client;//must be client's one
-data.forwarding_address_primary_share=ctx.state.btc_percent;
+data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
 data.callback_link=cb_link;
 
 let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
@@ -181,12 +193,12 @@ bod=await reqw(mops);
 console.log('bod: ', bod);
 
 try{
-let sql_create_smarti1="insert into cladr(name, cadrtest, padrtest, inv, pc) values($1,$2,$3,$4,$5)";
+let sql_create_smarti1="insert into cladr(bname, cadrtest, padrtest, inv, pc) values($1,$2,$3,$4,$5)";
 
 let si=await db.query(sql_create_smarti1,[
 username, 
-bod.forwarding_address_secondary, 
-bod.address, 
+bod.forwarding_address_secondary, //cadrtest
+bod.address, //padrtest
 bod.invoice,
 bod.payment_code
 ]);
@@ -209,11 +221,11 @@ bod=await reqw(mops);
 console.log('bod: ', bod);
 
 try{
-let sql_create_smarti="insert into cladr(name, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)";
+let sql_create_smarti="insert into cladr(bname, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)";
 
 let si1=await db.query(sql_create_smarti,[
 username, 
-bod.forwarding_address_secondary, 
+bod.forwarding_address_secondary, //cadr
 bod.address, 
 bod.invoice,
 bod.payment_code
