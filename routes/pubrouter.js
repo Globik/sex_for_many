@@ -128,35 +128,40 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
-
-
-pub.get('/fuck/:buser_id', async function(ctx){
-	console.log("FUCKER")
-	ctx.body={info:"ok"}
-})
-
 pub.get('/webrtc/:buser_id', async function(ctx){
-console.log("FUCKER");
+
 let us=ctx.state.user;
 let db=ctx.db;
 console.log("USER: ",us);
-let a;
-let bmodelName;
+let a,result;
 let owner=false;
-let sis='select busers.bname , cladr.padrtest, cladr.cadrtest from busers left join cladr on busers.bname=cladr.bname where busers.id=$1';
+let sis;
+if(ctx.state.is_test_btc){
+sis=`select busers.bname , busers.id, cladr.padrtest, cladr.cadrtest from busers left join cladr 
+on busers.bname=cladr.bname where busers.id=$1`;
+}else{
+sis=`select busers.bname , busers.id, cladr.padr, cladr.cadr from busers left join cladr 
+on busers.bname=cladr.bname where busers.id=$1`;
+}
 try{
-var result=await db.query(sis,[ctx.params.buser_id]);
+result=await db.query(sis,[ctx.params.buser_id]);
+a=result.rows[0];
 }catch(e){
 console.log('db error: ',e);
+ctx.body=await ctx.render('room_err',{mess:e});
+return;
 }
-console.log('result:', result.rows[0]);
-a=result.rows[0];
-//if(result.rows.length)a=reslult.rows[0];
+
+if(result.rows.length==0){
+ctx.body=await ctx.render('room_err',{mess:"No such user undefined"});
+return;
+}
+
 if(us){
 if(us.id==ctx.params.buser_id){owner=true;bmodelName=us.bname}
 }
 
-ctx.body= await ctx.render('room',{result:a, model:ctx.params.buser_id, owner:owner,bmodelName:bmodelName});
+ctx.body= await ctx.render('room',{model:a, owner:owner});
 });
 //save btc address
 //var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";

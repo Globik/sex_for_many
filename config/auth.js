@@ -9,9 +9,9 @@ passport.serializeUser((user,done)=>{
 done(null,user.id)
 })
 
-passport.deserializeUser(async (id,done)=>{
+passport.deserializeUser(async (id, done)=>{
 try{
-const luser=await db.query('select id, bname, brole, age, buser_d  from busers where id=$1',[id])
+const luser=await db.query('select id, bname, brole from busers where id=$1',[id])
 done(null,luser.rows[0])
 }catch(e){
 done(e)
@@ -62,7 +62,7 @@ Head over to your inbox and click on the "Activate My Account" button to validat
 	}else if(err.code==='23514'){
 	return done(null,false,{message:'Email validation failed', code:err.code,bcode:3})
 	}else{
-		return done(err)
+	return done(err)
 	}
 }				 
 })

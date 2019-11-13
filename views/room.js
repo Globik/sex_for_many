@@ -19,7 +19,7 @@ const room = n=>{
 let {model,showmodule:{mainmenu,profiler}}=n;
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- busers.js -->
-<head>${html_head.html_head({title:model.name?model.name:'no_name',
+<head>${html_head.html_head({title:model?model.bname:'no_name',
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css","/css/login2.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -34,10 +34,12 @@ ${n.owner?
 <div id="btc-container">
 <label id="bInput">Enter your ${n.is_test_btc?'test':''} btc address for donation (optional):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
-value="${n.is_test_btc && n.result?n.result.cadrtest:n.result.cadr}" 
+value="${n.is_test_btc && model?model.cadrtest:model.cadr}" 
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"/>
-<button ${n.result?'disabled':''} id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
-</div>`:''}
+<button ${model?'disabled':''} id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button>
+<button class="btn-save" onclick="reset_btc();">edit</button>
+
+</div>`:'<div id="qrcode"></div>'}
 <!--
 <div id="btcGoal">
 <b>Describe your goal (optional)</b><br>
@@ -49,7 +51,7 @@ maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc addre
 <section>
 ${n.owner?'':`<div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
-<span style="">${n.is_test_btc?n.result.padrtest:n.result.padr}</span>`}</div>
+<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span>`}</div>
 </section>
 
 <section id="media-wrapper">
@@ -68,8 +70,8 @@ data-ownerOnline="${owner_online_str_en}">
 </div>
 <div id="under-video">
 <button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
-${n.onwer?`<a href="bitcoin:${n.is_test_btc && n.result?n.result.padrtest:n.result.padr}">
-<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
+${n.owner?'':`<a href="bitcoin:${n.is_test_btc && model ? model.padrtest: model?model.padr:''}">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`}
 </div>
 </section>
 <section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span></div>
@@ -86,15 +88,19 @@ ${n.onwer?`<a href="bitcoin:${n.is_test_btc && n.result?n.result.padrtest:n.resu
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'anonym'}">
 
-<input type="hidden" id="modelName" value="${n.bmodelName}">
-<input type="hidden" id="modelId" value="${model?model:''}">
-${js_help(["/js/video_chat_janus.js"])}
+<input type="hidden" id="modelName" value="${model?model.bname:''}">
+<input type="hidden" id="modelId" value="${model?model.id:''}">
+${js_help(["/js/video_chat_janus.js","/js/qrcode.min.js"])}
 
 <!--
 {js_help(["/js/video_chat2.js","/js/login.js"])}
 {js_help(["/js/admin_videochat.js"])}
 -->
 </main><footer id="footer">${html_footer.html_footer({})}</footer>
+<!-- github.com/zhiyuan-l/qrcodejs -->
+<script>new QRCode(gid("qrcode"),{
+text:"${n.owner?`${n.is_test_btc && model?model.cadrtest:model.cadr}`:`${n.is_test_btc && model?model.padrtest:model.padr}`}",
+width:128,height:128,border:4,});</script>
 </body>
 </html>`;
 }
