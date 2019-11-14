@@ -2,8 +2,8 @@
 const plugin_name="janus.plugin.videoroom";
 const nano_adr='ipc:///tmp/janus.ipc';// to janus webrtc gateway nano transport
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
 
 

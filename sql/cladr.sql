@@ -1,7 +1,7 @@
 -- \i /home/globik/sex_for_many/sql/cladr.sql
 -- heroku pg:psql --app frozen-atoll-47887
 
---drop table cladr if exists;
+-- drop table cladr if exists;
 create table cladr(
 id serial primary key,
 bname  text not null references busers(bname),
