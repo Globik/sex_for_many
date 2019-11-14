@@ -59,7 +59,7 @@ ${n.owner?'':`<div id="btcInfo" style="">
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class=""></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
 <section id="video-container">
-<div id="btccount"><span id="btcc">0</span>&nbsp;<span id="btcspan">bitcoins</span></div>
+<div id="btccount"><span id="btcc">${model.btc_all</span>&nbsp;<span id="btcspan">bitcoins</span></div>
 
 
 <div id="video-wrapper" class="${n.owner?'':n.model && n.model.src?'owner-online':'owner-offline'}"

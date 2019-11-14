@@ -137,10 +137,10 @@ let a,result;
 let owner=false;
 let sis;
 if(ctx.state.is_test_btc){
-sis=`select busers.bname , busers.id, cladr.padrtest, cladr.cadrtest, cladr.inv from busers left join cladr 
+sis=`select busers.bname , busers.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from busers left join cladr 
 on busers.bname=cladr.bname where busers.id=$1`;
 }else{
-sis=`select busers.bname , busers.id, cladr.padr, cladr.cadr, cladr.inv from busers left join cladr 
+sis=`select busers.bname , busers.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from busers left join cladr 
 on busers.bname=cladr.bname where busers.id=$1`;
 }
 try{
