@@ -309,8 +309,12 @@ wsend(d);
 }else if(a.typ=="on_btc"){
 	//donation came
 console.log(a);
-btcc.textContent=a.btc_all;
-//alert(a);	
+btcc.textContent=a.btc_amt;
+alert('a.btc_all: '+a.btc_all);	
+let obj={};
+obj.from="unknown";
+obj.msg="btc came: "+a.btc_amt;
+insert_message(obj);
 }else{}
 
 }
