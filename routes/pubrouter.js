@@ -137,10 +137,10 @@ let a,result;
 let owner=false;
 let sis;
 if(ctx.state.is_test_btc){
-sis=`select busers.bname , busers.id, cladr.padrtest, cladr.cadrtest from busers left join cladr 
+sis=`select busers.bname , busers.id, cladr.padrtest, cladr.cadrtest, cladr.inv from busers left join cladr 
 on busers.bname=cladr.bname where busers.id=$1`;
 }else{
-sis=`select busers.bname , busers.id, cladr.padr, cladr.cadr from busers left join cladr 
+sis=`select busers.bname , busers.id, cladr.padr, cladr.cadr, cladr.inv from busers left join cladr 
 on busers.bname=cladr.bname where busers.id=$1`;
 }
 try{
@@ -158,7 +158,7 @@ return;
 }
 
 if(us){
-if(us.id==ctx.params.buser_id){owner=true;bmodelName=us.bname}
+if(us.id==ctx.params.buser_id){owner=true;}
 }
 
 ctx.body= await ctx.render('room',{model:a, owner:owner});
@@ -251,7 +251,9 @@ data.invoice="invQ67P7jvsWDNQ4EY2ZnA4qbB75UY7RWpcZrnycaTzfgfz2iYUiD";
 data.code= "PMTvLqJhBnFJexwS1MqPPF6uJ8cLbYh87Re6Qz4wirnYiXrAojuBk";//payment code
 data.amount=4;//payment amount
 data.address="2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45"
-*/ 
+insert into cladr(bname, cadrtest, padrtest, inv, pc) values('Globi','48586ff','adres344','34d','455fg65');
+update cladr set btc_amt=40 where inv='34d';
+*/   
 pub.post("/api/test_cb_smartc", async ctx=>{
 	console.log("it looks like callback came from bitaps\n",ctx.request.body);
 	let {received_amount, invoice, code,amount,address}=ctx.request.body;

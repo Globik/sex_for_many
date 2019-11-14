@@ -354,7 +354,13 @@ send_to_all(wss, msg.data);// may be to defined room?
 });
 ps.addChannel('on_smart_cb', function(msg){
 console.log('msg notify: ',msg);
+msg.data.typ="on_btc";
 send_to_all(wss, msg.data);	//todo reinvestigate behavor
+//let l=JSON.parse(msg.data);
+/*console.log('msg.data: ',msg.data);
+msg.data.typ="on_btc";
+console.log('msg.data: ',msg.data);
+receive_btc(msg.data, msg.data.bname) */
 });
 
 
@@ -538,7 +544,8 @@ if(err){console.log(err);}
 
 function send_to_all(wss, obj){
 wss.clients.forEach(function each(client){
-wsend(client,obj);
+console.log("HERRREEEE client.trans: ", client.trans);
+if(client.trans == obj.bname)wsend(client,obj);
 })
 }
 function wsend(ws, obj){

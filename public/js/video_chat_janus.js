@@ -55,6 +55,7 @@ vax("post", "/api/savebtcaddress", d, on_saved_btc, on_save_btc_error, el,false)
 }
 function on_saved_btc(d){
 alert('success '+d);
+el.disabled=true;
 }
 function on_save_btc_error(l){
 console.error(l);	
@@ -65,6 +66,22 @@ function reset_btc(){
 btcInput.value="";
 del_after(bInput,"span");
 btnSaveAdr.disabled=false;	
+}
+function test_cb(){
+//let {received_amount, invoice, code,amount,address}=ctx.request.body;
+let d={};
+d.invoice=invoici.value;
+d.received_amount=100;
+d.code="ss";
+d.amount=40;
+d.address="adr";
+vax("post","/api/test_cb_smartc",d,on_suc,on_er,null,false);	
+}
+function on_suc(e){
+	console.log(e);
+	}
+function on_er(){
+console.log('err');	
 }
 
 function open_socket(){
@@ -254,10 +271,11 @@ insert_message(a);
 }else if(a.typ=="usid"){
 set_user();
 console.log("who am I?: ", who_am_i);
+console.log("modelName.value: ",modelName.value);
 pubId=a.pubid;	
 chatcnt.textContent=a.user_count;
 rviewers.textContent=a.viewers;	
-wsend({typ:"onuser", username:who_am_i, owner:is_owner()});// todo remove roomid
+wsend({typ:"onuser", username:modelName.value, owner:is_owner()});// todo remove roomid
 }else if(a.typ=="atair"){
 //for subscribers
 if(!is_owner()){
@@ -288,6 +306,11 @@ detach_plugin();
 let d={};
 d.typ="roomnot";
 wsend(d);
+}else if(a.typ=="on_btc"){
+	//donation came
+console.log(a);
+btcc.textContent=a.btc_all;
+//alert(a);	
 }else{}
 
 }

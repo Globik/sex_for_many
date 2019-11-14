@@ -30,9 +30,10 @@ if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
 try{
 await db.query("delete from prim_adr where type=true");
 await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, true]);
+await db.query("delete from cladr");
 }catch(e){ctx.throw(400, e);}
 ctx.body={info:"ok",test_btc_adr, percent, test}	
-}else{
+} else{
 if(!test_btc_adr)ctx.throw(400,"No bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin');
 
@@ -40,6 +41,7 @@ if(!vali){ctx.throw(400,"Not a valid bitcoin address!");}
 try{
 await db.query("delete from prim_adr where type=false");
 await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, false]);
+await db.query("delete from cladr");
 }catch(e){ctx.throw(400, e);}
 
 ctx.body={info:"ok",test_btc_adr, percent, test}	

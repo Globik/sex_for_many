@@ -30,16 +30,18 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <main id="pagewrap"> 
 ${n.owner?
 `<div class="btc-footer" style="background:yellow;">
+<button onclick="test_cb();">test callback</button>
 <h5>Before you start</h5>
 <div id="btc-container">
 <label id="bInput">Enter your ${n.is_test_btc?'test':''} btc address for donation (optional):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
-value="${n.is_test_btc && model?model.cadrtest:model.cadr}" 
-maxlength="35" spellcheck="false" autocomplete="off" placeholder="your btc address"/>
-<button ${model?'disabled':''} id="btnSaveAdr" class="btn-save" onclick="saveBTC(this);">save</button>
-<button class="btn-save" onclick="reset_btc();">edit</button>
+value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''}" 
+maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
+<button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
+class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
 
-</div>`:'<div id="qrcode"></div>'}
+</div>`:''}
+<div id="qrcode"></div>
 <!--
 <div id="btcGoal">
 <b>Describe your goal (optional)</b><br>
@@ -70,8 +72,8 @@ data-ownerOnline="${owner_online_str_en}">
 </div>
 <div id="under-video">
 <button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
-${n.owner?'':`<a href="bitcoin:${n.is_test_btc && model ? model.padrtest: model?model.padr:''}">
-<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`}
+<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>
 </section>
 <section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span></div>
@@ -90,6 +92,7 @@ ${n.owner?'':`<a href="bitcoin:${n.is_test_btc && model ? model.padrtest: model?
 
 <input type="hidden" id="modelName" value="${model?model.bname:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
+<input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
 ${js_help(["/js/video_chat_janus.js","/js/qrcode.min.js"])}
 
 <!--
@@ -98,9 +101,9 @@ ${js_help(["/js/video_chat_janus.js","/js/qrcode.min.js"])}
 -->
 </main><footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
-<script>new QRCode(gid("qrcode"),{
-text:"${n.owner?`${n.is_test_btc && model?model.cadrtest:model.cadr}`:`${n.is_test_btc && model?model.padrtest:model.padr}`}",
-width:128,height:128,border:4,});</script>
+<script>${!n.owner?`new QRCode(gid("qrcode"),{
+text:"${n.is_test_btc?model.padrtest !==null?model.padrtest:'figu':model.padr !==null?model.padr:'dura'}",
+width:128,height:128,border:4,});`:''}</script>
 </body>
 </html>`;
 }
