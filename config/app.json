@@ -4,6 +4,7 @@
 "profiler":{
 "profilername":"profile",
 "profilerpath":"/home/profile",
+
 "loginname":"log in",
 "loginpath":"/login",
 "logoutname":"log out",

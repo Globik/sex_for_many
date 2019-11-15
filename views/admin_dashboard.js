@@ -10,7 +10,7 @@ var haupt_ban=false;
 
 
 let admin_dashboard=n=>{
-var {showmodule:{mainmenu,profiler}}=n; const buser=n.user;
+const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css"})}
 <style>
 .is_test_btc{background:lightgreen;}
@@ -18,13 +18,11 @@ return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Dashb
 </style>
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
-<nav class="back">${html_nav_menu.html_nav_menu({buser,mainmenu,profiler})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${(haupt_ban ? `<div id="haupt-banner"><div id="real-ban">Banner</div></div>` : ``)}
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 hallo ${buser.bname}<br>
-
-<li><a href="/dashboard/banners">banners</a>
 
 <br><hr>
 <label>If btc pay enabled? <span id="btc_enabled_span">${n.btc_pay}</span></label><br>

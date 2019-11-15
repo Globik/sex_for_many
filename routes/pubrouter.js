@@ -254,6 +254,8 @@ data.address="2NDbrgcoVvSXjQzk7ZUQCgx5QD5SXbw1y45"
 insert into cladr(bname, cadrtest, padrtest, inv, pc) values('Globi','48586ff','adres344','34d','455fg65');
 update cladr set btc_amt=40 where inv='34d';
 */   
+
+/* profile */
 pub.post("/api/test_cb_smartc", async ctx=>{
 	console.log("it looks like callback came from bitaps\n",ctx.request.body);
 	let {received_amount, invoice, code,amount,address}=ctx.request.body;
@@ -263,10 +265,15 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
 	ctx.body=invoice;//{info:"ok",invoice:invoice}
 })
-
-
-
-
-
+pub.get('/home/profile', authed, async ctx=>{
+ctx.body=await ctx.render('profile',{});	
+})
 
 module.exports=pub;
+function auth(ctx,next){
+	//for xhr
+if(ctx.isAuthenticated()){return next()}else{ctx.throw(401, "Please log in.")}}
+function authed(ctx, next){
+if(ctx.isAuthenticated()){
+return next()
+}else{ ctx.redirect('/');}}

@@ -2,8 +2,8 @@
 const plugin_name="janus.plugin.videoroom";
 const nano_adr='ipc:///tmp/janus.ipc';// to janus webrtc gateway nano transport
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
 
 
@@ -28,7 +28,7 @@ const serve=require('koa-static');
 const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
-const mainmenu=require('./config/app.json');
+//const mainmenu=require('./config/app.json');
 //const adminrouter=require('./routes/adminrouter.js');
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
@@ -86,7 +86,7 @@ var btc_pay=false;
 var is_test_btc=true;
 
 app.use(async (ctx, next)=>{
-ctx.state.showmodule = mainmenu;//see config/app.json
+//ctx.state.showmodule = mainmenu;//see config/app.json
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
 ctx.db=pool;
 ctx.state.btc_pay= btc_pay;

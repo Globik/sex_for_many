@@ -4,9 +4,9 @@ const walletValidator=require('wallet-address-validator');//0.2.4
 
 const adm=new Router();
 
-adm.get('/home/profile', authed, async ctx=>{
-ctx.body=await ctx.render('admin_dashboard',{});
-})
+adm.get('/home/dashboard', authed, async ctx=>{
+	ctx.body=await ctx.render('admin_dashboard',{});
+});
 adm.post("/home/profile/enable_btc", auth, async ctx=>{
 //	ctx.state.asia="dura";
 //console.log("ctx state asia: ",ctx.state.asia);
@@ -66,8 +66,6 @@ function auth(ctx,next){
 	//for xhr
 if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){return next()}else{ctx.throw(401, "Please log in.")}}
 function authed(ctx, next){
-	//console.log('is authenticated? : ',ctx.isAuthenticated());
-	//console.log('state.user.role: ',ctx.state.user);
 if(ctx.isAuthenticated() && ctx.state.user.brole == "superadmin"){
 return next()
 }else{ ctx.redirect('/');}}

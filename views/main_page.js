@@ -6,7 +6,7 @@ const html_footer=require('./html_footer');
 var warnig=false,haupt_ban=false;
 
 const main_page=function(n){
-const {lusers,showmodule:{mainmenu,profiler}}=n;
+const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en">
@@ -22,7 +22,7 @@ figcaption{ackground:brown;width:90px;}
 </style>
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser:buser,mainmenu:mainmenu,profiler:profiler})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
 ${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${endf}
