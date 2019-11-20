@@ -11,7 +11,7 @@ done(null,user.id)
 
 passport.deserializeUser(async (id, done)=>{
 try{
-const luser=await db.query('select id, bname, brole from busers where id=$1',[id])
+const luser=await db.query('select id, bname, brole from buser where id=$1',[id])
 done(null,luser.rows[0])
 }catch(e){
 done(e)
@@ -22,7 +22,7 @@ passport.use(new LocalStrategy({usernameField:'username',passwordField:'password
 	console.log("USERNAME AND PASSWORD: ",username,password);
 process.nextTick(async()=>{
 try{
-let user=await db.query('select id from busers where bname=$1 and pwd=crypt($2,pwd)', [username, password])
+let user=await db.query('select id from buser where bname=$1 and pwd=crypt($2,pwd)', [username, password])
 if(!user.rows[0]){return done(null, false, {message:'Wrong user name or password!'})}
 return done(null,user.rows[0],{message: 'Succsess! logged in!!!'})
 }catch(err){return done(err)} 
@@ -30,7 +30,7 @@ return done(null,user.rows[0],{message: 'Succsess! logged in!!!'})
 }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
-const get_str=n=>`insert into busers(pwd, bname, age, fem) values(crypt(${n.password},gen_salt('bf',8)),${n.username},${n.age},
+const get_str=n=>`insert into buser(pwd, bname, age, fem) values(crypt(${n.password},gen_salt('bf',8)),${n.username},${n.age},
 ${n.fem}) returning id`;
 
 passport.use('local-signup',new LocalStrategy({usernameField:'username',passReqToCallback:true},(req,username,password,done)=>{

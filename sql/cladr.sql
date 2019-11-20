@@ -4,7 +4,7 @@
 -- drop table cladr if exists;
 create table cladr(
 id serial primary key,
-bname  text not null references busers(bname),
+bname  varchar(16) unique not null references buser(bname),
 cadr varchar(40) , -- client btc address
 padr varchar(40) , -- public btc adress
 cadrtest varchar(40), --client test btc adress

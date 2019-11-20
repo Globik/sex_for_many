@@ -2,9 +2,14 @@
 -- psql test
 drop table if exists profile;
 create table profile(id serial PRIMARY KEY,
-					bname  text unique not null references busers(bname),
-					dob date not null);
--- insert into profile(bname, dob) values('Globi','1973-09-25');
--- select age('1973-09-25'::date); select age(dob) from profile; select date_part('year', age(dob)) from profile;
--- date_part('year',interval '45 years 11 mons 27 days'); 45
--- select date_part('year', age(dob)) as dob, bname from profile;
+					 bname  varchar(16) unique not null references buser(bname),
+					 ich text, -- uber sich
+					 dich text,-- ich suche dich
+					 land varchar(20),
+					 city varchar(20),
+					 ava text, -- base 64
+					 isava boolean not null default false, -- checked
+					 lup timestamp not null default now() -- last updated
+					 );
+                    
+-- insert into profile(bname,ich,dich,land,city,ava) values('Globi','ich','dich','Russland','Chely','sse45dd');

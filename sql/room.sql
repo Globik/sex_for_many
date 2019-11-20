@@ -2,5 +2,5 @@
 create table room(room_id int not null, -- id of a room
 					descr text, -- room description
 					src text, -- 64based img src
-					nick text,-- user's nick
+					nick varchar(16),-- user's nick
 					v int not null default 0); -- viewrs number

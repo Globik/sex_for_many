@@ -9,10 +9,10 @@ var haupt_ban=false;
 
 let profile=n=>{
 const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css"})}
+return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Мой профайл", csslink:"/css/main2.css"})}
 <style>
-.is_test_btc{background:lightgreen;}
-.red{color:red;}
+input[type=text]{border-color:red;}
+input[type=text] > span.val:after{content:"suka",padding-left:10px;}
 </style>
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
@@ -21,8 +21,18 @@ ${(haupt_ban ? `<div id="haupt-banner"><div id="real-ban">Banner</div></div>` : 
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Profile</h3>
+<form name="profi">
+<div><label>Geburtsdatum</label><br><input type="text" placeholder="Geburtsdatum" 
+maxlength="10" required/><span class="val"></span></div>
+<!-- pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" -->
+<div><input type="submit" value="send"></div>
+</form>
 </main>
 <!-- {js_help(["/js/adm_btc_pay.js"])} -->
+<script>
+var p=document.forms.profi;
+p.onsubmit=function(ev){ev.preventDefault();}
+</script>
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
 }
 module.exports={profile};
