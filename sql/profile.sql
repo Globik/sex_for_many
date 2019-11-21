@@ -3,13 +3,10 @@
 drop table if exists profile;
 create table profile(id serial PRIMARY KEY,
 					 bname  varchar(16) unique not null references buser(bname),
-					 ich text, -- uber sich
-					 dich text,-- ich suche dich
-					 land varchar(20),
-					 city varchar(20),
+					 age int check(age >=18) not null default 18,
+					 msg text, -- message to all
 					 ava text, -- base 64
-					 isava boolean not null default false, -- checked
-					 lup timestamp not null default now() -- last updated
+					 isava boolean not null default false -- checked
 					 );
                     
--- insert into profile(bname,ich,dich,land,city,ava) values('Globi','ich','dich','Russland','Chely','sse45dd');
+-- insert into profile(bname,msg,ava) values('Globi','msg','sse45dd');

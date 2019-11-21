@@ -1,20 +1,18 @@
 -- \i /home/globik/sex_for_many/sql/buser.sql
 create extension if not exists pgcrypto;
 drop type if exists brole_type_enum cascade;
-create type brole_type_enum as enum('admin', 'superadmin', 'moder','non','ban');
+create type brole_type_enum as enum('superadmin', 'moder','non','ban');
 drop table if exists buser cascade;
 CREATE TABLE IF NOT EXISTS buser(
 id serial PRIMARY KEY,
-pwd VARCHAR (355) NOT NULL,
+pwd VARCHAR (100) NOT NULL,
 bname varchar(16) UNIQUE NOT NULL, --unique nickname of a user
-brole brole_type_enum NOT NULL default 'non', -- admin, superadmin, moder, non, ban 
-dob date check(dob < now() - interval '18 years') not null, -- date of birth
-wreg TIMESTAMP NOT NULL default now()::timestamp, -- when has registred 
+brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban 
 ll TIMESTAMP  NOT NULL default now()::timestamp -- last logined
-)
+);
 
--- insert into buser(pwd,bname, dob) values(crypt('1234', gen_salt('bf',8)),'Globi', '1973-09-25');
--- returning id;
+-- insert into buser(pwd,bname) values(crypt('1234',gen_salt('bf',8)),'Globi');
+
 -- update buser set brole='superadmin';
 
 -- dob date check(dob < now() - interval '18 years') not null);

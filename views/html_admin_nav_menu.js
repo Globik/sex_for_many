@@ -7,7 +7,7 @@ var html_admin_nav_menu=n=>{
 <option value="/">home</option>
 <option value="/articles">articles</option>
 <option value="/labs">labs</option>
-<option value="/dashboard">dashboard</option>
+<option value="/home/dashboard">dashboard</option>
 </select>
 &nbsp;notes:&nbsp;<span onclick="fetch_abuse_popup();" style="background:yellow;">
 ${abuse_nots?(abuse_nots.rowCount==0?'':abuse_nots.rowCount):''}</span> 

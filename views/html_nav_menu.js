@@ -14,7 +14,6 @@ return `<!-- header_menu.js -->
 <li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>home</span></div></a>
 <li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>articles</span></div></a>
 ${n.buser?'<li><div class="znak-svg">pic</div><a href="/home/profile"><div class="muka"><span>profile</span></div></a>':''}
-${n.buser && n.buser.brole=='superadmin'?'<li><div class="znak-svg">pic</div><a href="/home/dashboard"><div class="muka"><span>dashboard</span></div></a>':''}
 ${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>log out</span></div></a>':
 '<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>log in</span></div></a>'}
 <li><div class="znak-svg">pic</div><a href="/signup"><div class="muka"><span>sign up</span></div></a>'}

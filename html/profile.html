@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="utf-8">
+<title>Профайл</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="shortcut icon" type="image/ico" href="../public/images/w4.png"> 
+<style>
+input[type=number]{width:50%;}
+</style>
+</head>
+<body>
+	<h3>Профайл</h3>
+	<button onclick="boo();">boo</button>
+	<form name="fprofi">
+	<h3>Профайл</h3>
+	<div>
+	<label for="fageId">Сколько вам лет?</label><br>
+	<input id="fageId" type="number" min="18" max="100" value="18">
+	</div>
+	<div>
+	<label>Ваше объявление</label><br><textarea placeholder="Ваше сообщение"></textarea><br>
+	</div>
+	<div><label for="avaId">Ваше фото</label><br>
+	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
+	</div>
+	<div>
+		<div style="border:1px solid green;display:inline-block;" id="preview"></div>
+		<figure style="border:1px solid black;display:inline-block;">
+		<img src="donatebutton.jpg" width="100"><figcaption>Удалить</figcaption></figure>
+		<br><input type="submit" value="Отправить"></div>
+	</form>
+</body>
+<script>
+	
+function thumb(ev){
+	while(preview.firstChild){preview.removeChild(preview.firstChild);}
+console.log(ev);
+//alert(ev.length);	
+var img=document.createElement('img');
+var cnv=document.createElement('canvas');
+var ctx=cnv.getContext('2d');
+img.src=window.URL.createObjectURL(ev[0]);
+//img.onclick=boo;
+img.id="fucker";
+//img.width="200";
+img.height=200;
+//cnv.height=img.height;
+//cnv.width=200;
+//cnv.getContext('2d');
+//alert(img.naturalWidth);
+preview.appendChild(img);
+img.onload=function(){window.URL.revokeObjectURL(this.src);
+var l=boo();
+if(l)
+var wi=(l.w > 1000 ? l.w/4: l.w);
+var hi=(l.w > 1000 ? l.h/4:l.h);
+cnv.width=wi;
+cnv.height=hi;
+ctx.drawImage(img,0,0,wi,hi);
+var rc=cnv.toDataURL('image/png',0.5);
+document.body.appendChild(cnv);	
+//alert(rc);
+console.log(rc);
+}
+}
+function boo(ev){
+//alert(ev.target.naturalWidth+' '+ev.target.naturalHeight);
+var im=document.getElementById("fucker");
+if(!im)return;
+//alert(im.naturalWidth+' '+im.naturalHeight);
+return {w:im.naturalWidth,h:im.naturalHeight};
+}
+</script>
+</html>
