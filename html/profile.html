@@ -9,48 +9,48 @@ input[type=number]{width:50%;}
 </style>
 </head>
 <body>
-	<h3>Профайл</h3>
-	<button onclick="boo();">boo</button>
+	<h3>Заполнить профиль</h3>
+	<p>Здесь Вы можете оставить о себе любую информацию, которой хотели бы поделиться с другими.
+	И тогда Ваш профиль будет показан в Вашем личном (видео)чате. По окончании <b>кликните на "Сохранить профиль"!</b></p>
 	<form name="fprofi">
-	<h3>Профайл</h3>
+	<h3>Профиль</h3>
+	<p>Вам хочется, чтобы Вас нашли? Если Вы напишите здесь что-нибудь интересненькое, 
+	то вероятен шанс на получение скорейшего отклика.</p>
+	<p><strong style="color:red;">*Внимание!<br>
+	Публикация любых объявлений с упоминанием возраста моложе 18-ти лет строго запрещена!</strong>
+	<a href="/home/rules">Правила размещения объявлений.</a></p>
 	<div>
-	<label for="fageId">Сколько вам лет?</label><br>
-	<input id="fageId" type="number" min="18" max="100" value="18">
+	<label for="fageId">Сколько вам лет? (не моложе 18-ти!)</label><br>
+	<input id="fageId" name="age" type="number" min="18" max="100" value="18">
 	</div>
 	<div>
-	<label>Ваше объявление</label><br><textarea placeholder="Ваше сообщение"></textarea><br>
+	<label>Ваш месседж</label><br><textarea name="txt_msg" placeholder="Ваше сообщение"></textarea><br>
 	</div>
-	<div><label for="avaId">Ваше фото</label><br>
+	<div><label for="avaId">Ваше фото (тело не моложе 18-ти, не голое)</label><br>
 	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
+	<input id="fotoTxt" type="hidden" name="photo">
 	</div>
 	<div>
-		<div style="border:1px solid green;display:inline-block;" id="preview"></div>
-		<figure style="border:1px solid black;display:inline-block;">
-		<img src="donatebutton.jpg" width="100"><figcaption>Удалить</figcaption></figure>
-		<br><input type="submit" value="Отправить"></div>
-	</form>
+<div style="border:1px solid green;display:inline-block;" id="preview"></div>
+<figure style="border:1px solid black;display:inline-block;">
+<img src="donatebutton.jpg" width="100"><figcaption><b style="color:darkblue;">Удалить</b></figcaption></figure>
+<br><input type="submit" value="Сохранить профиль"></div>
+</form>
 </body>
 <script>
-	
+var profile_form=document.forms.fprofi;
+	profile_form.addEventListener('submit', on_submit, false);
 function thumb(ev){
-	while(preview.firstChild){preview.removeChild(preview.firstChild);}
-console.log(ev);
-//alert(ev.length);	
+while(preview.firstChild){preview.removeChild(preview.firstChild);}
 var img=document.createElement('img');
 var cnv=document.createElement('canvas');
 var ctx=cnv.getContext('2d');
 img.src=window.URL.createObjectURL(ev[0]);
-//img.onclick=boo;
-img.id="fucker";
-//img.width="200";
+img.id="myPhoto";
 img.height=200;
-//cnv.height=img.height;
-//cnv.width=200;
-//cnv.getContext('2d');
-//alert(img.naturalWidth);
 preview.appendChild(img);
 img.onload=function(){window.URL.revokeObjectURL(this.src);
-var l=boo();
+var l=get_natural();
 if(l)
 var wi=(l.w > 1000 ? l.w/4: l.w);
 var hi=(l.w > 1000 ? l.h/4:l.h);
@@ -58,17 +58,22 @@ cnv.width=wi;
 cnv.height=hi;
 ctx.drawImage(img,0,0,wi,hi);
 var rc=cnv.toDataURL('image/png',0.5);
-document.body.appendChild(cnv);	
-//alert(rc);
-console.log(rc);
+//document.body.appendChild(cnv);	
+//console.log(rc);
+fotoTxt.value=rc;
 }
 }
-function boo(ev){
-//alert(ev.target.naturalWidth+' '+ev.target.naturalHeight);
-var im=document.getElementById("fucker");
+function get_natural(ev){
+var im=document.getElementById("myPhoto");
 if(!im)return;
-//alert(im.naturalWidth+' '+im.naturalHeight);
 return {w:im.naturalWidth,h:im.naturalHeight};
+}
+function on_submit(ev){
+ev.preventDefault();
+var f=ev.target.txt_msg;
+var f2=ev.target.age;
+var f3=ev.target.photo;
+alert(f3.value);	
 }
 </script>
 </html>

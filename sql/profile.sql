@@ -6,7 +6,7 @@ create table profile(id serial PRIMARY KEY,
 					 age int check(age >=18) not null default 18,
 					 msg text, -- message to all
 					 ava text, -- base 64
-					 isava boolean not null default false -- checked
+					 isava int not null default 0 -- 0 no pic, 1 unchecked, 2 checked
 					 );
                     
 -- insert into profile(bname,msg,ava) values('Globi','msg','sse45dd');
