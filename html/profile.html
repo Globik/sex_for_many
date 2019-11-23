@@ -32,8 +32,8 @@ input[type=number]{width:50%;}
 	</div>
 	<div>
 <div style="border:1px solid green;display:inline-block;" id="preview"></div>
-<figure style="border:1px solid black;display:inline-block;">
-<img src="donatebutton.jpg" width="100"><figcaption><b style="color:darkblue;">Удалить</b></figcaption></figure>
+<figure id="figFoto" style="border:1px solid black;display:inline-block;">
+<img src="donatebutton.jpg" width="100"><figcaption><b style="color:darkblue;" onclick="del_foto();">Удалить</b></figcaption></figure>
 <br><input type="submit" value="Сохранить профиль"></div>
 </form>
 </body>
@@ -74,6 +74,9 @@ var f=ev.target.txt_msg;
 var f2=ev.target.age;
 var f3=ev.target.photo;
 alert(f3.value);	
+}
+function del_foto(){
+figFoto.remove();
 }
 </script>
 </html>
