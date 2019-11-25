@@ -31,8 +31,39 @@ ev.preventDefault();
 var f=ev.target.txt_msg;
 var f2=ev.target.age;
 var f3=ev.target.photo;
-alert(f3.value);	
+var f4=ev.target.fname;
+var d={};
+d.txt_msg=f.value;
+d.age=f2.value;
+d.photo=f3.value;
+d.fname=f4.value;
+//alert(JSON.stringify(d));
+vax(ev.target.method, ev.target.action, d, on_profile_saved, on_profile_err, null, false);
 }
-function del_foto(){
-figFoto.remove();
+function on_profile_saved(l){
+console.log(l);
+note({content: l.info, type:"info", time: 5});
+}
+function on_profile_err(l){alert(l);}
+
+function del_foto(el){
+var d={};
+d.fname=el.getAttribute("data-fname");
+vax('post','/api/del_ava',d,on_del_ava,on_err_ava,null,false);
+}
+
+function on_del_ava(l){
+console.log(l);
+figFoto.remove();	
+note({content: l.info, type:"info", time: 5});
+}
+
+function on_err_ava(l){
+alert(l);
+}
+
+function finput(el){
+var fi=el.getAttribute('maxlength');
+var fi2=el.value.length;
+fspan.textContent=Number(fi)-fi2;
 }

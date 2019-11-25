@@ -49,7 +49,11 @@ value="${n.btc_address?n.btc_address:''}">
 <button id="saveBtcBtn" ${n.btc_address?'disabled':''}>save</button> <button onclick="reset_btc_adr();">reset</button>
 </div>
 <br><label id="lproz">your procent:</label><br><input id="btc_procent" value="${n.btc_percent?n.btc_percent:10}" placeholder="10" type="text">%
-
+<hr>
+<ul>
+<li><a href="/home/profile">Профили</a>
+<li><a href="/home/newavas">Проверить аватары</a>
+</ul>
 </main>
 ${js_help(["/js/adm_btc_pay.js"])}
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;

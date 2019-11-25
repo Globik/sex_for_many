@@ -15,7 +15,7 @@ note({content:"Pay system "+l.btc_pay,type:"info",time:5});
 function set_btc_pay(el){
 let data={};
 data.hi="hi";
-vax("post","/home/profile/btc_test", data, on_test_btc, onerror, null,false);
+vax("post","/home/profile/btc_test", data, on_test_btc, onerror, null, false);
 }
 function on_test_btc(l){
 console.log(l);

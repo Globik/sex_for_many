@@ -6,6 +6,8 @@
 <link rel="shortcut icon" type="image/ico" href="../public/images/w4.png"> 
 <style>
 input[type=number]{width:50%;}
+textarea{height:80px;width:50%;}
+span{background:green;margin-left:3em;}
 </style>
 </head>
 <body>
@@ -24,7 +26,8 @@ input[type=number]{width:50%;}
 	<input id="fageId" name="age" type="number" min="18" max="100" value="18">
 	</div>
 	<div>
-	<label>Ваш месседж</label><br><textarea name="txt_msg" placeholder="Ваше сообщение"></textarea><br>
+	<label>Ваш месседж</label><span id="fspan">11</span>&nbsp;/&nbsp;11<br>
+	<textarea name="txt_msg" maxlength="11" oninput="finput(this);" placeholder="Ваше сообщение"></textarea><br>
 	</div>
 	<div><label for="avaId">Ваше фото (тело не моложе 18-ти, не голое)</label><br>
 	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
@@ -77,6 +80,11 @@ alert(f3.value);
 }
 function del_foto(){
 figFoto.remove();
+}
+function finput(el){
+var fi=el.getAttribute('maxlength');
+var fi2=el.value.length;
+fspan.textContent=Number(fi)-fi2;
 }
 </script>
 </html>

@@ -255,7 +255,7 @@ insert into cladr(bname, cadrtest, padrtest, inv, pc) values('Globi','48586ff','
 update cladr set btc_amt=40 where inv='34d';
 */   
 
-/* profile */
+
 pub.post("/api/test_cb_smartc", async ctx=>{
 	console.log("it looks like callback came from bitaps\n",ctx.request.body);
 	let {received_amount, invoice, code,amount,address}=ctx.request.body;
@@ -265,10 +265,58 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
 	ctx.body=invoice;//{info:"ok",invoice:invoice}
 })
+/* profile */
+
 pub.get('/home/profile', authed, async ctx=>{
-ctx.body=await ctx.render('profile',{});	
+let db=ctx.db;
+let err;
+let a;
+try{
+let result=await db.query('select bname, age, isava from profile');
+if(result.rows.length)a=result.rows;
+console.log('a: ',a);	
+}catch(e){err=e;}
+ctx.body=await ctx.render('profiles',{err:err,result:a});	
 })
 
+pub.get('/home/profile/:profile_name', authed, async ctx=>{
+let db=ctx.db;
+let us=ctx.state.user;
+let err;
+let a;
+let owner=false;
+try{
+	let result=await db.query("select*from profile where bname=$1",[ctx.params.profile_name]);
+	a=result.rows[0];
+}catch(e){
+	err=e;
+}
+if(us){
+if(us.bname==ctx.params.profile_name){owner=true;}
+}
+ctx.body=await ctx.render('profile',{err:err, result:a,owner:owner});	
+})
+
+pub.post("/api/save_profile", auth, async ctx=>{
+let {txt_msg, age, photo,fname}=ctx.request.body;
+let db=ctx.db;
+let isava=(photo?1:0);
+let s='insert into profile(bname,age,msg,ava,isava) values($1,$2,$3,$4,$5) on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5'
+try{
+await db.query(s,[fname,age,txt_msg,photo,isava]);	
+}catch(e){ctx.throw(400,e);}
+
+ctx.body={info:"Профиль сохранен!"};	
+})
+pub.post("/api/del_ava", auth, async ctx=>{
+let {fname}=ctx.request.body;
+if(!fname)ctx.throw(400, "Нет имени");
+let db=ctx.db;
+try{
+await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"Фото удалено!"};	
+})
 module.exports=pub;
 function auth(ctx,next){
 	//for xhr

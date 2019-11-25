@@ -13,7 +13,7 @@ return `<!-- header_menu.js -->
 <ul id="miniMenu" class="">
 <li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>home</span></div></a>
 <li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>articles</span></div></a>
-${n.buser?'<li><div class="znak-svg">pic</div><a href="/home/profile"><div class="muka"><span>profile</span></div></a>':''}
+${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>profile</span></div></a>`:''}
 ${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>log out</span></div></a>':
 '<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>log in</span></div></a>'}
 <li><div class="znak-svg">pic</div><a href="/signup"><div class="muka"><span>sign up</span></div></a>'}

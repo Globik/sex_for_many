@@ -59,7 +59,27 @@ ctx.body={info:"fucker", btc_address: ctx.state.test_btc_address}
 ctx.body={info: "no fucker", btc_address: ctx.state.btc_address}	
 }	
 })
+//new avatars of user
+adm.get("/home/newavas", authed, async ctx=>{
+let db=ctx.db;
+let err;
+let a;
+try{
+let result=await db.query('select bname, ava from profile where isava=1');
+if(result.rows)a=result.rows;	
+}catch(e){err=e;}
+ctx.body=await ctx.render('newavas',{err:err,result:a});	
+})
 
+adm.post('/api/ava-checked', auth, async ctx=>{
+let {fname}=ctx.request.body;
+if(!fname)ctx.throw(400,"Нет ника!");
+let db=ctx.db;
+try{
+await db.query('update profile set isava=2 where bname=$1',[fname]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:fname};	
+});
 module.exports=adm;
 
 function auth(ctx,next){
