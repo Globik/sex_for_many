@@ -129,7 +129,6 @@ return ctx.login(user)
 })
 
 pub.get('/webrtc/:buser_id', async function(ctx){
-
 let us=ctx.state.user;
 let db=ctx.db;
 console.log("USER: ",us);
@@ -151,18 +150,16 @@ console.log('db error: ',e);
 ctx.body=await ctx.render('room_err',{mess:e});
 return;
 }
-
 if(result.rows.length==0){
 ctx.body=await ctx.render('room_err',{mess:"No such user undefined"});
 return;
 }
-
 if(us){
 if(us.id==ctx.params.buser_id){owner=true;}
 }
-
-ctx.body= await ctx.render('room',{model:a, owner:owner});
+ctx.body= await ctx.render('chat_room',{model:a, owner:owner});
 });
+//pub.get('/webrtc/:buser_id', async function(ctx){});
 //save btc address
 //var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
 const base_url_smart_tbtc="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution";//for test btc smartcontract

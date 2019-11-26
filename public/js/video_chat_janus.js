@@ -622,10 +622,10 @@ localVideo.srcObject=null;
 //localVideo.videoTracks.onaddtrack=function(ev){console.log('a track added: ', ev.track.label);}
 //localVideo.videoTracks.onremovetrack=function(ev){alert('track removed');console.log('a track removed: ', ev.track.label);}
 localVideo.onended=function(ev){console.log('VIDEO ENDED!');alert('video ended');}
-
+var manda={mandatory:{googlPv6:true}};
 function createPeer(){
 // for both
-pc=new RTCPeerConnection(null);
+pc=new RTCPeerConnection(null, manda);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;
@@ -660,6 +660,7 @@ session_destroy();
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
 //disconnected failed connected completed
+//TODO if 'checking' very long - mark as failed in owner space
 if(this.iceConnectionState=="disconnected"){
 	underVideo.className="";
 if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
@@ -822,11 +823,11 @@ c.drawImage(localVideo,0,0,w,h);
 var img_data=cnv.toDataURL('image/png',1.0);
 let d={};
 d.typ="onair";
-d.roomdesc=txtArea.value?txtArea.value:"My awsome room description";
+d.roomdesc="My awsome room description";
 d.roomid=roomId;//??
 d.nick=transaction;
 d.src=img_data;
-
+alert(d.src)
 wsend(d)
 
 /*

@@ -1,0 +1,226 @@
+//const plugin_name="janus.plugin.videoroom";
+//const nano_adr='ipc:///tmp/janus.ipc';// to janus webrtc gateway nano transport
+//const nano=require('nanomsg');
+//const subnano=nano.socket('pair');
+//subnano.connect(nano_adr);
+/*
+function subsend(ob){
+let a;
+try{a=JSON.stringify(ob);subnano.send(a);}catch(e){retrun;}	
+}
+*/ 
+
+/*
+subnano.on('data',function(msg){
+let abbi=msg.toString();
+
+let l;
+try{l=JSON.parse(abbi);}catch(e){console.log(e);return;}	
+l.typ="janus";
+let sess=0;var feed=0;
+if(l.transaction){
+let a=l.transaction.split("_");
+let len=a.length;
+l.transi=a[len-1];
+let c=Number(a[len-1]);
+if(c==10){
+console.log("'create' session");
+sess=1;//ws.sid=l.data.id => new session
+}else if(c==11){
+console.log("'destroy' session_id");
+sess=2;
+}else if(c==40){
+//create room
+if(l.plugindata.data.videoroom=="created"){
+droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
+}
+}else if(c==41){
+//destroy room
+if(l.plugindata && l.plugindata.data.videoroom=="destroyed"){
+droom.delete(l.plugindata.data.room);	
+}
+}else if(c==20){
+//room exists
+if(l.plugindata && l.plugindata.data.room)
+droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
+}else if(c==25){
+//ping pong
+return;	
+}
+console.log("before send target trans",a);
+send_target_trans(a[len-2], l, sess);
+}
+if(l.janus=="media"){
+console.log("media is here",l);	 
+send_target_sess(l.session_id, l);
+}
+})
+
+*/
+wss.on('connection', function(ws, req){
+console.log("websock client opened!", req.url);
+ws.trans=null;//unique name
+ws.sid=0;//janus session
+ws.owner=false;//is a publisher 
+
+ws.url=req.url;// url == room id == user id
+ws.roomok=false;// is currently started subscriber//feed
+let feedi;
+var roomi=Number(ws.url.substring(1));//publisher's feed id from janus
+if(feeds.has(roomi)){
+let feedy=feeds.get(roomi);
+console.log("feedy")
+feedi=feedy.feed;
+}else{
+console.log("no feedy");
+feedi=0;
+}
+if(req.url !== "/gesamt"){
+console.log("hi from server")
+let siska=get_user_count(ws.url)
+wsend(ws, {typ:"usid", msg: "Hi from server!", pubid:feedi,user_count:siska.user_count,viewers:siska.viewers});//for a subscriber
+//send_to_url({typ: "joinchat"}, req.url);
+}else{console.log("no hi from server")}
+
+ws.isAlive=true;
+ws.on('pong',heartbeat);
+
+ws.on('message',function sock_msg(msg){
+//console.log("websocke message: ",msg);
+var send_to_client=0;
+let l;
+try{
+l=JSON.parse(msg);	
+}catch(e){return;}
+if(l.janus){
+//subnano.send(msg);
+send_to_client=1;
+}
+if(l.typ=="msg"){
+if(l.to){
+send_target(msg, req.url);
+send_to_client=1;
+}
+}else if(l.typ=="onuser"){
+console.log("Typ: ", l.typ);
+console.log('l: ',l);
+ws.trans=l.username;
+ws.owner=l.owner;
+send_to_url({typ: "joinchat"}, req.url);
+
+send_to_client=1;	
+}else if(l.typ=="onair"){
+console.log("ON AIR!");
+
+l.typ="atair";//for subscribers signal
+l.v=get_user_count(ws.url).viewers
+broadcast_to_all_no_me(ws, l);
+//broadcast_room(l);
+
+let sis=`insert into room(room_id,descr,src,nick) values($1,$2,$3,$4)`;
+pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick], function(err,res){if(err)console.log('inserting a room: ',err);
+broadcast_room(l);
+});
+
+send_to_client=1;	
+}else if(l.typ=="outair"){
+//publisher unpublished the stream. Notify all about it
+l.typ="outair";
+broadcast_to_all_no_me(ws,l);
+broadcast_room(l);
+feeds.delete(roomi);
+pool.query("delete from room where  room_id=$1", [l.roomid] ,function(err,res){
+if(err){console.log(err);}	
+});
+send_to_client = 1;	
+}else if(l.typ=="roomok"){
+
+ws.roomok=true;	
+send_to_url({typ: "joinchat"}, ws.url);
+let ct=get_user_count(req.url);
+l.typ="viewers";
+
+l.viewers=ct.viewers;
+
+broadcast_room(l);
+console.log("MUST BE0 !",l.roomid);
+pool.query("update room set v=v+1 where room_id=$1",[l.roomid],function(err,res){
+if(err)console.log(err);
+console.log("MUST BE1 !",l.roomid);
+});
+send_to_client=1;
+}else if(l.typ == "roomnot"){
+ws.roomok=false;	
+//let ct=get_user_count(req.url);
+send_to_url({typ: "joinchat"}, ws.url);
+let ct=get_user_count(req.url);
+l.typ="viewers";
+l.viewers=ct.viewers;
+broadcast_room(l);
+//send_to_url(l,'/gesamt');
+pool.query("update room set v=v-1 where room_id=$1",[l.roomid],function(err,res){
+if(err)console.log(err);})	
+send_to_client=1;
+}else{}
+
+
+if(send_to_client==0)ws.send(msg);
+});
+ws.on('error', function(er){console.log("websock err: ", err);})
+
+ws.on('close', function(){
+console.log("websocket closed");
+var roomid=Number(ws.url.substring(1));
+send_to_url({typ: "joinchat"}, ws.url)
+
+if(ws.owner){
+console.log("It's OWNER!");
+console.log('room size: ',droom.size);
+
+if(droom.has(roomid)){
+let b=droom.get(roomid);
+console.log("HAS ROOM ID!");
+if(!b){console.log("No room id?");return;}
+let d={};
+d.session_id=b.session_id;
+d.handle_id=b.handle_id;
+d.transaction=ws.trans+"_41";
+d.janus="message";
+d.body={};
+d.body.request="destroy";
+d.body.room=roomid;
+//janus:"message",body:{request:"destroy",room:6666}
+subsend(d);
+
+console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
+
+d.session_id=b.session_id;
+d.handle_id=b.handle_id;
+d.transaction=ws.trans+"_13";
+d.janus="detach";
+d.plugin=plugin_name;
+subsend(d);
+
+d.transaction=ws.trans+"_11";
+d.session_id=b.session_id;
+d.janus="destroy";
+subsend(d);
+
+broadcast_to_all_no_me(ws, {typ:"outair"});
+droom.delete(roomid);
+broadcast_room({typ:"outair", roomid:roomid});
+feeds.delete(roomid);
+pool.query("delete from room where room_id=$1", [roomid] ,function(err,res){
+if(err){console.log(err);}	
+})	
+
+}
+};
+//console.log('soll on port: ', HPORT, 'started.');
+})
+//console.log('soll on port: ', HPORT, 'started.');
+})
+
+}
+
+

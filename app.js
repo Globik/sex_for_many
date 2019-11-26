@@ -1,6 +1,5 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
-const plugin_name="janus.plugin.videoroom";
-const nano_adr='ipc:///tmp/janus.ipc';// to janus webrtc gateway nano transport
+
 const HPORT = 3000;
 const DB_URL='postgress://globik:null@localhost:5432/test';
 //const DB_URL=process.env.DATABASE_URL;
@@ -14,8 +13,7 @@ const WebSocket=require('ws');
 const {websock}=require('./libs/websock.js');
 const shortid=require('shortid');
 const Router=require('koa-router');
-const nano=require('nanomsg');
-const subnano=nano.socket('pair');
+
 
 
 const url=require('url');
@@ -28,8 +26,7 @@ const serve=require('koa-static');
 const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
-//const mainmenu=require('./config/app.json');
-//const adminrouter=require('./routes/adminrouter.js');
+
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
 pgtypes.setTypeParser(1114, str=>str);
@@ -51,14 +48,11 @@ pool.on('connect', function(client){console.log('db connected!')})
 pool.on('error', function(err, client){console.log('db err: ', err.name)})
 pool.on('acquire', function(client){console.log('db acquired!')})
 
-subnano.connect(nano_adr);
-const droom=new Map();
-const feeds=new Map();
 const gr="\x1b[32m";
 const rs="\x1b[0m";
 
 const app=new Koa();
-const puber=new Router();
+
 app.keys=['your-secret']
 app.use(serve(__dirname+'/public'));
 app.use(session({store: pg_store}, app))
@@ -86,7 +80,6 @@ var btc_pay=false;
 var is_test_btc=true;
 
 app.use(async (ctx, next)=>{
-//ctx.state.showmodule = mainmenu;//see config/app.json
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
 ctx.db=pool;
 ctx.state.btc_pay= btc_pay;
@@ -133,38 +126,12 @@ ctx.state.btc_percent=btc_percent;
 await next();	
 })
 
-puber.post('/testEvent', async function food(ctx){
-console.log("event_body ", gr, JSON.stringify(ctx.request.body) ,rs);
-let d=ctx.request.body;
-d.forEach(function(el){
-if(el.type==64){
-//room created or destroyed or published events
-let a=el.event.data.event;
-if(!a){console.log("no data event");return;}
-let rid = el.event.data.room;
-
-if(a=="created"){
-}else if(a=="destroyed"){
-//if(vroom.has(rid)){
-}else if(a=="published"){
-	console.log(gr ,"published", rs);
-	if(!feeds.has(rid)){
-let feed_id=el.event.data.id;
-feeds.set(rid,{feed:feed_id})
-}
-}	
-}	
-
-})
-ctx.body={info:"ok"}
-})
 app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
-app.use(puber.routes()).use(puber.allowedMethods());
+
 app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
 
 app.use(async (ctx, next)=>{
 console.log('ctx.status!',ctx.status);
-//await next();
 
 try{
 await next();
@@ -296,56 +263,7 @@ el.send(a);
 }
 }
 
-function subsend(ob){
-let a;
-try{a=JSON.stringify(ob);subnano.send(a);}catch(e){retrun;}	
-}
-/* END OF HELPERS */
 
-subnano.on('data',function(msg){
-let abbi=msg.toString();
-
-let l;
-try{l=JSON.parse(abbi);}catch(e){console.log(e);return;}	
-l.typ="janus";
-let sess=0;var feed=0;
-if(l.transaction){
-let a=l.transaction.split("_");
-let len=a.length;
-l.transi=a[len-1];
-let c=Number(a[len-1]);
-if(c==10){
-console.log("'create' session");
-sess=1;//ws.sid=l.data.id => new session
-}else if(c==11){
-console.log("'destroy' session_id");
-sess=2;
-}else if(c==40){
-//create room
-if(l.plugindata.data.videoroom=="created"){
-droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
-}
-}else if(c==41){
-//destroy room
-if(l.plugindata && l.plugindata.data.videoroom=="destroyed"){
-droom.delete(l.plugindata.data.room);	
-}
-}else if(c==20){
-//room exists
-if(l.plugindata && l.plugindata.data.room)
-droom.set(l.plugindata.data.room,{session_id:l.session_id,handle_id:l.sender});
-}else if(c==25){
-//ping pong
-return;	
-}
-console.log("before send target trans",a);
-send_target_trans(a[len-2], l, sess);
-}
-if(l.janus=="media"){
-console.log("media is here",l);	 
-send_target_sess(l.session_id, l);
-}
-})
 
 ps.addChannel('events', function (msg){
 console.log('msg: ', msg);
@@ -376,6 +294,7 @@ function heartbeat(){this.isAlive=true;}
 
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
+
 ws.trans=null;//unique name
 ws.sid=0;//janus session
 ws.owner=false;//is a publisher 
@@ -384,14 +303,7 @@ ws.url=req.url;// url == room id == user id
 ws.roomok=false;// is currently started subscriber//feed
 let feedi;
 var roomi=Number(ws.url.substring(1));//publisher's feed id from janus
-if(feeds.has(roomi)){
-let feedy=feeds.get(roomi);
-console.log("feedy")
-feedi=feedy.feed;
-}else{
-console.log("no feedy");
-feedi=0;
-}
+
 if(req.url !== "/gesamt"){
 console.log("hi from server")
 let siska=get_user_count(ws.url)
@@ -410,7 +322,7 @@ try{
 l=JSON.parse(msg);	
 }catch(e){return;}
 if(l.janus){
-subnano.send(msg);
+//subnano.send(msg);
 send_to_client=1;
 }
 if(l.typ=="msg"){
@@ -483,8 +395,8 @@ send_to_client=1;
 
 if(send_to_client==0)ws.send(msg);
 });
-ws.on('error', function(er){console.log("websock err: ", err);})
-
+//ws.on('error', function(er){console.log("websock err: ", err);})
+/*
 ws.on('close', function(){
 console.log("websocket closed");
 var roomid=Number(ws.url.substring(1));
@@ -534,7 +446,7 @@ if(err){console.log(err);}
 }
 };
 //console.log('soll on port: ', HPORT, 'started.');
-})
+})*/
 //console.log('soll on port: ', HPORT, 'started.');
 })
 
