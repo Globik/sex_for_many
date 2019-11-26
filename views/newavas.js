@@ -10,7 +10,7 @@ var haupt_ban=false;
 let newavas=n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Проверить аватарки", csslink:"/css/main2.css",
-cssl:["/css/user_profile.css"]})}
+cssl:["/css/newavas.css"]})}
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
@@ -20,7 +20,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <h3>Проверить аватарки</h3>
 ${n.err?`<hr>${n.err}<hr>`:''}
 <ul>
-${get_avas(n)}
+${n.result?get_avas(n):''}
 </ul>
 </main>
 ${js_help(["/js/user_avas.js"])}
@@ -31,7 +31,8 @@ function get_avas(n){
 let s='';
 n.result.forEach(function(el,i){
 s+=`<li data-pname="${el.bname}"><a href="/home/profile/${el.bname}">${el.bname}</a>&nbsp;<img src="${el.ava}">&nbsp;
-<input type="checkbox" data-fname="${el.bname}" onchange="check_ava(this);">`;	
+<label class="cntlb2"><span>Одобрить</span><input type="checkbox" data-fname="${el.bname}" onchange="check_ava(this);">
+<span class="mark2"></span></label>`;	
 });
 return s;	
 }

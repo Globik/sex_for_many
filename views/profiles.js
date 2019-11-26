@@ -20,7 +20,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <h3>Профили</h3>
 ${n.err?`<hr>${n.err}<hr>`:''}
 <ul>
-${get_profiles(n)}
+${n.result?get_profiles(n):''}
 </ul>
 </main><footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
 }
