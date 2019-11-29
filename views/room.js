@@ -24,7 +24,7 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css","/css/login2.c
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
+${haupt_ban?'<div id="haupt-banner"><div id//="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
 <main id="pagewrap"> 
@@ -40,21 +40,14 @@ maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_te
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
 
-</div>`:''}
-<div id="qrcode"></div>
-<!--
-<div id="btcGoal">
-<b>Describe your goal (optional)</b><br>
-<textarea id="txtArea" placeholder="Room description" oninput="txtarea_input(this);"></textarea><button id="btnRD" class="btn-save" onclick="saveRDesc(this);">save</button>
-</div>
--->
-</div>
+</div></div>`:'<div id="qrcode"></div>'}
 
-<section>
+
+
 ${n.owner?'':`<div id="btcInfo" style="">
 <span><b>BTC address for donations:</b></span>
-<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span>`}</div>
-</section>
+<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`}
+
 
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class=""></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
@@ -95,10 +88,6 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
 ${js_help(["/js/video_chat_janus.js","/js/qrcode.min.js"])}
 
-<!--
-{js_help(["/js/video_chat2.js","/js/login.js"])}
-{js_help(["/js/admin_videochat.js"])}
--->
 </main><footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
 <script>${!n.owner?`new QRCode(gid("qrcode"),{

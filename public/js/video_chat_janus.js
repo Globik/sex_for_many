@@ -89,7 +89,7 @@ if(sock){console.log("already in connection");return;}
 
 sock=new WebSocket(new_uri+'//'+loc3+'/'+modelId.value);
 //sock=new WebSocket(new_uri+'//'+loc3+'/'+usname);
-//sock=new WebSocket('ws://localhost:3000');
+
 sock.onopen=function(){
 	//alert(loc3);
 console.log("websocket opened")
@@ -115,8 +115,6 @@ if(ev.key==="Enter"){
 chatTxt.addEventListener('keydown',sendi,false);
 
 function send_up(){
-//alert('sendi');
-console.log('am sendi()');
 if(!chatTxt.value)return;
 let d={};
 d.typ = "msg";

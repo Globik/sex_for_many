@@ -175,6 +175,7 @@ function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows[0].adr);
 if(res.rows.length)btc_address=res.rows[0].adr;
 });
+}
 const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
@@ -188,34 +189,13 @@ if(el.url == ws.url)el.send(JSON.stringify(obj));
 })	
 }
 
-
-function send_target_trans(trans, obj, sid){
-for(var el of wss.clients){
-if(el.trans==trans){
-if(sid==1){
-//if(el.sid==0){
-el.sid=obj.data.id;
-console.log("Attaching a session_id");
-//}
-}else if(sid==2){
-console.log('Detaching a session id');
-el.sid=0
-}
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-break;	
-}
-}
+function broadcast_room(ws, obj){
+wss.clients.forEach(function(el){
+if(el.url == ws.url)wsend(el,obj);	
+})	
 }
 
-function send_target_sess(session_id, obj){
-for(var el of wss.clients){
-if(el.sid == session_id){
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-break;	
-}	
-}
-}
-
+/*
 function broadcast_room(obj){
 for(var el of wss.clients){
 if(el.url == "/gesamt"){
@@ -225,7 +205,7 @@ if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
 }	
 }
 }
-
+*/
 function send_target(msg, url){
 for(var el of wss.clients){
 if(el.url == url){
@@ -236,15 +216,13 @@ if(el.readyState===WebSocket.OPEN)el.send(msg);
 
 function get_user_count(url){
 let user_count=0;
-let viewers=0;
 for(var el of wss.clients){
 if(el.url==url){
-	console.log(el.url,url);
+console.log(el.url,url);
 user_count++;
-if(el.roomok){viewers++}
 }
 }
-return {user_count, viewers};	
+return {user_count};	
 }
 function send_to_url(msg, url){
 console.log('send to url():',url)
@@ -294,22 +272,15 @@ function heartbeat(){this.isAlive=true;}
 
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
-
-ws.trans=null;//unique name
-ws.sid=0;//janus session
-ws.owner=false;//is a publisher 
-
-ws.url=req.url;// url == room id == user id
-ws.roomok=false;// is currently started subscriber//feed
-let feedi;
-var roomi=Number(ws.url.substring(1));//publisher's feed id from janus
-
+ws.owner=false;//if an owner 
+ws.url=req.url;// url = us_id = room_id
+ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
 console.log("hi from server")
 let siska=get_user_count(ws.url)
-wsend(ws, {typ:"usid", msg: "Hi from server!", pubid:feedi,user_count:siska.user_count,viewers:siska.viewers});//for a subscriber
-//send_to_url({typ: "joinchat"}, req.url);
-}else{console.log("no hi from server")}
+wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!", user_count:siska.user_count});
+//send_to_url({typ: "joinchat"}, req.url);//owner joined
+}else{}
 
 ws.isAlive=true;
 ws.on('pong',heartbeat);
@@ -321,136 +292,35 @@ let l;
 try{
 l=JSON.parse(msg);	
 }catch(e){return;}
-if(l.janus){
-//subnano.send(msg);
-send_to_client=1;
-}
-if(l.typ=="msg"){
-if(l.to){
-send_target(msg, req.url);
-send_to_client=1;
-}
-}else if(l.typ=="onuser"){
-console.log("Typ: ", l.typ);
-console.log('l: ',l);
-ws.trans=l.username;
+
+if(l.type=="msg"){
+
+}else if(l.type=="username"){
 ws.owner=l.owner;
-send_to_url({typ: "joinchat"}, req.url);
-
-send_to_client=1;	
+ws.nick=l.name;
+send_to_client=1;
 }else if(l.typ=="onair"){
-console.log("ON AIR!");
 
-l.typ="atair";//for subscribers signal
-l.v=get_user_count(ws.url).viewers
-broadcast_to_all_no_me(ws, l);
-//broadcast_room(l);
-
-let sis=`insert into room(room_id,descr,src,nick) values($1,$2,$3,$4)`;
-pool.query(sis,[l.roomid,l.roomdesc,l.src,l.nick], function(err,res){if(err)console.log('inserting a room: ',err);
-broadcast_room(l);
-});
-
-send_to_client=1;	
 }else if(l.typ=="outair"){
-//publisher unpublished the stream. Notify all about it
-l.typ="outair";
-broadcast_to_all_no_me(ws,l);
-broadcast_room(l);
-feeds.delete(roomi);
-pool.query("delete from room where  room_id=$1", [l.roomid] ,function(err,res){
-if(err){console.log(err);}	
-});
-send_to_client = 1;	
+
 }else if(l.typ=="roomok"){
 
-ws.roomok=true;	
-send_to_url({typ: "joinchat"}, ws.url);
-let ct=get_user_count(req.url);
-l.typ="viewers";
-
-l.viewers=ct.viewers;
-
-broadcast_room(l);
-console.log("MUST BE0 !",l.roomid);
-pool.query("update room set v=v+1 where room_id=$1",[l.roomid],function(err,res){
-if(err)console.log(err);
-console.log("MUST BE1 !",l.roomid);
-});
-send_to_client=1;
 }else if(l.typ == "roomnot"){
-ws.roomok=false;	
-//let ct=get_user_count(req.url);
-send_to_url({typ: "joinchat"}, ws.url);
-let ct=get_user_count(req.url);
-l.typ="viewers";
-l.viewers=ct.viewers;
-broadcast_room(l);
-//send_to_url(l,'/gesamt');
-pool.query("update room set v=v-1 where room_id=$1",[l.roomid],function(err,res){
-if(err)console.log(err);})	
-send_to_client=1;
+
 }else{}
 
 
-if(send_to_client==0)ws.send(msg);
+if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
 });
 //ws.on('error', function(er){console.log("websock err: ", err);})
-/*
+
 ws.on('close', function(){
 console.log("websocket closed");
-var roomid=Number(ws.url.substring(1));
-send_to_url({typ: "joinchat"}, ws.url)
-
-if(ws.owner){
-console.log("It's OWNER!");
-console.log('room size: ',droom.size);
-
-if(droom.has(roomid)){
-let b=droom.get(roomid);
-console.log("HAS ROOM ID!");
-if(!b){console.log("No room id?");return;}
-let d={};
-d.session_id=b.session_id;
-d.handle_id=b.handle_id;
-d.transaction=ws.trans+"_41";
-d.janus="message";
-d.body={};
-d.body.request="destroy";
-d.body.room=roomid;
-//janus:"message",body:{request:"destroy",room:6666}
-subsend(d);
-
-console.log("DELETING ROOM=> ", roomid, ' ',b.session_id,' ',b.handle_id);
-
-d.session_id=b.session_id;
-d.handle_id=b.handle_id;
-d.transaction=ws.trans+"_13";
-d.janus="detach";
-d.plugin=plugin_name;
-subsend(d);
-
-d.transaction=ws.trans+"_11";
-d.session_id=b.session_id;
-d.janus="destroy";
-subsend(d);
-
-broadcast_to_all_no_me(ws, {typ:"outair"});
-droom.delete(roomid);
-broadcast_room({typ:"outair", roomid:roomid});
-feeds.delete(roomid);
-pool.query("delete from room where room_id=$1", [roomid] ,function(err,res){
-if(err){console.log(err);}	
-})	
-
-}
-};
-//console.log('soll on port: ', HPORT, 'started.');
-})*/
-//console.log('soll on port: ', HPORT, 'started.');
 })
 
-}
+})
+
+//}
 
 
 

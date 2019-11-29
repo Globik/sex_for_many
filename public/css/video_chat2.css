@@ -128,7 +128,7 @@ position:relative;
 overflow-y:auto;
 }
 .chat-txt{
-width:80%;
+width:81%;
 height:100%;
 padding-left:5px;	
 }
@@ -149,7 +149,7 @@ border:1px solid rgba(255,255,255,0.8);
 .chat-user{color:yellow;}
 .chat-message{color:white;}
 
-.btn-send,.btn-start{
+.btn-start{
 width:20%;
 height:100%;	
 ackground:yellow;
@@ -159,6 +159,17 @@ font-size:1.1em;
 font-weight:bold;
 letter-spacing:1px;
 border:2px solid black;
+}
+#vasja{
+cursor:pointer;
+height:100%;
+width:19%;
+font-size:1.1em;
+font-weight:bold;
+ 
+letter-spacing:1px;
+border:2px solid black;
+
 }
 .btn-save{
 ackground:red;
@@ -231,7 +242,7 @@ height: 470px;
 @media screen and (max-width: 320px){
 
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	.btn-send,.btn-start{width:50%;}
+	#vasja,.btn-start{width:50%;}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	#btcInfo{font-size:0.8em;}
