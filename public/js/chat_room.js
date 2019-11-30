@@ -120,10 +120,10 @@ clientNick=ad.nick;
 chatcnt.textContent=ad.user_count;
 set_username();	
 }else if(ad.type=="on_btc"){
-btcc.textContent=a.btc_all;
+btcc.textContent=ad.btc_all;
 var obj7={};
 obj7.from="Анон";
-obj7.msg=" шлет "+a.btc_amt+" сатоши";
+obj7.msg=" шлет "+ad.btc_amt+" сатоши";
 insert_message(obj7);
 }else{
 console.log('unknown type: '+ad.type);	
