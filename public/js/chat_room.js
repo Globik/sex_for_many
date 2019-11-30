@@ -1,7 +1,7 @@
 var v=gid("video-wrapper");
 var is_owner=gid('owner');
 var yourNick=gid("yourNick");
-var buser=gid("buser");
+var is_buser=gid("buser");
 var modelName=gid("modelName");
 var modelId=gid('modelId');
 var chatTxt=gid('chatTxt');
@@ -27,7 +27,7 @@ new_uri='ws:';
 }
 
 function owner(){return (is_owner.value==='true'?true:false);}
-function buser(){return (buser.value==='true'?true:false);}
+function buser(){return (is_buser.value==='true'?true:false);}
 
 open_socket();
 

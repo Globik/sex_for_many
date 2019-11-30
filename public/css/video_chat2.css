@@ -237,15 +237,19 @@ display:block;
 height: 470px;
 }
 #btcadr{font-size:0.7em;}
-#btcInfo{margin-left:0;}
+
+#btcInfo{margin-left:0; font-size:0.8em;overflow:auto;width:100%;}
+
 }
 @media screen and (max-width: 320px){
 
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	#vasja,.btn-start{width:50%;}
-	#chatTxt{width:100%;}
+	#vasja{width:20%;}
+	.btn-start{width:50%;}
+	#chatTxt{width:80%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
-	#btcInfo{font-size:0.8em;}
+	
 	#btc-container{width:99%;}
 	#btnDonate{width:45%;}
+	
 }

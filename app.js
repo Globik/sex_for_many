@@ -1,8 +1,8 @@
 // which psql heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;
 const koaBody=require('koa-body');
 
 
@@ -286,7 +286,6 @@ ws.isAlive=true;
 ws.on('pong',heartbeat);
 
 ws.on('message',function sock_msg(msg){
-//console.log("websocke message: ",msg);
 var send_to_client=0;
 let l;
 try{
@@ -294,18 +293,17 @@ l=JSON.parse(msg);
 }catch(e){return;}
 
 if(l.type=="msg"){
-
 }else if(l.type=="username"){
 ws.owner=l.owner;
 ws.nick=l.name;
 send_to_client=1;
-}else if(l.typ=="onair"){
+}else if(l.type=="onair"){
 
-}else if(l.typ=="outair"){
+}else if(l.type=="outair"){
 
-}else if(l.typ=="roomok"){
+}else if(l.type=="roomok"){
 
-}else if(l.typ == "roomnot"){
+}else if(l.type == "roomnot"){
 
 }else{}
 
