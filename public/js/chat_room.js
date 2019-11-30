@@ -74,6 +74,7 @@ on_msg(evt.data)
 }
 sock.onclose=function(){
 console.log("Websocket closed");
+btcc.textContent=0;
 }
 }
 function sendi(ev){
