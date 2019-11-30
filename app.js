@@ -1,8 +1,9 @@
-// which psql heroku pg:psql --app frozen-atoll-47887
+// which psql 
+//heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
 //const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;
+const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -194,18 +195,13 @@ wss.clients.forEach(function(el){
 if(el.url == ws.url)wsend(el,obj);	
 })	
 }
-
-/*
-function broadcast_room(obj){
+//todo reinvestigate who online
+function who_online(obj){
 for(var el of wss.clients){
-if(el.url == "/gesamt"){
-try{
-if(el.readyState===WebSocket.OPEN)el.send(JSON.stringify(obj));
-}catch(e){console.log('err in broadcast room event: ', e)}
-}	
+if(el.url == "/gesamt")wsend(el,obj)
 }
 }
-*/
+
 function send_target(msg, url){
 for(var el of wss.clients){
 if(el.url == url){
@@ -250,13 +246,8 @@ send_to_all(wss, msg.data);// may be to defined room?
 });
 ps.addChannel('on_smart_cb', function(msg){
 console.log('msg notify: ',msg);
-msg.data.typ="on_btc";
-send_to_all(wss, msg.data);	//todo reinvestigate behavor
-//let l=JSON.parse(msg.data);
-/*console.log('msg.data: ',msg.data);
-msg.data.typ="on_btc";
-console.log('msg.data: ',msg.data);
-receive_btc(msg.data, msg.data.bname) */
+msg.data.type="on_btc";
+broadcast_satoshi(msg.data);
 });
 
 
@@ -272,6 +263,7 @@ function heartbeat(){this.isAlive=true;}
 
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
+
 ws.owner=false;//if an owner 
 ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
@@ -294,10 +286,12 @@ l=JSON.parse(msg);
 
 if(l.type=="msg"){
 }else if(l.type=="username"){
+console.log(l);
 ws.owner=l.owner;
 ws.nick=l.name;
+ws.roomname=l.roomname;//for satoshi
 send_to_client=1;
-}else if(l.type=="onair"){
+}else if(l.type=="on_"){
 
 }else if(l.type=="outair"){
 
@@ -322,10 +316,9 @@ console.log("websocket closed");
 
 
 
-function send_to_all(wss, obj){
+function broadcast_satoshi(obj){
 wss.clients.forEach(function each(client){
-console.log("HERRREEEE client.trans: ", client.trans);
-if(client.trans == obj.bname)wsend(client,obj);
+if(client.roomname == obj.bname)wsend(client,obj);
 })
 }
 function wsend(ws, obj){

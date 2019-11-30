@@ -10,6 +10,7 @@ var chatcnt=gid("chatcnt");
 var onlineDetector=gid("online-detector");
 var underVideo=gid("under-video");
 var btnStart=gid("btnStart");
+var btcc=gid("btcc");
 var sock;
 var myusername;
 var clientNick;
@@ -33,7 +34,7 @@ open_socket();
 
 
 function saveBTC(el){
-if(!btcInput.value){alert("Please give correct btc adress");return;}
+if(!btcInput.value){return;}
 let d={};
 d.btc_client=btcInput.value;
 d.username=modelName.value;
@@ -59,7 +60,6 @@ function open_socket(){
 if(sock){console.log("already in connection");return;}
 
 sock=new WebSocket(new_uri+'//'+loc3+'/'+modelId.value);
-//sock=new WebSocket(new_uri+'//'+loc3+'/'+usname);
 
 sock.onopen=function(){
 	//alert(loc3);
@@ -81,14 +81,14 @@ if(ev.key==="Enter"){
 send_up();
 }
 }
-chatTxt.addEventListener('keydown',sendi,false);
+chatTxt.addEventListener('keydown', sendi, false);
 
 function send_up(){
 if(!chatTxt.value)return;
 let d={};
 d.type = "msg";
-d.msg = escape_html(chatTxt.value);
-d.to = modelId.value;
+d.msg = chatTxt.value;// any need? => escape_html(chatTxt.value);
+d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);	
 chatTxt.value="";
@@ -96,7 +96,7 @@ chatTxt.value="";
 function insert_message(ob){
 var m=document.createElement('div');
 m.className="chat-div";
-m.innerHTML='<span class="chat-user">'+ob.from+' :&nbsp;</span>&nbsp;<span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML='<span class="chat-user">'+ob.from+'&nbsp;:&nbsp;</span>&nbsp;<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight;
 }
@@ -105,12 +105,8 @@ var ix=s.replace(/[&<>"]/g,function(m){return '';})
 return ix;
 }
 function set_username(){
-/*	
-if(owner()){myusername=modelName.value;}else{
-if(buser()){myusername=yourNick.value}else{myusername=clientNick;}	
-}*/
 myusername=(owner()?modelName.value:(buser()?yourNick.value:clientNick));
-wsend({type: "username", owner: owner(), name: myusername});
+wsend({type: "username", owner: owner(), name: myusername,roomname:modelName.value});
 }
 
 function on_msg(data){
@@ -123,6 +119,12 @@ insert_message(ad);
 clientNick=ad.nick;
 chatcnt.textContent=ad.user_count;
 set_username();	
+}else if(ad.type=="on_btc"){
+btcc.textContent=a.btc_all;
+var obj7={};
+obj7.from="Анон";
+obj7.msg=" шлет "+a.btc_amt+" сатоши";
+insert_message(obj7);
 }else{
 console.log('unknown type: '+ad.type);	
 }
