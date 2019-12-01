@@ -19,25 +19,29 @@ const gr = "\x1b[32m", rs = "\x1b[0m";
 const pub=new Router();
 
 pub.get('/', async ctx=>{
-//let result=null;
-let bresult=null;
+let bresult;
 let db=ctx.db;
 
 try{
-	//rooms.status.view.src busers.id.name
-let bus=await db.query(`select*from room`);//where view>=1`)
+let s='select buser.id, buser.bname, profile.age, profile.ava, profile.isava from buser left join profile on buser.bname=profile.bname where profile.ison=true';
+/*
+select buser.id, buser.bname, profile.age, profile.ava, profile.isava from buser left join profile on buser.bname=profile.bname where profile.ison=true
+*/
+
+let bus=await db.query(s);
+console.log('bus rows: ', bus.rows);
+if(bus.rows.length>0){
 bresult=bus.rows;
-//console.log('bresult: ',bresult);
 bresult.forEach(function(el,i){
-	//console.log('el: ',el);
-console.log(el.room_id,' ',el.descr,' ',el.nick,' ',el.v);	
+	console.log('el: ',el);	
 })
+}
 }catch(e){console.log(e)}	
 
 	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
-console.log("DUCKER");
+
 ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/});
 //ctx.body={hallo:'ok'}
 //if(ctx.session.bmessage){delete ctx.session.bmessage}

@@ -29,8 +29,7 @@ ${endf}
 <main id="pagewrap"> 
 ${n.m?n.m.msg:''}<br><br>
 <h4>Users: </h4>
-{users_list(lusers)}
-<br><a href="/webrtc/${buser?buser.id:'no_name'}">${buser?buser.id:'no name'}</a>
+<br>${buser?`<a href="/webrtc/${buser.id}">${buser.bname}</a>`:'Привет, гость!'}
 <hr>
 <h4>Roomers:</h4>
 
@@ -61,46 +60,22 @@ ${(buser.email ? `<li><b>email: </b>${buser.email}</li>` : `<li>No Mail</li>`)}
 <li><b>w_items: </b>${buser.w_items}</li></ul>`;}
 return s2;}
 
-function users_list(n){
-let s='';
-if(Array.isArray(n)){
- s+='<ul>';
- n.forEach((el,i)=>{
-s+=`<li><a href="/webrtc/${el.name}">${el.name}</a>`;
-});
-s+='</ul>';
-   }
-return s;
-}
+
 
 function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<tr data-roomid="${el.room_id}"><td class="duka">
-<figure>${el.src ? `<img src="${el.src}" width="80px" height="60px"/>`:''}
-<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a></figcaption>
-</figure></td><td>${el.descr}</td><td class="views">${el.v}</td></table>
+s+=`<tr data-roomid="${el.id}"><td class="duka">
+<figure>${el.ava ? `<img src="${el.ava}" width="80px" height="60px"/>`:''}
+<figcaption><a href="/webrtc/${el.id}">${el.bname}</a></figcaption>
+</figure></td><td>{el.descr}</td><td class="views">${el.age?el.age:18}</td></table>
 `;
 });
  }
 return s;
-
-//<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
-//<td>earn some money</td><td class="views">10</td></tr>
-
-//<table> 
-//<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
-//<tr><td class="duka"><figure><img width="80px" height="60px" src="donatebutton.jpg"><figcaption>globi</figcaption></figure></td>
-//<td>earn some money</td><td class="views">10</td></tr>
-//</table>
 }
 
-
-	function clearCache(){
-		let s=``;
-	s+=``;
-return s;}
 function get_meta(){
 let s='';
 	s+=`

@@ -163,7 +163,7 @@ pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_stor
 
 function on_run(){
 console.log('soll on port: ', HPORT, 'started.');
-pool.query("delete from room",[], function(err,res){
+pool.query("update profile set ison=false",[], function(err,res){
 if(err)console.log(err);	
 });
 pool.query("select*from prim_adr where type=true",[], 
@@ -290,6 +290,9 @@ console.log(l);
 ws.owner=l.owner;
 ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
+if(l.owner){
+pool.query('insert into profile(bname,ison) values($1,true) on conflict(bname) do update set ison=true',[l.roomname],function(er,r){});
+}
 send_to_client=1;
 }else if(l.type=="on_"){
 
@@ -308,6 +311,9 @@ if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
 
 ws.on('close', function(){
 console.log("websocket closed");
+if(ws.owner){
+pool.query('update profile set ison=false where bname=$1',[ws.roomname],function(er,r){});
+}
 })
 
 })
