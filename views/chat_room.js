@@ -24,7 +24,7 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})
 ${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
-<main id="pagewrap"><h2>chat</h2>
+<main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
 ${n.owner?
 `<div class="btc-footer" style="background:yellow;">
 <button onclick="test_cb();">test callback</button>

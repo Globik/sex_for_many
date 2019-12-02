@@ -97,7 +97,14 @@ chatTxt.value="";
 function insert_message(ob){
 var m=document.createElement('div');
 m.className="chat-div";
-m.innerHTML='<span class="chat-user">'+ob.from+'&nbsp;:&nbsp;</span>&nbsp;<span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML='<span class="chat-user">'+ob.from+':&nbsp;</span><span class="chat-message">'+ob.msg+'</span>';
+chat.appendChild(m);
+chat.scrollTop=chat.clientHeight;
+}
+function insert_notice(ob){
+var m=document.createElement('div');
+m.className="chat-div";
+m.innerHTML='<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight;
 }
@@ -118,7 +125,6 @@ if(ad.type=="msg"){
 insert_message(ad);	
 }else if(ad.type=="nick"){
 clientNick=ad.nick;
-chatcnt.textContent=ad.user_count;
 set_username();	
 }else if(ad.type=="on_btc"){
 btcc.textContent=ad.btc_all;
@@ -126,6 +132,12 @@ var obj7={};
 obj7.from="Анон";
 obj7.msg=" шлет "+ad.btc_amt+" сатоши";
 insert_message(obj7);
+}else if(ad.type=="count"){
+	chatcnt.textContent=ad.user_count;
+}else if(ad.type=="owner_in"){
+	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.'});
+}else if(ad.type=="owner_out"){
+	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;покинул чат.'});
 }else{
 console.log('unknown type: '+ad.type);	
 }

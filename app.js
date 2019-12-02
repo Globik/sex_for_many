@@ -268,9 +268,10 @@ ws.owner=false;//if an owner
 ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
-console.log("hi from server")
-let siska=get_user_count(ws.url)
-wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!", user_count:siska.user_count});
+console.log("hi from server");
+let siska=get_user_count(ws.url);
+wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
+broadcast_room(ws, {type: "count",user_count:siska.user_count});
 //send_to_url({typ: "joinchat"}, req.url);//owner joined
 }else{}
 
@@ -292,6 +293,7 @@ ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
 
 if(l.owner){
+broadcast_room(ws, {type: "owner_in",nick:ws.nick});
 let blin_id=ws.url.substring(1);
 console.log('blin_id: ',blin_id);
 pool.query('insert into room(us_id,nick) values($1,$2) on conflict(nick) do nothing returning *',[blin_id, l.roomname],
@@ -341,10 +343,7 @@ if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
 ws.on('close', function(){
 console.log("websocket closed");
 if(ws.owner){
-	/*let d6={};
-	d6.type="out_room";
-	d6.roomid=ws.url.substring(1);
-	who_online(d6);*/
+broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
 pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
 if(er)console.log(er)
 	let d6={};
@@ -367,6 +366,9 @@ if(r.rows && r.rows.length){
 
 }
 }
+if(ws.url=="/gesamt")return;
+let siska=get_user_count(ws.url);
+broadcast_room(ws, {type: "count",user_count:siska.user_count});
 })
 
 })
