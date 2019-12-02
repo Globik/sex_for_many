@@ -2,8 +2,8 @@
 //heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;//for heroku
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -163,7 +163,7 @@ pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_stor
 
 function on_run(){
 console.log('soll on port: ', HPORT, 'started.');
-pool.query("update profile set ison=false",[], function(err,res){
+pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
 });
 pool.query("select*from prim_adr where type=true",[], 
@@ -290,8 +290,33 @@ console.log(l);
 ws.owner=l.owner;
 ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
+
 if(l.owner){
-pool.query('insert into profile(bname,ison) values($1,true) on conflict(bname) do update set ison=true',[l.roomname],function(er,r){});
+let blin_id=ws.url.substring(1);
+console.log('blin_id: ',blin_id);
+pool.query('insert into room(us_id,nick) values($1,$2) on conflict(nick) do nothing returning *',[blin_id, l.roomname],
+function(er,r){if(er)console.log(er);
+if(r.rows && r.rows.length){
+let s3='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname where room.nick=$1;';
+pool.query(s3,[l.name],function(er,r){
+if(er)console.log(er);
+if(r.rows && r.rows.length){
+let d4=r.rows[0];
+d4.type="new_room";
+who_online(d4);
+}	
+})
+}
+});
+}else{
+pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
+if(er)console.log(er);
+let d5={};
+d5.type="room_part";
+d5.part=r.rows[0].v;
+d5.roomid=r.rows[0].us_id;
+who_online(d5);	
+})
 }
 send_to_client=1;
 }else if(l.type=="on_"){
@@ -312,7 +337,23 @@ if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
 ws.on('close', function(){
 console.log("websocket closed");
 if(ws.owner){
-pool.query('update profile set ison=false where bname=$1',[ws.roomname],function(er,r){});
+	let d6={};
+	d6.type="out_room";
+	d6.roomid=ws.url.substring(1);
+	who_online(d6);
+pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
+if(er)console.log(er)
+	
+});
+}else{
+pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
+if(er)console.log(er);
+	let d9={};
+	d9.type="room_part";
+	d9.part=r.rows[0].v;
+    d9.roomid=r.rows[0].us_id;
+    who_online(d9);	
+});	
 }
 })
 

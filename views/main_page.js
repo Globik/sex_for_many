@@ -10,16 +10,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",luser:buser})}
-<style>
-table{background:yellow;width:100%;}
-figure{backgrund:red;margin:0;padding:0;width:20%;}
-.duka{bckground:pink;width:90px;}
-.views{width:90px;}
-th,td{border:1px solid green;text-align:center;}
-img{overflow:hidden;}
-figcaption{ackground:brown;width:90px;}
-</style>
+<head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -31,14 +22,13 @@ ${n.m?n.m.msg:''}<br><br>
 <h4>Users: </h4>
 <br>${buser?`<a href="/webrtc/${buser.id}">${buser.bname}</a>`:'Привет, гость!'}
 <hr>
-<h4>Roomers:</h4>
 
-<table>
-<tr><th class="suka">name</th><th>status</th><th>viewers</th></tr>
-<tbody id="tbod">
-${lusers && lusers.length >0 ? roomers_list(lusers) : ''}
-</tbody>
-</table>
+<section id="onlineSection">
+<header id="onlineHeader">Чат-комнаты.</header>
+<section id="onlineContainer">
+${lusers && lusers.length >0 ? roomers_list(lusers) : '<span id="zagln">Пока нет никого. Будь первым!</span>'}
+</section>
+</section>
 </main>
 <script src="/js/gesamt.js"></script>
 
@@ -66,16 +56,26 @@ function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<tr data-roomid="${el.id}"><td class="duka">
-<figure>${el.ava ? `<img src="${el.ava}" width="80px" height="60px"/>`:''}
-<figcaption><a href="/webrtc/${el.id}">${el.bname}</a></figcaption>
-</figure></td><td>{el.descr}</td><td class="views">${el.age?el.age:18}</td></table>
-`;
+s+=`<div data-roomid="${el.us_id}" class="img-online-container">
+<img class="img-online" src="${el.ava?(el.isava==2?el.ava:'/images/default.jpg'):'/images/default.jpg'}">
+<footer class="img-footer"><a href="/webrtc/${el.us_id}">${el.nick}</a>&nbsp;,&nbsp;${el.age?el.age:18}&nbsp;лет.&nbsp;
+(<span data-vid="${el.us_id}">${el.v}</span> чел.)</footer>
+</div>`;
 });
  }
 return s;
 }
-
+/*
+<section id="onlineSection">
+<header id="onlineHeader">Чат-комнаты.</header>
+<section id="onlineContainer">
+<div data-roomid="5" class="img-online-container">
+<img class="img-online" src="../public/images/default.jpg">
+<footer class="img-footer"><a href="/webrtc/1">Globi</a>&nbsp;, 18 лет.</footer>
+</div>
+</section>
+</section>
+*/
 function get_meta(){
 let s='';
 	s+=`

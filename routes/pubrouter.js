@@ -23,11 +23,7 @@ let bresult;
 let db=ctx.db;
 
 try{
-let s='select buser.id, buser.bname, profile.age, profile.ava, profile.isava from buser left join profile on buser.bname=profile.bname where profile.ison=true';
-/*
-select buser.id, buser.bname, profile.age, profile.ava, profile.isava from buser left join profile on buser.bname=profile.bname where profile.ison=true
-*/
-
+let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
 let bus=await db.query(s);
 console.log('bus rows: ', bus.rows);
 if(bus.rows.length>0){

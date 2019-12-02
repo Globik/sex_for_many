@@ -1,6 +1,18 @@
 var sock=null;
+var loc1=location.hostname+':'+location.port;
+//var loc2='frozen-atoll-47887.herokuapp.com';
+var loc2=location.hostname;
+var loc3=loc1 || loc2;
+var new_uri;
+
+if(window.location.protocol==="https:"){
+new_uri='wss:';
+}else{
+new_uri='ws:';
+}
+
 function get_socket(){
-sock=new WebSocket("ws://localhost:3000/gesamt");
+sock=new WebSocket(new_uri+'//'+loc3+'/gesamt');
 
 sock.onopen=function(){
 console.log("websocket opened");
@@ -19,40 +31,34 @@ function on_msg(d){
 try{
 var ajson=JSON.parse(d);	
 }catch(e){return;}
-if(ajson.typ=="atair"){
-var tbod=document.getElementById("tbod");
-var row=tbod.insertRow(0);
-row.setAttribute('data-roomid', ajson.roomid);
-//console.log(row);
-
-row.innerHTML='<td><figure><img width="80px" height="60px" src="'+ajson.src+'">'+
-'<figcaption><a href="/webrtc/'+ajson.roomid+'">'+ajson.nick+'</a></figcaption></figure>'+
-'</td><td>'+ajson.roomdesc+'</td><td class="views" data-room="'+ajson.roomid+'">'+ajson.v+'</td>';
-
-	
-}else if(ajson.typ=="outair"){
+if(ajson.type=="new_room"){
+var s5=gid("zagln");
+if(s5)s5.remove();
+var dimg=document.createElement("div");
+dimg.setAttribute('data-roomid',ajson.us_id);
+dimg.className="img-online-container";
+dimg.innerHTML='<img class="img-online" src="'+(ajson.ava?(ajson.isava==2?ajson.ava:'/images/default.jpg'):'/images/default.jpg')+'">'+
+'<footer class="img-footer"><a href="/webrtc/'+ajson.us_id+'">'+ajson.nick+'</a>&nbsp;,&nbsp;'+(ajson.age?ajson.age:'18')+' лет.'+
+'&nbsp;(<span data-vid="'+ajson.us_id+'">'+ajson.v+'</span>&nbsp;чел.)</footer>';
+gid('onlineContainer').appendChild(dimg);
+}else if(ajson.type=="out_room"){
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
-console.log(seli);
 try{	
 if(seli){
-seli.remove();}
+seli.remove();
+var s7=document.querySelector(".img-online-container");
+if(!s7){
+//alert("nobody");
+var s8=document.createElement("span");
+//<span id="zagln">Пока нет никого.</span>
+s8.id="zagln";
+s8.textContent="Пока нет никого. Будь первым!";
+gid('onlineContainer').appendChild(s8);
+}
+}
 }catch(e){}
-}else if(ajson.typ=="viewers"){
-console.log('typ viewers', ajson);
-var baba=document.querySelector('[data-room="'+ajson.room_id+'"]');
-//alert(ajson.viewers);
-if(baba)baba.textContent=ajson.viewers;
+}else if(ajson.type=="room_part"){
+var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
+if(s9)s9.textContent=ajson.part;
+}else{console.log("unknown type: ", ajson.type);}
 }
-}
-
-/*
-
-`<table data-roomid="${el.room_id}" title="${el.descr}">
-<tr><th>name</th><th>status</th><th>viewers</th></tr>
-<tr><td class="duka">
-<figure>${el.src ? `<img src="${el.src}" width="80px" height="60px"/>`:''}
-<figcaption><a href="/webrtc/${el.room_id}">${el.nick}</a></figcaption>
-</figure></td><td>${el.descr}</td><td class="views">${el.v}</td></table>
-`;*/
-
-

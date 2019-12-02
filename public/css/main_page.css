@@ -1,0 +1,33 @@
+#onlineSection{
+	border:1px solid black;
+	width:100%;
+	height:auto;
+	display:block;
+	padding:0 0 20px 0;	
+	}
+	#onlineContainer{
+	display:flex;
+	flex-direction: row; 
+	flex-wrap:wrap;
+	justify-content:center;
+	height:auto;
+	}
+	#onlineHeader{
+	font-weight:bold;
+	font-size:2em;	
+	text-align:center;
+	}
+	.img-online-container{
+	display:inline-block;
+	flex:auto;
+	height:100px;
+	width:200px;
+		text-align:center;
+		margin:11px;
+	}
+	.img-online{
+height:100px;
+	}
+	.img-footer{
+	margin-top:-2px;	
+	}
