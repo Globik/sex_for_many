@@ -309,14 +309,16 @@ who_online(d4);
 }
 });
 }else{
-	if(ws.url !=="/gesamt"){
+if(ws.url !=="/gesamt"){
 pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
 if(er)console.log(er);
+if(r.rows && r.rows.length){
 let d5={};
 d5.type="room_part";
 d5.part=r.rows[0].v;
 d5.roomid=r.rows[0].us_id;
 who_online(d5);	
+}
 })
 }
 }
@@ -339,23 +341,28 @@ if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
 ws.on('close', function(){
 console.log("websocket closed");
 if(ws.owner){
+	/*let d6={};
+	d6.type="out_room";
+	d6.roomid=ws.url.substring(1);
+	who_online(d6);*/
+pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
+if(er)console.log(er)
 	let d6={};
 	d6.type="out_room";
 	d6.roomid=ws.url.substring(1);
 	who_online(d6);
-pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
-if(er)console.log(er)
-	
 });
 }else{
 if(ws.url !== "/gesamt"){
 pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
 if(er)console.log(er);
+if(r.rows && r.rows.length){
 	let d9={};
 	d9.type="room_part";
 	d9.part=r.rows[0].v;
     d9.roomid=r.rows[0].us_id;
     who_online(d9);	
+}
 });	
 
 }
