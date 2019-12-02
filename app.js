@@ -309,6 +309,7 @@ who_online(d4);
 }
 });
 }else{
+	if(ws.url !=="/gesamt"){
 pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
 if(er)console.log(er);
 let d5={};
@@ -317,6 +318,7 @@ d5.part=r.rows[0].v;
 d5.roomid=r.rows[0].us_id;
 who_online(d5);	
 })
+}
 }
 send_to_client=1;
 }else if(l.type=="on_"){
@@ -346,6 +348,7 @@ if(er)console.log(er)
 	
 });
 }else{
+if(ws.url !== "/gesamt"){
 pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
 if(er)console.log(er);
 	let d9={};
@@ -354,6 +357,8 @@ if(er)console.log(er);
     d9.roomid=r.rows[0].us_id;
     who_online(d9);	
 });	
+
+}
 }
 })
 
