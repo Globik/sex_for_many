@@ -181,7 +181,7 @@ const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
 /* HELPERS FOR WS */
-
+/*
 function broadcast_to_all_no_me(ws, obj){
 wss.clients.forEach(function(el){
 if(el !==ws && el.readyState===WebSocket.OPEN){
@@ -189,7 +189,20 @@ if(el.url == ws.url)el.send(JSON.stringify(obj));
 }
 })	
 }
-
+*/
+function insert_message(msg,nick,us_id){
+	pool.query('insert into chat(msg,us_id,nick) values($1,$2,$3)',[msg,us_id,nick],function(er,r){
+	if(er)console.log(er);	
+	})
+}
+function send_history(ws,room_id){
+pool.query('select*from chat where us_id=$1',[room_id],function(er,r){
+if(er)console.log(er);
+if(r.rows && r.rows.length>0){
+wsend(ws, {type:"history",d:r.rows})
+}
+})	
+}
 function broadcast_room(ws, obj){
 wss.clients.forEach(function(el){
 if(el.url == ws.url)wsend(el,obj);	
@@ -269,10 +282,10 @@ ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
 console.log("hi from server");
+send_history(ws,req.url.substring(1))
 let siska=get_user_count(ws.url);
 wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
 broadcast_room(ws, {type: "count",user_count:siska.user_count});
-//send_to_url({typ: "joinchat"}, req.url);//owner joined
 }else{}
 
 ws.isAlive=true;
@@ -288,13 +301,15 @@ l=JSON.parse(msg);
 if(l.type=="msg"){
 }else if(l.type=="username"){
 console.log(l);
+//send_history(ws,l.roomname);
 ws.owner=l.owner;
 ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
-
+var blin_id=ws.url.substring(1);
 if(l.owner){
 broadcast_room(ws, {type: "owner_in",nick:ws.nick});
-let blin_id=ws.url.substring(1);
+insert_message('вошел в чат.',l.name,blin_id);
+
 console.log('blin_id: ',blin_id);
 pool.query('insert into room(us_id,nick) values($1,$2) on conflict(nick) do nothing returning *',[blin_id, l.roomname],
 function(er,r){if(er)console.log(er);
@@ -336,7 +351,10 @@ send_to_client=1;
 }else{}
 
 
-if(send_to_client==0)broadcast_room(ws, l);//ws.send(msg);
+if(send_to_client==0){
+broadcast_room(ws, l);
+insert_message(l.msg,ws.nick,ws.url.substring(1));
+}
 });
 //ws.on('error', function(er){console.log("websock err: ", err);})
 
@@ -344,6 +362,7 @@ ws.on('close', function(){
 console.log("websocket closed");
 if(ws.owner){
 broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
+insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
 pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
 if(er)console.log(er)
 	let d6={};
@@ -379,7 +398,10 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 
 function broadcast_satoshi(obj){
 wss.clients.forEach(function each(client){
-if(client.roomname == obj.bname)wsend(client,obj);
+if(client.roomname == obj.bname){
+wsend(client,obj);
+insert_message('шлет'+obj.btc_amt+'сатоши.','Анон',client.url.substring(1));
+}
 })
 }
 function wsend(ws, obj){

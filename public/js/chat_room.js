@@ -138,6 +138,10 @@ insert_message(obj7);
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.'});
 }else if(ad.type=="owner_out"){
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;покинул чат.'});
+}else if(ad.type=="history"){
+	ad.d.forEach(function(el,i){
+	insert_message({from:el.nick,msg:el.msg});	
+	})
 }else{
 console.log('unknown type: '+ad.type);	
 }
