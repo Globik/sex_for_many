@@ -99,14 +99,14 @@ var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+':&nbsp;</span><span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
-chat.scrollTop=chat.clientHeight;
+chat.scrollTop=chat.clientHeight+chat.scrollHeight;
 }
 function insert_notice(ob){
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
-chat.scrollTop=chat.clientHeight;
+chat.scrollTop=chat.clientHeight+chat.scrollHeight;
 }
 function escape_html(s){
 var ix=s.replace(/[&<>"]/g,function(m){return '';})	

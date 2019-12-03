@@ -145,11 +145,11 @@ white-space:pre-line;
 word-wrap:break-word;
 overflow-wrap:break-word;
 padding:0.6em;
-line-height:1.5;	
-margin-top:5px;
-margin-right:5px;
+ine-height:1.5;	
+argin-top:2px;
+margin-right:0px;
 background-color:rgba(25,25,25,0.8);
-border:1px solid rgba(255,255,255,0.8);
+border-bottom:1px solid rgba(25,255,255,0.8);
 }
 .chat-user{color:white;}
 .chat-message{color:white;}
@@ -274,7 +274,7 @@ height: 470px;
 
 <p><h4>Your room description:</h4><textarea id="textArea" placeholder="add room description"></textarea></p>
 </section>
-
+<button onclick="get_me();">get me</button>
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class="puls"></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
 <section id="video-container">
@@ -363,17 +363,26 @@ d.typ="msg";
 d.msg=chatTxt.value;
 d.to=roomId;
 d.from=is_owner()?who_am_i:"guest";
-wsend(d);	
-chatTxt.value="";
+//wsend(d);	
+insert_message({from:"me",msg:d.msg});
+//chatTxt.value="";
 }
 function insert_message(ob){
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+'</span>:&nbsp;<span class="chat-message">'+ob.msg+'</span>';
 chat.appendChild(m);
-chat.scrollTop=chat.clientHeight;
+//chat.scrollTop=999999;//chat.clientHeight;
+chat.scrollTop=chat.clientHeight+chat.scrollHeight;
+//chat.scrollIntoView();
 }
-
+var ab=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+function get_me(){
+//alert(chat.scrollHeight);	
+ab.forEach(function(el,i){
+insert_message({from:'me',msg:i});	
+})
+}
 function on_msg(data){
 var a;
 try{a=JSON.parse(data);
