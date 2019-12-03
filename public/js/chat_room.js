@@ -27,6 +27,10 @@ new_uri='wss:';
 new_uri='ws:';
 }
 
+function insert_img(){
+window.location.href="#insImg";
+}	
+
 function owner(){return (is_owner.value==='true'?true:false);}
 function buser(){return (is_buser.value==='true'?true:false);}
 
@@ -153,3 +157,4 @@ try{
 sock.send(JSON.stringify(obj));	
 }catch(e){}	
 }
+

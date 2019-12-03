@@ -1,6 +1,7 @@
 //html_nav_menu.js
 const html_nav_menu=n=>{
 return `<!-- header_menu.js -->
+<label class="sukadura"><a href="/login">вход</a></label>
 <ul id="menu">
 <li><a href="/"><div class="mnav">home</div></a>
 </ul>
@@ -11,11 +12,11 @@ return `<!-- header_menu.js -->
 </label>
 
 <ul id="miniMenu" class="">
-<li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>home</span></div></a>
-<li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>articles</span></div></a>
-${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>profile</span></div></a>`:''}
-${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>log out</span></div></a>':
-'<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>log in</span></div></a>'}
+<li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>главная</span></div></a>
+<li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>блог</span></div></a>
+${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}
+${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>выйти</span></div></a>':
+'<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>войти</span></div></a>'}
 <!-- <li><div class="znak-svg">pic</div><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
 </ul>
 
@@ -35,7 +36,9 @@ ${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><
 <div id="inbox2"></div>
 </output>
 <script>
-var duri=gid("duri"),elmini=gid("operamini-menu-selector"),minmen=gid('miniMenu'),
+var duri=gid("duri"),
+//elmini=gid("operamini-menu-selector"),
+minmen=gid('miniMenu'),
 lb=gid('lb-menu-all'),dsel=document.querySelectorAll('label .spinner');
 var mainP=gid('enc');
 var gr=true;
@@ -67,10 +70,12 @@ function clickshalter(e){
 //console.log('clicked!');
 gr=true;
 }}
+/*
 var isOperaMini = (navigator.userAgent.indexOf('Opera Mini')>-1);
 if(isOperaMini){
 duri.style.display="none";
 elmini.style.display="block";}
+*/
 function sumor(el,clas){
 for(var i=0;i<el.length;i++){
 el[i].classList.remove(clas);
@@ -81,6 +86,6 @@ for(var i=0;i<el.length;i++){
 el[i].classList.add(clas);
 }
 }
-function gid(i){return document.getElementById(i);}
-</script><!-- end of header_menu.js -->`;}
+
+</script><!-- end of html_nav_menu.js -->`;}
 module.exports={html_nav_menu};

@@ -65,10 +65,10 @@ data-ownerOnline="${owner_online_str_en}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span></div>
+<section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span>&nbsp;<button onclick="insert_img();">foto</button></div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt"  class="chat-txt" type="text" placeholder="your message" maxlength="200"><button id="vasja" onclick="send_up();">send</button>
+<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"><button id="vasja" onclick="send_up();">send</button>
 </div>
 </section>
 </section>
@@ -83,7 +83,14 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
 <!-- <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}"> -->
 ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
-
+<a href="#." class="overlay" id="insImg"></a>
+<output id="setImg" class="popi">
+<div class="wrap-close"><a href="#." class="close"></a>
+<p><label for="forImg">Вставьте адрес картинки.</label><br>
+<input id="forImg" type="text" placeholder="fuck"/>
+<br><button onclick="send_ws_img();">Отправить</button>
+</p>
+</output>
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
