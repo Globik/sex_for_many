@@ -34,14 +34,14 @@ function send_ws_img(){
 var forImg=gid("forImg");
 if(!forImg.value)return;
 window.location.href="#.";
-//if(history)history.pushState('',null,window.location.pathname);
 rem_hash();	
 var d={};
 d.type="msg";
-d.msg = '<img src="'+forImg.value+'" height="80px"/>';
+d.msg = '<img src="'+forImg.value+'" height="80px" style="vertical-align:middle;"/>';
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);
+forImg.value="";
 }
 
 function owner(){return (is_owner.value==='true'?true:false);}

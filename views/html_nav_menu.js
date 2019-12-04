@@ -1,7 +1,7 @@
 //html_nav_menu.js
 const html_nav_menu=n=>{
 return `<!-- header_menu.js -->
-<label class="sukadura"><a href="/login">вход</a></label>
+<label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
 <li><a href="/"><div class="mnav">home</div></a>
 </ul>

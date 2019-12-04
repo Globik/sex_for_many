@@ -15,9 +15,9 @@ BEGIN
 -- RETURN NEW;
 select count(*) from chat where us_id=NEW.us_id into _cnt;
 if _cnt = 10 then
-delete from chat where us_id=NEW.us_id and tz=(select min(tz) from chat where us_id=NEW.us_id);
+delete from chat where tz=(select min(tz) from chat where us_id=NEW.us_id);
 elsif _cnt > 10 then
-delete from chat where us_id=NEW.us_id and tz in (select tz from chat where us_id=NEW.us_id limit _cnt - 10);
+delete from chat where tz in (select tz from chat where us_id=NEW.us_id limit _cnt - 10);
 end if;
 RETURN NEW;
 END;

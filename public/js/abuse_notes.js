@@ -99,4 +99,14 @@ ul.insertBefore(frag,ul.firstChild)
 ul.appendChild(frag);
 }
 }
-function gid(id){return document.getElementById(id);}
+var ddr=true;
+var admUl=gid("admUl");
+function perfect_das(){
+//alert(1);
+if(ddr){
+admUl.style.display="block";
+ddr=false;
+}else{
+admUl.style.display="none";
+ddr=true;
+}}

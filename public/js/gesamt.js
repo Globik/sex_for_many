@@ -49,10 +49,13 @@ seli.remove();
 var s7=document.querySelector(".img-online-container");
 if(!s7){
 //alert("nobody");
+var buserli=gid("buserli");
+var suserli=(buserli.value=="0"?false:true);
+var su=(suserli?'/webrtc/'+buserli.value:'/login');
 var s8=document.createElement("span");
 //<span id="zagln">Пока нет никого.</span>
 s8.id="zagln";
-s8.textContent="Пока нет никого. Будь первым!";
+s8.innerHTML='Пока нет никого. <a href="'+su+'">Будь первым!</a>';
 gid('onlineContainer').appendChild(s8);
 }
 }

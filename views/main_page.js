@@ -18,7 +18,7 @@ ${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${endf}
 <main id="pagewrap"> 
-${n.m?n.m.msg:''}<br><br>
+${n.m?n.m.msg:''}<br>
 <h4>Users: </h4>
 <br>${buser?`<a href="/webrtc/${buser.id}">${buser.bname}</a>`:'Привет, гость!'}
 <hr>
@@ -26,10 +26,12 @@ ${n.m?n.m.msg:''}<br><br>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
 <section id="onlineContainer">
-${lusers && lusers.length >0 ? roomers_list(lusers) : '<span id="zagln">Пока нет никого. Будь первым!</span>'}
+${lusers && lusers.length >0 ? roomers_list(lusers) : 
+`<span id="zagln">Пока нет никого. <a href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
 </section>
 </section>
 </main>
+<input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>
 
 ${endf}

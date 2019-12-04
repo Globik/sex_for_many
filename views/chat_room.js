@@ -84,13 +84,14 @@ data-ownerOnline="${owner_online_str_en}">
 <!-- <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}"> -->
 ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
 <a href="#." class="overlay" id="insImg"></a>
-<output id="setImg" class="popi">
-<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a>
-<p><label for="forImg">Вставьте адрес картинки.</label><br>
-<input id="forImg" type="text" placeholder="адрес фото" value="http://localhost:3000/images/w4.png"/>
+<div id="setImg" class="popi">
+<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
+<div id="pizda1">
+<label for="forImg">Введите адрес картинки.</label><br>
+<input id="forImg" type="text" placeholder="адрес фото"/>
 <br><button onclick="send_ws_img();">Отправить</button>
-</p>
-</output>
+</div>
+</div>
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
