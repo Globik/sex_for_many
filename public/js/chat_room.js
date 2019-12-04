@@ -30,6 +30,19 @@ new_uri='ws:';
 function insert_img(){
 window.location.href="#insImg";
 }	
+function send_ws_img(){
+var forImg=gid("forImg");
+if(!forImg.value)return;
+window.location.href="#.";
+//if(history)history.pushState('',null,window.location.pathname);
+rem_hash();	
+var d={};
+d.type="msg";
+d.msg = '<img src="'+forImg.value+'" height="80px"/>';
+d.roomname = modelName.value;
+d.from = myusername;// yourNick.value;
+wsend(d);
+}
 
 function owner(){return (is_owner.value==='true'?true:false);}
 function buser(){return (is_buser.value==='true'?true:false);}
@@ -92,7 +105,7 @@ function send_up(){
 if(!chatTxt.value)return;
 let d={};
 d.type = "msg";
-d.msg = chatTxt.value;// any need? => escape_html(chatTxt.value);
+d.msg = escape_html(chatTxt.value);
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);	

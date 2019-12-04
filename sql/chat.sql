@@ -5,12 +5,20 @@ drop table if exists chat;
 					tz timestamptz not null default now(),
 					us_id int not null,-- room id = us id
 				    nick varchar(25) not null);
--- insert into chat(msg,nick) values('hello','globik');
+-- insert into chat(msg,us_id,nick) values('hello',1,'Globi');
 CREATE OR REPLACE FUNCTION expire_chat_delete_old_rows() RETURNS trigger
-LANGUAGE plpgsql
-AS $$
+LANGUAGE plpgsql AS $$
+declare
+_cnt int;
 BEGIN
-DELETE FROM chat WHERE us_id=NEW.us_id AND tz < NOW() - INTERVAL '12 minutes';
+-- DELETE FROM chat WHERE us_id=NEW.us_id AND tz < NOW() - INTERVAL '12 minutes';
+-- RETURN NEW;
+select count(*) from chat where us_id=NEW.us_id into _cnt;
+if _cnt = 10 then
+delete from chat where us_id=NEW.us_id and tz=(select min(tz) from chat where us_id=NEW.us_id);
+elsif _cnt > 10 then
+delete from chat where us_id=NEW.us_id and tz in (select tz from chat where us_id=NEW.us_id limit _cnt - 10);
+end if;
 RETURN NEW;
 END;
 $$;

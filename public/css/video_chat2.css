@@ -144,7 +144,7 @@ background-color:rgba(25,25,25,0.8);
 border-bottom:1px solid rgba(55,255,255,0.8);
 }
 .chat-user{color:yellow;}
-.chat-message{color:white;}
+.chat-message{color:white;display:inline-block;vertical-align:middle;}
 
 .btn-start{
 width:20%;

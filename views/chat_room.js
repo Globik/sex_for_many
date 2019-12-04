@@ -85,9 +85,9 @@ data-ownerOnline="${owner_online_str_en}">
 ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
 <a href="#." class="overlay" id="insImg"></a>
 <output id="setImg" class="popi">
-<div class="wrap-close"><a href="#." class="close"></a>
+<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a>
 <p><label for="forImg">Вставьте адрес картинки.</label><br>
-<input id="forImg" type="text" placeholder="fuck"/>
+<input id="forImg" type="text" placeholder="адрес фото" value="http://localhost:3000/images/w4.png"/>
 <br><button onclick="send_ws_img();">Отправить</button>
 </p>
 </output>
@@ -101,3 +101,9 @@ width:128,height:128,border:4,});`:''}</script>
 </html>`;
 }
 module.exports={chat_room};
+/*
+ for trigger
+ delete from chat where tz=(select min(tz) from chat where us_id=1); -- if count == lim
+ select tz from chat where us_id=1 limit 3; 
+ delete from chat where //us_id=1\\ and tz in (select tz from chat where us_id=1 limit 3); --if count > lim
+ */ 
