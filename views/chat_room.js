@@ -65,7 +65,7 @@ data-ownerOnline="${owner_online_str_en}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel"><b>chat: </b><span id="chatcnt">0</span>&nbsp;<button onclick="insert_img();">foto</button></div>
+<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;<button onclick="insert_img();">foto</button></div>
 <div id="chat"></div>
 <div id="under-chat">
 <input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"><button id="vasja" onclick="send_up();">send</button>
@@ -73,8 +73,9 @@ data-ownerOnline="${owner_online_str_en}">
 </section>
 </section>
 <div style="clear:both;"></div> 
-
-
+<header>Remote video</header>
+<video id="remoteVideo" autoplay>no video supported</video>
+<output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'Anon'}">

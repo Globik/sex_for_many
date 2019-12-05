@@ -2,8 +2,8 @@
 //heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;//for heroku
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -215,10 +215,13 @@ if(el.url == "/gesamt")wsend(el,obj)
 }
 }
 
-function send_target(msg, url){
+function send_to_one(url,nick,msg){
 for(var el of wss.clients){
-if(el.url == url){
-if(el.readyState===WebSocket.OPEN)el.send(msg);
+if(url==el.url){
+if(el.nick == nick){
+wsend(el, msg);
+break;
+}
 }
 }
 }
@@ -340,11 +343,11 @@ who_online(d5);
 }
 }
 send_to_client=1;
-}else if(l.type=="on_"){
+}else if(l.type=="candidate"){
 
-}else if(l.type=="outair"){
+}else if(l.type=="offer"){
 
-}else if(l.type=="roomok"){
+}else if(l.type=="answer"){
 
 }else if(l.type == "roomnot"){
 
@@ -352,9 +355,14 @@ send_to_client=1;
 
 
 if(send_to_client==0){
+if(l.target && l.target !==undefined && msg.target.length !==0){
+//url,nick,msg
+send_to_one(ws.url,l.target,l);	
+}else{
 broadcast_room(ws, l);
 console.log('l.msg: ',l, ' ',ws.url.substring(1));
 insert_message(l.msg,ws.nick,ws.url.substring(1));
+}
 }
 });
 //ws.on('error', function(er){console.log("websock err: ", err);})

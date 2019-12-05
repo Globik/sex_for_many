@@ -3,7 +3,6 @@
 drop table if exists profile;
 create table profile(id serial PRIMARY KEY,
 					 bname  varchar(16) unique not null references buser(bname), 
-					 
 					 age int check(age >=18) not null default 18,
 					 msg text, -- message to all
 					 ava text, -- base 64

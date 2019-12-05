@@ -15,6 +15,19 @@ var sock;
 var myusername;
 var clientNick;
 
+var localVideo=gid("localVideo");
+var remoteVideo=gid("remoteVideo");
+var localStream;
+var targetusername;
+var pc;
+var hasAddTrack=false;
+var bon_ice;
+
+//navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
+var ice_server={"iceServers":[]};
+
 var loc1=location.hostname+':'+location.port;
 //var loc2='frozen-atoll-47887.herokuapp.com';
 var loc2=location.hostname;
@@ -170,4 +183,111 @@ try{
 sock.send(JSON.stringify(obj));	
 }catch(e){}	
 }
+
+// WEBRTC STUFF
+function do_start(el){
+//non owner colling the model(one to one)
+//by idea ws type call_offer to model, if return call_offer_yes so=> go_webrtc()
+go_webrtc();
+}
+function go_webrtc(){		
+navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(mstream){
+playVideo(localVideo,mstream);
+pc=createPeer();
+pc.addStream(mstream);
+pc.onaddstream=function(e){
+remotevideo.srcObject=e.stream;
+}
+pc.onremovestream=function(){
+//handleleave();
+console.log('on remove stream');					
+}
+if(!owner)createOffer();
+}).catch(function(er){console.error(er);
+webrtc.innerHTML+=er+'<br>';
+})
+}
+function playVideo(element, stream){
+if('srcObject' in element){element.srcObject=stream;}
+element.play();
+element.volume=0;	
+}
+function createOffer(){
+pc.createOffer().then(function(offer){
+return pc.setLocalDescription(offer);
+}).then(function(){
+wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName})
+}).catch(function(err){
+console.error(err);
+webrtc.innerHTML+=err+'<br>';
+})
+}
+
+function createPeer(){
+pc=new RTCPeerConnection(ice_server);
+pc.onicecandidate = on_ice_candidate;
+pc.oniceconnectionstatechange = on_ice_connection_state_change;
+pc.onicegatheringstatechange = on_ice_gathering_state_change;
+pc.onicecandidaterror = on_ice_candidate_error;
+pc.onnegotiationneeded = on_negotiation_needed;
+pc.signalingstatechange = signaling_state_change;
+pc.onconnectionstatechange = on_connection_state_change;
+return pc;	
+}
+
+function on_ice_candidate(event){
+if(event.candidate){
+console.warn("ON ICE CANDIDATE!");
+var d={};
+d.type="candidate";
+d.candidate=event.candidate;
+d.from=myusername;
+d.target=modelName;
+wsend(d);	
+}	
+}
+
+function on_ice_connection_state_change(){
+console.log('ice connection state: ',this.iceConnectionState);
+//disconnected failed connected completed
+//TODO if 'checking' very long - mark as failed in owner space
+if(this.iceConnectionState=="disconnected"){
+underVideo.className="";
+//if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
+}else if(this.iceConnectionState=="closed"){
+if(is_owner()){
+v.className="";
+//stopVideo();
+}
+if(!is_owner()){
+btnStart.textContent='start';
+}
+}else if(this.iceConnectionState=="connected"){
+v.className="start";
+}else if(this.iceConnectionState=="completed"){
+onlineDetector.className="puls";// any need?
+v.className="start";
+}else{}	
+}
+function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
+}
+function on_ice_candidate_error(err){console.error('ice candidate err: ', err);}
+function on_negotiation_needed(){console.warn("ON NEGOTIATION NEEDED!");}
+function signaling_state_change(){console.log('signaling state: ',this.signalingState);}
+function on_connection_state_change(){
+console.log('connection state: ', this.connectionState);
+if(this.connectionState=="disconnected"){
+//stop_stream();
+pc.close();
+}else if(this.connectionState=="failed"){
+	
+}else if(this.connectionState=="connecting"){
+setTimeout(function(){
+//stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
+},3000);
+v.className="connecting";
+}
+}
+
+
 

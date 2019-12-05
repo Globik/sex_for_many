@@ -245,7 +245,7 @@ right:0;}*/
 /*popup*/
 
 .overlay {
-background-color: rgba(0, 0, 0, 0.5);
+background-color: rgba(0, 0, 0, 0.9);
 bottom: 0;
 left:0;
 right: 0;
@@ -265,11 +265,11 @@ z-index:100;
 }
 .popi {
 border: 1px solid rgba(255,245,255,0.2);
-background:rgba(20,20,30,0.9);
+background:rgba(20,20,30,1);
 color:rgba(233,240,250,0.9);
 font-family:Arial,sans-serif;
 left: 50%;
-top: 15%;
+top: 25%;
 width:auto;
 padding: 10px 20px 20px 20px;
 opacity:0;
@@ -289,14 +289,11 @@ opacity: 1;
 visibility: visible;
 }
 
-.wrap-close{height:0em;margin-bottom:0em;ackground:brown;display:block;position:relative;}
+.wrap-close{height:0em;margin-bottom:0em;display:block;position:relative;}
 .close {
-ackground-color: rgba(0, 0, 0, 0.9);
 height: 0.9em;
 text-align: center;
 width: 0.9em;
-order-radius: 15px;
-loat:right;
 position:absolute;
 top:0;
 right:0;
@@ -308,8 +305,6 @@ font-size:1.6em;
 color: rgba(255, 255, 255, 0.9);
 content:"\274c";
 /* or x \d7 */
-ertical-align:500px;
-adding:5px;
 }
 
 
