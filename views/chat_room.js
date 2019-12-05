@@ -87,7 +87,7 @@ ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
 <div id="setImg" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
 <div id="pizda1">
-<label for="forImg">Введите адрес картинки.</label><br>
+<label for="forImg">Введите адрес картинки.</label><br><br>
 <input id="forImg" type="text" placeholder="адрес фото"/>
 <br><button onclick="send_ws_img();">Отправить</button>
 </div>
