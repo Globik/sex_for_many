@@ -215,15 +215,15 @@ if(el.url == "/gesamt")wsend(el,obj)
 }
 }
 
-function send_to_one(url,nick,msg){
+function send_to_one(ws,nick,msg){
 for(var el of wss.clients){
-if(url==el.url){
 if(el.nick == nick){
 wsend(el, msg);
-break;
+return;
 }
 }
-}
+//not found, offline?
+wsend(ws,{type:"no_target",who:msg.target,ontype:msg.type});
 }
 
 function get_user_count(url){
@@ -355,9 +355,10 @@ send_to_client=1;
 
 
 if(send_to_client==0){
-if(l.target && l.target !==undefined && msg.target.length !==0){
-//url,nick,msg
-send_to_one(ws.url,l.target,l);	
+if(l.target && l.target !==undefined && l.target.length !==0){
+// ws,nick,msg
+console.log('send to one: ',l);
+send_to_one(ws,l.target,l);	
 }else{
 broadcast_room(ws, l);
 console.log('l.msg: ',l, ' ',ws.url.substring(1));

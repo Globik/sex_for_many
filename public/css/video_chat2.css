@@ -70,6 +70,7 @@ position:relative;
 perspective:1000px;
 perspective-origin:55% 55%;
 transform-style:preserve-3d;
+ackground:red;
 }
 #video-wrapper::after{
 position:absolute;
@@ -78,7 +79,7 @@ box-sizing:border-box;
 top:0;
 left:0;
 font-size:1.2em;
-content: attr(data-ownerStartStrEn);/*"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	*/
+content: attr(data-ownerOfflineStrEn);/*"Press 'start' button to broadcast yourself. To stop broadcast press 'stop' button.";	*/
 z-index:30;
 color: white;
 width:100%;
@@ -103,11 +104,12 @@ content: attr(data-ownerOnline);
 content:attr(data-ownerOfflineStrEn);
 }
 
-.rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}
+/*.rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}*/
 
 #video-wrapper.connecting::after{
 content:"Connecting...";
-background:rgba(0,0,0,0);	
+background:rgba(0,0,0,0.5);
+color:yellow;	
 }
 #video-wrapper.connected::after{
 content="";	

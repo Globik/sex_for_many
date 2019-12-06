@@ -172,6 +172,11 @@ insert_message(obj7);
 	ad.d.forEach(function(el,i){
 	insert_message({from:el.nick,msg:el.msg});	
 	})
+}else if(ad.type=="no_target"){
+// who(target),ontype(offer)
+stop_failure(ad);//for non owner
+}else if(ad.type=="offer"){
+handle_offer();	
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -186,13 +191,12 @@ sock.send(JSON.stringify(obj));
 
 // WEBRTC STUFF
 function do_start(el){
-//non owner colling the model(one to one)
-//by idea ws type call_offer to model, if return call_offer_yes so=> go_webrtc()
+	el.disabled=true;
 go_webrtc();
 }
 function go_webrtc(){		
 navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(mstream){
-playVideo(localVideo,mstream);
+playVideo(localVideo, mstream);
 pc=createPeer();
 pc.addStream(mstream);
 pc.onaddstream=function(e){
@@ -202,21 +206,27 @@ pc.onremovestream=function(){
 //handleleave();
 console.log('on remove stream');					
 }
-if(!owner)createOffer();
-}).catch(function(er){console.error(er);
+if(!owner())createOffer();
+}).catch(function(er){
+console.error(er);
 webrtc.innerHTML+=er+'<br>';
 })
 }
 function playVideo(element, stream){
+//if(localStream)return;
+localStream=stream;
 if('srcObject' in element){element.srcObject=stream;}
 element.play();
 element.volume=0;	
+//alert('play');
 }
 function createOffer(){
+	//alert('createoffer '+ owner());
 pc.createOffer().then(function(offer){
 return pc.setLocalDescription(offer);
 }).then(function(){
-wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName})
+	//alert('modelName'+modelName.value);
+wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value})
 }).catch(function(err){
 console.error(err);
 webrtc.innerHTML+=err+'<br>';
@@ -242,7 +252,7 @@ var d={};
 d.type="candidate";
 d.candidate=event.candidate;
 d.from=myusername;
-d.target=modelName;
+d.target=modelName.value;
 wsend(d);	
 }	
 }
@@ -288,6 +298,46 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
+function handle_offer(){
+alert('offer');	
+}
+function stop_failure(obj){
+//for non owner?
 
+stopVideo();	
+note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',time:5});
+}
+function stopVideo(){
+if(remoteVideo.srcObject){
+remoteVideo.srcObject.getTracks().forEach(function(track){track.stop();})
+}
+if(localVideo.srcObject){
+localVideo.srcObject.getTracks().forEach(function(track){track.stop();})
+}
+//remoteVideo.src=null;
+//localVideo.src=null;
+localStream=null;//any need?
+if(!pc){console.log('no pc');return;}
+clearPeer();
+
+}
+function clearPeer(){
+console.log('pc: ',pc.signalingState);
+pc.close();
+pc.onicecandidate=null;
+pc.onaddstream=null;
+pc.onremovestream=null;
+
+pc.oniceconnectionstatechange = null;
+pc.onicegatheringstatechange = null;
+pc.onicecandidaterror = null;
+pc.onnegotiationneeded = null;
+pc.signalingstatechange = null;
+pc.onconnectionstatechange=null;
+pc=null;
+console.log('pc: ',pc);
+v.className="";
+btnStart.disabled=false;
+}
 
 
