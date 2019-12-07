@@ -176,7 +176,7 @@ insert_message(obj7);
 // who(target),ontype(offer)
 stop_failure(ad);//for non owner
 }else if(ad.type=="offer"){
-handle_offer();	
+handle_offer(ad.offer,ad.from);	
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -191,41 +191,51 @@ sock.send(JSON.stringify(obj));
 
 // WEBRTC STUFF
 function do_start(el){
-	el.disabled=true;
+el.disabled=true;
 go_webrtc();
 }
 function go_webrtc(){		
-navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(mstream){
-playVideo(localVideo, mstream);
+navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(get_stream).catch(function(er){
+console.error(er);
+note({content:'Веб-камера не включена! Включите.',type:'error',time:5});
+if(!owner())btnStart.disabled=false;
+webrtc.innerHTML+=er+'<br>';
+}
+)
+}
+
+function get_stream(mstream){
+//navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(mstream){
 pc=createPeer();
-pc.addStream(mstream);
-pc.onaddstream=function(e){
-remotevideo.srcObject=e.stream;
+pc.ontrack=function(e){
+if(remoteVideo.srcObject)return;
+remotevideo.srcObject=e.streams[0];
 }
 pc.onremovestream=function(){
-//handleleave();
+//handleleave();??
 console.log('on remove stream');					
 }
+playVideo(localVideo, mstream);
 if(!owner())createOffer();
-}).catch(function(er){
-console.error(er);
-webrtc.innerHTML+=er+'<br>';
-})
 }
+//)}
+
 function playVideo(element, stream){
 //if(localStream)return;
-localStream=stream;
-if('srcObject' in element){element.srcObject=stream;}
+//localStream=stream;
+//if('srcObject' in element){
+stream.getTracks().forEach(function(track){
+pc.addTrack(track,stream);
+element.srcObject=stream;
+//}
+})
 element.play();
 element.volume=0;	
-//alert('play');
 }
 function createOffer(){
-	//alert('createoffer '+ owner());
 pc.createOffer().then(function(offer){
 return pc.setLocalDescription(offer);
 }).then(function(){
-	//alert('modelName'+modelName.value);
 wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value})
 }).catch(function(err){
 console.error(err);
@@ -298,9 +308,18 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
-function handle_offer(){
-alert('offer');	
+function handle_offer(sdp,target){
+console.log('sdp: ', sdp);	//for owner
+go_webrtc();
+if(pc){
+pc.setLocalDescription(function(){
+pc.createAnswer(function(){
+wsend({type:"answer",answer:pc.localDescription,from:myusername,target:target});
+},eri)	
+},eri)	
 }
+}
+function eri(e){console.error(e);}
 function stop_failure(obj){
 //for non owner?
 
