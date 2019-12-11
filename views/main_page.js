@@ -22,7 +22,8 @@ ${n.m?n.m.msg:''}<br>
 <h4>Users: </h4>
 <br>${buser?`<a href="/webrtc/${buser.id}">${buser.bname}</a>`:'Привет, гость!'}
 <hr>
-
+<a href="/motion">motionpix</a>
+<hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
 <section id="onlineContainer">

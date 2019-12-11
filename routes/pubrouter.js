@@ -3,6 +3,7 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const uuid=require('uuid/v4');
 //const request=require('../../node_modules/request');
 const reqw=require('request-promise-native');
 const walletValidator=require('wallet-address-validator');//0.2.4
@@ -314,6 +315,296 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"Фото удалено!"};	
 })
+
+// MOTION PIX
+//import { Request, Response, Router } from 'express';
+//import { v4 as uuid } from 'uuid';
+//var uuid=require('uuid');
+//const express = require('express');
+
+//const router: Router = express.Router();
+
+class Offer {
+  //sdp: string;
+
+  //datetime: number;
+
+  constructor(sdp, datetime) {
+    this.sdp = sdp;
+    this.datetime = datetime;
+  }
+}
+
+class Answer {
+  //sdp: string;
+
+  //datetime: number;
+
+  constructor(sdp, datetime) {
+    this.sdp = sdp;
+    this.datetime = datetime;
+  }
+}
+
+class Candidate {
+  //candidate: string;
+
+  //sdpMLineIndex: number;
+
+  //sdpMid: string;
+
+  //datetime: number;
+
+  constructor(candidate, sdpMLineIndex, sdpMid, datetime) {
+    this.candidate = candidate;
+    this.sdpMLineIndex = sdpMLineIndex;
+    this.sdpMid = sdpMid;
+    this.datetime = datetime;
+  }
+}
+
+// [{sessonId:[connectionId,...]}]
+//const clients: Map<string, Set<string>>
+ //= new Map<string, Set<string>>();
+ const clients=new Map();
+
+// [{connectionId:[sessionId1, sessionId2]}]
+//const connectionPair: Map<string, [string, string]> = new Map<string, [string, string]>(); // key = connectionId
+const connectionPair=new Map();
+// [{connectionId:Offer}]
+//const offers: Map<string, Offer> = new Map<string, Offer>();
+const offers=new Map();
+// [{connectionId:Answer}]
+//const answers: Map<string, Answer> = new Map<string, Answer>();
+const answers=new Map();
+// [{sessionId:[{connectionId:Candidate},...]}]
+//const candidates: Map<string, Map<string, Candidate[]>> = new Map<string, Map<string, Candidate[]>>(); // key = sessionId
+
+const candidates=new Map();
+
+function getOrCreateConnectionIds(sessionId) {
+  let connectionIds = null;
+  if (!clients.has(sessionId)) {
+    connectionIds = new Set();
+    clients.set(sessionId, connectionIds);
+  }
+  connectionIds = clients.get(sessionId);
+  return connectionIds;
+}
+/*
+router.use((req: Request, res: Response, next) => {
+  if (req.url === '/') {
+    next();
+    return;
+  }
+  const id: string = req.header('session-id');
+  if (!clients.has(id)) {
+    res.sendStatus(404);
+    return;
+  }
+  next();
+});
+*/
+pub.get('/motion', async(ctx)=>{
+	
+ctx.body=await ctx.render('motion',{})	
+})
+pub.get('/motion/signaling/offer/:fromtime', async (ctx) => {
+  console.log(' GET SIGNALING OFFER:FROMTIME OCCURED!');
+  const fromTime = ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+console.log("fromTime: ",fromTime);
+  let arrayOffers = Array.from(offers);
+  if (fromTime > 0) {
+    arrayOffers = arrayOffers.filter((v) => v[1].datetime > fromTime);
+  }
+  const obj = arrayOffers.map((v) => ({ connectionId: v[0], sdp: v[1].sdp }));
+  //res.json({ offers: obj });
+  ctx.body={offers:obj};
+});
+
+/*
+pub.get('/motion/signalng/answer/:fromtime', async (ctx) => {
+  console.log('GET ANSWER:FROMTIME OCCURED!');
+  const fromTime= ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+
+  const sessionId = ctx.header['session-id'];
+  let connectionIds = Array.from(clients.get(sessionId));
+  connectionIds = connectionIds.filter((v) => answers.has(v));
+
+  const arr = [];
+  for (const connectionId of connectionIds) {
+    const answer = answers.get(connectionId);
+    if (answer.datetime > fromTime) {
+      arr.push({ connectionId, sdp: answer.sdp });
+    }
+  }
+  console.log('arr in answer fromtime');
+ // res.json({ answers: arr });
+ ctx.body={answers:arr};
+});
+*/
+pub.get('/motion/signaling/candidate/:fromtime', async (ctx) => {
+  console.log('GET SIGNALING`CANDIDATE :FROMTIME OCCURED! *****************')
+  const fromTime= ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+  const sessionId = ctx.header['session-id'];
+  console.log('sess id:',sessionId,' params',ctx.params);
+  console.log(ctx.header);
+  const connectionIds = Array.from(clients.get(sessionId));
+  console.log('connectionIds ',connectionIds);
+  const arr = [];
+  
+  for (const connectionId of connectionIds) {
+    const pair = connectionPair.get(connectionId);
+    console.log('pair: ',pair);
+    if (pair == null) {
+      continue;
+    }
+    const otherSessionId = sessionId === pair[0] ? pair[1] : pair[0];
+    console.log('other session id: ',otherSessionId);
+    if (!candidates.get(otherSessionId) || !candidates.get(otherSessionId).get(connectionId)) {
+      continue;
+    }
+    const arrayCandidates = candidates.get(otherSessionId).get(connectionId)
+      .filter((v) => v.datetime > fromTime)
+      .map((v) => ({ candidate: v.candidate, sdpMLineIndex: v.sdpMLineIndex, sdpMid: v.sdpMid }));
+    if (arrayCandidates.length === 0) {
+      continue;
+    }
+    console.log('arrayCandidate: ',arrayCandidates);
+    arr.push({ connectionId, candidates: arrayCandidates });
+  }
+  //res.json({ candidates: arr });
+  console.log('arr: ',arr);
+  ctx.body={candidates:'arr'}
+});
+
+pub.get('/motion/signaling/suka', async(ctx) => {
+	console.log("^^^^SIGNALING SUKA ^^^^^^$$$$$$$$$$$$$$$$$$$^^^^^^^^^^^^^^^^^**********")
+	//console.log(ctx.header);
+  const id = uuid();
+  //console.log("ID: ",id);
+  //alert(id)
+  clients.set(id, new Set());
+  //res.json({ sessionId: id });
+  
+  ctx.body={sessionId:id}
+});
+
+pub.delete('', async(ctx) => {
+  const id= ctx.header['session-id'];
+  clients.delete(id);
+  ctx.sendStatus(200);
+});
+
+pub.put('/motion/signaling/connection', (ctx) => {
+	console.log("put connection",ctx.header['user-agent'],"********************************************");
+	console.log('header: ',ctx.header);
+	//console.log('offers: ',offers,clients);
+  const sessionId = ctx.header['session-id'];
+  
+  const connectionId = uuid();
+  const connectionIds = getOrCreateConnectionIds(sessionId);
+  connectionIds.add(connectionId);
+  //res.json({ connectionId });
+  ctx.body={connectionId};
+});
+
+pub.delete('/motion/signaling/connection', async(ctx) => {
+	console.log('del connection***************************************************');
+  const sessionId= ctx.header['session-id'];
+  const { connectionId } = ctx.request.body;
+  const connectionIds = clients.get(sessionId);
+  connectionIds.delete(connectionId);
+  connectionPair.delete(connectionId);
+  ctx.status=200;
+});
+
+pub.post('/motion/signaling/offer', async(ctx) => {
+	console.log('POST offer-----------------------------------------------------');
+  const sessionId =ctx.header['session-id'];
+  console.log('********** sessionId *************',sessionId);
+  console.log("body : ",ctx.request.body);
+  const { connectionId } = ctx.request.body;
+  offers.set(connectionId, new Offer(ctx.request.body.sdp, Date.now()));
+  connectionPair.set(connectionId, [sessionId, null]);
+  //ctx.sendStatus(200);
+  ctx.status=200;
+  ctx.body={info:"okli"}
+});
+
+pub.post('/motion/signaling/answer', async(ctx) => {
+console.log('POST*******MOTION SIGNALING ANSWER*******************************r');
+  const sessionId = ctx.header['session-id'];
+  const { connectionId } = ctx.request.body;
+  console.log("body2: ", ctx.request.body);
+  const connectionIds = getOrCreateConnectionIds(sessionId);
+  connectionIds.add(connectionId);
+  answers.set(connectionId, new Answer(ctx.request.body.sdp, Date.now()));
+
+  // add connectionPair
+  const pair = connectionPair.get(connectionId);
+  const otherSessionId = pair[0];
+  connectionPair.set(connectionId, [otherSessionId, sessionId]);
+
+  // update datetime for candidates
+  const mapCandidates = candidates.get(otherSessionId);
+  if (mapCandidates) {
+    const arrayCandidates = mapCandidates.get(connectionId);
+    for (const candidate of arrayCandidates) {
+      candidate.datetime = Date.now();
+    }
+  }
+ ctx.status=200;
+ ctx.body={};
+ 
+});
+
+pub.get('/motion/signaling/answer/:fromtime',async (ctx)=>{
+console.log('GET ANSWER:FROMTIME OCCURED!');
+  const fromTime= ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+
+  const sessionId = ctx.header['session-id'];
+  console.log("sesion Id: ", sessionId);
+  let connectionIds = Array.from(clients.get(sessionId));
+  connectionIds = connectionIds.filter((v) => answers.has(v));
+
+  const arr = [];
+  console.log('connectionIds ', connectionIds);
+  console.log('clients: ',clients);
+  for (const connectionId of connectionIds) {
+    const answer = answers.get(connectionId);
+    if (answer.datetime > fromTime) {
+      arr.push({ connectionId, sdp: answer.sdp });
+    }
+  }
+  console.log('arr in answer fromtime',arr);
+ // res.json({ answers: arr });
+ ctx.body={answers:arr};
+
+
+	
+})
+
+pub.post('/motion/signaling/candidate',async (ctx) => {
+	console.log('POST SIGNALING CANDIDATE**************');
+  const sessionId = ctx.header['session-id'];
+  const { connectionId } = ctx.request.body;
+console.log('ctx.reques body: ',ctx.request.body);
+  if (!candidates.has(sessionId)) {
+    candidates.set(sessionId, new Map());
+  }
+  const map = candidates.get(sessionId);
+  if (!map.has(connectionId)) {
+    map.set(connectionId, []);
+  }
+  const arr = map.get(connectionId);
+  const candidate = new Candidate(ctx.request.body.candidate, ctx.request.body.sdpMLineIndex, ctx.request.body.sdpMid, Date.now());
+  arr.push(candidate);
+  console.log('arr :',arr);
+  ctx.status=200;
+});
+
+
 module.exports=pub;
 function auth(ctx,next){
 	//for xhr

@@ -177,6 +177,10 @@ insert_message(obj7);
 stop_failure(ad);//for non owner
 }else if(ad.type=="offer"){
 handle_offer(ad.offer,ad.from);	
+}else if(ad.type=="answer"){
+handle_answer(ad.answer);	
+}else if(ad.type=="candidate"){
+handle_candidate(ad.candidate);	
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -266,7 +270,9 @@ d.target=modelName.value;
 wsend(d);	
 }	
 }
-
+function handle_candidate(obj){
+if(pc)pc.addIceCandidate(obj.candidate)	
+}
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
 //disconnected failed connected completed
@@ -279,9 +285,10 @@ if(is_owner()){
 v.className="";
 //stopVideo();
 }
-if(!is_owner()){
-btnStart.textContent='start';
-}
+
+//if(!is_owner()){
+//btnStart.textContent='start';
+//}
 }else if(this.iceConnectionState=="connected"){
 v.className="start";
 }else if(this.iceConnectionState=="completed"){
@@ -308,18 +315,36 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
-function handle_offer(sdp,target){
+function handle_offer(sdp, target){
 console.log('sdp: ', sdp);	//for owner
 go_webrtc();
+/*
 if(pc){
 pc.setLocalDescription(function(){
 pc.createAnswer(function(){
 wsend({type:"answer",answer:pc.localDescription,from:myusername,target:target});
 },eri)	
 },eri)	
+}*/
+if(pc){
+pc.setRemoteDescription(sdp).then(function(){;
+return pc.createAnswer();
+}).then(function(answer){
+return pc.setLocalDescription(answer);}).then(function(){
+wsend({type:"answer",answer:pc.localDescription,from:myusername,target:target});	
+}).catch(function(er){console.error(er);})
 }
 }
-function eri(e){console.error(e);}
+function handle_answer(sdp){
+//console.error();
+console.log("answer came");
+if(pc){
+pc.setRemoteDescription(sdp);	
+}
+}
+function handle_candidate(cand){
+if(pc)pc.addIceCandidate(cand)	
+}
 function stop_failure(obj){
 //for non owner?
 
@@ -333,9 +358,7 @@ remoteVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 if(localVideo.srcObject){
 localVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 }
-//remoteVideo.src=null;
-//localVideo.src=null;
-localStream=null;//any need?
+
 if(!pc){console.log('no pc');return;}
 clearPeer();
 

@@ -2,8 +2,8 @@
 //heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;//for heroku
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -81,7 +81,7 @@ var btc_pay=false;
 var is_test_btc=true;
 
 app.use(async (ctx, next)=>{
-console.log("FROM HAUPT MIDDLEWARE =>",ctx.path);
+console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 ctx.db=pool;
 ctx.state.btc_pay= btc_pay;
 ctx.state.is_test_btc = is_test_btc;
@@ -131,17 +131,18 @@ app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
 
 app.use(adminrouter.routes()).use(adminrouter.allowedMethods());
 
+
 app.use(async (ctx, next)=>{
 console.log('ctx.status!',ctx.status);
 
 try{
 await next();
 
-if(ctx.status === 404) ctx.throw(404, "fuck not found",{user:"fuck userss"});
+//if(ctx.status === 404) //ctx.throw(404, "fuck not found",{user:"fuck userss"});
 }catch(err){
 //ctx.status=err.status || 500;
 //console.log('THIS>STATUS: ', ctx.status);
-console.log("error");
+console.log("error",err);
 if(ctx.status=== 404){
 ctx.session.error='not found';
 console.log('method: ', ctx.method, 'ctx.url: ', ctx.url);
@@ -156,7 +157,7 @@ return;
 });
 
 app.on('error', function(err, ctx){
-console.log('app.on.error: ', err.message, 'ctx.url : ', ctx.url);
+console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 });
 
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
