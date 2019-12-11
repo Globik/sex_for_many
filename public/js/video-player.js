@@ -171,9 +171,9 @@ var urli=[
     while(true) {
       const res = await this.signaling.getCandidate(sessionId, lastTimeRequest);
       lastTimeRequest = Date.parse(res.headers.get('Date'));
-
+console.log('lastTimeRequest ',lastTimeRequest);
       const data = await res.json();
-  //   alert('data in loop get candidate '+JSON.stringify(data));
+    //alert('data in loop get candidate '+JSON.stringify(data));
       const candidates = data.candidates.filter(v => v.connectionId = this.connectionId);
       if(candidates.length > 0) {
         for(let candidate of candidates[0].candidates) {

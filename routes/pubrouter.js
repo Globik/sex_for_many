@@ -475,7 +475,7 @@ pub.get('/motion/signaling/candidate/:fromtime', async (ctx) => {
   }
   //res.json({ candidates: arr });
   console.log('arr: ',arr);
-  ctx.body={candidates:'arr'}
+  ctx.body={candidates:arr}
 });
 
 pub.get('/motion/signaling/suka', async(ctx) => {
