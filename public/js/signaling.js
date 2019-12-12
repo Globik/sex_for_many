@@ -57,14 +57,14 @@ class Signaling {
     return await fetch(this.url(''), {method: 'DELETE', headers: this.headers(sessionId)});
   };
   async getOffer(sessionId, fromTime = 0) {
-    return await fetch(this.url(`offer/${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
+    return await fetch(this.url(`offer?fromtime=${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
   };
   async getAnswer(sessionId, fromTime = 0) {
 	 // alert('get answer')
-    return await fetch(this.url(`answer/${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
+    return await fetch(this.url(`answer?fromtime=${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
   };
   async getCandidate(sessionId, fromTime = 0) {
-    return await fetch(this.url(`candidate/${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
+    return await fetch(this.url(`candidate?fromtime=${fromTime}`), {method: 'GET', headers: this.headers(sessionId)});
   };
 }
 

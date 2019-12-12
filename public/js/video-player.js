@@ -144,7 +144,7 @@ var urli=[
 
   async loopGetAnswer(sessionId, interval) {
     console.log('***********receive answer message from 30secs ago ***',sessionId, interval);
-    let lastTimeRequest = Date.now() - 3000;
+    let lastTimeRequest = Date.now() - 30000;
 //alert('loop get answer');
     while(true) {
       const res = await this.signaling.getAnswer(sessionId, lastTimeRequest);
@@ -165,7 +165,7 @@ var urli=[
 
   async loopGetCandidate(sessionId, interval) {
     // receive answer message from 30secs ago
-    let lastTimeRequest = Date.now() - 3000;
+    let lastTimeRequest = Date.now() - 30000;
     console.log("loop get candidate");
 //alert(sessionId)
     while(true) {

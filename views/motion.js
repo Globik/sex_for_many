@@ -17,7 +17,8 @@ return `<!DOCTYPE html><html lang="en">
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
 
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
-
+<button onclick="fetch_was();">fetch was</button>
+<button oclick="put_was();">put was</button>
 <main id="pagewrap"><h1>Motion pix</h1> 
 <button onclick="fetch_was();">fetch was</button>
 <button oclick="put_was();">put was</button>

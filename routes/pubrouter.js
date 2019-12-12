@@ -409,9 +409,9 @@ pub.get('/motion', async(ctx)=>{
 	
 ctx.body=await ctx.render('motion',{})	
 })
-pub.get('/motion/signaling/offer/:fromtime', async (ctx) => {
+pub.get('/motion/signaling/offer', async (ctx) => {
   console.log(' GET SIGNALING OFFER:FROMTIME OCCURED!');
-  const fromTime = ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+  const fromTime = ctx.query.fromtime ? Number(ctx.query.fromtime) : 0;
 console.log("fromTime: ",fromTime);
   let arrayOffers = Array.from(offers);
   if (fromTime > 0) {
@@ -443,11 +443,11 @@ pub.get('/motion/signalng/answer/:fromtime', async (ctx) => {
  ctx.body={answers:arr};
 });
 */
-pub.get('/motion/signaling/candidate/:fromtime', async (ctx) => {
+pub.get('/motion/signaling/candidate', async (ctx) => {
   console.log('GET SIGNALING`CANDIDATE :FROMTIME OCCURED! *****************')
-  const fromTime= ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
+  const fromTime= ctx.query.fromtime ? Number(ctx.query.fromtime) : 0;
   const sessionId = ctx.header['session-id'];
-  console.log('sess id:',sessionId,' params',ctx.params);
+  console.log('sess id:',sessionId,' params',ctx.query);
   console.log(ctx.header);
   const connectionIds = Array.from(clients.get(sessionId));
   console.log('connectionIds ',connectionIds);
@@ -529,7 +529,7 @@ pub.post('/motion/signaling/offer', async(ctx) => {
   connectionPair.set(connectionId, [sessionId, null]);
   //ctx.sendStatus(200);
   ctx.status=200;
-  ctx.body={info:"okli"}
+  //ctx.body={info:"okli"}
 });
 
 pub.post('/motion/signaling/answer', async(ctx) => {
@@ -555,14 +555,14 @@ console.log('POST*******MOTION SIGNALING ANSWER*******************************r'
     }
   }
  ctx.status=200;
- ctx.body={};
+// ctx.body={};
  
 });
 
-pub.get('/motion/signaling/answer/:fromtime',async (ctx)=>{
+pub.get('/motion/signaling/answer',async (ctx)=>{
 console.log('GET ANSWER:FROMTIME OCCURED!');
-  const fromTime= ctx.params.fromtime ? Number(ctx.params.fromtime) : 0;
-
+  const fromTime= ctx.query.fromtime ? Number(ctx.query.fromtime) : 0;
+console.log("ctx.query: ",ctx.query);
   const sessionId = ctx.header['session-id'];
   console.log("sesion Id: ", sessionId);
   let connectionIds = Array.from(clients.get(sessionId));
@@ -584,7 +584,11 @@ console.log('GET ANSWER:FROMTIME OCCURED!');
 
 	
 })
-
+pub.get("/motion/signaling/answerly",async (ctx)=>{
+	console.log("ANSWERLY");
+	console.log("ctx.query: ", ctx.query);
+	ctx.body={info:"OK"}
+})
 pub.post('/motion/signaling/candidate',async (ctx) => {
 	console.log('POST SIGNALING CANDIDATE**************');
   const sessionId = ctx.header['session-id'];

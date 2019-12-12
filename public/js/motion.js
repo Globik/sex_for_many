@@ -15,7 +15,7 @@ window.addEventListener('resize', function() {
 }, true);
 
 async function fetch_was(){
-let a=await fetch('/motion/signaling/answerly/10', {method: 'GET',headers:{ 'Session-Id': 10}})
+let a=await fetch('/motion/signaling/answerly?fromtime=10', {method: 'GET',headers:{ 'Session-Id': 10}})
 let b=await a.json();
 console.log('a: ',a);
 console.log('b :',b);
