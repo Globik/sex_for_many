@@ -31,7 +31,14 @@ class VideoPlayer {
     var us={"username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ=="}
    var cred={"credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"}
     config.sdpSemantics = 'unified-plan';
-    config.iceServers = [{urls: ['stun:stun.l.google.com:19302']},{urls:"turn:bturn2.xirsys.com:80?transport=udp",username:us.username,
+    config.iceServers = [{urls: ['stun:stun.l.google.com:19302',"stun:bturn2.xirsys.com",
+		"turn:bturn2.xirsys.com:80?transport=udp",
+		"turn:bturn2.xirsys.com:3478?transport=udp",
+"turn:bturn2.xirsys.com:80?transport=tcp",
+"turn:bturn2.xirsys.com:3478?transport=tcp",
+"turns:bturn2.xirsys.com:443?transport=tcp",
+"turns:bturn2.xirsys.com:5349?transport=tcp"
+		],username:us.username,
 		credential:cred.credential}];
     
  //var us={"username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ=="}
