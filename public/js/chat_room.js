@@ -242,9 +242,17 @@ console.error(err);
 webrtc.innerHTML+=err+'<br>';
 })
 }
-
+var bona=[{urls: ['stun:stun.l.google.com:19302',"stun:bturn2.xirsys.com",
+		"turn:bturn2.xirsys.com:80?transport=udp",
+		"turn:bturn2.xirsys.com:3478?transport=udp",
+"turn:bturn2.xirsys.com:80?transport=tcp",
+"turn:bturn2.xirsys.com:3478?transport=tcp",
+"turns:bturn2.xirsys.com:443?transport=tcp",
+"turns:bturn2.xirsys.com:5349?transport=tcp"
+		],username:"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ==",
+		credential:"73029f68-106d-11ea-85f6-9646de0e6ccd"}];
 function createPeer(){
-pc=new RTCPeerConnection(ice_server);
+pc=new RTCPeerConnection(bona);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;
