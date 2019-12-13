@@ -22,6 +22,7 @@ var targetusername;
 var pc;
 var hasAddTrack=false;
 var bon_ice;
+var wstream=null;
 
 //navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
@@ -196,42 +197,37 @@ sock.send(JSON.stringify(obj));
 // WEBRTC STUFF
 function do_start(el){
 el.disabled=true;
+pc=createPeer();
 go_webrtc();
 }
-function go_webrtc(){		
-navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(get_stream).catch(function(er){
+
+ function go_webrtc(){	
+
+navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(async function(stream){
+localVideo.srcObject=stream;
+stream.getTracks().forEach(transceiver=track=>pc.addTransceiver(track,{streams:[stream]}))
+
+try{
+	await pc.setLocalDescription(await pc.createOffer());
+	//alert('musn '+myusername+'modname'+modelName.value);
+	
+	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
+	}catch(e){console.log(e);}
+
+}).catch(function(er){
 console.error(er);
 note({content:'Веб-камера не включена! Включите.',type:'error',time:5});
 if(!owner())btnStart.disabled=false;
-webrtc.innerHTML+=er+'<br>';
-}
-)
+webrtc.innerHTML+=er+'<br>';})
 }
 
-function get_stream(mstream){
-//navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(mstream){
-pc=createPeer();
-pc.ontrack=function(e){
-if(remoteVideo.srcObject)return;
-remotevideo.srcObject=e.streams[0];
-}
-pc.onremovestream=function(){
-//handleleave();??
-console.log('on remove stream');					
-}
-playVideo(localVideo, mstream);
-if(!owner())createOffer();
-}
-//)}
+
 
 function playVideo(element, stream){
-//if(localStream)return;
-//localStream=stream;
-//if('srcObject' in element){
+
 stream.getTracks().forEach(function(track){
 pc.addTrack(track,stream);
 element.srcObject=stream;
-//}
 })
 element.play();
 element.volume=0;	
@@ -256,22 +252,30 @@ pc.onicecandidaterror = on_ice_candidate_error;
 pc.onnegotiationneeded = on_negotiation_needed;
 pc.signalingstatechange = signaling_state_change;
 pc.onconnectionstatechange = on_connection_state_change;
+pc.ontrack=on_track
 return pc;	
 }
-
+function on_track(event){
+	//alert('on track');
+	if(remoteVideo.srcObjet)return;
+	remoteVideo.srcObject=event.streams[0];
+}
 function on_ice_candidate(event){
 if(event.candidate){
 console.warn("ON ICE CANDIDATE!");
 var d={};
 d.type="candidate";
 d.candidate=event.candidate;
+//alert(myusername);
 d.from=myusername;
 d.target=modelName.value;
 wsend(d);	
 }	
 }
-function handle_candidate(obj){
-if(pc)pc.addIceCandidate(obj.candidate)	
+function handle_candidate(cand){
+	//if(pc.signalingState=="stable")return;
+//	if(owner())return;
+if(pc)pc.addIceCandidate(cand)	
 }
 function on_ice_connection_state_change(){
 console.log('ice connection state: ',this.iceConnectionState);
@@ -299,7 +303,11 @@ v.className="start";
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
 }
 function on_ice_candidate_error(err){console.error('ice candidate err: ', err);}
-function on_negotiation_needed(){console.warn("ON NEGOTIATION NEEDED!");}
+ function on_negotiation_needed(){
+	console.warn("ON NEGOTIATION NEEDED!");
+	
+	}
+	
 function signaling_state_change(){console.log('signaling state: ',this.signalingState);}
 function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
@@ -315,36 +323,55 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
-function handle_offer(sdp, target){
-console.log('sdp: ', sdp);	//for owner
-go_webrtc();
+async function handle_offer(sdp, target){
+		
+pc=createPeer();
 /*
-if(pc){
-pc.setLocalDescription(function(){
-pc.createAnswer(function(){
-wsend({type:"answer",answer:pc.localDescription,from:myusername,target:target});
-},eri)	
-},eri)	
-}*/
-if(pc){
-pc.setRemoteDescription(sdp).then(function(){;
-return pc.createAnswer();
-}).then(function(answer){
-return pc.setLocalDescription(answer);}).then(function(){
-wsend({type:"answer",answer:pc.localDescription,from:myusername,target:target});	
-}).catch(function(er){console.error(er);})
+if(pc.signalingState !="stable"){
+	await Promise.all([
+	pc.setLocalDescription({type:"rollback"}),
+pc.setRemoteDescription(sdp)	
+	])
+	return;
+	}else{
+		await pc.setRemoteDescription(sdp)
+		}
+		*/ 
+		//alert(sdp);
+		var desc=new RTCSessionDescription(sdp)
+await pc.setRemoteDescription(desc)
+//if(!wstream){
+	try{
+//var wstream=await 
+navigator.mediaDevices.getUserMedia({video:true},async function(wstream){	
+alert(wstream);
+//}catch(e){console.log(e);}
+//}
+//alert(wstream);
+localVideo.srcObject=wstream;
+try{
+//\await pc.setRemoteDescription(sdp);
+alert(wstream);
+wstream.getTracks().forEach(transceiver=track=>pc.addTransceiver(track,{streams:[wstream]}))
+
+//let l=await pc.createAnswer();
+await pc.setLocalDescription(await pc.createAnswer())
+wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
+}catch(e){console.error(e);webrtc.innerHTML+=e+'<br>';}
+})
+}catch(e){console.log(e);webrtc.innerHTML+=e+'<br>'}
 }
-}
+
 function handle_answer(sdp){
-//console.error();
 console.log("answer came");
-if(pc){
+
 pc.setRemoteDescription(sdp);	
 }
-}
+/*
 function handle_candidate(cand){
-if(pc)pc.addIceCandidate(cand)	
+if(pc)pc.addIceCandidate(cand);	
 }
+*/ 
 function stop_failure(obj){
 //for non owner?
 
