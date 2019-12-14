@@ -61,7 +61,8 @@ data-ownerOnline="${owner_online_str_en}">
 
 </div>
 <div id="under-video">
-<button id="btnStart" class="btn-start" onclick="do_start(this);">сделать видеозвонок</button>
+<button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button>
+<button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
 <a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>

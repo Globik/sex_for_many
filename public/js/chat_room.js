@@ -182,6 +182,10 @@ handle_offer(ad.offer,ad.from);
 handle_answer(ad.answer);	
 }else if(ad.type=="candidate"){
 handle_candidate(ad.candidate);	
+}else if(ad.type=="reject_call"){
+//alert(ad.from + " canceled videocall.")
+note({content:ad.from+' отклонил звонок.', type:'error',time:5});
+stopVideo();
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -210,9 +214,11 @@ stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 try{
 	await pc.setLocalDescription(await pc.createOffer());
 	//alert('musn '+myusername+'modname'+modelName.value);
-	
 	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
-	}catch(e){console.log(e);}
+	}catch(e){
+	console.error(e);
+		webrtc.innerHTML+=e+'<br>';
+		}
 
 }).catch(function(er){
 console.error(er);
@@ -221,26 +227,8 @@ if(!owner())btnStart.disabled=false;
 webrtc.innerHTML+=er+'<br>';})
 }
 
-
-
-function playVideo(element, stream){
-
-stream.getTracks().forEach(function(track){
-pc.addTrack(track,stream);
-element.srcObject=stream;
-})
-element.play();
-element.volume=0;	
-}
-function createOffer(){
-pc.createOffer().then(function(offer){
-return pc.setLocalDescription(offer);
-}).then(function(){
-wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value})
-}).catch(function(err){
-console.error(err);
-webrtc.innerHTML+=err+'<br>';
-})
+function cancel_video(el){
+stopVideo();	
 }
 var bona=[{urls: [
 		"turn:bturn2.xirsys.com:80?transport=udp",
@@ -266,7 +254,6 @@ pc.ontrack=on_track
 return pc;	
 }
 function on_track(event){
-	//alert('on track');
 	//if(remoteVideo.srcObjet)return;
 	remoteVideo.srcObject=event.streams[0];
 }
@@ -283,8 +270,6 @@ wsend(d);
 }	
 }
 function handle_candidate(cand){
-	//if(pc.signalingState=="stable")return;
-//	if(owner())return;
 if(pc)pc.addIceCandidate(cand)	
 }
 function on_ice_connection_state_change(){
@@ -293,11 +278,12 @@ console.log('ice connection state: ',this.iceConnectionState);
 //TODO if 'checking' very long - mark as failed in owner space
 if(this.iceConnectionState=="disconnected"){
 underVideo.className="";
+stopVideo();
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
 if(owner()){
 v.className="";
-//stopVideo();
+stopVideo();
 }
 
 //if(!is_owner()){
@@ -323,18 +309,28 @@ function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
 //stop_stream();
-pc.close();
+//pc.close();
+stopVideo();
 }else if(this.connectionState=="failed"){
-	
+	stopVideo();
 }else if(this.connectionState=="connecting"){
 setTimeout(function(){
+	stopVideo();
 //stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
-},3000);
+stopVideo();
+},10000);
 v.className="connecting";
 }
 }
 async function handle_offer(sdp, target){
 		console.log('in han off: ',sdp);
+		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
+		//alert(r);
+		if(!r){
+			wsend({type:"reject_call",target:target,from:myusername});
+			stopVideo();
+			return;
+			}
 pc=createPeer();
 try{
 await pc.setRemoteDescription(sdp);
@@ -348,7 +344,11 @@ await pc.setLocalDescription(await pc.createAnswer())
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 
 
-}catch(e){console.log(e);}
+}catch(e){
+	console.log(e);
+webrtc.innerHTML+=e+'<br>';	
+	
+}
 }
 
 
@@ -357,11 +357,7 @@ console.log("answer came");
 
 pc.setRemoteDescription(sdp);	
 }
-/*
-function handle_candidate(cand){
-if(pc)pc.addIceCandidate(cand);	
-}
-*/ 
+
 function stop_failure(obj){
 //for non owner?
 
@@ -369,6 +365,7 @@ stopVideo();
 note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',time:5});
 }
 function stopVideo(){
+	//alert('stop video');
 if(remoteVideo.srcObject){
 remoteVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 }
@@ -378,14 +375,13 @@ localVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 
 if(!pc){console.log('no pc');return;}
 clearPeer();
-
 }
 function clearPeer(){
 console.log('pc: ',pc.signalingState);
 pc.close();
 pc.onicecandidate=null;
 pc.onaddstream=null;
-pc.onremovestream=null;
+//pc.onremovestream=null;
 
 pc.oniceconnectionstatechange = null;
 pc.onicegatheringstatechange = null;
@@ -393,10 +389,9 @@ pc.onicecandidaterror = null;
 pc.onnegotiationneeded = null;
 pc.signalingstatechange = null;
 pc.onconnectionstatechange=null;
+pc.on_track=null;
 pc=null;
 console.log('pc: ',pc);
 v.className="";
 btnStart.disabled=false;
 }
-
-
