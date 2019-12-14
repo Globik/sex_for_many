@@ -103,8 +103,13 @@ content: attr(data-ownerOnline);
 #video-wrapper.owner-offline::after{
 content:attr(data-ownerOfflineStrEn);
 }
-
-/*.rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}*/
+/*
+#localVideo{
+width:340px;border:12px solid brown;display:inline-block;
+transform:translate(-1000px,-9000px);
+}
+#remoteVideo{}
+*/
 
 #video-wrapper.connecting::after{
 content:"Connecting...";
@@ -188,7 +193,7 @@ display:block;
 position:relative;	
 }
 #under-video.start{background:rgba(0,0,0,0);}
-#localVideo{
+#remoteVideo{
  
  position:relative;
 
@@ -198,7 +203,7 @@ position:relative;
  z-index:20;
  }
  
-#localVideo.start{
+#remoteVideo.start{
 overflow:hidden;
 width: 100%;
 height: 470px;
@@ -208,6 +213,8 @@ height: 470px;
  object-fit:cover; 
  transform:translateZ(0);
 }
+#localVideo{width:200px;transform:translate(-300px,10px);border:12px solid green;}
+
 #chatPanel{padding:5px;background:rgba(25,33,55,0.4);height:8%;}
 
   #btnDonate{position:absolute;z-index:50;bottom:5px;right:6px;} 

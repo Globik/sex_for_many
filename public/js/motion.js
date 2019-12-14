@@ -25,7 +25,7 @@ console.log('b :',b);
 }
 async function put_was(){
 	//alert('was?');
-	let a=await fetch('/connection', {method: 'DELETE',headers:{ 'Session-Id': 10}})
+	let a=await fetch('', {method: 'DELETE',headers:{ 'Session-Id': 10}})
 	console.log(await a.json());
 }
 

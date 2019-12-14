@@ -55,6 +55,7 @@ ${n.owner?'':`<div id="btcInfo" style="">
 data-ownerStartStrEn="${owner_start_str_en}" 
 data-ownerOfflineStrEn="${owner_offline_str_en}"
 data-ownerOnline="${owner_online_str_en}">
+<video id="remoteVideo" autoplay></video>
 <video id="localVideo" poster="${model && model.src?model.src:''}" autoplay>no video supported</video>
 
 
@@ -73,8 +74,8 @@ data-ownerOnline="${owner_online_str_en}">
 </section>
 </section>
 <div style="clear:both;"></div> 
-<header>Remote video</header>
-<video id="remoteVideo" autoplay>no video supported</video>
+<!-- <header>Remote video</header>
+<video id="remoteVideo" autoplay>no video supported</video> -->
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">

@@ -607,7 +607,7 @@ console.log('ctx.reques body: ',ctx.request.body);
   console.log('arr :',arr);
   ctx.status=200;
 });
-pub.delete('/connection', async ctx=>{
+pub.delete('/signaling', async ctx=>{
 console.log("DELETE");
 ctx.body={info:"okli"}	
 })

@@ -266,7 +266,7 @@ pc.ontrack=on_track
 return pc;	
 }
 function on_track(event){
-	alert('on track');
+	//alert('on track');
 	//if(remoteVideo.srcObjet)return;
 	remoteVideo.srcObject=event.streams[0];
 }

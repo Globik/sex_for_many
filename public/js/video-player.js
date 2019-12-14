@@ -42,14 +42,6 @@ class VideoPlayer {
 "credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
 
     
-    
-    
-    
-    
-    
-    
-    
-    
     var us={"username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ=="}
    var cred={"credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"}
     config.sdpSemantics = 'unified-plan';
