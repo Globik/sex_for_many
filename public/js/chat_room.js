@@ -295,7 +295,7 @@ if(this.iceConnectionState=="disconnected"){
 underVideo.className="";
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
-if(is_owner()){
+if(owner()){
 v.className="";
 //stopVideo();
 }

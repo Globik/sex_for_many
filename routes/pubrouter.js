@@ -607,7 +607,10 @@ console.log('ctx.reques body: ',ctx.request.body);
   console.log('arr :',arr);
   ctx.status=200;
 });
-
+pub.delete('/connection', async ctx=>{
+console.log("DELETE");
+ctx.body={info:"okli"}	
+})
 
 module.exports=pub;
 function auth(ctx,next){

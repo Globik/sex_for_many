@@ -23,7 +23,11 @@ console.log('b :',b);
 //console.log(a.body);
 //alert(JSON.stringify(a));
 }
-function put_was(){}
+async function put_was(){
+	//alert('was?');
+	let a=await fetch('/connection', {method: 'DELETE',headers:{ 'Session-Id': 10}})
+	console.log(await a.json());
+}
 
 function showPlayButton() {
 	//alert(9);
