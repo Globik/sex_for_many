@@ -205,7 +205,7 @@ go_webrtc();
 
 navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(async function(stream){
 localVideo.srcObject=stream;
-stream.getTracks().forEach(transceiver=track=>pc.addTransceiver(track,{streams:[stream]}))
+stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 
 try{
 	await pc.setLocalDescription(await pc.createOffer());
@@ -242,17 +242,19 @@ console.error(err);
 webrtc.innerHTML+=err+'<br>';
 })
 }
-var bona=[{urls: ['stun:stun.l.google.com:19302',"stun:bturn2.xirsys.com",
+var bona=[{urls: [
 		"turn:bturn2.xirsys.com:80?transport=udp",
 		"turn:bturn2.xirsys.com:3478?transport=udp",
 "turn:bturn2.xirsys.com:80?transport=tcp",
 "turn:bturn2.xirsys.com:3478?transport=tcp",
 "turns:bturn2.xirsys.com:443?transport=tcp",
 "turns:bturn2.xirsys.com:5349?transport=tcp"
-		],username:"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ==",
-		credential:"73029f68-106d-11ea-85f6-9646de0e6ccd"}];
+],
+"username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ==",
+"credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
+
 function createPeer(){
-pc=new RTCPeerConnection(bona);
+pc=new RTCPeerConnection({iceServers:bona});
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;
@@ -264,8 +266,8 @@ pc.ontrack=on_track
 return pc;	
 }
 function on_track(event){
-	//alert('on track');
-	if(remoteVideo.srcObjet)return;
+	alert('on track');
+	//if(remoteVideo.srcObjet)return;
 	remoteVideo.srcObject=event.streams[0];
 }
 function on_ice_candidate(event){
@@ -332,43 +334,23 @@ v.className="connecting";
 }
 }
 async function handle_offer(sdp, target){
-		
+		console.log('in han off: ',sdp);
 pc=createPeer();
-/*
-if(pc.signalingState !="stable"){
-	await Promise.all([
-	pc.setLocalDescription({type:"rollback"}),
-pc.setRemoteDescription(sdp)	
-	])
-	return;
-	}else{
-		await pc.setRemoteDescription(sdp)
-		}
-		*/ 
-		//alert(sdp);
-		var desc=new RTCSessionDescription(sdp)
-await pc.setRemoteDescription(desc)
-//if(!wstream){
-	try{
-//var wstream=await 
-navigator.mediaDevices.getUserMedia({video:true},async function(wstream){	
-alert(wstream);
-//}catch(e){console.log(e);}
-//}
-//alert(wstream);
-localVideo.srcObject=wstream;
 try{
-//\await pc.setRemoteDescription(sdp);
-alert(wstream);
-wstream.getTracks().forEach(transceiver=track=>pc.addTransceiver(track,{streams:[wstream]}))
+await pc.setRemoteDescription(sdp);
+var wstream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+localVideo.srcObject=wstream;
+
+wstream.getTracks().forEach(function(track){pc.addTrack(track,wstream)})
 
 //let l=await pc.createAnswer();
 await pc.setLocalDescription(await pc.createAnswer())
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
-}catch(e){console.error(e);webrtc.innerHTML+=e+'<br>';}
-})
-}catch(e){console.log(e);webrtc.innerHTML+=e+'<br>'}
+
+
+}catch(e){console.log(e);}
 }
+
 
 function handle_answer(sdp){
 console.log("answer came");
