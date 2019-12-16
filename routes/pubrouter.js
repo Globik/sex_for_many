@@ -265,6 +265,26 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 })
 /* profile */
 
+pub.post("/api/get_p", async ctx=>{
+let {name}=ctx.request.body;
+console.log("NAME: ",name);
+
+let db=ctx.db;
+if(!name)ctx.throw(400,"no name");
+let a;
+let obj={};
+obj.info="not";
+try{
+a=await db.query('select*from profile where bname=$1',[name]);	
+console.log(a.rows);
+if(a.rows && a.rows.length > 0){
+obj.info="ok";
+obj.params=a.rows[0];	
+}
+}catch(e){console.log(e);}
+ctx.body=obj;	
+})
+
 pub.get('/home/profile', authed, async ctx=>{
 let db=ctx.db;
 let err;
@@ -315,6 +335,7 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"Фото удалено!"};	
 })
+
 
 // MOTION PIX
 //import { Request, Response, Router } from 'express';

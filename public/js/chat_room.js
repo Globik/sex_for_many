@@ -200,6 +200,10 @@ sock.send(JSON.stringify(obj));
 
 // WEBRTC STUFF
 function do_start(el){
+if(owner()){
+	note({content:'Извините,\tвы не можете звонить себе.',type:'error',time:5});
+return;	
+}
 el.disabled=true;
 pc=createPeer();
 go_webrtc();
@@ -395,3 +399,45 @@ console.log('pc: ',pc);
 v.className="";
 btnStart.disabled=false;
 }
+
+//profile
+function get_profile(){
+	//alert(modelName.value);
+	if(!modelName.value)return;
+vax("post", "/api/get_p", {name:modelName.value}, on_get_profile, on_get_profile_error, null,false);
+}
+setTimeout(function(){
+	console.log("time");
+	get_profile()},1000)
+
+function on_get_profile(l){
+//alert(1);
+	console.log(l);
+	//id | bname | age |   msg    | ava | isava 
+	if(l.info=="ok"){
+		clientName.textContent=l.params.bname;
+		clientAge.textContent=l.params.age;
+		clientMsg.textContent=l.params.msg;
+		var d=document.createElement('img');
+		d.height="150";
+		if(l.params.ava && l.params.isava==2){
+		d.src=l.params.ava;
+			}else{
+				d.src='/images/default.jpg';
+				}
+				clientFoto.appendChild(d);
+	}
+}
+function on_get_profile_error(l){console.error(l);}
+
+
+
+
+
+
+
+
+
+
+
+

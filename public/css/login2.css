@@ -63,14 +63,15 @@ color:blue;
 }
 
 .login-submit/*input[type=submit]*/{
-width: 30%;
-margin-left:70%;
+width: 40%;
+margin-left:60%;
 cursor: pointer;	
 background: /*rgb(61, 157, 179)*/ brown;
 font-family: Courier,sans-serif;
 font-weight:bold;
 color: #fff;
 border: 1px solid rgb(28, 108, 122);	
+float:none;
 }
 .login-submit.waiting{background:green;}
 .login-email.redinput,.login-pwd.redinput,.login-text.redinput{

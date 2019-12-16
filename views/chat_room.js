@@ -5,7 +5,7 @@ const html_head=require('./html_head'),
 const {js_help}=require('../libs/helper.js');
 var warnig=false,haupt_ban=false;
 const owner_start_str_en="To broadcast yourself please enable your webcam and press 'start' button";
-const owner_offline_str_en="The member you are trying to view is currently offline. Please wait or choose another member to view.";
+const owner_offline_str_en="В настоящее время юзер оффлайн. Пожалуйста подождите или выберете другого юзера.";
 const owner_online_str_en="Press start"
 const you_ban="You are banned.";
 const us_ban="This user is banned.";
@@ -27,15 +27,15 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
 ${n.owner?
 `<div class="btc-footer" style="background:yellow;">
-<button onclick="test_cb();">test callback</button>
-<h5>Before you start</h5>
+<!-- <button onclick="test_cb();">test callback</button> -->
+<h5>Прежде чем начать</h5>
 <div id="btc-container">
-<label id="bInput">Enter your ${n.is_test_btc?'test':''} btc address for donation (optional):</label><br>
+<label id="bInput">Введите свой ${n.is_test_btc?'test':''} btc адрес для донатов (необязательно):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
 value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''}" 
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
-class="btn-save" onclick="saveBTC(this);">save</button><button class="btn-save" onclick="reset_btc();">edit</button>
+class="btn-saveL" onclick="saveBTC(this);">сохранить</button><button class="btn-saveL" onclick="reset_btc();">редактировать</button>
 </div></div>`:'<div id="qrcode"></div>'}
 
 
@@ -46,9 +46,12 @@ ${n.owner?'':`<div id="btcInfo" style="">
 
 
 <section id="media-wrapper">
-<div id="mediaPanel"><div id="online-detector" class=""></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
-<section id="video-container">
+<div id="mediaPanel"><div id="online-detector" class=""></div>
+<!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
 <div id="btccount"><span id="btcc">${model.btc_all}</span>&nbsp;<span id="btcspan">satoshi</span></div>
+</div>
+<section id="video-container">
+<!-- <div id="btccount"><span id="btcc">${model.btc_all}</span>&nbsp;<span id="btcspan">satoshi</span></div> -->
 
 
 <div id="video-wrapper" class="${n.owner?'':n.model && n.model.src?'owner-online':'owner-offline'}"
@@ -67,16 +70,23 @@ data-ownerOnline="${owner_online_str_en}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;<button onclick="insert_img();">foto</button></div>
+<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button></div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"><button id="vasja" onclick="send_up();">send</button>
+<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"><button id="vasja" onclick="send_up();">оправить</button>
 </div>
 </section>
 </section>
 <div style="clear:both;"></div> 
 <!-- <header>Remote video</header>
 <video id="remoteVideo" autoplay>no video supported</video> -->
+<h4>Профиль</h4>
+<div id="clientFoto"></div>
+<ul>
+<li>Имя:<span id="clientName"></span>
+<li>Возраст:<span id="clientAge"></span>
+<li>О себе:<span id="clientMsg"></span>
+</ul>
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">

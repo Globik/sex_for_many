@@ -31,11 +31,11 @@ var tar=ev.target;
 //pars.email=email.value;
 pars.username=tar.username.value;
 pars.password=tar.password.value;
-pars.age=tar.age.value;
-pars.gender=tar.fem.value;
+//pars.age=tar.age.value;
+//pars.gender=tar.fem.value;
 //alert(ev.target.username.value+' '+ev.target.age.value);
 //alert('du');
-vax(tar.method, tar.action, pars, on_suc, on_fail, false);
+vax(tar.method, tar.action, pars, on_suc, on_fail, null,false);
 if_cont(submit,'no','waiting');
 
 

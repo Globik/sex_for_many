@@ -30,26 +30,24 @@ return done(null,user.rows[0],{message: 'Succsess! logged in!!!'})
 }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
-const get_str=n=>`insert into buser(pwd, bname, age, fem) values(crypt(${n.password},gen_salt('bf',8)),${n.username},${n.age},
-${n.fem}) returning id`;
-
+const smsg='ОК, вы создали аккаунт успешно. Если Вы забудете пароль, то просто создайте другой аккаунт.'
+const get_str=n=>`insert into buser(pwd, bname) values(crypt(${n.password},gen_salt('bf',8)),${n.username}) returning id`;
+//  insert into buser(pwd,bname) values(crypt('1234', gen_salt('bf',8)),'lo');
 passport.use('local-signup',new LocalStrategy({usernameField:'username',passReqToCallback:true},(req,username,password,done)=>{
 if(!req.body.username){return done(null,false,{message:"missing username",code:'1'})}	
 process.nextTick(async()=>{
 try{
 	console.log(username,password);
-var useri=await db.query(get_str({password:'$1',username:'$2',age:'$3',fem:'$4'}),
-[password,req.body.username,req.body.age,req.body.gender])
+var useri=await db.query(get_str({password:'$1',username:'$2'}),
+[password,req.body.username])
 //console.log('USER.rows[0]: ',useri.rows[0])
-return done(null,useri.rows[0],{message: `You're almost finished.<br><br>
-We've sent an account activation email to you at <strong>the fuck you do</strong>.
-Head over to your inbox and click on the "Activate My Account" button to validate your email address.`})
+return done(null,useri.rows[0],{message: smsg})
 }catch(err){
 	console.log('custom error handling in local signup auth.js: ', err.message);
 	if(err.code==='23505'){
 		let dru='';let bcode=0;
 		if(err.detail.includes('name')){
-			dru='The nickname is already in use.';
+			dru='Такой ник уже есть.';
 			bcode=1;
 		}else if(err.detail.includes('email')){
 			dru='The email already exists. ';
@@ -67,6 +65,8 @@ Head over to your inbox and click on the "Activate My Account" button to validat
 }				 
 })
 }))
-
-
 }
+/*
+`You're almost finished.<br><br>
+We've sent an account activation email to you at <strong>the fuck you do</strong>.
+Head over to your inbox and click on the "Activate My Account" button to validate your email address.*/

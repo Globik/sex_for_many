@@ -54,40 +54,40 @@ ${html_head.html_head({title:"sign up",cssl:["/css/login2.css"]})}
 <main id="pagewrap">
 <section id="loginery-wrap">
 <form id="mform" name="mform" action="/signup" method="post">
-<h4>Welcome. Please sign up.<a href="/" style="float:right;font-size:1em;">home</a></h4>
+<h4>Регистрация<a href="/" style="float:right;font-size:1em;">home</a></h4>
 <span id="sessRed" class="${n.errmsg?classi(n.errmsg):''}">${messi(n.errmsg)}</span><br>
 
-<label><strong>Username</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
-<div class="inpwrap"><input type="text" class="login-text" style="${do_inp()}" name="username" maxlength="20" placeholder="Username" value="mark" required/></div>
-
+<label><strong>Твой ник</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
+<div class="inpwrap"><input type="text" class="login-text" style="${do_inp()}" name="username" maxlength="20" placeholder="твой ник" value="lo" required/></div>
+<!--
 <label><strong>Age</strong></label><div class="inpwrap">
 <input type="number" name="age" class="login-age" placeholder="your age" min="6" max="100" required>
 </div>
-
+-->
+<!--
 <label><strong>Gender</strong></label>
 <div class="inpwrap" style=""><label style="">
 <input style="vertical-align:middle;" type="radio" name="fem" value="true" checked/><strong class="fem">female</strong></label>
 </div>
 <div class="inpwrap">
 <label><input  style="vertical-align:middle;" type="radio"  name="fem" value="false"/><strong class="fem">male</strong></label></div>
-
-
+-->
 <!--
 <label><strong>Email</strong></label>&nbsp;&nbsp;<span id="mailout"></span>
 <input type="email" class="login-email" name="email" style="" placeholder="E-mail" value="ag@yandex.ru" required/>
 -->
-<label for="password"><strong>Password</strong></label><label style="margin-left:10px;"><!-- <strong>show password</strong>--></label>
+<label for="password"><strong>Пароль</strong></label><label style="margin-left:10px;"><!-- <strong>show password</strong>--></label>
 <div class="inpwrap">
 <!-- required pattern=".{6,}" -->
 <input type="password" id="password" name="password"
-class="login-pwd" placeholder="Password" value="${dev_pwd?dev_pwd:''}"  maxlength="20"/>
+class="login-pwd" placeholder="Пароль" value="1234"  maxlength="20"/>
 <label id="lShow" onclick="show_pwd(this);" title="show password">
-<strong id="sShow">show</strong></label></div>
-<small id="smally" class="blue">By creating an account you agree to our <a href="/">Terms & Privacy</a></small>
+<strong id="sShow">показать</strong></label></div>
+<small id="smally" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/">Terms & Privacy</a></small>
 <div class="submitWrap">
-<input type="submit" class="login-submit" value="Sign Up"${n.user?'disabled':''}>
+<input type="submit" class="login-submit" value="создать"${n.user?'disabled':''}>
 </div>
-<div class="underform"><strong>Already a member?</strong> <a href="/login" style="margin-left:20px;color:blue;"><b>Login</b></a></div><hr>
+<div class="underform"><strong>Уже есть аккаунт?</strong> <a href="/login" style="margin-left:20px;color:blue;"><b>Войти</b></a></div><hr>
 </form>
 </section>
 
