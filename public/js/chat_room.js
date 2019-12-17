@@ -183,7 +183,6 @@ handle_answer(ad.answer);
 }else if(ad.type=="candidate"){
 handle_candidate(ad.candidate);	
 }else if(ad.type=="reject_call"){
-//alert(ad.from + " canceled videocall.")
 note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
 }else{
@@ -234,6 +233,29 @@ webrtc.innerHTML+=er+'<br>';})
 function cancel_video(el){
 stopVideo();	
 }
+
+function snapshot(){
+navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(async function(stream){
+localVideo.srcObject=stream;
+setTimeout(function(){
+var cnv=document.createElement('canvas');
+var w=80;var h=60;
+cnv.width=w;cnv.height=h;
+var c=cnv.getContext('2d');
+c.drawImage(localVideo,0,0,w,h);
+var img_data=cnv.toDataURL('image/png',1.0);
+var d={};
+d.type="msg";
+d.msg = '<img src="'+img_data+'" height="80px" style="vertical-align:middle;"/>';
+d.roomname = modelName.value;
+d.from = myusername;// yourNick.value;
+wsend(d);
+stopVideo();
+},1000);
+})
+
+}
+
 var bona=[{urls: [
 		"turn:bturn2.xirsys.com:80?transport=udp",
 		"turn:bturn2.xirsys.com:3478?transport=udp",
@@ -335,6 +357,7 @@ async function handle_offer(sdp, target){
 			stopVideo();
 			return;
 			}
+			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
 pc=createPeer();
 try{
 await pc.setRemoteDescription(sdp);

@@ -15,7 +15,7 @@ cssl:["/css/user_profile.css"]})}
 input[type=text]{border-color:red;}
 input[type=text] > span.val:after{content:"suka",padding-left:10px;}
 </style>
-</head><body>
+</head><body><!-- profile -->
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${(haupt_ban ? `<div id="haupt-banner"><div id="real-ban">Banner</div></div>` : ``)}

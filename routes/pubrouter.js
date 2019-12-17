@@ -335,7 +335,9 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"Фото удалено!"};	
 })
-
+pub.get('/home/obi', async ctx=>{
+ctx.body=await ctx.render('obi',{});	
+})
 
 // MOTION PIX
 //import { Request, Response, Router } from 'express';

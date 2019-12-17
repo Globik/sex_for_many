@@ -246,7 +246,7 @@ height: 470px;
 #pizda1{ackground:pink;adding:2px;margin-top:20px;width:100%;}
 #pizda1 #forImg{olor:green;height:40px;width:100%;font-size:14px;}
 #pizda1  button{height:40px; width:30%;font-weight:bold;margin-left:70%;margin-top:7px;font-size:16px;}
-
+#profileUl{list-style:none;margin:0;padding:0;}
 
 
 @media screen and (max-width: 751px){
@@ -269,11 +269,12 @@ height: 470px;
 
 
 @media screen and (max-width: 320px){
+#chat-container{color:red;margin-top:60px;}
 #mediaPanel{height:20%;}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
 	#vasja{width:20%;}
 	.btn-start{width:50%;}
-	#chatTxt{width:80%;}
+	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	
 	#btc-container{width:99%;}

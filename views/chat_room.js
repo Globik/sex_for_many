@@ -36,7 +36,7 @@ value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==nu
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-saveL" onclick="saveBTC(this);">сохранить</button><button class="btn-saveL" onclick="reset_btc();">редактировать</button>
-</div></div>`:'<div id="qrcode"></div>'}
+</div></div>`:''}
 
 
 
@@ -64,7 +64,7 @@ data-ownerOnline="${owner_online_str_en}">
 
 </div>
 <div id="under-video">
-<button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button>
+<button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
 <a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
@@ -78,14 +78,14 @@ data-ownerOnline="${owner_online_str_en}">
 </section>
 </section>
 <div style="clear:both;"></div> 
-<!-- <header>Remote video</header>
-<video id="remoteVideo" autoplay>no video supported</video> -->
+
 <h4>Профиль</h4>
-<div id="clientFoto"></div>
-<ul>
-<li>Имя:<span id="clientName"></span>
-<li>Возраст:<span id="clientAge"></span>
-<li>О себе:<span id="clientMsg"></span>
+<div id="clientFoto">${n.owner?'':'<div id="qrcode"></div>'}</div>
+<ul id="profileUl">
+<li><b>Имя: </b><span id="clientName"></span>
+<li><b>Возраст: </b><span id="clientAge"></span>
+<li><b>О себе: </b><br><span id="clientMsg"></span>
+<li><a href="/home/profile/${model?model.bname:''}">редактировать</a>
 </ul>
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
