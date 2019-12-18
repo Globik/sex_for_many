@@ -336,9 +336,25 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 ctx.body={info:"Фото удалено!"};	
 })
 pub.get('/home/obi', async ctx=>{
-ctx.body=await ctx.render('obi',{});	
+	let db=ctx.db;
+	let res;
+	try{
+	var res2=await db.query('select*from obi');	
+	//if(res2.rows&&res2.rows.length>0)res=res2.rows;
+	console.log(res2.rows);
+	}catch(e){console.log(e);}
+ctx.body=await ctx.render('obi',{obis:res2.rows});	
 })
 
+pub.post("/api/save_obi",async ctx=>{
+let {nick,msg}=ctx.request.body;
+if(!nick && !msg)ctx.throw(400,"Нет необходимых данных");
+let db=ctx.db;
+try{
+await db.query('insert into obi(bnick,msg) values($1,$2)',[nick,msg]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"ok"};	
+})
 // MOTION PIX
 //import { Request, Response, Router } from 'express';
 //import { v4 as uuid } from 'uuid';

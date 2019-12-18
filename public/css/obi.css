@@ -1,0 +1,26 @@
+#obiDiv,#regelDiv,#regelDiv2{display:inline-block;}
+#regelDiv,#regelDiv2{
+font-size:0.8em;
+background:silver;width:50%;height:auto;vertical-align:top;position:relative;padding:10px;}
+#regelDiv{display:none;}
+#obiDiv{height:auto;width:30%;background:silver;padding:10px;}
+#obiDiv textarea{height:150px;width:100%;}
+form{padding:10px;background:silver;}
+.kreuz{position:absolute;top:0px;right:0px;color:red;cursor:pointer;}
+header{font-weight:bold;padding-left:10px;}
+
+.nu{display:none;position:relative;}
+.nu.active{display:block;}
+.chelobi{background:silver;}
+.chelp{margin:0;padding:10px;}
+#regata{}
+@media screen and (max-width: 751px){
+#obiDiv{width:100%;}
+	.kreuz{color:green;}
+	#obiDiv input[type=text]{width:100%;}
+}
+@media screen and (max-width: 320px){
+	.kreuz{color:brown;right:8px;}
+	#obiDiv{width:100%;}
+	#regelDiv{width:100%;}
+	}

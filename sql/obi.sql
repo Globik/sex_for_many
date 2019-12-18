@@ -1,13 +1,13 @@
 -- \i /home/globik/sex_for_many/sql/obi.sql
 -- drop table obi if exists;
-/*
+
 create table obi(
 id serial primary key,
 ati timestamptz not null default now(),
 bnick varchar(50) not null,
 msg text not null
 );
-*/
+
 
 CREATE OR REPLACE FUNCTION expire_obi_delete_old_rows() RETURNS trigger
 LANGUAGE plpgsql AS $$

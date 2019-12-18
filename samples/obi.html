@@ -1,25 +1,37 @@
-const html_head=require('./html_head'),
-    html_nav_menu=require('./html_nav_menu'),
-	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
-   html_footer = require('./html_footer');
-const {js_help}=require('../libs/helper.js');
-var warnig=false,haupt_ban=false;
+<!DOCTYPE html><html lang="en">
+<head><meta charset="utf-8">
+<title>Oбъявления</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+#obiDiv,#regelDiv,#regelDiv2{display:inline-block;}
+#regelDiv,#regelDiv2{background:silver;width:250px;height:auto;vertical-align:top;position:relative;padding:10px;}
+#regelDiv{display:none;}
+#obiDiv{height:auto;width:30%;background:silver;padding:10px;}
+#obiDiv textarea{height:150px;width:100%;}
+form{padding:10px;background:silver;}
+.kreuz{position:absolute;top:-19px;right:-4px;color:red;cursor:pointer;}
+header{font-weight:bold;padding-left:10px;}
 
-const obi = n=>{
-const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:'Oбъявления',
-csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
-</head>
-<body>${warnig?'<div id="warnig">Warnig</div>':''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
-${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+.nu{display:none;position:relative;}
+.nu.active{display:block;}
 
-<main id="pagewrap"><h2>Доска объявлений</h2>
+#regata{}
+@media screen and (max-width: 751px){
+	.kreuz{}
+	#obiDiv input[type=text]{width:93%;}
+}
+@media screen and (max-width: 320px){
+	.kreuz{color:brown;right:8px;}
+	#obiDiv{width:100%;}
+	#regelDiv{width:100%;}
+	}
+</style>
+</head><body>
+<h3>Доска объявлений</h3>
 <section id="obiContainer">
 <div id="obiDiv"><header>Подать объявление</header>
-<form name="obi" method="post" action="/api/save_obi">
+<form name="obi">
 <label>Имя *<br><input type="text" maxlength="100" name="nick" placeholder="Обязательно" required></label><br>
 <label>Текст объявления*&nbsp;<span id="fspan">0</span>&nbsp;(1500)<br>
 <textarea maxlength="1500" name="msg" oninput="finput(this);" placeholder="Объявления без контакта для связи удаляются" required></textarea></label>
@@ -46,21 +58,51 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <a href="#tab2" onclick="ba();">обратно к правилам</a><div class="kreuz" onclick="remdas();">X</div>
 </div></div>
 </section>
-<hr>
-${n.obis?get_obi(n.obis):'Пока объявлений нет.'}
-</main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
-</body>
-${js_help(["/js/obi.js"])}
-</html>`;
+<script>
+	var l=true;
+	var tt=true;
+	var f=document.forms.obi;
+	f.addEventListener('submit', on_obi, false);
+function do_reg(el){
+	if(l){
+		regelDiv.style.display="inline-block"
+		l=false;
+		}else{
+		regelDiv.style.display="none";l=true;
+		suka2.style.display="none";
+	suka1.style.display="block";
+tt=true;	
+		}
 }
-module.exports={obi}
-function get_obi(n){
-let s=''
-if(Array.isArray(n)){
-n.forEach(function(el,i){
-s+=`<div data-id="${el.id}" class="chelobi"><header>${el.bnick}</header><p class="chelp">${el.msg}</p></div>`;	
-})	
+function remdas(){
+regelDiv.style.display="none";
+l=true;	
+suka2.style.display="none";
+suka1.style.display="block";
+tt=true;
 }
-return s;
+
+function ba(){
+if(tt){
+suka1.style.display="none";
+suka2.style.display="block";
+tt=false;
+}else{
+	suka2.style.display="none";
+	suka1.style.display="block";
+tt=true;	
 }
+}
+function on_obi(ev){
+ev.preventDefault();
+var f1=ev.target.nick.value;
+var f2=ev.target.msg.value;
+alert(f1+' '+f2);	
+}
+function finput(el){
+var fi=el.getAttribute('maxlength');
+var fi2=el.value.length;
+fspan.textContent=Number(fi)-fi2;
+}
+</script>
+</body></html>
