@@ -1,11 +1,12 @@
 -- \i /home/globik/sex_for_many/sql/obi.sql
--- drop table obi if exists;
+ drop table if exists obi;
 
 create table obi(
 id serial primary key,
 ati timestamptz not null default now(),
 bnick varchar(50) not null,
-msg text not null
+msg text not null,
+isg int not null default 0 -- 0 not checked, 1 - OK
 );
 
 

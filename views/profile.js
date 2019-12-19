@@ -33,16 +33,19 @@ ${n.err?n.err:''}
 	Публикация любых объявлений с упоминанием возраста моложе 18-ти лет строго запрещена!</strong>
 	<a href="/home/rules">Правила размещения объявлений.</a></p>
 	<div>
-	<label for="fageId">Сколько вам лет? (не моложе 18-ти!)</label><br>
+	<label for="fageId"><strong>Сколько вам лет?</strong> (не моложе 18-ти!)</label><br>
 	<input id="fageId" name="age" type="number" min="18" max="100" value="${n.result?n.result.age:'18'}">
 	</div>
 	<div>
-	<label>Ваш месседж</label><span id="fspan">400</span>&nbsp;/&nbsp;400<br>
-	<textarea id="profTxtar" name="txt_msg" placeholder="${n.result?n.result.msg:'Ваше сообщение'}" maxlength="400" oninput="finput(this);"></textarea><br>
+	
+	<label><strong>Ваш месседж</strong></label><span id="fspan">${n.result.msg?(400-n.result.msg.length):400}</span>&nbsp;/&nbsp;400<br>
+	<div style="border:1px solid silver;" id="fcont" data-max="400" contenteditable='' 
+	oninput="finput(this);">${n.result&&n.result.msg?n.result.msg:''}</div>
+	<!-- <textarea id="profTxtar" name="txt_msg" placeholder="Ваше сообщение" maxlength="400" oninput="finput(this);"></textarea> --><br>
 	</div>
-	<div><label for="avaId">Ваше фото (тело не моложе 18-ти, не голое)</label><br>
+	<div><label for="avaId"><strong>Ваше фото</strong> (тело не моложе 18-ти, не голое)</label><br>
 	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
-	<input id="fotoTxt" type="hidden" name="photo">
+	<input id="fotoTxt" type="hidden" name="photo" value="${n.result.ava?n.result.ava:''}">
 	<input type="hidden" name="fname" value="${buser?buser.bname:''}">
 	</div>
 	<div>

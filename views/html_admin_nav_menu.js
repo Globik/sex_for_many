@@ -4,7 +4,8 @@ var html_admin_nav_menu=n=>{
 	return `${gf}<div id="admin_main_menu">
 <span class="admin-nav" onclick="perfect_das();">aдминка</span></div>
 <ul id="admUl" class="adm-ul"><li><a href="/home/dashboard/">btc</a></li><li><a href="/home/profile">профили</a></li>
-<li><a href="/home/newavas">проверить аватарки</a></li></ul>
+<li><a href="/home/newavas">проверить аватарки</a></li>
+<li><a href="/home/newmsg">проверить объявления</li></ul>
 
 <!--
 &nbsp;notes:&nbsp;<span onclick="fetch_abuse_popup();" style="background:yellow;">

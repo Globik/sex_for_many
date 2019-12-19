@@ -12,7 +12,7 @@ return `<!-- header_menu.js -->
 </label>
 
 <ul id="miniMenu" class="">
-<li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>главная</span></div></a>
+<li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>На главную</span></div></a>
 <li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>блог</span></div></a>
 <li><div class="znak-svg">pic</div><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 ${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}

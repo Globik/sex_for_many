@@ -80,6 +80,47 @@ await db.query('update profile set isava=2 where bname=$1',[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:fname};	
 });
+
+adm.post('/api/ava-delete', auth, async ctx=>{
+let {fname}=ctx.request.body;
+if(!fname)ctx.throw(400,"Нет ника!");
+let db=ctx.db;
+try{
+await db.query(`update profile set ava='', isava=0 where bname=$1`,[fname]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:fname};	
+})
+
+adm.get("/home/newmsg", authed, async ctx=>{
+let db=ctx.db;
+let result;
+try{
+result=await db.query('select*from obi where isg=0');	
+}catch(e){console.log(e);}	
+ctx.body=await ctx.render('newmsg',{result:result.rows});
+})
+adm.post('/api/ok_msg', auth, async ctx=>{
+let {id}=ctx.request.body;
+if(!id)ctx.throw(400,"Нет идентификатора");
+let db=ctx.db;
+try{
+await db.query('update obi set isg=1 where id=$1',[id]);	
+}catch(e){
+ctx.throw(400,e);	
+}	
+ctx.body={info:"OK",id:id};
+})
+adm.post('/api/del_msg', auth, async ctx=>{
+let {id}=ctx.request.body;
+	if(!id)ctx.throw(400,"Нет идентификатора");
+let db=ctx.db;
+try{
+await db.query('delete from obi where id=$1',[id]);	
+}catch(e){
+ctx.throw(400,e);	
+}	
+ctx.body={info:"OK",id:id};
+})
 module.exports=adm;
 
 function auth(ctx,next){

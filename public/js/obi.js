@@ -34,8 +34,8 @@ tt=true;
 }
 function on_obi(ev){
 ev.preventDefault();
-var f1=ev.target.nick.value;
-var f2=ev.target.msg.value;
+var f1=esci(ev.target.nick.value);
+var f2=esci(ev.target.msg.value);
 var d={};
 d.nick=f1;
 d.msg=f2;
@@ -44,6 +44,7 @@ vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, null, false
 
 function on_obi_saved(l){
 console.log(l);	
+note({content: "Объявление сохранено и отправлено на премодерацию!", type:"info", time: 6});
 }
 
 function on_obi_err(l){alert(l);}

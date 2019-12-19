@@ -20,7 +20,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <h3>Проверить аватарки</h3>
 ${n.err?`<hr>${n.err}<hr>`:''}
 <ul>
-${n.result?get_avas(n):''}
+${n.result&&n.result.ava?get_avas(n):'Нет новых аватарок.'}
 </ul>
 </main>
 ${js_help(["/js/user_avas.js"])}
@@ -32,7 +32,7 @@ let s='';
 n.result.forEach(function(el,i){
 s+=`<li data-pname="${el.bname}"><a href="/home/profile/${el.bname}">${el.bname}</a>&nbsp;<img src="${el.ava}">&nbsp;
 <label class="cntlb2"><span>Одобрить</span><input type="checkbox" data-fname="${el.bname}" onchange="check_ava(this);">
-<span class="mark2"></span></label>`;	
+<span class="mark2"></span></label><button data-dname="${el.bname}" onclick="delete_ava(this);">удалить</button>`;	
 });
 return s;	
 }

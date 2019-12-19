@@ -11,7 +11,7 @@ header{font-weight:bold;padding-left:10px;}
 
 .nu{display:none;position:relative;}
 .nu.active{display:block;}
-.chelobi{background:silver;}
+.chelobi:nth-child(odd){background:silver;}
 .chelp{margin:0;padding:10px;}
 #regata{}
 @media screen and (max-width: 751px){

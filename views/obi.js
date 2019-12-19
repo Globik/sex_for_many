@@ -47,7 +47,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 </div></div>
 </section>
 <hr>
-${n.obis?get_obi(n.obis):'Пока объявлений нет.'}
+${n.obis&&n.obis.length>0?get_obi(n.obis):'Пока объявлений нет.'}
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 </body>
@@ -59,7 +59,7 @@ function get_obi(n){
 let s=''
 if(Array.isArray(n)){
 n.forEach(function(el,i){
-s+=`<div data-id="${el.id}" class="chelobi"><header>${el.bnick}</header><p class="chelp">${el.msg}</p></div>`;	
+s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p></div>`;	
 })	
 }
 return s;

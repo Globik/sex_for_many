@@ -3,6 +3,7 @@ const html_head=require('./html_head');
 const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
+const doska=require('./doska');
 var warnig=false,haupt_ban=false;
 
 const main_page=function(n){
@@ -19,10 +20,8 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${endf}
 <main id="pagewrap"> 
 ${n.m?n.m.msg:''}<br>
-<h4>Users: </h4>
-<br>${buser?`<a href="/webrtc/${buser.id}">${buser.bname}</a>`:'Привет, гость!'}
-<hr>
-<a href="/motion">motionpix</a>
+<br>${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}
+
 <hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
@@ -31,6 +30,7 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 `<span id="zagln">Пока нет никого. <a href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
 </section>
 </section>
+${doska.doska({})}
 </main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>

@@ -59,3 +59,4 @@ left:0.5rem;
 	-ms-transform:rotate(45deg);
 	transform:rotate(45deg);
 	}
+button{height:40px;font-weight:bold;border:2px solid black;cursor:pointer;}

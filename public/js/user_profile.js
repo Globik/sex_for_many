@@ -28,15 +28,17 @@ return {w:im.naturalWidth,h:im.naturalHeight};
 }
 function on_submit(ev){
 ev.preventDefault();
-var f=ev.target.txt_msg;
+//var f=ev.target.txt_msg;
 var f2=ev.target.age;
 var f3=ev.target.photo;
 var f4=ev.target.fname;
+var f5=fcont;
 var d={};
-d.txt_msg=f.value;
+//d.txt_msg=f.value;
 d.age=f2.value;
 d.photo=f3.value;
 d.fname=f4.value;
+d.txt_msg=esci(f5.textContent);
 //alert(JSON.stringify(d));
 vax(ev.target.method, ev.target.action, d, on_profile_saved, on_profile_err, null, false);
 }
@@ -55,6 +57,7 @@ vax('post','/api/del_ava',d,on_del_ava,on_err_ava,null,false);
 function on_del_ava(l){
 console.log(l);
 figFoto.remove();	
+fotoTxt.value="";
 note({content: l.info, type:"info", time: 5});
 }
 
@@ -63,7 +66,7 @@ alert(l);
 }
 
 function finput(el){
-var fi=el.getAttribute('maxlength');
-var fi2=el.value.length;
+var fi=el.getAttribute('data-max');
+var fi2=el.textContent.length;
 fspan.textContent=Number(fi)-fi2;
 }
