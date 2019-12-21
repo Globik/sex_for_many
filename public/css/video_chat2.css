@@ -21,7 +21,7 @@ visibility:visible;
 #media-wrapper{
 background:brown;
 width:100%;
-height:470px;
+height:500px;
 max-width:1800px;
 display:block;
 position:relative;
@@ -29,7 +29,7 @@ margin:0 auto;
 
 }
 #mediaPanel{
-ackground:green;	
+background:green;	
 color:white;
 position:relative;
 display:block;
@@ -48,13 +48,14 @@ height: 12%;
 	color:yellow
 }
 #video-container{
-ackground:rgba(20,25,25,0.9);
-order:1px solid yellow;
+background:rgba(20,25,25,0.9);
+border:1px solid yellow;
 position:relative;
 display:block;
 width:50%;
 height:100%;
 float:left;
+
 }
 
 #chat-container{
@@ -63,6 +64,7 @@ float:left;
 	height:100%;
 	overflow:hidden;
 float:right;	
+display:block;
 }
 #video-wrapper{
 width:100%;
@@ -138,7 +140,7 @@ position:relative;
 overflow-y:auto;
 }
 .chat-txt{
-width:81%;
+width:100%;
 height:100%;
 padding-left:5px;	
 }
@@ -201,6 +203,8 @@ background:brown;
 display:block;
 position:relative;	
 }
+#under-video2{height:40px;background:green;}
+header{font-weight:bold;}
 #under-video.start{background:rgba(0,0,0,0);}
 #remoteVideo{
  
@@ -254,7 +258,7 @@ height: 470px;
 @media screen and (max-width: 751px){
 #chatPanel{ackground:red;}
 #media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);} 
-#mediaPanel{height:20%;}
+#mediaPanel{height:52px;}
 #video-container,#chat-container{
 float:none;
 width:100%;	

@@ -276,7 +276,7 @@ let obj={};
 obj.info="not";
 try{
 a=await db.query('select*from profile where bname=$1',[name]);	
-console.log(a.rows);
+//console.log(a.rows);
 if(a.rows && a.rows.length > 0){
 obj.info="ok";
 obj.params=a.rows[0];	

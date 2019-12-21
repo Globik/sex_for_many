@@ -269,8 +269,8 @@ stopVideo();
 }
 
 var bona=[{urls: [
-		"turn:bturn2.xirsys.com:80?transport=udp",
-		"turn:bturn2.xirsys.com:3478?transport=udp",
+"turn:bturn2.xirsys.com:80?transport=udp",
+"turn:bturn2.xirsys.com:3478?transport=udp",
 "turn:bturn2.xirsys.com:80?transport=tcp",
 "turn:bturn2.xirsys.com:3478?transport=tcp",
 "turns:bturn2.xirsys.com:443?transport=tcp",

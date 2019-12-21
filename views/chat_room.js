@@ -40,9 +40,9 @@ class="btn-saveL" onclick="saveBTC(this);">сохранить</button><button cl
 
 
 
-${n.owner?'':`<div id="btcInfo" style="">
-<span><b>BTC address for donations:</b></span>
-<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`}
+${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
+<span><b>Биткоин адрес для донатов:</b></span>
+<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
 
 
 <section id="media-wrapper">
@@ -60,31 +60,36 @@ data-ownerOfflineStrEn="${owner_offline_str_en}"
 data-ownerOnline="${owner_online_str_en}">
 <video id="remoteVideo" autoplay></video>
 <video id="localVideo" poster="${model && model.src?model.src:''}" autoplay>no video supported</video>
-
-
 </div>
 <div id="under-video">
+<!-- <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
+<button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
+${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
+</div>
+<div id="under-video2">
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
-<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
-<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>
 </div>
 </section>
 <section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button></div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"><button id="vasja" onclick="send_up();">оправить</button>
-</div>
+<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></div>
+<div><button id="vasja" onclick="send_up();">оправить</button></div>
+
 </section>
+
 </section>
-<div style="clear:both;"></div> 
+ <div style="clear:both;"></div>  
 
 <h4>Профиль</h4>
-<div id="clientFoto">${n.owner?'':'<div id="qrcode"></div>'}</div>
+<div id="clientFoto"></div>
 <ul id="profileUl">
 <li><b>Имя: </b><span id="clientName"></span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
+${n.owner?'':'<header>Биткоин адрес:</header><div id="qrcode"></div>'}
 <li><a href="/home/profile/${model?model.bname:''}">редактировать</a>
 </ul>
 <output id="webrtc"></output>
@@ -108,9 +113,9 @@ ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
-<script>${!n.owner?`new QRCode(gid("qrcode"),{
-text:"${n.is_test_btc?model.padrtest !==null?model.padrtest:'figu':model.padr !==null?model.padr:'dura'}",
-width:128,height:128,border:4,});`:''}</script>
+<script>${!n.owner? model.padrtest || model.padr? `new QRCode(gid("qrcode"),{
+text:"${n.is_test_btc?model.padrtest !==null?model.padrtest:'': model.padr !==null?model.padr:''}",
+width:128,height:128,border:4,});`:'':''}</script>
 </body>
 </html>`;
 }

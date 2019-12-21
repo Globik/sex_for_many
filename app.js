@@ -2,8 +2,8 @@
 // heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;//for heroku
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -192,7 +192,7 @@ if(el.url == ws.url)el.send(JSON.stringify(obj));
 }
 */
 function insert_message(msg,nick,us_id){
-	pool.query('insert into chat(msg,us_id,nick) values($1,$2,$3)',[msg,us_id,nick],function(er,r){
+	pool.query('insert into chat(msg, us_id, nick) values($1,$2,$3)',[msg,us_id,nick],function(er,r){
 	if(er)console.log(er);	
 	})
 }
@@ -224,7 +224,7 @@ return;
 }
 }
 //not found, offline?
-wsend(ws,{type:"no_target",who:msg.target,ontype:msg.type});
+wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
 }
 
 function get_user_count(url){
@@ -411,7 +411,7 @@ function broadcast_satoshi(obj){
 wss.clients.forEach(function each(client){
 if(client.roomname == obj.bname){
 wsend(client,obj);
-insert_message('шлет'+obj.btc_amt+'сатоши.','Анон',client.url.substring(1));
+insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.substring(1));
 }
 })
 }
