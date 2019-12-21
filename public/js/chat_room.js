@@ -126,9 +126,11 @@ wsend(d);
 chatTxt.value="";
 }
 function insert_message(ob){
+	console.log('insert_message');
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+':&nbsp;</span><span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML+='<div class="g-data">'+g_data(ob.tz)+'</div>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight+chat.scrollHeight;
 }
@@ -136,6 +138,7 @@ function insert_notice(ob){
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML+='<div class="g-data">'+g_data(ob.tz)+'</div>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight+chat.scrollHeight;
 }
@@ -153,6 +156,7 @@ try{
 var ad=JSON.parse(data);
 }catch(e){console.error(e);return;}
 if(ad.type=="msg"){
+	ad.tz=new Date();
 insert_message(ad);	
 }else if(ad.type=="nick"){
 clientNick=ad.nick;
@@ -162,16 +166,19 @@ btcc.textContent=ad.btc_all;
 var obj7={};
 obj7.from="Анон";
 obj7.msg=" шлет "+ad.btc_amt+" сатоши";
+obj7.tz=new Date();
 insert_message(obj7);
 }else if(ad.type=="count"){
 	chatcnt.textContent=ad.user_count;
 }else if(ad.type=="owner_in"){
-	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.'});
+	//ad.tz=new Date();
+	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.',tz:new Date()});
 }else if(ad.type=="owner_out"){
-	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;покинул чат.'});
+	//ad.tz=new Date();
+	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;покинул чат.',tz:new Date()});
 }else if(ad.type=="history"){
 	ad.d.forEach(function(el,i){
-	insert_message({from:el.nick,msg:el.msg});	
+	insert_message({from:el.nick,msg:el.msg,tz:el.tz});	
 	})
 }else if(ad.type=="no_target"){
 // who(target),ontype(offer)
@@ -252,7 +259,12 @@ d.from = myusername;// yourNick.value;
 wsend(d);
 stopVideo();
 },1000);
-})
+}).catch(function(err){
+	console.error(err.name);
+	if(err.name=="NotFoundError"){
+	note({content: "Включите веб-камеру.",type:"error",time:5});
+}else{note({content:err.name,type:"error",time:5});}
+});
 
 }
 

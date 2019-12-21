@@ -148,7 +148,7 @@ result=await db.query(sis,[ctx.params.buser_id]);
 a=result.rows[0];
 }catch(e){
 console.log('db error: ',e);
-ctx.body=await ctx.render('room_err',{mess:e});
+ctx.body=await ctx.render('room_err',{mess:"Нет такого пользователя."});
 return;
 }
 if(result.rows.length==0){

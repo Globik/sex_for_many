@@ -3,6 +3,7 @@ const html_head=require('./html_head'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
 const {js_help}=require('../libs/helper.js');
+const moment=require("moment");
 var warnig=false,haupt_ban=false;
 
 const obi = n=>{
@@ -16,13 +17,15 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 ${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
-<main id="pagewrap"><h2>Доска объявлений</h2>
+<main id="pagewrap"><h2>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h2>
+${n.obis&&n.obis.length>0?get_obi(n.obis):'Пока объявлений нет.'}<hr>
 <section id="obiContainer">
 <div id="obiDiv"><header>Подать объявление</header>
 <form name="obi" method="post" action="/api/save_obi">
 <label>Имя *<br><input type="text" maxlength="100" name="nick" placeholder="Обязательно" required></label><br>
 <label>Текст объявления*&nbsp;<span id="fspan">0</span>&nbsp;(1500)<br>
 <textarea maxlength="1500" name="msg" oninput="finput(this);" placeholder="Объявления без контакта для связи удаляются" required></textarea></label>
+<input type="hidden" name="nid" value="${buser?buser.id:''}">
 <br><input type="submit" value="Опубликовать"><br><br>
 <a href="#regata" id="regata" onclick="do_reg(this);">Правила публикации</a>
 </form>
@@ -47,7 +50,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 </div></div>
 </section>
 <hr>
-${n.obis&&n.obis.length>0?get_obi(n.obis):'Пока объявлений нет.'}
+
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 </body>
@@ -59,7 +62,8 @@ function get_obi(n){
 let s=''
 if(Array.isArray(n)){
 n.forEach(function(el,i){
-s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p></div>`;	
+s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p>
+<div>${moment(el.ati).format('YYYY-MM-DD hh:mm')}</div></div>`;	
 })	
 }
 return s;

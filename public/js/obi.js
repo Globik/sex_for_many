@@ -34,8 +34,10 @@ tt=true;
 }
 function on_obi(ev){
 ev.preventDefault();
+var f3=ev.target.nid.value;
 var f1=esci(ev.target.nick.value);
-var f2=esci(ev.target.msg.value);
+var f2=esci(ev.target.msg.value)+(f3?'<br><a href="/webrtc/'+f3+'">Мой профайл</a>':'') ;
+
 var d={};
 d.nick=f1;
 d.msg=f2;
