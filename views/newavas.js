@@ -29,7 +29,7 @@ ${js_help(["/js/user_avas.js"])}
 module.exports={newavas};
 function get_avas(n){
 let s='';
-if(Array.isArray(n){
+if(Array.isArray(n)){
 n.forEach(function(el,i){
 s+=`<li data-pname="${el.bname}"><a href="/home/profile/${el.bname}">${el.bname}</a>&nbsp;<img src="${el.ava}">&nbsp;
 <label class="cntlb2"><span>Одобрить</span><input type="checkbox" data-fname="${el.bname}" onchange="check_ava(this);">
