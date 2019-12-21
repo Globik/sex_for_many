@@ -1,3 +1,4 @@
+//d.js
 //admin_dashboard.js
 const html_head=require('./html_head.js'); // head.js 
 const html_nav_menu=require('./html_nav_menu.js');// header_menu.js

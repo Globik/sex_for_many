@@ -38,14 +38,14 @@ ${n.err?n.err:''}
 	</div>
 	<div>
 	
-	<label><strong>Ваш месседж</strong></label><span id="fspan">${n.result.msg?(400-n.result.msg.length):400}</span>&nbsp;/&nbsp;400<br>
+	<label><strong>Ваш месседж</strong></label><span id="fspan">${n.result&&n.result.msg?(400-n.result.msg.length):400}</span>&nbsp;/&nbsp;400<br>
 	<div style="border:1px solid silver;" id="fcont" data-max="400" contenteditable='' 
 	oninput="finput(this);">${n.result&&n.result.msg?n.result.msg:''}</div>
 	<!-- <textarea id="profTxtar" name="txt_msg" placeholder="Ваше сообщение" maxlength="400" oninput="finput(this);"></textarea> --><br>
 	</div>
 	<div><label for="avaId"><strong>Ваше фото</strong> (тело не моложе 18-ти, не голое)</label><br>
 	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
-	<input id="fotoTxt" type="hidden" name="photo" value="${n.result.ava?n.result.ava:''}">
+	<input id="fotoTxt" type="hidden" name="photo" value="${n.result&&n.result.ava?n.result.ava:''}">
 	<input type="hidden" name="fname" value="${buser?buser.bname:''}">
 	</div>
 	<div>

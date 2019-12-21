@@ -66,7 +66,8 @@ let err;
 let a;
 try{
 let result=await db.query('select bname, ava from profile where isava=1');
-if(result.rows)a=result.rows;	
+if(result.rows)a=result.rows;
+//console.log('result: ',result.rows);	
 }catch(e){err=e;}
 ctx.body=await ctx.render('newavas',{err:err,result:a});	
 })
