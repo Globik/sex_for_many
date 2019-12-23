@@ -2,8 +2,8 @@
 // heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;//for heroku
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -358,7 +358,7 @@ send_to_client=1;
 if(send_to_client==0){
 if(l.target && l.target !==undefined && l.target.length !==0){
 // ws,nick,msg
-console.log('send to one: ');
+console.log('send to one: ',l.type);
 send_to_one(ws,l.target,l);	
 }else{
 broadcast_room(ws, l);

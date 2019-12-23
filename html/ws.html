@@ -27,8 +27,9 @@ visibility:visible;
 }
 
 .red{color:red;} .green{color:green;}
+
 #media-wrapper{
-ackground:rgba(255,255,255,0.1);
+background:yellow;
 width:100%;
 height:470px;
 max-width:1800px;
@@ -54,31 +55,34 @@ padding:5px;
 	z-index:40;
 }
 #video-container{
-ackground:rgba(20,25,25,0.9);
-order:1px solid yellow;
+background:green;
+border:1px solid yellow;
 position:relative;
 display:block;
 width:50%;
-height:100%;
+height:120%;
 float:left;
 }
 
 #chat-container{
-	ackground:rgba(0,0,0,0.5);
+	background:rgba(0,0,0,0.5);
 	width:50%;
-	height:100%;
+	height:120%;
 	overflow:hidden;
 float:right;	
 }
+
 #video-wrapper{
+	background:red;
 width:100%;
-height:87%;
+height:75%;
 display:block;
 position:relative;	
 perspective:1000px;
 perspective-origin:55% 55%;
 transform-style:preserve-3d;
 }
+
 #video-wrapper::after{
 position:absolute;
 background:rgba(0,0,0,0.3);
@@ -96,6 +100,7 @@ line-height:1.5;
 transition-property:all;
 transition-duration:.2s;
 }
+
 #video-wrapper.start::after{
 color:green;
 width:0;
@@ -108,7 +113,6 @@ cotent:"";
 content:"Press 'start' to get a feed. Press 'stop' to end a feed";	
 }
 
-.rus #video-wrapper::after{content:"Жми на старт, чтобы начать трансляцию. Жми на стоп, чтобы прекратить ее.";}
 
 #video-wrapper.connecting::after{
 content:"Connecting...";
@@ -124,18 +128,23 @@ height:13%;
 display:block;
 position:relative;	
 }
+#under-chat2{background:violet;height:12.1%;text-align:right;}
+#under-chat2 button:last-child{margin-right:0;}
+#under-chat2 button{margin-right:0.5em;}
 #chat{
+	background:red;
 width:100%;
-height:83%;
-height: calc(87% - 4%);
+height:70%;
+eight: calc(87% - 4%);
 display:block;
 position:relative;
 overflow-y:auto;
 }
 .chat-txt{
-width:80%;
+width:100%;
 height:100%;
 padding-left:5px;	
+color:red;
 }
 .chat-div{
 display:block;
@@ -155,7 +164,7 @@ border-bottom:1px solid rgba(25,255,255,0.8);
 .chat-message{color:white;}
 
 .btn-send,.btn-start{
-width:20%;
+idth:20%;
 height:100%;	
 ackground:yellow;
 cursor:pointer;
@@ -172,7 +181,7 @@ background:rgba(0,0,0,0.3);
 display:block;
 position:relative;	
 }
-
+#under-video2{background:pink;height:12.1%;text-align:right;}
 #localVideo{
  border:1px solid red;
  position:relative;
@@ -194,7 +203,7 @@ height: 470px;
  ransform:scale3d(50%,50%,1);
  transform:translateZ(0);
 }
-#chatPanel{padding:4px;background:rgba(255,233,255,0.8);height:4%;}
+#chatPanel{padding:4px;background:rgba(255,23,255,0.8);height:28px;}
 
 
 
@@ -223,13 +232,15 @@ width:100%;
 display:block;
 height: 470px;
 }
+#under-chat2{height:11.1%;padding-top:0.5rem;}
+.btn-send{height:80%;}
 #btcadr{font-size:0.7em;}
 #btcInfo{margin-left:0;}
 }
 @media screen and (max-width: 320px){
 
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	.btn-send,.btn-start{width:50%;}
+	.btn-send,.btn-start{idth:50%;}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	#btc-container{width:99%;}
@@ -285,19 +296,27 @@ height: 470px;
 <video id="localVideo" poster="" autoplay>no video supported</video>
 </div>
 <div id="under-video">
-<button id="btnStart" class="btn-start" onclick="do_start(this);">start</button>
-
+<button>kartinka</button>
 </div>
+<div id="under-video2"><button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button></div>
 </section>
 <section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt">0</span></div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt" class="chat-txt" type="text" placeholder="your message" maxlength="200"><button class="btn-send" onclick="send_up();">send</button>
+<input id="chatTxt" class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200">
+
 </div>
+<div id="under-chat2"><button>foto</button><button class="btn-send" onclick="send_up();">отправить</button></div>
 </section>
 </section>
 <div style="clear:both;"></div> 
-<div class="btc-footer" style="">
+
+
+
+
+
+
+<div class="btc-footer" style="color:red;">
 
 <div id="btc-container" style="">
 <label class="btc-label" style="">Enter your btc address:&nbsp;</label>

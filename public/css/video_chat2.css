@@ -18,6 +18,7 @@ visibility:visible;
 }
 
 .red{color:red;} .green{color:green;}
+
 #media-wrapper{
 background:brown;
 width:100%;
@@ -68,7 +69,7 @@ display:block;
 }
 #video-wrapper{
 width:100%;
-height:87%;
+height:75%;
 display:block;
 position:relative;	
 perspective:1000px;
@@ -78,7 +79,7 @@ ackground:red;
 }
 #video-wrapper::after{
 position:absolute;
-background:brown;/*rgba(24,20,20,0.7);*/
+ackground:brown;/*rgba(24,20,20,0.7);*/
 box-sizing:border-box;
 top:0;
 left:0;
@@ -131,10 +132,13 @@ height:13%;
 display:block;
 position:relative;	
 }
+#under-chat2{background:violet;height:12.1%;text-align:right;}
+#under-chat2 button:last-child{margin-right:0;}
+#under-chat2 button{margin-right:0.5em;}
 #chat{
 width:100%;
-height:83%;
-height: calc(87% - 8%);
+height:67%;
+eight: calc(87% - 8%);
 display:block;
 position:relative;
 overflow-y:auto;
@@ -164,7 +168,7 @@ display:inline-block;
 .g-data{ackground:red;color:white;font-size:0.5em;text-align:right;}
 
 .btn-start{
-width:20%;
+idth:20%;
 height:100%;	
 ackground:yellow;
 cursor:pointer;
@@ -179,7 +183,7 @@ display:inline-block;
 #vasja{
 cursor:pointer;
 height:100%;
-width:19%;
+idth:19%;
 font-size:0.9em;
 font-weight:bold;
  
@@ -203,8 +207,8 @@ background:brown;
 display:block;
 position:relative;	
 }
-#under-video2{height:40px;background:green;}
-header{font-weight:bold;}
+#under-video2{background:pink;height:12.1%;text-align:right;}
+header{font-weight:bold;margin-bottom:4px;}
 #under-video.start{background:rgba(0,0,0,0);}
 #remoteVideo{
  
@@ -253,7 +257,7 @@ height: 470px;
 #pizda1 #forImg{olor:green;height:40px;width:100%;font-size:14px;}
 #pizda1  button{height:40px; width:30%;font-weight:bold;margin-left:70%;margin-top:7px;font-size:16px;}
 #profileUl{list-style:none;margin:0;padding:0;}
-
+#qrcodeContainer{border:1px solid black;display:inline-block;padding:10px;}
 
 @media screen and (max-width: 751px){
 #chatPanel{ackground:red;}
@@ -263,7 +267,8 @@ height: 470px;
 float:none;
 width:100%;	
 display:block;
-height: 470px;
+height: 500px;
+border:3px solid yellow;
 }
 #btcadr{font-size:0.7em;}
 
@@ -276,10 +281,12 @@ height: 470px;
 
 @media screen and (max-width: 320px){
 #chat-container{color:red;margin-top:60px;}
-#mediaPanel{height:20%;}
+
+#video-wrapper{height:87%;}
+#remoteVideo{border:2px solid red;}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	#vasja{width:20%;}
-	.btn-start{width:50%;}
+	#vasja{idth:20%;color:red;}
+	.btn-start{idth:50%;}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	

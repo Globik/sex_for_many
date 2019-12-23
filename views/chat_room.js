@@ -67,16 +67,24 @@ data-ownerOnline="${owner_online_str_en}">
 ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
 </div>
+
 <div id="under-video2">
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
 </div>
 </section>
-<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button></div>
+
+<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;
+<!-- <button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button> -->
+</div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></div>
-<div><button id="vasja" onclick="send_up();">оправить</button></div>
+<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200">
+</div>
+<div id="under-chat2">
+<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button>
+<button id="vasja" onclick="send_up();">отправить</button>
+</div>
 
 </section>
 
@@ -89,7 +97,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <li><b>Имя: </b><span id="clientName"></span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
-${n.owner?'':'<header>Биткоин адрес:</header><div id="qrcode"></div>'}
+${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 <li><a href="/home/profile/${model?model.bname:''}">редактировать</a>
 </ul>
 <output id="webrtc"></output>
