@@ -72,8 +72,8 @@ d.username=modelName.value;
 
 vax("post", "/api/savebtcaddress", d, on_saved_btc, on_save_btc_error, el,false);
 }
-function on_saved_btc(d){
-alert('success '+d);
+function on_saved_btc(d,el){
+alert('success '+JSON.stringify(d));
 el.disabled=true;
 }
 function on_save_btc_error(l){

@@ -2,8 +2,8 @@
 // heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
-//const DB_URL='postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;//for heroku
+const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
 
 
@@ -224,7 +224,7 @@ return;
 }
 }
 //not found, offline?
-wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
+if(msg.type=="offer")wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
 }
 
 function get_user_count(url){
@@ -358,7 +358,7 @@ send_to_client=1;
 if(send_to_client==0){
 if(l.target && l.target !==undefined && l.target.length !==0){
 // ws,nick,msg
-console.log('send to one: ',l);
+console.log('send to one: ');
 send_to_one(ws,l.target,l);	
 }else{
 broadcast_room(ws, l);

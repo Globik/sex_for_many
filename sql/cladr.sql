@@ -1,10 +1,9 @@
 -- \i /home/globik/sex_for_many/sql/cladr.sql
 -- heroku pg:psql --app frozen-atoll-47887
-
--- drop table cladr if exists;
+ drop table if exists cladr;
 create table cladr(
 id serial primary key,
-bname  varchar(16) unique not null references buser(bname),
+nick  varchar(16) unique not null references buser(bname),--unique not null references buser(bname)
 cadr varchar(40) , -- client btc address
 padr varchar(40) , -- public btc adress
 cadrtest varchar(40), --client test btc adress
@@ -14,6 +13,11 @@ pc varchar(70) not null, -- payment code
 btc_amt numeric NOT NULL default 0, -- btc payment amount by address
 btc_all numeric not null default 0 -- total amount received by address
 );
+
+-- insert into cladr(nick, cadrtest, padrtest, inv, pc) values('Globi','cli','pub','inv','pc') on conflict(nick) do update set cadrtest='cli2',padrtest='pub2',inv='inv2',pc='pc2';
+
+-- insert into cladr(nick, cadrtest, padrtest, inv, pc) values('Globi','cli','pub','inv','pc');
+
 
 CREATE OR REPLACE FUNCTION notify_smart() RETURNS TRIGGER AS $$
 DECLARE 

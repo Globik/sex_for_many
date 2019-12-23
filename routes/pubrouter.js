@@ -26,7 +26,7 @@ let db=ctx.db;
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
 let bus=await db.query(s);
-console.log('bus rows: ', bus.rows);
+//console.log('bus rows: ', bus.rows);
 if(bus.rows.length>0){
 bresult=bus.rows;
 bresult.forEach(function(el,i){
@@ -138,10 +138,10 @@ let owner=false;
 let sis;
 if(ctx.state.is_test_btc){
 sis=`select buser.bname , buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
-on buser.bname=cladr.bname where buser.id=$1`;
+on buser.bname=cladr.nick where buser.id=$1`;
 }else{
 sis=`select buser.bname , buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
-on buser.bname=cladr.bname where buser.id=$1`;
+on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
 result=await db.query(sis,[ctx.params.buser_id]);
@@ -196,7 +196,8 @@ bod=await reqw(mops);
 console.log('bod: ', bod);
 
 try{
-let sql_create_smarti1="insert into cladr(bname, cadrtest, padrtest, inv, pc) values($1,$2,$3,$4,$5)";
+let sql_create_smarti1=`insert into cladr(nick, cadrtest, padrtest, inv, pc) 
+values($1,$2,$3,$4,$5) on conflict(nick) do update set cadrtest=$2,padrtest=$3,inv=$4,pc=$5`;
 
 let si=await db.query(sql_create_smarti1,[
 username, 
@@ -224,7 +225,8 @@ bod=await reqw(mops);
 console.log('bod: ', bod);
 
 try{
-let sql_create_smarti="insert into cladr(bname, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)";
+let sql_create_smarti=`insert into cladr(nick, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)
+ on conflict(nick) do update set cadr=$2,padr=$3,inv=$4,pc=$5`;
 
 let si1=await db.query(sql_create_smarti,[
 username, 
