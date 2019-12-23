@@ -217,8 +217,10 @@ go_webrtc();
 
  function go_webrtc(){	
 
-navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(async function(stream){
+navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(async function(stream){
 localVideo.srcObject=stream;
+localVideo.play();
+localVideo.volume = 0;
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 
 try{
@@ -294,6 +296,8 @@ return pc;
 function on_track(event){
 	//if(remoteVideo.srcObjet)return;
 	remoteVideo.srcObject=event.streams[0];
+	remoteVideo.play();
+remoteVideo.volume = 0;
 }
 function on_ice_candidate(event){
 if(event.candidate){
@@ -353,9 +357,8 @@ stopVideo();
 	stopVideo();
 }else if(this.connectionState=="connecting"){
 setTimeout(function(){
-	stopVideo();
+	//stopVideo();
 //stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
-stopVideo();
 },10000);
 v.className="connecting";
 }
@@ -404,7 +407,7 @@ stopVideo();
 note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',time:5});
 }
 function stopVideo(){
-	//alert('stop video');
+	console.log('stop video');
 if(remoteVideo.srcObject){
 remoteVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 }
@@ -464,7 +467,8 @@ function on_get_profile(l){
 	}
 }
 function on_get_profile_error(l){console.error(l);}
-
+localVideo.onloadedmetadata=function(e){console.log('on local video loaded video data');}
+remoteVideo.onloadedmetadata=function(e){console.log('on remote video loaded video data');}
 
 
 

@@ -108,13 +108,7 @@ content: attr(data-ownerOnline);
 #video-wrapper.owner-offline::after{
 content:attr(data-ownerOfflineStrEn);
 }
-/*
-#localVideo{
-width:340px;border:12px solid brown;display:inline-block;
-transform:translate(-1000px,-9000px);
-}
-#remoteVideo{}
-*/
+
 
 #video-wrapper.connecting::after{
 content:"Connecting...";
@@ -162,7 +156,6 @@ border-bottom:1px solid rgba(55,255,255,0.8);
 .chat-user{color:yellow;}
 .chat-message{color:white;
 display:inline-block;
-/*vertical-align:middle;*/
 }
 
 .g-data{ackground:red;color:white;font-size:0.5em;text-align:right;}
@@ -211,26 +204,23 @@ position:relative;
 header{font-weight:bold;margin-bottom:4px;}
 #under-video.start{background:rgba(0,0,0,0);}
 #remoteVideo{
- 
- position:relative;
-
- transition-property:all;
- transition-duration:.2s;
- transform:translate3d(0%,0%,-980px);
- z-index:20;
+position:relative;
+transition-property:all;
+transition-duration:.2s;
+transform:translate3d(0%,0%,0px);
+z-index:20;
+border:10px solid red;
  }
  
 #remoteVideo.start{
 overflow:hidden;
 width: 100%;
-height: 470px;
- margin:0 auto;
-
- position:relative;
- object-fit:cover; 
- transform:translateZ(0);
+height: 50%;
+margin:0 auto;
+object-fit:cover; 
+transform:translateZ(0);
 }
-#localVideo{width:200px;transform:translate(-300px,10px);border:12px solid green;}
+#localVideo{width:70%;height: 50%;ransform:translate(0px,0px);border:12px solid green;}
 
 #chatPanel{padding:5px;background:rgba(25,33,55,0.4);height:8%;}
 
@@ -283,7 +273,7 @@ border:3px solid yellow;
 #chat-container{color:red;margin-top:60px;}
 
 #video-wrapper{height:87%;}
-#remoteVideo{border:2px solid red;}
+#remoteVideo{}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
 	#vasja{idth:20%;color:red;}
 	.btn-start{idth:50%;}

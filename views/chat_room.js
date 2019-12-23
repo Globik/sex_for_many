@@ -48,10 +48,9 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class=""></div>
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
-<div id="btccount"><span id="btcc">${model.btc_all}</span>&nbsp;<span id="btcspan">satoshi</span></div>
+<div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">satoshi</span></div>
 </div>
 <section id="video-container">
-<!-- <div id="btccount"><span id="btcc">${model.btc_all}</span>&nbsp;<span id="btcspan">satoshi</span></div> -->
 
 
 <div id="video-wrapper" class="${n.owner?'':n.model && n.model.src?'owner-online':'owner-offline'}"
