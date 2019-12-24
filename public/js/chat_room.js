@@ -296,8 +296,8 @@ return pc;
 function on_track(event){
 	//if(!event.streams[0])
 	remoteVideo.srcObject=event.streams[0];
-	remoteVideo.play();
-remoteVideo.volume = 0;
+	//remoteVideo.play();
+//remoteVideo.volume = 0;
 }
 function on_ice_candidate(event){
 if(event.candidate){
