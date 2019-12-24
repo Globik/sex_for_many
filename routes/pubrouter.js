@@ -29,9 +29,9 @@ let bus=await db.query(s);
 //console.log('bus rows: ', bus.rows);
 if(bus.rows.length>0){
 bresult=bus.rows;
-bresult.forEach(function(el,i){
-	console.log('el: ',el);	
-})
+//bresult.forEach(function(el,i){
+	//console.log('el: ',el);	
+//})
 }
 }catch(e){console.log(e)}	
 

@@ -4,11 +4,11 @@ const html_head=require('./html_head'),
    html_footer = require('./html_footer');
 const {js_help}=require('../libs/helper.js');
 var warnig=false,haupt_ban=false;
-const owner_start_str_en="To broadcast yourself please enable your webcam and press 'start' button";
-const owner_offline_str_en="В настоящее время юзер оффлайн. Пожалуйста подождите или выберете другого юзера.";
-const owner_online_str_en="Press start"
-const you_ban="You are banned.";
-const us_ban="This user is banned.";
+const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
+const notowner_str = "Вы можете позвонить юзеру. Нажмите на кнопку 'видеозвонок'";
+//const owner_online_str_en="Press start"
+//const you_ban="You are banned.";
+//const us_ban="This user is banned.";
 const str_langsam_stop="We are sorry, but no more activity is acceptable. Site is closing for a profilactic works in a pair of hours.";
 const str_emergency_stop="Emergency stop all activities on this site. We are sorry";
 
@@ -26,7 +26,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 
 <main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
 ${n.owner?
-`<div class="btc-footer" style="background:yellow;">
+`<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
 <h5>Прежде чем начать</h5>
 <div id="btc-container">
@@ -46,35 +46,32 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 
 
 <section id="media-wrapper">
-<div id="mediaPanel"><div id="online-detector" class=""></div>
+<div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
-<div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">satoshi</span></div>
+<div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">сатоши</span></div>
 </div>
 <section id="video-container">
 
 
-<div id="video-wrapper" class="${n.owner?'':n.model && n.model.src?'owner-online':'owner-offline'}"
-data-ownerStartStrEn="${owner_start_str_en}" 
-data-ownerOfflineStrEn="${owner_offline_str_en}"
-data-ownerOnline="${owner_online_str_en}">
+<div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
+data-owner="${owner_str}" data-notowner="${notowner_str}"
+>
 <video id="remoteVideo" autoplay></video>
-<video id="localVideo" poster="${model && model.src?model.src:''}" autoplay>no video supported</video>
+<video id="localVideo" autoplay></video>
 </div>
 <div id="under-video">
-<!-- <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
-<button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
 <img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
 </div>
 
 <div id="under-video2">
-<button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'snapshot':'позвонить'}</button>
+<button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
 </div>
 </section>
 
-<section id="chat-container"><div id="chatPanel"><b>чат: </b><span id="chatcnt">0</span>&nbsp;
-<!-- <button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button> -->
+<section id="chat-container"><div id="chatPanel"><b>В&nbsp;чатe&nbsp;</b><span id="chatcnt">0</span>&nbsp;чел.
+
 </div>
 <div id="chat"></div>
 <div id="under-chat">
