@@ -41,7 +41,7 @@ class="btn-saveL" onclick="saveBTC(this);">сохранить</button><button cl
 
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
-<span><b>Биткоин адрес для донатов:</b></span>
+<span><b>Послать биткоины на адрес:</b></span>
 <span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
 
 

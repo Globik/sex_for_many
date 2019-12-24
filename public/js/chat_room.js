@@ -234,7 +234,7 @@ try{
 
 }).catch(function(er){
 console.error(er);
-note({content:'Веб-камера не включена! Включите.',type:'error',time:5});
+note({content:'Подключите веб-камеру!',type:'error',time:5});
 if(!owner())btnStart.disabled=false;
 webrtc.innerHTML+=er+'<br>';})
 }
@@ -294,10 +294,10 @@ pc.ontrack=on_track
 return pc;	
 }
 function on_track(event){
-	if(remoteVideo.srcObjet)return;
+	if(!event.streams[0])
 	remoteVideo.srcObject=event.streams[0];
-	remoteVideo.play();
-remoteVideo.volume = 0;
+	//remoteVideo.play();
+//remoteVideo.volume = 0;
 }
 function on_ice_candidate(event){
 if(event.candidate){
@@ -422,7 +422,7 @@ function clearPeer(){
 console.log('pc: ',pc.signalingState);
 pc.close();
 pc.onicecandidate=null;
-pc.onaddstream=null;
+//pc.onaddstream=null;
 //pc.onremovestream=null;
 
 pc.oniceconnectionstatechange = null;
