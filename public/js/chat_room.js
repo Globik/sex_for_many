@@ -294,7 +294,7 @@ pc.ontrack=on_track
 return pc;	
 }
 function on_track(event){
-	//if(remoteVideo.srcObjet)return;
+	if(remoteVideo.srcObjet)return;
 	remoteVideo.srcObject=event.streams[0];
 	remoteVideo.play();
 remoteVideo.volume = 0;
