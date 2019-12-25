@@ -189,7 +189,8 @@ font-size:0.9em;
 font-weight:bold;
 letter-spacing:1px;
 border:2px solid black;
-
+padding-right:0.5rem;
+padding-left:0.5rem;
 }
 .btn-saveL{
 width:auto;

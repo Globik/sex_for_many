@@ -20,6 +20,7 @@ var remoteVideo=gid("remoteVideo");
 var localStream;
 var targetusername;
 var pc;
+var dc;
 var hasAddTrack=false;
 var bon_ice;
 var wstream=null;
@@ -290,9 +291,46 @@ pc.onicecandidaterror = on_ice_candidate_error;
 pc.onnegotiationneeded = on_negotiation_needed;
 pc.signalingstatechange = signaling_state_change;
 pc.onconnectionstatechange = on_connection_state_change;
+if(!owner()){
+dc=pc.createDataChannel('globi');
+dc.onopen=on_channel_state_change;
+dc.onclose= on_channel_state_change;
+}
+pc.ondatachannel=receive_channel_cb;
 pc.ontrack=on_track
 return pc;	
 }
+
+function on_channel_state_change(){
+var readyState = dc.readyState;
+console.log('send channel state is: ', readyState);
+alert(readyState);
+if(readyState=="open"){send_channel();}else{}	
+}
+
+function on_receive_channel_state_change(){
+var readyState=dc.readyState;
+console.log('receive channel state is: ', readyState);	
+}
+
+function receive_channel_cb(event){
+	dc=event.channel;
+	dc.onmessage=on_receive_message;
+	dc.onopen=on_receive_channel_state_change;
+	dc.onclose=on_receive_channel_state_change;
+}
+
+function on_receive_message(event){
+console.log('data channel: ', event.data);	
+alert(event.data);
+}
+
+function send_channel(){
+if(dc){
+dc.send('ku');	
+}	
+}
+
 function on_track(event){
 	//if(!event.streams[0])
 	remoteVideo.srcObject=event.streams[0];
