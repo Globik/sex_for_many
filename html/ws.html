@@ -181,7 +181,7 @@ background:rgba(0,0,0,0.3);
 display:block;
 position:relative;	
 }
-#under-video2{background:pink;height:12.1%;text-align:right;}
+#under-video2{background:pink;height:12.1%;text-align:right;position:relative;}
 #localVideo{
  border:1px solid red;
  position:relative;
@@ -222,6 +222,43 @@ height: 470px;
 
 
 #textArea{width:49%;padding:5px;}
+
+#privchatcontainer{
+background:yellow;
+display:none;
+position:absolute;
+bottom:0;
+left:0;
+width:40%;	
+eight:400px;
+height:30px;
+overflow:hidden;
+text-align:left;
+transition: height 0.2s linear;
+}
+#privchatcontainer.ondisplay{display:inline-block;}
+#privchatcontainer.ondisplay.spanout{
+height:400px;	
+}
+#privatpanel{
+height:30px;
+background:green;
+text-align:right;	
+}
+#privatpanel.msg-in{
+	ackground:red;
+	animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+animation-fill-mode:backwards;
+visibility:visible;
+}
+#privchat{background:red;height:340px;overflow-y:auto;}
+#privinput{
+height:30px;
+width:100%;	
+}
 
 @media screen and (max-width: 690px){
 #chatPanel{ackground:red;}
@@ -285,7 +322,7 @@ height: 470px;
 
 <p><h4>Your room description:</h4><textarea id="textArea" placeholder="add room description"></textarea></p>
 </section>
-<button onclick="get_me();">get me</button>
+<button onclick="get_me();">get me</button><button onclick="display();">display</button><button onclick="msg_came();">on msg</button>
 <section id="media-wrapper">
 <div id="mediaPanel"><div id="online-detector" class="puls"></div>&nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span></div>
 <section id="video-container">
@@ -298,7 +335,10 @@ height: 470px;
 <div id="under-video">
 <button>kartinka</button>
 </div>
-<div id="under-video2"><button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button></div>
+<div id="under-video2"><div id="privchatcontainer"><div id="privatpanel"><span onclick="on_span();">panel</span></div><div id="privchat">
+</div>
+<input id="privinput" type="text"></div>
+<button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button></div>
 </section>
 <section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt">0</span></div>
 <div id="chat"></div>
@@ -354,6 +394,47 @@ function gid(id){
 return document.getElementById(id);	
 }
 //open_socket()
+var pflag=false;
+function on_span(){
+	if(!pflag){
+	privchatcontainer.classList.add("spanout");
+	privatpanel.classList.remove("msg-in");
+	pflag=true;
+}else{
+privchatcontainer.classList.remove("spanout");
+pflag=false;	
+}
+}
+privinput.addEventListener('keypress', dc_send, false);
+function dc_send(ev){
+if(ev.keyCode==13 || ev.which==13 || ev.key=="Enter"){
+console.log(ev.target.value);
+if(!ev.target.value)return;
+var div=document.createElement("div");
+div.innerHTML=ev.target.value;
+privchat.appendChild(div);
+privchat.scrollTop=privchat.clientHeight+privchat.scrollHeight;
+}
+//console.log(privinput.value);
+}
+
+function msg_came(){
+if(!privchatcontainer.classList.contains('spanout'))privatpanel.classList.add('msg-in');	
+}
+var dflag=false;
+function display(){
+	if(!dflag){
+		privchatcontainer.classList.add("ondisplay");
+		dflag=true;
+		}else{
+			privchatcontainer.classList.remove("spanout");
+			privchatcontainer.classList.remove("ondisplay");
+			
+			privatpanel.classList.remove('msg-in');
+			dflag=false;
+			}
+	}
+
 function open_socket(){
 if(sock){console.log("already in connection");return;}
 sock=new WebSocket("ws://localhost:3000/"+roomId);

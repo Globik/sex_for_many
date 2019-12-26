@@ -409,7 +409,7 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 
 function broadcast_satoshi(obj){
 wss.clients.forEach(function each(client){
-if(client.roomname == obj.bname){
+if(client.roomname == obj.nick){
 wsend(client,obj);
 insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.substring(1));
 }
