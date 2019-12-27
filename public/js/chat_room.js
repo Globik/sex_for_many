@@ -366,12 +366,14 @@ function on_display(bool){
 var pflag=false;
 
 function on_span(){
-	alert('spanout');
+	//alert('spanout');
 	if(!pflag){
+	console.log(pflag);	
 	privatcontainer.classList.add("spanout");
 	privatpanel.classList.remove("msg-in");
 	pflag=true;
 }else{
+	console.log(pflag);
 privatcontainer.classList.remove("spanout");
 pflag=false;	
 }

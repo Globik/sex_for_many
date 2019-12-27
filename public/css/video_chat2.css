@@ -277,7 +277,7 @@ transition: height 0.2s linear;
 #privatcontainer.ondisplay{
 display:inline-block;
 }
-#privchatcontainer.ondisplay.spanout{
+#privatcontainer.ondisplay.spanout{
 height:400px;	
 }
 #privatpanel{
