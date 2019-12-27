@@ -305,7 +305,6 @@ return pc;
 function on_channel_state_change(){
 var readyState = dc.readyState;
 console.log('send channel state is: ', readyState);
-//alert(readyState);
 if(readyState=="open"){
 	on_display(false);
 	}else{
@@ -313,17 +312,7 @@ if(readyState=="open"){
 		}	
 }
 
-/*
-function on_receive_channel_state_change(){
-var readyState=dc.readyState;
-console.log('receive channel state is: ', readyState);	
-if(readyState=="open"){
-on_display(false);	
-}else{
-	on_display(true);
-	}
-}
-*/
+
 function receive_channel_cb(event){
 	dc=event.channel;
 	dc.onmessage=on_receive_message;
@@ -393,7 +382,8 @@ if(!ev.target.value)return;
 var obj={};
 obj.from=myusername;
 obj.msg=ev.target.value;
-send_channel(obj)
+send_channel(obj);
+ev.target.value="";
 }
 }
 
@@ -538,7 +528,11 @@ pc.onconnectionstatechange=null;
 pc.on_track=null;
 pc=null;
 console.log('pc: ',pc);
-v.className="";
+if(owner()){
+v.className="owner";
+}else{
+	v.className="notowner"
+	}
 btnStart.disabled=false;
 }
 
