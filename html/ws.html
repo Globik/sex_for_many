@@ -252,7 +252,6 @@ animation-duration:1s;
 animation-direction: alternate;
 animation-iteration-count:infinite;
 animation-fill-mode:backwards;
-visibility:visible;
 }
 #privchat{background:red;height:340px;overflow-y:auto;}
 #privinput{
@@ -335,9 +334,16 @@ height: 470px;
 <div id="under-video">
 <button>kartinka</button>
 </div>
-<div id="under-video2"><div id="privchatcontainer"><div id="privatpanel"><span onclick="on_span();">panel</span></div><div id="privchat">
+
+<div id="under-video2">
+	
+<div id="privchatcontainer">
+<div id="privatpanel"><span onclick="on_span();">panel</span></div>
+<div id="privchat"></div>
+<input id="privinput" type="text">
 </div>
-<input id="privinput" type="text"></div>
+
+
 <button id="btnStart" class="btn-start" onclick="do_start(this);">позвонить</button></div>
 </section>
 <section id="chat-container"><div id="chatPanel">chat <b>users: </b><span id="chatcnt">0</span></div>

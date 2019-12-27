@@ -304,31 +304,93 @@ return pc;
 function on_channel_state_change(){
 var readyState = dc.readyState;
 console.log('send channel state is: ', readyState);
-alert(readyState);
-if(readyState=="open"){send_channel();}else{}	
+//alert(readyState);
+if(readyState=="open"){
+	on_display(false);
+	}else{
+		on_display(true);
+		}	
 }
 
+/*
 function on_receive_channel_state_change(){
 var readyState=dc.readyState;
 console.log('receive channel state is: ', readyState);	
+if(readyState=="open"){
+on_display(false);	
+}else{
+	on_display(true);
+	}
 }
-
+*/
 function receive_channel_cb(event){
 	dc=event.channel;
 	dc.onmessage=on_receive_message;
-	dc.onopen=on_receive_channel_state_change;
-	dc.onclose=on_receive_channel_state_change;
+	dc.onopen=on_channel_state_change;
+	dc.onclose=on_channel_state_change;
 }
 
 function on_receive_message(event){
-console.log('data channel: ', event.data);	
-alert(event.data);
+console.log('data channel: ', event.data);
+
+var div=document.createElement("div");
+try{
+	msg_came();
+	var a=JSON.parse(event.data);
+div.innerHTML='<b>'+a.from+':</b> '+ a.msg;
+}catch(e){return;}
+privatchat.appendChild(div);
+privatchat.scrollTop=privatchat.clientHeight+privatchat.scrollHeight;
 }
 
-function send_channel(){
+
+function send_channel(obj){
 if(dc){
-dc.send('ku');	
+	try{
+dc.send(JSON.stringify(obj));	
+}catch(e){}
 }	
+}
+
+function on_display(bool){
+	if(!bool){
+		privatcontainer.classList.add("ondisplay");
+		}else{
+			privatcontainer.classList.remove("spanout");
+			privatcontainer.classList.remove("ondisplay");
+			
+			privatpanel.classList.remove('msg-in');
+			}
+	}
+
+var pflag=false;
+
+function on_span(){
+	if(!pflag){
+	privatcontainer.classList.add("spanout");
+	privatpanel.classList.remove("msg-in");
+	pflag=true;
+}else{
+privatcontainer.classList.remove("spanout");
+pflag=false;	
+}
+}
+
+function msg_came(){
+if(!privatcontainer.classList.contains('spanout'))privatpanel.classList.add('msg-in');	
+}
+
+privatinput.addEventListener('keypress', dc_send, false);
+
+function dc_send(ev){
+if(ev.keyCode==13 || ev.which==13 || ev.key=="Enter"){
+console.log(ev.target.value);
+if(!ev.target.value)return;
+var obj={};
+obj.from=myusername;
+obj.msg=ev.target.value;
+send_channel(obj)
+}
 }
 
 function on_track(event){

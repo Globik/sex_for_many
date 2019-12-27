@@ -260,6 +260,47 @@ position:absolute;top:0;left:0;z-index:2;
 #profileUl{list-style:none;margin:0;padding:0;}
 #qrcodeContainer{border:1px solid black;display:inline-block;padding:10px;}
 
+#privatcontainer{
+background:rgba(0,0,5,0.2);
+color: white;
+display:none;
+position:absolute;
+bottom:0;
+left:0;
+width:40%;	
+eight:400px;
+height:30px;
+overflow:hidden;
+text-align:left;
+transition: height 0.2s linear;
+}
+#privatcontainer.ondisplay{
+display:inline-block;
+}
+#privchatcontainer.ondisplay.spanout{
+height:400px;	
+}
+#privatpanel{
+height:30px;
+background: rgba(0,222,0,0.4);
+text-align:right;
+}
+#privatpanel.msg-in{
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+animation-fill-mode:backwards;
+}
+#privatpanel span{cursor:pointer;color:lightblue;}
+#privatchat{
+background:rgba(0,0,10,0.2);color:white;height:340px;overflow-y:auto;
+}
+#privatinput{
+height:30px;
+width:100%;	
+}
+
 @media screen and (max-width: 751px){
 #chatPanel{ackground:red;}
 #media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);} 

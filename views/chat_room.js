@@ -65,6 +65,13 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 </div>
 
 <div id="under-video2">
+
+<div id="privatcontainer">
+<div id="privatpanel"><span onclick="on_span();">приватчат</span></div>
+<div id="privatchat"></div>
+<input id="privatinput" type="text">
+</div>
+
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
 </div>
