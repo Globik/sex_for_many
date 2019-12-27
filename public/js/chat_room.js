@@ -366,6 +366,7 @@ function on_display(bool){
 var pflag=false;
 
 function on_span(){
+	alert('spanout');
 	if(!pflag){
 	privatcontainer.classList.add("spanout");
 	privatpanel.classList.remove("msg-in");
@@ -434,7 +435,7 @@ stopVideo();
 }else if(this.iceConnectionState=="connected"){
 v.className="start";
 }else if(this.iceConnectionState=="completed"){
-onlineDetector.className="puls";// any need?
+//onlineDetector.className="puls";// any need?
 v.className="start";
 }else{}	
 }
