@@ -295,6 +295,7 @@ if(!owner()){
 dc=pc.createDataChannel('globi');
 dc.onopen=on_channel_state_change;
 dc.onclose= on_channel_state_change;
+dc.onmessage=on_receive_message;
 }
 pc.ondatachannel=receive_channel_cb;
 pc.ontrack=on_track
