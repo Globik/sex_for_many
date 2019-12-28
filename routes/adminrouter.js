@@ -130,6 +130,8 @@ adm.get('/home/xirsys', authed, async ctx=>{
 	console.log("URL: ", ctx.url);
 	console.log("ORIGIN: ", ctx.origin);
 	console.log("HOSTNAME: ", ctx.hostname);
+	console.log("protocol: ", ctx.protocol);
+	console.log("secure: ", ctx.secure);
 ctx.body=await ctx.render('xirsys',{});	
 })
 
