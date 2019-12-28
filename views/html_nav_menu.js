@@ -16,6 +16,7 @@ return `<!-- header_menu.js -->
 <li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>блог</span></div></a>
 <li><div class="znak-svg">pic</div><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 ${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}
+${n.buser?`<li><div class="znak-svg"></div><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Видеочат</span></div></a>`:''}
 ${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>выйти</span></div></a>':
 '<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>войти</span></div></a>'}
 <!-- <li><div class="znak-svg">pic</div><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->

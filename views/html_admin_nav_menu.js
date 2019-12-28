@@ -6,7 +6,8 @@ var html_admin_nav_menu=n=>{
 <ul id="admUl" class="adm-ul"><li><a href="/home/dashboard/">btc</a></li><li><a href="/home/profile">профили</a></li>
 <li><a href="/home/newavas">проверить аватарки</a></li>
 <li><a href="/home/newmsg">проверить объявления</a></li>
-<li><a href="/home/xirsys">turn сервер</a>&nbsp;${n.xirsys?"yes":"no"}</ul>
+<li><a href="/home/xirsys">turn сервер</a>&nbsp;${n.xirsys?"yes":"no"}</li>
+<li><a href="/home/reklama">Реклама</a></li></ul>
 
 <!--
 &nbsp;notes:&nbsp;<span onclick="fetch_abuse_popup();" style="background:yellow;">

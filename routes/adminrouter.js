@@ -1,8 +1,11 @@
+const fs=require('fs');
+const util=require('util');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const walletValidator=require('wallet-address-validator');//0.2.4
 const reqw=require('request-promise-native');
-
+const readdir=util.promisify(fs.readdir);
+const unlink=util.promisify(fs.unlink);
 const adm=new Router();
 
 adm.get('/home/dashboard', authed, async ctx=>{
@@ -154,6 +157,32 @@ adm.post('/api/set_xirsys', auth, async ctx=>{
 	if(!xir)ctx.throw(400,"Ни одного сервера не предоставлено.");
 	ctx.body={xir:ctx.state.xirsys}
 	})
+	
+	/* REKLAMA */
+	
+adm.get('/home/reklama', authed, async ctx=>{
+	ctx.body=await ctx.render('reklama',{});
+	})
+	adm.post("/api/fetch_folder", auth, async ctx=>{
+		let {folder}=ctx.request.body;
+		if(!folder)ctx.throw(400,"Папака неизвестна");
+		try{
+			var ab=await readdir('./public/'+folder,{});
+			console.log('ab: ', ab);
+			}catch(e){ctx.throw(400,e);}
+		let data=await ctx.render('reklama_fold',{names:ab});
+		ctx.body={info:"ok", data: data}
+		})
+	adm.post("/api/del_foto", auth, async ctx=>{
+		let {src}=ctx.request.body;
+		if(!src)ctx.throw(400,"Нет пути!");
+		try{
+			await unlink("./public/reklama/"+src);
+			}catch(e){
+			ctx.throw(400, e);
+			}
+		ctx.body = {info: "Фото удалено!"}
+		})
 module.exports=adm;
 
 function auth(ctx,next){
