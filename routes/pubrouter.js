@@ -188,7 +188,7 @@ if (ctx.state.is_test_btc){
 data.forwarding_address_primary=ctx.state.test_btc_address;//must be mine
 data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
-data.callback_link=cb_link;
+data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
 let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
 try{
@@ -217,7 +217,7 @@ ctx.body={status:"ok", data:"tested", bod:bod}
 data.forwarding_address_primary=ctx.state.btc_address;//must be mine
 data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share=ctx.state.btc_percent;
-data.callback_link=cb_link;
+data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
 let mops={url: base_url_smart_btc, method:"post", json:true,body:data};
 try{
