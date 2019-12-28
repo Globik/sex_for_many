@@ -16,7 +16,7 @@ const chat_room = n=>{
 let {model}=n;
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:model?model.bname:'no_name',
+<head>${html_head.html_head({title:model?model.bname:'-',
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -110,7 +110,9 @@ ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</
 
 <input type="hidden" id="modelName" value="${model?model.bname:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
-<!-- <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}"> -->
+<input type="hidden" id="xirTarget" value='${n.xirsys?JSON.stringify(n.xirsys):''}'>
+<input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
+<input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT=='yes'?'y':'n'}">
 ${js_help(["/js/chat_room.js","/js/qrcode.min.js"])}
 <a href="#." class="overlay" id="insImg"></a>
 <div id="setImg" class="popi">

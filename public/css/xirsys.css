@@ -1,0 +1,22 @@
+button{height:40px;font-weight:bold;cursor:pointer;padding: 0.6rem;}
+#xir{
+white-space:pre-line;
+word-wrap:break-word;
+overflow-wrap:break-word;
+}
+#xir.momentan{
+background:lightgreen;
+}
+#xir.stable{
+background:lightblue;
+}
+@keyframes puls{
+from{background:lightgreen;}
+to{background:green;}
+}
+button.puls{
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+}

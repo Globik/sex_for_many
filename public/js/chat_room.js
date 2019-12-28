@@ -271,7 +271,8 @@ stopVideo();
 
 }
 
-var bona=[{urls: [
+
+var suona=[{urls: [
 "turn:bturn2.xirsys.com:80?transport=udp",
 "turn:bturn2.xirsys.com:3478?transport=udp",
 "turn:bturn2.xirsys.com:80?transport=tcp",
@@ -282,8 +283,15 @@ var bona=[{urls: [
 "username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ==",
 "credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
 
+
+var bona=(xirTarget.value?JSON.parse(xirTarget.value):null);
+var dona=(devTarget.value=="n"?{'iceServers': suona}:(bona?{"iceServers":bona}:null));
+
+console.warn("ICE SERVERS: ", dona);
+
+
 function createPeer(){
-pc=new RTCPeerConnection({iceServers:bona});
+pc=new RTCPeerConnection(dona);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;
@@ -383,6 +391,10 @@ var obj={};
 obj.from=myusername;
 obj.msg=ev.target.value;
 send_channel(obj);
+var div=document.createElement("div");
+div.innerHTML='<b>'+myusername+':</b> '+ ev.target.value;
+privatchat.appendChild(div);
+privatchat.scrollTop=privatchat.clientHeight+privatchat.scrollHeight;
 ev.target.value="";
 }
 }
@@ -544,7 +556,7 @@ vax("post", "/api/get_p", {name:modelName.value}, on_get_profile, on_get_profile
 }
 setTimeout(function(){
 	console.log("time");
-	get_profile()},1000)
+	get_profile()},1)
 
 function on_get_profile(l){
 //alert(1);

@@ -79,6 +79,7 @@ var btc_address;
 var btc_percent;
 var btc_pay=false;
 var is_test_btc=true;
+var xirsys;
 
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
@@ -89,6 +90,7 @@ ctx.state.is_test_btc = is_test_btc;
 ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
 ctx.state.btc_percent = btc_percent;
+ctx.state.xirsys=xirsys;
 
 if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){
 if(ctx.path=="/home/profile/enable_btc"){
@@ -120,7 +122,11 @@ btc_percent=ctx.request.body.percent;
 ctx.state.btc_percent=btc_percent;
 
 
-}else{}
+}else if(ctx.path=='/api/set_xirsys'){
+	let {xir}=ctx.request.body;
+	xirsys=xir;
+	ctx.state.xirsys=xirsys;
+	}else{}
 
 }
 

@@ -1,6 +1,7 @@
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const walletValidator=require('wallet-address-validator');//0.2.4
+const reqw=require('request-promise-native');
 
 const adm=new Router();
 
@@ -122,6 +123,35 @@ ctx.throw(400,e);
 }	
 ctx.body={info:"OK",id:id};
 })
+
+/* XIRSYS */
+
+adm.get('/home/xirsys', authed, async ctx=>{
+	console.log("URL: ", ctx.url);
+	console.log("ORIGIN: ", ctx.origin);
+	console.log("HOSTNAME: ", ctx.hostname);
+ctx.body=await ctx.render('xirsys',{});	
+})
+
+adm.post('/api/get_xirsys', auth, async ctx=>{
+let data={};
+let v;
+data.format="urls";
+let mops={url: "https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon",
+	 method:"PUT", json:true,body:data};
+	 try{
+let bod=await reqw(mops);
+v=bod.v.iceServers;
+console.log('v: ', v);
+}catch(e){ctx.throw(400, e);}
+ctx.body={xir:v}	
+})
+
+adm.post('/api/set_xirsys', auth, async ctx=>{
+	let {xir}=ctx.request.body;
+	if(!xir)ctx.throw(400,"Ни одного сервера не предоставлено.");
+	ctx.body={xir:ctx.state.xirsys}
+	})
 module.exports=adm;
 
 function auth(ctx,next){
