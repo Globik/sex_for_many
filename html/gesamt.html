@@ -63,6 +63,8 @@ height:100px;
 </div>
 </section>
 </section>
+<hr><button onclick="fick_das();">date</button><br>
+<input id="fick" type="date">
 
 <script>
 function insert(){
@@ -77,6 +79,9 @@ function removed(){
 var l=document.querySelector('[data-roomid="5"]');
 if(l)l.remove();
 }
+function fick_das(){
+	alert(fick.value);
+	}
 </script>
 </body>
 </html>
