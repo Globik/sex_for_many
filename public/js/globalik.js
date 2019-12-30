@@ -37,7 +37,8 @@ open_al();
 function vax(m,u,d,o,z,pointer,bool){
 var x=new XMLHttpRequest();if(!x){return;}x.open(m,u);
 x.setRequestHeader('Cache-Control','no-cache');
-if(!bool){console.log('json');x.setRequestHeader('Content-Type','application/json','utf-8');}x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+if(!bool){console.log('json');x.setRequestHeader('Content-Type','application/json','utf-8');}
+x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 x.onload=function(e){
 x.status==200?o(demiss(this.response || this.responseText),pointer):z(this.response || this.responseText,pointer)};
 x.onerror=function(e){alert(e)};

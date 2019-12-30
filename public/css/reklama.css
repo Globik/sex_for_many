@@ -1,0 +1,17 @@
+form{
+ackground:red;
+border:1px solid lightgreen;
+width:50%;
+padding:10px;
+}
+label{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+width:100%;
+ackground:green;
+}
+input{height:30px;}
+input, textarea{
+width:100%;
+}

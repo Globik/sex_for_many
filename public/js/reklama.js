@@ -25,3 +25,18 @@ function fetch_folder(el){
 			function on_del_foto_error(l, ev){
 				alert(l);
 				}
+				var f=document.forms.zform;
+				f.addEventListener('submit',on_submit, false);
+				function on_submit(ev){
+					ev.preventDefault();
+					//alert(1);
+					var formData=new FormData(f);
+					vax(ev.target.method, ev.target.action, formData, on_submit_z, on_submit_z_error, ev.target, true);
+				
+					}
+					function on_submit_z(l, ev){
+						console.log(l);
+					}
+					function on_submit_z_error(l, ev){
+						alert(l);
+					}

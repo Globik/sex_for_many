@@ -161,7 +161,14 @@ adm.post('/api/set_xirsys', auth, async ctx=>{
 	/* REKLAMA */
 	
 adm.get('/home/reklama', authed, async ctx=>{
-	ctx.body=await ctx.render('reklama',{});
+	let db=ctx.db;
+	let result;
+	try{
+		result=await db.query('select*from reklama where statu=1 or statu=2');
+		}catch(e){
+	console.log(e);	
+	}
+	ctx.body=await ctx.render('reklama',{result:result.rows});
 	})
 	adm.post("/api/fetch_folder", auth, async ctx=>{
 		let {folder}=ctx.request.body;
@@ -182,6 +189,42 @@ adm.get('/home/reklama', authed, async ctx=>{
 			ctx.throw(400, e);
 			}
 		ctx.body = {info: "Фото удалено!"}
+		})
+		
+		adm.post('/api/set_reklama', auth, 
+		bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+		 async ctx=>{
+
+			let {zfile}=ctx.request.body.files;
+			let {zhref, zstart, zend, zname, ztype, zstatus, zprice, zmeta}=ctx.request.body.fields;
+			if(!zhref || !zstart || !zend || !zname || !ztype || !zstatus || !zprice)ctx.throw(400, "no data provided");
+			let db=ctx.db;
+			if(!zfile)ctx.throw(400,"no file provided.");
+			console.log('file path: ', zfile.path);
+			var readstr=fs.createReadStream(zfile.path);
+			var writestr=fs.createWriteStream('./public/reklama/'+zfile.name);
+			readstr.pipe(writestr);
+		 //open close ready
+		 
+		 readstr.on('open', function(){console.log('readstr is open');})
+		 readstr.on('close', function(){
+			 console.log('readstr is close');
+			 
+				 fs.unlink(zfile.path, function(e){if(e)ctx.throw(400,e);})
+			 
+			 })
+		 
+		 writestr.on('open', function(){console.log('writestr is open');})
+		 writestr.on('close',  function(){
+			 console.log('writestr is close');
+			
+				 let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta) values($1, $2, $3, $4, $5, $6, $7, $8)';
+				 db.query(s, [zfile.name, zhref, zstart, zend, zname, ztype, zprice, zmeta], function(e, r){
+				 if(e)ctx.throw(400, e);
+				 })
+			 })
+			
+		ctx.body={info:"ok"}
 		})
 module.exports=adm;
 
