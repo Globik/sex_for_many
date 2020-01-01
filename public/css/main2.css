@@ -457,6 +457,8 @@ border:2px solid rgb(0,200,0);outline:none;z-index:100;padding:0.8rem;}
   }
 }
 
+#haupt-banner{background:yellow;width:90%; height:40px;margin:0 auto;}
+#haupt-banner img{width:100%; height:40px;}
 
 @media screen and (max-width: 1024px) {
 #content {width: auto;float:none;padding: 3% 4%;}

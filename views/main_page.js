@@ -4,7 +4,7 @@ const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
 const doska=require('./doska');
-var warnig=false,haupt_ban=false;
+var warnig=false,haupt_ban=true;
 
 const main_page=function(n){
 const {lusers}=n;
@@ -15,8 +15,9 @@ return `<!DOCTYPE html><html lang="en">
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
-${haupt_ban ?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
+${haupt_ban ?`<div id="haupt-banner"><div id="real-ban">${n.banner && n.banner.length?get_banner(n.banner):''}</div></div>`:''}
+
 ${endf}
 <main id="pagewrap"> 
 ${n.m?n.m.msg:''}<br>
@@ -95,3 +96,12 @@ let s='';
 `;
 	return s;
 }
+function get_banner(n){
+	let s='';
+	n.forEach(function(el, i){
+	if(el.typ==1){
+s+=`<a href="${el.href}" data-cid="${el.id}" onclick="mach_click(this);"><img src="/reklama/${el.src}"/></a>`;
+	}	
+	})
+	return s;
+	}

@@ -224,7 +224,65 @@ adm.get('/home/reklama', authed, async ctx=>{
 				 })
 			 })
 			
-		ctx.body={info:"ok"}
+		ctx.body={info:"OK, saved."}
+		})
+		
+adm.post("/api/save_start_reklama", auth, async ctx=>{
+	let {start, id}=ctx.request.body;
+	if(!start || !id){ctx.throw(400, "no strart time provided!");}
+	let db=ctx.db;
+	try{
+		await db.query('update reklama set anf=$1 where id=$2', [start, id])
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"start time saved!"}
+	});
+	
+	adm.post("/api/save_end_reklama", auth, async ctx=>{
+	let {end, id}=ctx.request.body;
+	if(!end || !id){ctx.throw(400, "no end time provided!");}
+	let db=ctx.db;
+	try{
+		await db.query('update reklama set ed=$1 where id=$2', [end, id])
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"end time saved!"}
+	});
+	
+	adm.post("/api/save_opt_reklama", auth, async ctx=>{
+	let {opt, id}=ctx.request.body;
+	if(!opt || !id){ctx.throw(400, "no status provided!");}
+	let db=ctx.db;
+	try{
+		await db.query('update reklama set statu=$1 where id=$2', [opt, id])
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"status saved!"}
+	});
+	
+	adm.post("/api/save_content_reklama", auth, async ctx=>{
+	let {content, id}=ctx.request.body;
+	if(!content || !id){ctx.throw(400, "no content provided!");}
+	let db=ctx.db;
+	try{
+		await db.query('update reklama set meta=$1 where id=$2', [content, id])
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"Content saved!"}
+	});
+	
+	adm.post("/api/del_reklama", auth, async ctx=>{
+		let {id}=ctx.request.body;
+		if(!id)ctx.throw(400, "No id");
+		let db=ctx.db;
+		try{
+			await db.query('delete from reklama where id=$1', [id]);
+			}catch(e){ctx.throw(400, e);}
+		ctx.body={info: "OK, deleted!"}
 		})
 module.exports=adm;
 

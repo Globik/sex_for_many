@@ -80,6 +80,7 @@ var btc_percent;
 var btc_pay=false;
 var is_test_btc=true;
 var xirsys;
+//var banner;
 
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
@@ -129,7 +130,14 @@ ctx.state.btc_percent=btc_percent;
 	}else{}
 
 }
-
+if(ctx.method=="GET"){
+	try{
+var ban=await pool.query("select*from reklama where statu=2");
+ctx.state.banner=ban.rows;	
+}catch(e){
+	console.log("banner error: ", e);
+	}
+}
 await next();	
 })
 

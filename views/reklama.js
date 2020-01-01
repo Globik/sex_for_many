@@ -47,7 +47,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <hr>
 <h2>Статусы рекламных объявлений.</h2>
 
-${n.result?get_stat(n.result):'Нет пока'}
+${n.result&& n.result.length?get_stat(n.result):'Нет пока'}
 
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
@@ -59,19 +59,19 @@ module.exports={reklama};
 function get_stat(n){
 	let s='';
 	n.forEach(function(el,i){
-		s+=`<ul><li>src: ${el.src}
+		s+=`<ul data-ul="${el.id}" class="${el.statu==1?'orange':'green'}"><li>src: ${el.src}
 		<li>href: ${el.href}
-		<li>start time: ${moment(el.anf).format("DD-MM-YYYY")}
-		<li>end time: ${moment(el.ed).format("DD-MM-YYYY")}
+		<li>start time: ${moment(el.anf).format("DD-MM-YYYY")}<input data-ulstart="${el.id}" type="date"><button data-id="${el.id}" onclick="save_start(this);">save</button>
+		<li>end time: ${moment(el.ed).format("DD-MM-YYYY")}<input type="date" data-ulend="${el.id}"><button data-id="${el.id}" onclick="save_end(this);">save</button>
 		<li>name: ${el.nick}
-		<li>status: <select><option value="1" ${el.statu==1?'selected':''}>on start</option>
+		<li>status: <select data-ulselect="${el.id}"><option value="1" ${el.statu==1?'selected':''}>on start</option>
 <option value="2" ${el.statu==2?'selected':''}>active</option>
-<option value="3">dead</option></select>
-<li>info: <div contenteditable>${el.meta}</div>
-<li>type: ${el.typ}
+<option value="3">dead</option></select><button data-id="${el.id}" onclick="save_opt(this);">save</button>
+<li>info: <div data-ulcontent="${el.id}" contenteditable>${el.meta}</div><button data-id="${el.id}" onclick="save_edit(this);">save</button>
+<li>type: ${el.typ==1?'main banner':'aside banner'}
 <li>price: ${el.price}
 <li>created at: ${moment(el.cr_at).format("DD-MM-YYYY")}
-<li>clicks: ${el.cl}
+<li>clicks: ${el.cl}<br><button data-id="${el.id}" onclick="del_reklama(this);">delete</button>
 		</ul>`;
 		})
 	return s;
