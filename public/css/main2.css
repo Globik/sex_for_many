@@ -494,6 +494,7 @@ display:inline-block;
 }
 
 @media screen and (max-width: 750px) {
+html{ackground:red;}
 	/*html{font-size:160%;}*/
 	/*body{font-size:1em;}*/
 	/*
@@ -520,8 +521,8 @@ nav #menu{display:none;}
 #out_box{width:100%;}
 .flex dialog{width:98%;}
 
-#haupt-banner{width:100%; height:127px;}
-#haupt-banner img{}
+#haupt-banner{width:100%; height:80px;}
+#haupt-banner img{height:80px;}
 
 
 

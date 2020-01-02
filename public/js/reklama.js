@@ -1,23 +1,50 @@
+var fetch_flag=false;
 function fetch_folder(el){
+	if(!fetch_flag){
 	let d={};
 	d.folder="reklama";
 	vax("post", "/api/fetch_folder", d, on_fetch_folder, on_error, el, false);
 	el.className="puls";
+	fetch_flag=true;
+}else{
+	if(fcontent)fcontent.innerHTML="";
+	fetch_flag=false;
+	}
 	}
 	function on_fetch_folder(l, ev){
 		ev.className="";
 		fcontent.innerHTML = l.data;
 		}
 		
-		function get_info(el){}
+		function get_info(el){
+			let src=el.getAttribute('data-srca');
+			let d={};
+			d.src=src;
+			vax("post", "/api/get_foto_info", d, on_get_foto_info, on_error, el, false);
+			el.className="puls";
+			}
+			
+			function on_get_foto_info(l, ev){
+				ev.className="";
+				try{
+				if(l.info){alert(JSON.stringify(l.info));}else{
+					alert("No info!");
+					}
+			}catch(e){
+				console.log(e);
+				alert("No info available");
+				}
+				}
+			
 		function del_foto(el){
 			let d={};
 			d.src=el.getAttribute('data-src');
 			vax("post", "/api/del_foto", d, on_del_foto, on_error, el, false);
 			el.className="puls";
 			}
+			
 			function on_del_foto(l, ev){
-				note({content: l.info, type:"error", time: 5});
+				note({content: l.info, type:"info", time: 5});
 				let a=ev.getAttribute('data-pid3');
 				if(!a)return;
 				let b=document.querySelector('[data-pid="'+a+'"]');

@@ -296,6 +296,22 @@ adm.post("/api/save_start_reklama", auth, async ctx=>{
 			ctx.body={info:"ok, reklama clicked"}
 			})
 			
+			adm.post("/api/get_foto_info", auth, async ctx=>{
+				let {src}=ctx.request.body;
+				if(!src)ctx.trhow(400, "no src");
+				let db=ctx.db;
+				let info;
+				try{
+					let a=await db.query('select*from reklama where src=$1', [src]);
+					if(a.rows.length){
+						info=a.rows[0];
+						}
+					}catch(e){
+					ctx.throw(400, e);
+					}
+				ctx.body={info:info}
+				})
+			
 /* ADVERTISE */
 
 adm.post("/api/save_post_advertise", auth, async ctx=>{
@@ -303,7 +319,12 @@ adm.post("/api/save_post_advertise", auth, async ctx=>{
 	if(!art)ctx.throw(400, "No text");
 	let db=ctx.db;
 	try{
-		await db.query("update ads set art=$1", [art]);
+		let a=await db.query("update ads set art=$1", [art]);
+		console.log("A: ", a.rowCount);//rowCount=0
+		if(a.rowCount==0){
+			let b=await db.query("insert into ads(art) values($1)", [art]);
+			console.log("b.rowCount: ", b.rowCount);
+			}
 		}catch(e){
 		ctx.throw(400, e);
 		}

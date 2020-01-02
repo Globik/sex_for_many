@@ -32,8 +32,10 @@ animation-iteration-count:infinite;
 
 @media screen and (max-width: 751px){
 form{width:100%;}
+.reklama-img{width: 50%;}
 }
 
 @media screen and (max-width: 320px){
 form{width:100%;}
+.reklama-img{width: 80%;}
 }
