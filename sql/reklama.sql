@@ -15,5 +15,8 @@
  cr_at  TIMESTAMP  NOT NULL default now(), -- when created at
  cl int not null default 0 -- how much clicked
  );
--- insert into reklama(src, href,anf,ed,nick,typ,price) values('/s.png','/nakita','2020-01-01','2020-01-28','nakita',1,200);
+-- insert into reklama(src, href,anf,ed,nick,statu,meta,typ,price) values('a2.jpg','https://yandex.ru','2020-01-01','2020-01-28','a2',2,'info',1,200);
+
+-- insert into reklama(src, href,anf,ed,nick,statu,meta,typ,price) values('b2.jpg','https://yandex.ru','2020-01-01','2020-01-28','b2',2,'info',2,200);
+
 -- table su insert into su(m) values('1999-01-08'); YYYY-MM-DD

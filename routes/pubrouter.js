@@ -358,7 +358,15 @@ await db.query('insert into obi(bnick,msg) values($1,$2)',[nick,msg]);
 ctx.body={info:"ok"};	
 })
 
-
+/* ADVERTISE */
+pub.get("/home/advertise", async ctx=>{
+	let db=ctx.db;
+	let art;
+	try{let a=await db.query('select*from ads');
+		if(a.rows && a.rows.length){art=a.rows[0];}
+		}catch(e){console.log(e);}
+	ctx.body=await ctx.render('advertise',{art:art});
+	})
 
 
 

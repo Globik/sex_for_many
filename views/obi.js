@@ -4,7 +4,8 @@ const html_head=require('./html_head'),
    html_footer = require('./html_footer');
 const {js_help}=require('../libs/helper.js');
 const moment=require("moment");
-var warnig=false,haupt_ban=false;
+const {get_banner, get_banner_podval}=require('./reklama_s');
+var warnig=false;
 
 const obi = n=>{
 const buser=n.user;
@@ -14,8 +15,10 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
+
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
+
 
 <main id="pagewrap"><h2>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h2>
 ${n.obis&&n.obis.length>0?get_obi(n.obis):'Пока объявлений нет.'}<hr>
@@ -45,12 +48,12 @@ ${n.obis&&n.obis.length>0?get_obi(n.obis):'Пока объявлений нет.
 <li>Вы <strong>не указали контакт</strong> для связи</li>
 <li>Вы <strong>перепутали раздел</strong></li>
 <li>Вы подаете объявления <strong>слишком часто</strong></li>
-<li>Вы пытались что-то <strong>рекламировать или продавать</strong>. <a href="">Купите рекламу</a></li></ul>
+<li>Вы пытались что-то <strong>рекламировать или продавать</strong>. <a href="/home/advertise">Купите рекламу</a></li></ul>
 <a href="#tab2" onclick="ba();">обратно к правилам</a><div class="kreuz" onclick="remdas();">X</div>
 </div></div>
 </section>
 <hr>
-
+${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 </body>

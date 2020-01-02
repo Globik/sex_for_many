@@ -41,7 +41,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <!-- <label>created at: <span></span></label><br>
 <label>clicks: <span></span></label> -->
 <br>
-
+<input type="reset" value="Сбросить">
 <input type="submit" value="Cохранить">
 </form>
 <hr>

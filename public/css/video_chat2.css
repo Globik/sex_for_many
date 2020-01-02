@@ -215,12 +215,12 @@ header{font-weight:bold;margin-bottom:4px;}
 #remoteVideo{
 position:relative;
 z-index:1;
-border:10px solid red;
+rder:10px solid red;
 width:100%;
 height:100%;
  }
  
-#localVideo{width:40%;height: 50%;border:12px solid green;
+#localVideo{width:40%;height: 50%;der:12px solid green;
 position:absolute;top:0;left:0;z-index:2;
 }
 

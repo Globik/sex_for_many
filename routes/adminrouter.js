@@ -197,6 +197,7 @@ adm.get('/home/reklama', authed, async ctx=>{
 
 			let {zfile}=ctx.request.body.files;
 			let {zhref, zstart, zend, zname, ztype, zstatus, zprice, zmeta}=ctx.request.body.fields;
+			//console.log()
 			if(!zhref || !zstart || !zend || !zname || !ztype || !zstatus || !zprice)ctx.throw(400, "no data provided");
 			let db=ctx.db;
 			if(!zfile)ctx.throw(400,"no file provided.");
@@ -218,8 +219,8 @@ adm.get('/home/reklama', authed, async ctx=>{
 		 writestr.on('close',  function(){
 			 console.log('writestr is close');
 			
-				 let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta) values($1, $2, $3, $4, $5, $6, $7, $8)';
-				 db.query(s, [zfile.name, zhref, zstart, zend, zname, ztype, zprice, zmeta], function(e, r){
+	let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+				 db.query(s, [zfile.name, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus], function(e, r){
 				 if(e)ctx.throw(400, e);
 				 })
 			 })
@@ -284,6 +285,31 @@ adm.post("/api/save_start_reklama", auth, async ctx=>{
 			}catch(e){ctx.throw(400, e);}
 		ctx.body={info: "OK, deleted!"}
 		})
+		
+		adm.post("/api/click_reklama", async ctx=>{
+			let {id}=ctx.request.body;
+			if(!id){ctx.throw(400,"no id");}
+			let db=ctx.db;
+			try{
+				await db.query("update reklama set cl=cl+1 where id=$1", [id]);
+				}catch(e){ctx.throw(400, e);}
+			ctx.body={info:"ok, reklama clicked"}
+			})
+			
+/* ADVERTISE */
+
+adm.post("/api/save_post_advertise", auth, async ctx=>{
+	let {art}=ctx.request.body;
+	if(!art)ctx.throw(400, "No text");
+	let db=ctx.db;
+	try{
+		await db.query("update ads set art=$1", [art]);
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"OK, text saved!"}
+	})			
+			
 module.exports=adm;
 
 function auth(ctx,next){

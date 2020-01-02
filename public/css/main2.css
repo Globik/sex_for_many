@@ -51,11 +51,6 @@ padding: 0rem 2rem;
 min-height:100%;
 width:100%;}
 /*@media screen and (min-width: 1900px) {body{font: 1.9em/180% Calibri, Arial, Helvetica, sans-serif;}#pagewrap{margin-top:8px;min-width:1365px;width:2%;min-height:100%;} */
-#haupt-banner {display:block;
-position:relative;
-background:red;height:70px;
-padding-left:4.0rem;padding-right:4.0rem;}
-#haupt-banner div{background:green;height:100%;}
 
 :root {--mht:3.2rem;--pd:1rem;--spinnerh:.3rem;
 --hbg:black;
@@ -237,7 +232,7 @@ right:0;}*/
 .post-title a {text-decoration: none;color: #000;}
 .post-meta {margin: 0 0 10px;font-size: 90%;}
 .post-image {margin: 0 0 15px;}
-#content  img{width:100%;height:auto;}
+#cntent  img{width:100%;height:auto;}
 #sidebar {width: 30%;float: right;margin: 0% 0 0%;box-sizing:border-box;}
 .widget {background: #fff;margin: 0 0 0px;padding: 10px 20px;}
 .widgettitle {margin: 0 0 5px;padding: 0;}
@@ -457,8 +452,37 @@ border:2px solid rgb(0,200,0);outline:none;z-index:100;padding:0.8rem;}
   }
 }
 
-#haupt-banner{background:yellow;width:90%; height:40px;margin:0 auto;}
-#haupt-banner img{width:100%; height:40px;}
+#haupt-banner{ackground:red;width:90%; height:127px;margin:0 auto;margin-top:12px;}
+#haupt-banner img{width:100%; height:127px;}
+
+#reklamaPodval{
+margin-top:12px;
+margin-bottom:12px;
+position:relative;
+display:flex;
+flex-wrap:wrap;
+flex-direction:row;
+ackground:green;
+height:auto;
+width:100%;
+justify-content:center;
+align-items:center;
+}
+.f{
+width:300px;
+height:auto;
+
+ackground:red;
+lex:auto;
+margin:10px;
+display:inline-block;
+
+}
+.a{padding:0;margin:0;}
+.img{width:100%;height:auto;argin:10px;argin-top:4px;padding:0;margin:0;}
+
+#footReklama{ackground:red; text-align:center;}
+#footReklama a{font-size: 0.8em;}
 
 @media screen and (max-width: 1024px) {
 #content {width: auto;float:none;padding: 3% 4%;}
@@ -495,14 +519,27 @@ nav #menu{display:none;}
 #sidebar  img{width:40%;}
 #out_box{width:100%;}
 .flex dialog{width:98%;}
+
+#haupt-banner{width:100%; height:127px;}
+#haupt-banner img{}
+
+
+
 	}
 	
 @media screen and (max-width: 321px) {
-	html{font-size:100%;}
+	html{font-size:100%;ackground:red;}
 /*html {font-size:0.1vw;-webkit-text-size-adjust: none;}*/
 	.flex dialog{width:98%;}
 .touch-mini-menu li a {border-bottom:none;}
 nav .lb-menu-all:hover,nav .lb-menu-all.active{border:none;border-radius:none;box-shadow:none;}
-#content{padding:0.5em;}.post-title{font-size:1.2rem;}}
+#content{padding:0.5em;}.post-title{font-size:1.2rem;}
+/*#reklamaPodval{flex-wrap: wrap;}
+#reklamaPodval.a{width:100%;margin-left:0;margin-right:0; padding-top:10px;}
+*/
+.f{margin-left:0;}
 
+#haupt-banner{height:54px;}
+#haupt-banner img{height: 54px;}
+}
 /*@media screen and (min-width:359px){}*/

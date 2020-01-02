@@ -2,8 +2,10 @@ const html_head=require('./html_head'),
     html_nav_menu=require('./html_nav_menu'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
+   const {get_banner, get_banner_podval}=require('./reklama_s');
+   const doska=require('./doska');
 const {js_help}=require('../libs/helper.js');
-var warnig=false,haupt_ban=false;
+var warnig=false;
 const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
 const notowner_str = "Вы можете позвонить юзеру. Нажмите на кнопку 'видеозвонок'";
 //const owner_online_str_en="Press start"
@@ -21,8 +23,8 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${haupt_ban?'<div id="haupt-banner"><div id="real-ban">Banner</div></div>':''}
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
+${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
 ${n.owner?
@@ -103,6 +105,10 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 <li><a href="/home/profile/${model?model.bname:''}">редактировать</a>
 </ul>
+<hr>
+${doska.doska({})}
+<hr>
+${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">

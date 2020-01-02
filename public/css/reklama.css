@@ -12,7 +12,8 @@ width:100%;
 ackground:green;
 }
 input{height:30px;}
-input, textarea{
+button{height:30px;font-weight:bold;}
+textarea{
 width:100%;
 }
 .orange{background:orange;}

@@ -212,3 +212,17 @@ var h_g=c.getHours();
 var i_g=c.getMinutes();
 return e_g+'-'+f_g+'-'+g_g+' '+h_g+':'+i_g;
 }
+
+function mach_click(el){
+var cid=el.getAttribute('data-cid');
+if(!cid)return;
+var d88={};
+d88.id=cid;
+vax("post", "/api/click_reklama", d88, on_click_reklama, on_click_reklama_err, null, false);	
+}
+function on_click_reklama(l){
+console.log(l.info);	
+}
+function on_click_reklama_err(l){
+	console.error(l);
+	}
