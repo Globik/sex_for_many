@@ -17,7 +17,7 @@ const login_proto=n=>{
 return html`
 <section id="loginery-wrap">
 <form id="mform" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
-<h4>Добро пожаловать.<a href="/" style="float:right;font-size:1em;">home</a></h4>
+<h4>Добро пожаловать.<a href="/" style="float:right;font-size:1em;">на главную</a></h4>
 <span id="sessRed" class="${n.errmsg?classi(n.errmsg):''}">${messi(n)}</span><br>
 <label><strong>Ник</strong> </label>
 <div class="inpwrap">
@@ -27,6 +27,7 @@ return html`
 <div class="inpwrap">
 <input type="password" name="password" class="login-pwd ${n.errmsg?'redinput':''}" placeholder="Password" value="1234" required />
 </div>
+Забыл пароль? Не беда! Просто <a href="/signup">создай</a> новый аккаунт.
 <div class="submitWrap">
 <input type="submit" value="Войти" class="login-submit" ${n.user ? 'disabled':''}>
 </div>

@@ -102,8 +102,9 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <li><b>Имя: </b><span id="clientName"></span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
+<li><b>Просмотров: </b><span id="clientViews"></span>
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
-<li><a href="/home/profile/${model?model.bname:''}">редактировать</a>
+${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
 <hr>
 ${doska.doska({})}

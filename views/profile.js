@@ -5,20 +5,14 @@ const html_footer = require('./html_footer.js');// footer.js
 
 const {js_help}=require('../libs/helper.js');
 var warnig=false;	  
-var haupt_ban=false;
 
 let profile=n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Мой профайл", csslink:"/css/main2.css",
-cssl:["/css/user_profile.css"]})}
-<style>
-input[type=text]{border-color:red;}
-input[type=text] > span.val:after{content:"suka",padding-left:10px;}
-</style>
-</head><body><!-- profile -->
+cssl:["/css/user_profile.css"]})}</head>
+<body><!-- profile -->
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${(haupt_ban ? `<div id="haupt-banner"><div id="real-ban">Banner</div></div>` : ``)}
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Заполнить профиль</h3>

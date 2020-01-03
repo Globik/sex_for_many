@@ -54,7 +54,7 @@ ${html_head.html_head({title:"sign up",cssl:["/css/login2.css"]})}
 <main id="pagewrap">
 <section id="loginery-wrap">
 <form id="mform" name="mform" action="/signup" method="post">
-<h4>Регистрация<a href="/" style="float:right;font-size:1em;">home</a></h4>
+<h4>Регистрация<a href="/" style="float:right;font-size:1em;">На главную</a></h4>
 <span id="sessRed" class="${n.errmsg?classi(n.errmsg):''}">${messi(n.errmsg)}</span><br>
 
 <label><strong>Твой ник</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
@@ -83,10 +83,10 @@ ${html_head.html_head({title:"sign up",cssl:["/css/login2.css"]})}
 class="login-pwd" placeholder="Пароль" value="1234"  maxlength="20"/>
 <label id="lShow" onclick="show_pwd(this);" title="show password">
 <strong id="sShow">показать</strong></label></div>
-<small id="smally" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/">Terms & Privacy</a></small>
+<small id="smally" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy">Terms & Privacy</a></small>
 <div class="submitWrap">
 <input type="submit" class="login-submit" value="создать"${n.user?'disabled':''}>
-</div>
+</div><br><br>
 <div class="underform"><strong>Уже есть аккаунт?</strong> <a href="/login" style="margin-left:20px;color:blue;"><b>Войти</b></a></div><hr>
 </form>
 </section>

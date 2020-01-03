@@ -3,7 +3,10 @@ var html_admin_nav_menu=n=>{
 	let {abuse_nots}=n;
 	return `${gf}<div id="admin_main_menu">
 <span class="admin-nav" onclick="perfect_das();">aдминка</span></div>
-<ul id="admUl" class="adm-ul"><li><a href="/home/dashboard/">btc</a></li><li><a href="/home/profile">профили</a></li>
+<ul id="admUl" class="adm-ul">
+<li><a href="/home/dashboard/">btc</a></li>
+<li><a href="/home/profile">профили</a></li>
+<li><a href="/home/users">пользователи</a></li>
 <li><a href="/home/newavas">проверить аватарки</a></li>
 <li><a href="/home/newmsg">проверить объявления</a></li>
 <li><a href="/home/xirsys">turn сервер</a>&nbsp;${n.xirsys?"yes":"no"}</li>

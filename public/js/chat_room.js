@@ -566,6 +566,7 @@ function on_get_profile(l){
 		clientName.textContent=l.params.bname;
 		clientAge.textContent=l.params.age;
 		clientMsg.textContent=l.params.msg;
+		clientViews.textContent=l.params.vs;
 		var d=document.createElement('img');
 		d.height="150";
 		if(l.params.ava && l.params.isava==2){
@@ -576,6 +577,16 @@ function on_get_profile(l){
 				clientFoto.appendChild(d);
 	}
 }
+
+setTimeout(function(){set_vs},60000);
+
+function set_vs(){
+var d34={};
+d34.name=modelName.value;
+vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);
+}
+function on_set_vs(l){console.log(l);}
+
 function on_get_profile_error(l){console.error(l);}
 localVideo.onloadedmetadata=function(e){console.log('on local video loaded video data');}
 remoteVideo.onloadedmetadata=function(e){console.log('on remote video loaded video data');}

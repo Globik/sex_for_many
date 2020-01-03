@@ -10,25 +10,31 @@ var haupt_ban=false;
 let profiles=n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
-cssl:["/css/user_profile.css"]})}
+cssl:["/css/profiles.css"]})}
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-${(haupt_ban ? `<div id="haupt-banner"><div id="real-ban">Banner</div></div>` : ``)}
+
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Профили</h3>
 ${n.err?`<hr>${n.err}<hr>`:''}
+<hr>
+<header>Удалить пользователей, которые за последние три месяца не логинились.</header>
+<button onclick="del_users(this);">Удалить</button><hr>
 <ul>
-${n.result?get_profiles(n):''}
+${n.result?get_profiles(n):'Нет еще ни одного профиля.'}
 </ul>
-</main><footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
+</main>
+${js_help(['/js/profiles.js'])}
+<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
 }
 module.exports={profiles};
 function get_profiles(n){
 let s='';
 n.result.forEach(function(el,i){
-s+=`<li><a href="/home/profile/${el.bname}">${el.bname}</a>&nbsp;${el.age}&nbsp;${el.isava==1?"Авка не проверена!":""}`;	
+s+=`<li><a href="/home/profile/${el.bname}">${el.bname}</a>&nbsp;${el.age}&nbsp;${el.isava==1?"Авка не проверена!":""}
+<li>Просмотрено: ${el.vs}`;	
 });
 return s;	
 }

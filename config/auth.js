@@ -23,8 +23,9 @@ passport.use(new LocalStrategy({usernameField:'username',passwordField:'password
 process.nextTick(async()=>{
 try{
 let user=await db.query('select id from buser where bname=$1 and pwd=crypt($2,pwd)', [username, password])
-if(!user.rows[0]){return done(null, false, {message:'Wrong user name or password!'})}
-return done(null,user.rows[0],{message: 'Succsess! logged in!!!'})
+if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль!'})}
+await db.query('update buser set ll=now() where bname=$1', [username]);
+return done(null,user.rows[0],{message: 'Авторизация прошла успешно!'})
 }catch(err){return done(err)} 
 })
 }))

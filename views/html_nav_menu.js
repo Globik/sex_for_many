@@ -12,14 +12,14 @@ return `<!-- header_menu.js -->
 </label>
 
 <ul id="miniMenu" class="">
-<li><div class="znak-svg">pic</div><a href="/"><div class="muka"><span>На главную</span></div></a>
-<li><div class="znak-svg">pic</div><a href="/articles"><div class="muka"><span>блог</span></div></a>
-<li><div class="znak-svg">pic</div><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
-${n.buser?`<li><div class="znak-svg">pic</div><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}
-${n.buser?`<li><div class="znak-svg">pic</div><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Видеочат</span></div></a>`:''}
-${n.buser?'<li><div class="znak-svg">pic</div><a href="/logout" id="login_pop"><div class="muka"><span>выйти</span></div></a>':
-'<li><div class="znak-svg">pic</div><a href="/login"><div class="muka"><span>войти</span></div></a>'}
-<!-- <li><div class="znak-svg">pic</div><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
+<li><a href="/"><div class="muka"><span>На главную</span></div></a>
+<li><a href="/articles"><div class="muka"><span>блог</span></div></a>
+<li><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
+${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}
+${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Видеочат</span></div></a>`:''}
+${n.buser?'<li><a href="/logout" id="login_pop"><div class="muka"><span>выйти</span></div></a>':
+'<li><a href="/login"><div class="muka"><span>войти</span></div></a>'}
+<!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
 </ul>
 
 <a href="#." class="overlay" id="message_box"></a>

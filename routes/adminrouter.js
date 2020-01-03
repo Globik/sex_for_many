@@ -96,6 +96,16 @@ await db.query(`update profile set ava='', isava=0 where bname=$1`,[fname]);
 ctx.body={info:fname};	
 })
 
+adm.post("/api/del_users", auth, async ctx=>{
+	let db=ctx.db;
+	try{
+		await db.query("delete from buser where ll < NOW() - interval '3 months'");
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info: "OK, users deleted!"}
+	})
+
 adm.get("/home/newmsg", authed, async ctx=>{
 let db=ctx.db;
 let result;
@@ -315,22 +325,52 @@ adm.post("/api/save_start_reklama", auth, async ctx=>{
 /* ADVERTISE */
 
 adm.post("/api/save_post_advertise", auth, async ctx=>{
-	let {art}=ctx.request.body;
-	if(!art)ctx.throw(400, "No text");
+	let {art, sub}=ctx.request.body;
+	if(!art || !sub)ctx.throw(400, "No text, no sub");
 	let db=ctx.db;
 	try{
-		let a=await db.query("update ads set art=$1", [art]);
+		let a=await db.query("update ads set art=$1 where sub=$2", [art, sub]);
 		console.log("A: ", a.rowCount);//rowCount=0
 		if(a.rowCount==0){
-			let b=await db.query("insert into ads(art) values($1)", [art]);
+			let b=await db.query("insert into ads(art, sub) values($1, $2)", [art, sub]);
 			console.log("b.rowCount: ", b.rowCount);
 			}
 		}catch(e){
 		ctx.throw(400, e);
 		}
 	ctx.body={info:"OK, text saved!"}
-	})			
+	})	
+	/* PRIVACY */
+	
+	adm.post("/api/save_post_privacy", auth, async ctx=>{
+	let {art, sub}=ctx.request.body;
+	if(!art || !sub)ctx.throw(400, "No text, no sub");
+	let db=ctx.db;
+	try{
+		let a=await db.query("update ads set art=$1 where sub=$2", [art, sub]);
+		console.log("A: ", a.rowCount);//rowCount=0
+		if(a.rowCount==0){
+			let b=await db.query("insert into ads(art, sub) values($1, $2)", [art, sub]);
+			console.log("b.rowCount: ", b.rowCount);
+			}
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body={info:"OK, text saved!"}
+	})	
+	
 			
+			/* USERS */
+adm.get("/home/users", authed, async ctx=>{
+let db=ctx.db;
+let result;
+try{
+	result = await db.query("select*from buser");
+	}catch(e){
+	console.log(e);
+	}
+	ctx.body=await ctx.render("users",{result:result.rows});
+})
 module.exports=adm;
 
 function auth(ctx,next){

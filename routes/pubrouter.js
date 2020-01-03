@@ -287,6 +287,18 @@ obj.params=a.rows[0];
 ctx.body=obj;	
 })
 
+pub.post("/api/set_views", async ctx=>{
+	let {name}=ctx.request.body;
+	if(!name)ctx.throw(400,"no name");
+let db=ctx.db;
+try{
+	await db.query("update profile set vs=vs+1 where bname=$1", [name]);
+	}catch(e){
+	ctx.throw(400, e);
+	}	
+ctx.body={info:"ok, setted views"};
+})
+
 pub.get('/home/profile', authed, async ctx=>{
 let db=ctx.db;
 let err;
@@ -362,13 +374,25 @@ ctx.body={info:"ok"};
 pub.get("/home/advertise", async ctx=>{
 	let db=ctx.db;
 	let art;
-	try{let a=await db.query('select*from ads');
+	try{let a=await db.query("select*from ads where sub='ads'");
 		if(a.rows && a.rows.length){art=a.rows[0];}
 		}catch(e){console.log(e);}
 	ctx.body=await ctx.render('advertise',{art:art});
 	})
 
+/* PRIVACY */
 
+pub.get("/home/privacy", async ctx=>{
+let db=ctx.db;
+let a;
+try{
+	let b=await db.query("select*from ads where sub='privacy'");
+	if(b.rows && b.rows.length){a=b.rows[0];}
+	}catch(e){
+	console.log(e);
+	}	
+	ctx.body=await ctx.render('privacy',{result: a});
+})
 
 
 

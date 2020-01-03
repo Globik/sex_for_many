@@ -125,8 +125,8 @@ ackground: linear-gradient(rgba(179,158,189,.7), rgba(179,158,159,0.8));
 	background:lightgreen;
 	display:inline-block;
 	padding-left:10px;
-	width:80%;
-	width:calc(100% - 100px);
+	width:100%;
+	idth:calc(100% - 100px);
 	height:100%;
 	border-bottom:1px solid green;
 	}
@@ -140,6 +140,7 @@ height:100px;position:relative;
 z-index:999;
 }
 
+/*
 .znak-svg{
 	display:inline-block;
 	padding:0;
@@ -148,7 +149,7 @@ width:100px;height:100%;
 	margin-top:0;
 	text-align:center;
 	z-index:999;}
-
+*/
 nav .lb-menu-all{
 	display:block;
 	/*
@@ -199,7 +200,7 @@ label .spinner.active{background:orange;}
 #admin_main_menu{border-bottom:1px solid black;padding: 0rem 2rem;position:relative;}
 .admin-nav{cursor:pointer;}
 .admin-nav a{text-decoration:none;font-weight:bold;font-size:1.2em;padding:0.2em;}
-.label-login{color:red;position:absolute;right:4.9rem;top:0.6rem;}
+.label-login{color:red;position:absolute;right:4.9rem;top:1rem;}
 .label-login a{text-decoration:none;}
  
 .adm-ul{color:red;list-style:none;border:1px solid green;margin:0;padding:0;
@@ -220,7 +221,7 @@ overflow:hidden;
 right:0;}*/
 #html_abuse_popup{background:red;width:100%;height:100%;}
 
-#doska{border:5px solid green;padding:10px;margin-top:10px;}
+#doska{border:5px solid rgb(0,234,23);padding:10px;margin-top:10px;}
 #doskaA{color:green;font-weight:bold;}
 
 #content {
@@ -452,11 +453,18 @@ border:2px solid rgb(0,200,0);outline:none;z-index:100;padding:0.8rem;}
   }
 }
 
-#haupt-banner{ackground:red;width:90%; height:127px;margin:0 auto;margin-top:12px;}
+#haupt-banner{ackground:red;width:90%; height:127px;margin:0 auto;margin-top:30px;display:block;position:relative;}
+#haupt-banner::before{position:absolute;
+top:-1em;
+left:0; 
+content:"реклама";
+color:rgb(0,234,23);
+font-size:0.6em;
+}
 #haupt-banner img{width:100%; height:127px;}
 
 #reklamaPodval{
-margin-top:12px;
+margin-top:20px;
 margin-bottom:12px;
 position:relative;
 display:flex;
@@ -467,6 +475,14 @@ height:auto;
 width:100%;
 justify-content:center;
 align-items:center;
+}
+#reklamaPodval::before{
+position:absolute;
+top:-1em;
+left:0;
+font-size:0.6em;
+color:rgb(0,234,23);
+content:"реклама";
 }
 .f{
 width:300px;
