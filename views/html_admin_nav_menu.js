@@ -10,7 +10,9 @@ var html_admin_nav_menu=n=>{
 <li><a href="/home/newavas">проверить аватарки</a></li>
 <li><a href="/home/newmsg">проверить объявления</a></li>
 <li><a href="/home/xirsys">turn сервер</a>&nbsp;${n.xirsys?"yes":"no"}</li>
-<li><a href="/home/reklama">Реклама</a></li></ul>
+<li><a href="/home/reklama">Реклама</a></li>
+<li><a href="/home/write-post">Написать в блог</a></li>
+</ul>
 
 <!--
 &nbsp;notes:&nbsp;<span onclick="fetch_abuse_popup();" style="background:yellow;">

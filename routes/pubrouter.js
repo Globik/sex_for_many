@@ -395,9 +395,12 @@ try{
 })
 
 
+/* BLOG */
 
-
-
+pub.get("/home/blog", async ctx=>{
+	
+	ctx.body=await ctx.render('blogs',{});
+	})
 
 module.exports=pub;
 function auth(ctx,next){

@@ -4,6 +4,7 @@ const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const walletValidator=require('wallet-address-validator');//0.2.4
 const reqw=require('request-promise-native');
+const sluger=require('limax');
 const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
 const adm=new Router();
@@ -371,6 +372,26 @@ try{
 	}
 	ctx.body=await ctx.render("users",{result:result.rows});
 })
+
+/* BLOG */
+
+adm.get("/home/write-post", authed, async ctx=>{
+	ctx.body=await ctx.render('writePost',{});
+	})
+	
+adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
+	 async ctx=>{
+		let {auth, title, body, descr}=ctx.request.body.fields;
+		if(!auth || !title || !body)ctx.throw(400, "no auth or title or body!");
+		var titi=sluger(title);
+		let db=ctx.db;
+		try{
+			await db.query('insert into blog(auth, title, slug, body, descr) values($1,$2,$3,$4,$5)', [auth, title, titi, body, descr]);
+			}catch(e){
+			ctx.throw(400, e);
+			}
+		ctx.body={info: "OK, saved!"}
+		})
 module.exports=adm;
 
 function auth(ctx,next){

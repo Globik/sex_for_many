@@ -1,0 +1,10 @@
+@keyframes puls{
+from{background: lightgreen;}
+to{background: green;}
+}
+button.puls, input[type=submit].puls{
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+}

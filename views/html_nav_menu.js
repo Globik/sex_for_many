@@ -13,7 +13,7 @@ return `<!-- header_menu.js -->
 
 <ul id="miniMenu" class="">
 <li><a href="/"><div class="muka"><span>На главную</span></div></a>
-<li><a href="/articles"><div class="muka"><span>блог</span></div></a>
+<li><a href="/home/blog"><div class="muka"><span>блог</span></div></a>
 <li><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 ${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>профиль</span></div></a>`:''}
 ${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Видеочат</span></div></a>`:''}
