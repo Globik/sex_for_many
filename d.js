@@ -9,6 +9,7 @@
 //"turns:bturn2.xirsys.com:443?transport=tcp",
 //"turns:bturn2.xirsys.com:5349?transport=tcp"
 //],"credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"}},"s":"ok"}
+/*
 const reqw=require('request-promise-native');
 let data={};
 data.format="urls";
@@ -23,6 +24,45 @@ console.log("url ",i," ",el);
 })
 }catch(e){console.log(e);}
 }());
+
+*/
+
+var map=new Map();
+const n=100;
+const ab=[];
+var tp=Math.ceil(n/5);
+for(var i=0;i<tp;i++){
+	ab.push(i);
+	}
+	ab.forEach(function(el,k){
+		if(tp>=15){
+			if(k<=5){map.set(k,ab.slice(0,5));console.log('k<=5',map);}
+			if(k>5&& k<(tp-5)){map.set(k,ab.slice(((k-1)-2,k+2)));console.log('k > 5 &&k < tp-5',map);}
+			if(k>=tp-5){map.set(k,ab.slice(tp-5,tp));console.log('k>=tp-5',map);}
+			}else{map.set(k,ab.slice(0,tp));console.log('tp<15',map);}
+		})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

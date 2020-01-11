@@ -8,3 +8,4 @@ slug text not null,
 body text not null,
 descr text, -- for meta tags social
 cr_at timestamp not null default now());
+-- insert into blog(auth,title,slug,body) values('Globi','title','title-title','hello body');

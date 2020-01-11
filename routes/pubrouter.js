@@ -397,10 +397,35 @@ try{
 
 /* BLOG */
 
-pub.get("/home/blog", async ctx=>{
-	
-	ctx.body=await ctx.render('blogs',{});
+pub.get("/home/blog", pagination, async ctx=>{
+	let db=ctx.db;
+	let posts;
+	try{
+		let a=await db.query('select * from blog limit 5');
+		if(a.rows.length)posts=a.rows
+		}catch(e){console.log(e);}
+		
+		console.log("B: ", ctx.locals);
+	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
+	
+	pub.get("/home/blog/:page", pagination, async ctx=>{
+		console.log("ctx params: ", ctx.params);
+		let {page}=ctx.params;
+		page=Number(page);
+		if(page<=0 || page > ctx.locals.total_pages){
+			ctx.redirect("/home/blog");
+			//return;
+			}
+			if(!page)ctx.redirect("/home/blog");
+			let posts;
+			let db=ctx.db;
+			try{
+				let a=await db.query('select*from blog limit 5*$1',[page]);
+				if(a.rows&& a.rows.length)posts=a.rows;
+				}catch(e){}
+		ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts})
+		})
 
 module.exports=pub;
 function auth(ctx,next){
@@ -410,3 +435,74 @@ function authed(ctx, next){
 if(ctx.isAuthenticated()){
 return next()
 }else{ ctx.redirect('/');}}
+
+const limit=5;
+async function pagination(ctx, next){
+	let db=ctx.db;
+	var ab=[];
+	var deg=2;
+	ctx.locals={};
+	var map=new Map();
+	var page=Number(ctx.params.page) || 1;
+	 
+	var num=page*5;
+	
+	try{
+		let a=await db.query('select from blog');
+		if(a.rows.length>0){
+			console.log("A: ", a.rows.length);
+		var total_pages=Math.ceil(a.rows.length/limit);
+			console.log("total_pages: ", total_pages);
+			for(var i=0;i<total_pages;i++){
+				ab.push(i+1);
+				}
+				ab.forEach(function(el,i){
+					
+					if(total_pages >=15){
+						if(i<=5){
+							map.set(i,ab.slice(0,5));
+							console.log('here map 1');
+							}
+							if(i>5 && i <(total_pages - 5)){
+								map.set(i,ab.slice((i-1)-deg,i+deg));
+								console.log('here map 2');
+								}
+								if(i>=total_pages - 5){
+									map.set(i,ab.slice(total_pages - 5, total_pages));
+									console.log('here map 3');
+									}
+						}else{
+							map.set(i,ab.slice(0, total_pages));
+							console.log('here map 4', i, ab);
+							}
+					})
+					
+				console.log("ab: ", ab);
+			console.log("map: ", map)
+			ctx.locals.total_articles=a.rows.length;
+			ctx.locals.total_pages=total_pages;
+			ctx.locals.page=page;
+			ctx.locals.rang_page=map;
+			if(num<a.rows.length){ctx.locals.next=true;}
+			if(num>5){ctx.locals.prev=true}
+			}
+		}catch(e){console.log(e);}
+		return next();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

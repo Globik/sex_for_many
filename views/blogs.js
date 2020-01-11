@@ -21,6 +21,14 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"> blogs
+page ${n.locals.page}
+total aricles: ${n.locals.total_articles};
+total_pages ${n.locals.total_pages}
+${n.posts?get_posts(n):'Пусто'}
+			${getPaginator(n)}
+			
+			
+			
 <hr>
 ${doska.doska({})}
 <hr>
@@ -30,3 +38,46 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
 
 module.exports={blogs};
+
+function getPaginator(n){
+	
+	let s='';
+	let page=Number(n.locals.page);
+	var pag=n.locals.rang_page.get(page);
+	console.log("pag: ",pag);
+(n.locals.prev ? s+=`<a href="${psaki(n)}"><div class="num">prev</div></a>`:'');
+
+	if(pag){
+		
+		pag.forEach(function(el,i){
+			console.log(i);
+			i+=1;
+			(page==i ? s+=`<div class="pactive">${i}</div>`:
+			 s+=`<a href="${page>=2 && i==1 ? '/home/blog':`/home/blog/${i}`}"><div class="num">${i}</div></a>`)
+			});
+			
+		}
+		(n.locals.next ? s+=`<a href="/home/blog/${page+1}"><div class="num">next</div></a>`:'');
+		return s;
+	}
+
+
+function psaki(n){
+	let s='';
+	let page=Number(n.locals.page);
+	if(page==2){s+="/home/blog"}else{s+=`/home/blog/${page-1}`}
+	return s;
+	}
+function get_posts(n){
+	let s='';
+n.posts.forEach(function(el,i){
+	s+=`<div><h3>${el.title}</h3><span>${el.auth}</span><span>${el.cr_at}</span><article>${el.body}</article>
+	<div><a href="/home/blog/${el.slug}">weiter</a></div></div>`;
+	})	
+	return s;
+	}
+
+
+
+
+
