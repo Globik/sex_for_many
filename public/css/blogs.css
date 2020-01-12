@@ -1,0 +1,13 @@
+.articles-container{
+ackground:red;
+padding:20px;
+margin-top:20px;
+margin-bottom:20px;
+}
+.pactive{color:green;display:inline-block;}
+.num{
+border:1px solid pink;
+display:inline-block;
+padding:10px;
+margin:10px;
+}

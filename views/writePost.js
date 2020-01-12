@@ -25,6 +25,11 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 <input type="reset" value="Сбросить">
 <input type="submit" value="Сохранить">
 </form>
+<form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
+<input type='submit' value='Загрузить картинку'></form>
+<div id="inlineFoto"></div>
+<button onclick="fetch_folder(this);">blog fotos</button>
+<div id="fcontent"></div>
 </main>
 <script src="/js/writePost.js"></script>
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}

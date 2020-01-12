@@ -239,6 +239,33 @@ adm.get('/home/reklama', authed, async ctx=>{
 		ctx.body={info:"OK, saved."}
 		})
 		
+adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+ async ctx=>{
+let {filew}=ctx.request.body.files;
+if(!filew)ctx.throw(400,"no pic");
+let readstr=fs.createReadStream(filew.path);
+let  writestr=fs.createWriteStream('./public/blog/'+filew.name);
+readstr.pipe(writestr);
+		 //open close ready
+readstr.on('open', function(){console.log('readstr is open');})
+readstr.on('close', function(){
+console.log('readstr is close');
+fs.unlink(filew.path, function(e){if(e)ctx.throw(400,e);})
+})
+ctx.body={info:"ok, saved",src:filew.name}				
+})
+/*
+adm.post("/api/fetch_blog_folder", auth, async ctx=>{
+		let {folder}=ctx.request.body;
+		if(!folder)ctx.throw(400,"Папака неизвестна");
+		try{
+			var ab=await readdir('./public/'+folder,{});
+			console.log('ab: ', ab);
+			}catch(e){ctx.throw(400,e);}
+		let data=await ctx.render('reklama_fold',{names:ab});
+		ctx.body={info:"ok", data: data}
+		})*/
+		
 adm.post("/api/save_start_reklama", auth, async ctx=>{
 	let {start, id}=ctx.request.body;
 	if(!start || !id){ctx.throw(400, "no strart time provided!");}
@@ -392,6 +419,24 @@ adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
 			}
 		ctx.body={info: "OK, saved!"}
 		})
+		
+		adm.post('/api/save_blog', auth, async ctx=>{
+			let {text,id,title}=ctx.request.body;
+			if(!text || !id || !title)ctx.throw(400, "No data provided");
+			let db=ctx.db;
+			let ti=sluger(title);
+			try{
+				await db.query('update blog set title=$1, slug=$2, body=$3 where id=$4',[title,ti,text,id]);
+				}catch(e){ctx.throw(400,e);}
+				ctx.body={info: "OK saved!"}
+				//ctx.redirect("/home/blog");
+			})
+			/*
+adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+ async ctx=>{
+ctx.body={info:"ok, saved",src:src}				
+})
+*/ 
 module.exports=adm;
 
 function auth(ctx,next){

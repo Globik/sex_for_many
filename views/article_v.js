@@ -1,0 +1,49 @@
+const moment=require('moment')
+const html_head=require('./html_head');
+const html_nav_menu=require('./html_nav_menu');
+const html_admin_nav_menu=require('./html_admin_nav_menu');
+const html_footer=require('./html_footer');
+const doska=require('./doska');
+const {get_banner, get_banner_podval}=require('./reklama_s');
+var warnig=false;
+
+const article_v=function(n){
+
+const buser=n.user;
+
+return `<!DOCTYPE html><html lang="en">
+<head>${html_head.html_head({title:"blogs",/* meta:get_meta(),*/csslink:"/css/main2.css",cssl:["/css/article_v.css"], luser:buser})}
+</head>
+<body>${warnig?'<div id="warnig">Warnig</div>':''}
+<nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
+${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
+
+${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
+
+<main id="pagewrap"> 
+<div id="inlineFoto"></div>
+<article>${n.result?get_post(n.result):''}</article>
+${buser && buser.brole=="superadmin"?`<button onclick='edit_article(this)'>Редактировать</button>
+<form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
+<input type='submit' value='Загрузить картинку'></form>`:""}<br>
+<div id="txtContainer"><textarea id="rText"></textarea>
+<br><button onclick="save_das(this);">Сохранить</button>
+
+</div>
+<hr>
+${doska.doska({})}
+<hr>
+${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
+</main>
+${buser && buser.brole=="superadmin"?'<script src="/js/article_v.js"></script>':''}
+<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
+
+module.exports={article_v};
+function get_post(n){
+	let s='';
+	
+		s+=`<header id="articleHeader" data-id="${n.id}" contenteditable="false">${n.title}</header><span>${n.auth}</span>, 
+		<span>${moment(n.cr_at).format('YYYY-DD-MM')}</span><div id="articleView">${n.body}</div>`
+
+		return s;
+	}

@@ -9,3 +9,4 @@ body text not null,
 descr text, -- for meta tags social
 cr_at timestamp not null default now());
 -- insert into blog(auth,title,slug,body) values('Globi','title','title-title','hello body');
+-- select*from blog limit 5 offset 10;

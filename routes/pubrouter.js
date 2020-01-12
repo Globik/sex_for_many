@@ -421,11 +421,20 @@ pub.get("/home/blog", pagination, async ctx=>{
 			let posts;
 			let db=ctx.db;
 			try{
-				let a=await db.query('select*from blog limit 5*$1',[page]);
+				let a=await db.query('select*from blog limit 5 offset 5*$1',[page-1]);
 				if(a.rows&& a.rows.length)posts=a.rows;
-				}catch(e){}
+				}catch(e){console.log(e);}
 		ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts})
 		})
+
+pub.get("/home/ru/:slug", async ctx=>{
+	let db=ctx.db;
+	let result;
+	try{
+		 result=await db.query('select*from blog where slug=$1', [ctx.params.slug]);
+		}catch(e){console.log(e);}
+		ctx.body=await ctx.render('article_v',{result:result.rows[0]})
+	})
 
 module.exports=pub;
 function auth(ctx,next){

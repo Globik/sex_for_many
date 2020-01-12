@@ -1,4 +1,5 @@
 const file='haupt_page.js',endf=`<!-- ${file} -->`;
+const moment=require('moment');
 const html_head=require('./html_head');
 const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
@@ -20,15 +21,14 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
-<main id="pagewrap"> blogs
+<main id="pagewrap"> 
+<!--
 page ${n.locals.page}
 total aricles: ${n.locals.total_articles};
 total_pages ${n.locals.total_pages}
+-->
 ${n.posts?get_posts(n):'Пусто'}
-			${getPaginator(n)}
-			
-			
-			
+${getPaginator(n)}	
 <hr>
 ${doska.doska({})}
 <hr>
@@ -45,7 +45,7 @@ function getPaginator(n){
 	let page=Number(n.locals.page);
 	var pag=n.locals.rang_page.get(page);
 	console.log("pag: ",pag);
-(n.locals.prev ? s+=`<a href="${psaki(n)}"><div class="num">prev</div></a>`:'');
+(n.locals.prev ? s+=`<a href="${psaki(n)}"><div class="num">предыдущая</div></a>`:'');
 
 	if(pag){
 		
@@ -57,7 +57,7 @@ function getPaginator(n){
 			});
 			
 		}
-		(n.locals.next ? s+=`<a href="/home/blog/${page+1}"><div class="num">next</div></a>`:'');
+		(n.locals.next ? s+=`<a href="/home/blog/${page+1}"><div class="num">следующая</div></a>`:'');
 		return s;
 	}
 
@@ -71,8 +71,9 @@ function psaki(n){
 function get_posts(n){
 	let s='';
 n.posts.forEach(function(el,i){
-	s+=`<div><h3>${el.title}</h3><span>${el.auth}</span><span>${el.cr_at}</span><article>${el.body}</article>
-	<div><a href="/home/blog/${el.slug}">weiter</a></div></div>`;
+s+=`<div class="articles-container"><h3>${el.title}</h3><span>${el.auth}</span>, <span>${moment(el.cr_at).format('YYYY-DD-MM')}</span>
+	<article>${el.body.substring(0,100)}</article>
+	<div><a href="/home/ru/${el.slug}">Читать</a></div></div>`;
 	})	
 	return s;
 	}
