@@ -12,7 +12,7 @@ const article_v=function(n){
 const buser=n.user;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"blogs",/* meta:get_meta(),*/csslink:"/css/main2.css",cssl:["/css/article_v.css"], luser:buser})}
+<head>${html_head.html_head({title:(n.result ? n.result.title:'article'), meta:get_meta(n.result), csslink:"/css/main2.css",cssl:["/css/article_v.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -27,6 +27,7 @@ ${buser && buser.brole=="superadmin"?`<button onclick='edit_article(this)'>Ре�
 <form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
 <input type='submit' value='Загрузить картинку'></form>`:""}<br>
 <div id="txtContainer"><textarea id="rText"></textarea>
+<textarea id="rMeta">${n.result && n.result.descr?n.result.descr:''}</textarea>
 <br><button onclick="save_das(this);">Сохранить</button>
 
 </div>
@@ -47,3 +48,13 @@ function get_post(n){
 
 		return s;
 	}
+function get_meta(n){
+let s='';
+s+=`${n.descr?`<meta name="description" content="${n.descr}">`:''}
+<meta property="og:title" content="${n.title}">
+${n.descr?`<meta property="og:description" content="${n.descr}">`:''}
+<meta itemprop="name" content="${n.title}">
+${n.descr?`<meta itemprop="description" content="${n.descr}">`:''}
+`;
+return s;	
+}

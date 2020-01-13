@@ -39,6 +39,7 @@ function fetch_folder(el){
 		function del_foto(el){
 			let d={};
 			d.src=el.getAttribute('data-src');
+			d.path="reklama";
 			vax("post", "/api/del_foto", d, on_del_foto, on_error, el, false);
 			el.className="puls";
 			}

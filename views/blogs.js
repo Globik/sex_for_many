@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"blogs",/* meta:get_meta(),*/csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
+<head>${html_head.html_head({title:"Блог", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -68,6 +68,7 @@ function psaki(n){
 	if(page==2){s+="/home/blog"}else{s+=`/home/blog/${page-1}`}
 	return s;
 	}
+	
 function get_posts(n){
 	let s='';
 n.posts.forEach(function(el,i){
@@ -78,7 +79,17 @@ s+=`<div class="articles-container"><h3>${el.title}</h3><span>${el.auth}</span>,
 	return s;
 	}
 
-
+function get_meta(){
+let s='';
+s+=`
+<meta name="description" content="Блог o">
+<meta property="og:title" content="Блог">
+<meta property="og:description" content="Блог о">
+<meta itemprop="name" content="Блог">
+<meta itemprop="description" content="Блог o">
+`;
+return s;	
+}
 
 
 

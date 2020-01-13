@@ -17,6 +17,9 @@ return `<!DOCTYPE html><html lang="en">
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 <main id="pagewrap">
 <h2>Написать в блог</h2>
+<button onclick="fetch_folder(this);">blog fotos</button>
+<div id="fcontent"></div>
+<br>
 <form name="postform" method="post" action="/api/writePost">
 <label>Post title:<br><input type="text" name="title" equired placeholder="title"><label><br>
 <label>Author:<br><input type="text" name="auth" placeholder="author" value="${buser.bname}" equired></label><br>
@@ -25,11 +28,14 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 <input type="reset" value="Сбросить">
 <input type="submit" value="Сохранить">
 </form>
+<hr>
 <form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
-<input type='submit' value='Загрузить картинку'></form>
-<div id="inlineFoto"></div>
-<button onclick="fetch_folder(this);">blog fotos</button>
-<div id="fcontent"></div>
+<input type='submit' value='Загрузить картинку'>
+</form>
+
+<div id="inlineFoto"></div><br>
+
+
 </main>
 <script src="/js/writePost.js"></script>
 <footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}

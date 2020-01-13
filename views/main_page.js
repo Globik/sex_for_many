@@ -70,7 +70,7 @@ return s;
 function get_meta(){
 let s='';
 /*
-	s+=`
+s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Sex Videochat Alikon - тысячи моделей готовы пообщаться с тобой в любое время дня и ночи прямо из своих спален!"/>

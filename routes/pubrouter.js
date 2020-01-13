@@ -19,7 +19,7 @@ const gr = "\x1b[32m", rs = "\x1b[0m";
 
 const pub=new Router();
 
-pub.get('/', async ctx=>{
+pub.get('/', reklama, async ctx=>{
 let bresult;
 let db=ctx.db;
 
@@ -129,7 +129,7 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
-pub.get('/webrtc/:buser_id', async function(ctx){
+pub.get('/webrtc/:buser_id', reklama, async function(ctx){
 let us=ctx.state.user;
 let db=ctx.db;
 console.log("USER: ",us);
@@ -349,7 +349,7 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"Фото удалено!"};	
 })
-pub.get('/home/obi', async ctx=>{
+pub.get('/home/obi', reklama, async ctx=>{
 	let db=ctx.db;
 	let res;
 	try{
@@ -397,7 +397,7 @@ try{
 
 /* BLOG */
 
-pub.get("/home/blog", pagination, async ctx=>{
+pub.get("/home/blog", reklama, pagination, async ctx=>{
 	let db=ctx.db;
 	let posts;
 	try{
@@ -409,7 +409,7 @@ pub.get("/home/blog", pagination, async ctx=>{
 	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
 	
-	pub.get("/home/blog/:page", pagination, async ctx=>{
+	pub.get("/home/blog/:page", reklama, pagination, async ctx=>{
 		console.log("ctx params: ", ctx.params);
 		let {page}=ctx.params;
 		page=Number(page);
@@ -427,7 +427,7 @@ pub.get("/home/blog", pagination, async ctx=>{
 		ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts})
 		})
 
-pub.get("/home/ru/:slug", async ctx=>{
+pub.get("/home/ru/:slug", reklama, async ctx=>{
 	let db=ctx.db;
 	let result;
 	try{
@@ -437,6 +437,7 @@ pub.get("/home/ru/:slug", async ctx=>{
 	})
 
 module.exports=pub;
+
 function auth(ctx,next){
 	//for xhr
 if(ctx.isAuthenticated()){return next()}else{ctx.throw(401, "Please log in.")}}
@@ -498,10 +499,16 @@ async function pagination(ctx, next){
 		}catch(e){console.log(e);}
 		return next();
 }
-
-
-
-
+async function reklama(ctx,next){ 
+	let db=ctx.db;
+try{
+var ban=await db.query("select*from reklama where statu=2");
+ctx.state.banner=ban.rows;	
+}catch(e){
+	console.log("banner error: ", e);
+	}
+return next();
+}
 
 
 

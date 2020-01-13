@@ -9,6 +9,8 @@ function save_das(el){
 	let d={};
 	d.text=rText.value;
 	d.title=articleHeader.textContent;
+	d.descr=rMeta.value;
+	//alert(rMeta.value); descr
 	d.id=articleHeader.getAttribute("data-id")
 vax("post", '/api/save_blog', d, on_save_das, on_err, el, false);	
 el.className="puls";
@@ -17,7 +19,7 @@ el.className="puls";
 	function on_save_das(l, ev){
 		ev.className="";
 note({content:l.info,type:"info",time:5});
-window.location.href="/home/blog";
+//window.location.href="/home/blog";
 		}
 		/*function on_err(l,ev){
 			ev.className="";

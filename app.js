@@ -132,13 +132,15 @@ ctx.state.btc_percent=btc_percent;
 }
 
 if(ctx.method=="GET"){
-	console.log("REKLAMA GET");
+	//console.log("REKLAMA GET");
+	/*
 	try{
 var ban=await pool.query("select*from reklama where statu=2");
 ctx.state.banner=ban.rows;	
 }catch(e){
 	console.log("banner error: ", e);
 	}
+	*/ 
 }
 await next();	
 })

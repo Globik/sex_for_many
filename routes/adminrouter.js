@@ -188,14 +188,15 @@ adm.get('/home/reklama', authed, async ctx=>{
 			var ab=await readdir('./public/'+folder,{});
 			console.log('ab: ', ab);
 			}catch(e){ctx.throw(400,e);}
-		let data=await ctx.render('reklama_fold',{names:ab});
+		let data=await ctx.render('reklama_fold',{names:ab, path:folder});
 		ctx.body={info:"ok", data: data}
 		})
+		
 	adm.post("/api/del_foto", auth, async ctx=>{
-		let {src}=ctx.request.body;
-		if(!src)ctx.throw(400,"Нет пути!");
+		let {src, path}=ctx.request.body;
+		if(!src ||!path)ctx.throw(400,"Нет пути!");
 		try{
-			await unlink("./public/reklama/"+src);
+			await unlink("./public/"+path+"/"+src);
 			}catch(e){
 			ctx.throw(400, e);
 			}
@@ -408,11 +409,12 @@ adm.get("/home/write-post", authed, async ctx=>{
 	
 adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
 	 async ctx=>{
-		let {auth, title, body, descr}=ctx.request.body.fields;
+		let {auth, title, body}=ctx.request.body.fields;
 		if(!auth || !title || !body)ctx.throw(400, "no auth or title or body!");
 		var titi=sluger(title);
 		let db=ctx.db;
 		try{
+			
 			await db.query('insert into blog(auth, title, slug, body, descr) values($1,$2,$3,$4,$5)', [auth, title, titi, body, descr]);
 			}catch(e){
 			ctx.throw(400, e);
@@ -421,12 +423,13 @@ adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
 		})
 		
 		adm.post('/api/save_blog', auth, async ctx=>{
-			let {text,id,title}=ctx.request.body;
+			let {text,id,title, descr}=ctx.request.body;
 			if(!text || !id || !title)ctx.throw(400, "No data provided");
 			let db=ctx.db;
 			let ti=sluger(title);
 			try{
-				await db.query('update blog set title=$1, slug=$2, body=$3 where id=$4',[title,ti,text,id]);
+				console.log("descr: ", descr);
+				await db.query('update blog set title=$1, slug=$2, body=$3 , descr=$4 where id=$5',[title,ti,text,descr,id]);
 				}catch(e){ctx.throw(400,e);}
 				ctx.body={info: "OK saved!"}
 				//ctx.redirect("/home/blog");
