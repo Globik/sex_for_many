@@ -1,5 +1,6 @@
 -- \i /home/globik/sex_for_many/sql/profile.sql 
 -- psql test
+-- /usr/local/pgsql/bin/psql
 drop table if exists profile;
 create table profile(id serial PRIMARY KEY,
 					 bname  varchar(16) unique not null references buser(bname), 

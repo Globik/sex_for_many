@@ -2,6 +2,9 @@
 // heroku pg:psql --app frozen-atoll-47887
 
 const HPORT = 3000;
+const SPORT=8000;
+const https=require('https');
+const fs=require('fs');
 const DB_URL='postgress://globik:null@localhost:5432/test';
 //const DB_URL=process.env.DATABASE_URL;//for heroku
 const koaBody=require('koa-body');
@@ -28,6 +31,12 @@ const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 
+const dkey='./data/mykey.pem';
+const dcert='./data/mycert.pem';
+const ssl_options={
+	key: fs.readFileSync(dkey),
+	cert: fs.readFileSync(dcert)
+	};
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
 pgtypes.setTypeParser(1114, str=>str);
@@ -196,6 +205,7 @@ function(err,res){if(err)console.log(err);
 if(res.rows.length)btc_address=res.rows[0].adr;
 });
 }
+//const servak=https.createServer(ssl_options,app.callback()).listen(SPORT);
 const servak=app.listen(process.env.PORT || HPORT);
 const wss=new WebSocket.Server({server:servak});
 
