@@ -409,7 +409,7 @@ adm.get("/home/write-post", authed, async ctx=>{
 	
 adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
 	 async ctx=>{
-		let {auth, title, body}=ctx.request.body.fields;
+		let {auth, title, body, descr}=ctx.request.body.fields;
 		if(!auth || !title || !body)ctx.throw(400, "no auth or title or body!");
 		var titi=sluger(title);
 		let db=ctx.db;
@@ -434,6 +434,16 @@ adm.post("/api/writePost", auth, bodyParser({multipart:true,formidable:{}}),
 				ctx.body={info: "OK saved!"}
 				//ctx.redirect("/home/blog");
 			})
+			
+adm.post("/api/remove_post", auth, async ctx=>{
+	let {id}=ctx.request.body;
+	if(!id)ctx.throw(400, "No id");
+	let db=ctx.db;
+	try{
+		await db.query('delete from blog where id=$1',[id]);
+		}catch(e){ctx.throw(400, e);}
+ctx.body={info:"OK deleted"}	
+})			
 			/*
 adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
  async ctx=>{
