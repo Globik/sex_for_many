@@ -35,7 +35,7 @@ ${doska.doska({})}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
  <script src="/js/blog.js"></script>
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
+<footer id="footer">${html_footer.html_footer(n)}</footer></body></html>`;}
 
 module.exports={blogs};
 
@@ -72,7 +72,8 @@ function psaki(n){
 function get_posts(n){
 	let s='';
 n.posts.forEach(function(el,i){
-s+=`<div class="articles-container"><h3>${el.title}</h3><span>${el.auth}</span>, <span>${moment(el.cr_at).format('YYYY-DD-MM')}</span>
+s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">${el.auth}</span>,
+ <span class="d-date">${moment(el.cr_at).format('YYYY-DD-MM')}</span>
 	<article>${el.body.substring(0,100)}</article>
 	<div><a href="/home/ru/${el.slug}">Читать</a></div>
 	${n.user&&n.user.brole=="superadmin"?`<button data-bid="${el.id}" onclick="rem(this);">delete</button>`:''}</div>`;

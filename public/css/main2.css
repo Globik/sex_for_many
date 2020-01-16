@@ -86,24 +86,21 @@ font-size:1.3rem;
 display:inline-block;
 transition: 0.1s;
 z-index:1000;
+color:red;
 }
 nav #menu li a{text-decoration:none;}
  nav #menu li .mnav{
-	 /*
-background:green;
-border:1px solid black;
-	 */
-width:7.4rem;
-line-height:2.3;
+width:auto;
 color:rgb(255,230,255);
-	 color: var(--hbg);
-	 text-shadow: 0px 1px 3px black;
+color: var(--hbg);
+padding:20px;
+height:100%;
 }
 nav #menu li:hover{
 	background:rgba(174,198,207,0.1);
 	ackground:green;
 	border-radius:3px;
-	box-shadow:0 2px 5px 1px rgba(0,0,0,0.2);
+	ox-shadow:0 2px 5px 1px rgba(0,0,0,0.2);
 	z-index:900;
 	}
 nav ul li a:hover{text-decoration:none;}
@@ -224,6 +221,7 @@ right:0;}*/
 #doska{border:5px solid rgb(0,234,23);padding:40px;margin-top:10px;}
 #doskaA{color:green;font-weight:bold;}
 
+/*
 #content {
 	background: rgba(255,255,230,1);
 	padding: 60px 5em;
@@ -239,7 +237,7 @@ right:0;}*/
 .widgettitle {margin: 0 0 5px;padding: 0;}
 .widget ul {margin: 0;padding: 0;}
 .widget li {margin: 0;padding: 6px 0;list-style: none;clear: both;border-top: solid 1px #eee;}
-
+*/
 /*popup*/
 
 .overlay {

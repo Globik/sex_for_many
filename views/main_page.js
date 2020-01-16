@@ -20,7 +20,8 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
-<main id="pagewrap"> 
+<main id="pagewrap">
+${n.year} 
 ${n.m?n.m.msg:''}<br>
 <br>${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}
 

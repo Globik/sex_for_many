@@ -30,7 +30,7 @@ margin:0 auto;
 
 }
 #mediaPanel{
-background:green;	
+background:rgb(5,8,8);	
 color:white;
 position:relative;
 display:block;
@@ -134,7 +134,7 @@ height:13%;
 display:block;
 position:relative;	
 }
-#under-chat2{background:violet;height:12.1%;text-align:right;}
+#under-chat2{background:rgba(0,3,5,0.6);height:12.1%;text-align:right;}
 #under-chat2 button:last-child{margin-right:0;}
 #under-chat2 button{margin-right:0.5em;}
 #chat{
@@ -208,7 +208,7 @@ background:rgba(0,0,0,0.2);
 display:block;
 position:relative;	
 }
-#under-video2{background:pink;height:12.1%;text-align:right;}
+#under-video2{background:pink;height:12.1%;text-align:right;background:rgba(0,3,5,0.6);}
 header{font-weight:bold;margin-bottom:4px;}
 #under-video.start{background:rgba(0,0,0,0);}
 

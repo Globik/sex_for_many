@@ -3,7 +3,9 @@ const html_nav_menu=n=>{
 return `<!-- header_menu.js -->
 <label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
-<li><a href="/"><div class="mnav">home</div></a>
+<li><a href="/"><div class="mnav">Главная</div></a>
+<li><a href="/home/blog"><div class="mnav">Блог</div></a>
+<li><a href="/home/obi"><div class="mnav">Доска объявлений</div></a>
 </ul>
 <label id="lb-menu-all" class="lb-menu-all" onclick="dowas1();">
  <div class="spinner diagonal part-1"></div>

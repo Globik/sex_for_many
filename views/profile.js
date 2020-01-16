@@ -53,6 +53,6 @@ ${n.result && n.result.ava?`<figure id="figFoto" style="border:1px solid black;d
 </form>
 </main>
 ${js_help(["/js/user_profile.js"])}
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
+<footer id="footer">${html_footer.html_footer(n)}</footer></body></html>`;
 }
 module.exports={profile};

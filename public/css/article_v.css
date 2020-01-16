@@ -1,3 +1,16 @@
 textarea{height:500px;width:100%;}
 #rMeta{height:100px;}
 #txtContainer{display:none;}
+
+h1{line-height:1.5;
+margin-top:10px;
+margin-bottom:10px;
+}
+.d-date,.d-author{
+font-size:0.7rem;
+line-height:2.5;
+}
+button, input{
+font-weight:bold;
+}
+article{margin-bottom:10px;}

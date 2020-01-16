@@ -93,6 +93,7 @@ var xirsys;
 
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
+
 ctx.db=pool;
 ctx.state.btc_pay= btc_pay;
 ctx.state.is_test_btc = is_test_btc;
