@@ -40,11 +40,15 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 module.exports={blogs};
 
 function getPaginator(n){
-	
+	var pag;
 	let s='';
 	let page=Number(n.locals.page);
-	var pag=n.locals.rang_page.get(page);
+	if(n.locals&&n.locals.rang_page){
+	pag=n.locals.rang_page.get(page);
 	console.log("pag: ",pag);
+}
+	
+
 (n.locals.prev ? s+=`<a href="${psaki(n)}"><div class="num">предыдущая</div></a>`:'');
 
 	if(pag){
