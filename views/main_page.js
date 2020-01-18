@@ -12,7 +12,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"home", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
+<head>${html_head.html_head({title:"Текстовый и видео чат для гей-сообщества", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -21,10 +21,22 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">
-${n.year} 
 ${n.m?n.m.msg:''}<br>
-<br>${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}
-
+<br>${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
+<h1>Добро пожаловать в чат для гей сообщества</h1>
+<p>
+<ul>
+<li>Анонимный вход без регистрации
+<li>Отправка фотографий и анимаций
+<li>Общение в чат-комнате
+<li>Общение тет-а-тет приватная беседа
+<li>Быстрая регистрация пользователей
+<li>Личный профиль и аватар (для зарегистрированных пользователей)
+<li>Создание своего чата (для зарегистрированных пользователей)
+<li>Прием пожертвований в биткоинах на ваш биткоин-кошелек (для зарегистрированных пользователей)
+<li>Доска объявлений
+</ul>
+</p>
 <hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
@@ -70,20 +82,23 @@ return s;
 */
 function get_meta(){
 let s='';
-/*
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Sex Videochat Alikon - тысячи моделей готовы пообщаться с тобой в любое время дня и ночи прямо из своих спален!"/>
-<meta property="og:description" content="Эротический видеочат для взрослых. Тысячи моделей готовы пообщаться с тобой в любое время дня и ночи прямо из своих спален!"/>
-<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-<meta property="og:url" content="http://alikon.herokuapp.com"/>
-<meta property="og:site_name" content="Alikon"/>
-<meta itemprop="name" content="Sex Videochat Alikon"/>
-<meta itemprop="description" content="Эротический видеочат для взрослых - тысячи моделей готовы пообщаться с тобой в любое время дня и ночи прямо из своих спален!"/>
-<meta itemprop="image" content="http://alikon.herokuapp.com/images/bona.png"/>
-`;
-*/
-	return s;
+<meta property="og:title" content="Текстовый и видео чат для гей-сообщества"/>
+<meta property="og:description" content="Анонимный секс чат для текстового, голосового или
+по вебкамере общения и знакомств, как для виртуального, так и реального секса. 
+Получение донатов в биткоинах от заинтересованных пользователей"/>
+
+<meta property="og:site_name" content="A"/>
+<meta itemprop="name" content="Текстовый и видео чат для гей-сообщества"/>
+<meta itemprop="description" content="Анонимный секс чат для текстового, голосового или
+по вебкамере общения и знакомств, как для виртуального, так и реального секса. 
+Получение донатов в биткоинах от заинтересованных пользователей"/>`
+return s;
+//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
+//<meta property="og:url" content="http://alikon.herokuapp.com"/>
+	
+	
 }
 
