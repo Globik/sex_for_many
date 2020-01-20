@@ -18,7 +18,7 @@ const chat_room = n=>{
 let {model}=n;
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:model?model.bname:'-',
+<head>${html_head.html_head({title:model?model.bname:'-', meta:get_meta(),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -146,3 +146,22 @@ module.exports={chat_room};
  select tz from chat where us_id=1 limit 3; 
  delete from chat where //us_id=1\\ and tz in (select tz from chat where us_id=1 limit 3); --if count > lim
  */ 
+ 
+function get_meta(){
+let s='';
+s+=`
+<meta property="og:locale" content="ru_RU"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Чат комната. Донаты в биткоинах"/>
+<meta property="og:description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>
+
+<meta property="og:site_name" content="A"/>
+<meta itemprop="name" content="Чат комната. Донаты в биткоинах"/>
+<meta itemprop="description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>`
+return s;
+//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
+//<meta property="og:url" content="http://alikon.herokuapp.com"/>
+	
+	
+}
+

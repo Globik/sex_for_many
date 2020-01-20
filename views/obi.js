@@ -10,7 +10,7 @@ var warnig=false;
 const obi = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:'Oбъявления',
+<head>${html_head.html_head({title:'Доска gay объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -70,4 +70,22 @@ s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><
 })	
 }
 return s;
+}
+
+function get_meta(){
+let s='';
+s+=`
+<meta property="og:locale" content="ru_RU"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
+<meta property="og:description" content="Доска частных интимных объявлений для взрослых."/>
+
+<meta property="og:site_name" content="A"/>
+<meta itemprop="name" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
+<meta itemprop="description" content="Доска частных интимных объявлений для взрослых. Без регистрации"/>`
+return s;
+//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
+//<meta property="og:url" content="http://alikon.herokuapp.com"/>
+	
+	
 }

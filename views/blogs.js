@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user;
 
 return `<!DOCTYPE html><html lang="en">
-<head>${html_head.html_head({title:"Блог", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
+<head>${html_head.html_head({title:"Блог о биткоинах, заработке в интернете, веб камерах", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -88,11 +88,11 @@ s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">$
 function get_meta(){
 let s='';
 s+=`
-<meta name="description" content="Блог o">
-<meta property="og:title" content="Блог">
-<meta property="og:description" content="Блог о">
-<meta itemprop="name" content="Блог">
-<meta itemprop="description" content="Блог o">
+<meta name="description" content="Блог o заработке в биткоинах">
+<meta property="og:title" content="Блог о биткоинах, заработке в интернете, веб камерах">
+<meta property="og:description" content="Блог о заработке в биткоинах">
+<meta itemprop="name" content="Блог о биткоинах, заработке в интернете, веб камерах">
+<meta itemprop="description" content="Блог o заработке в биткоинах">
 `;
 return s;	
 }
