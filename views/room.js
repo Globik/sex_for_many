@@ -86,7 +86,7 @@ data-ownerOnline="${owner_online_str_en}">
 <input type="hidden" id="modelName" value="${model?model.bname:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
 <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
-${js_help(["/js/video_chat_janus.js","/js/qrcode.min.js"])}
+${js_help(["/js/adapter-latest.js","/js/video_chat_janus.js","/js/qrcode.min.js"])}
 
 </main><footer id="footer">${html_footer.html_footer({})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->

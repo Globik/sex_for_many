@@ -143,6 +143,10 @@ height:67%;
 display:block;
 position:relative;
 overflow-y:auto;
+white-space:pre-line;
+word-wrap:break-word;
+overflow-wrap:break-word;
+overflow-x:hidden;
 }
 .chat-txt{
 width:100%;
@@ -161,8 +165,12 @@ background-color:rgba(25,25,25,0.8);
 border-bottom:1px solid rgba(55,255,255,0.8);
 }
 .chat-user{color:yellow;}
-.chat-message{color:white;
+.chat-message{
+color:white;
 display:inline-block;
+white-space: pre-line;
+word-wrap:break-word;
+overflow:hidden;
 }
 
 .g-data{ackground:red;color:white;font-size:0.5em;text-align:right;}
@@ -301,11 +309,12 @@ width:100%;
 #mediaPanel{height:52px;}
 #video-container,#chat-container{
 float:none;
-width:100%;	
 display:block;
 height: 500px;
 border:1px solid transparent;
 }
+#video-container{width:100%;}
+#chat-container{width:95%;}
 #btcadr{font-size:0.7em;}
 
 #btcInfo{margin-left:0; font-size:0.8em;overflow:auto;width:100%;}

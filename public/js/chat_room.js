@@ -26,8 +26,8 @@ var bon_ice;
 var wstream=null;
 
 //navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
+//RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+//RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
 var ice_server={"iceServers":[]};
 
 var loc1=location.hostname+':'+location.port;
@@ -218,34 +218,36 @@ go_webrtc();
 
  function go_webrtc(){	
 
-navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(async function(stream){
+navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(function(stream){
 localVideo.srcObject=stream;
 localVideo.play();
 localVideo.volume = 0;
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 
-try{
-	await pc.setLocalDescription(await pc.createOffer());
+	pc.setLocalDescription().then(function(){
+	pc.createOffer().then(function(){
 	//alert('musn '+myusername+'modname'+modelName.value);
 	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
-	}catch(e){
+	}).catch(function(e){
 	console.error(e);
-		webrtc.innerHTML+=e+'<br>';
-		}
+	webrtc.innerHTML+=e+'<br>';
+	})
 
 }).catch(function(er){
 console.error(er);
 note({content:'Подключите веб-камеру!',type:'error',time:5});
 if(!owner())btnStart.disabled=false;
 webrtc.innerHTML+=er+'<br>';})
+}).catch(function(er){
+	
+});
 }
-
 function cancel_video(el){
 stopVideo();	
 }
 
 function snapshot(){
-navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(async function(stream){
+navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(function(stream){
 localVideo.srcObject=stream;
 setTimeout(function(){
 var cnv=document.createElement('canvas');
@@ -469,7 +471,8 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
-async function handle_offer(sdp, target){
+//async 
+function handle_offer(sdp, target){
 		console.log('in han off: ',sdp);
 		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
 		//alert(r);
@@ -480,23 +483,33 @@ async function handle_offer(sdp, target){
 			}
 			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
 pc=createPeer();
-try{
-await pc.setRemoteDescription(sdp);
-var wstream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+//try{
+//await
+ pc.setRemoteDescription(sdp).then(function(){
+//var wstream=await
+ navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(stream){
 localVideo.srcObject=wstream;
 
 wstream.getTracks().forEach(function(track){pc.addTrack(track,wstream)})
 
 //let l=await pc.createAnswer();
-await pc.setLocalDescription(await pc.createAnswer())
+//await 
+pc.setLocalDescription().then(function(){
+pc.createAnswer();
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 
-
-}catch(e){
+}).catch(function(e){
+console.log(e);
+webrtc.innerHTML+=e+'<br>';		
+})
+}).catch(function(e){
+console.log(e);
+webrtc.innerHTML+=e+'<br>';	})
+}).catch(function(e){
 	console.log(e);
 webrtc.innerHTML+=e+'<br>';	
 	
-}
+})
 }
 
 
@@ -578,9 +591,10 @@ function on_get_profile(l){
 	}
 }
 
-setTimeout(function(){set_vs},60000);
+setTimeout(function(){set_vs()},1000);
 
 function set_vs(){
+	//alert('set_vs');
 var d34={};
 d34.name=modelName.value;
 vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);

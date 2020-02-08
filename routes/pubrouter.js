@@ -353,7 +353,7 @@ pub.get('/home/obi', reklama, async ctx=>{
 	let db=ctx.db;
 	let res;
 	try{
-	var res2=await db.query('select*from obi where isg=1');	
+	var res2=await db.query('select*from obi');	
 	//if(res2.rows&&res2.rows.length>0)res=res2.rows;
 	console.log(res2.rows);
 	}catch(e){console.log(e);}
@@ -364,11 +364,25 @@ pub.post("/api/save_obi",async ctx=>{
 let {nick,msg}=ctx.request.body;
 if(!nick && !msg)ctx.throw(400,"Нет необходимых данных");
 let db=ctx.db;
+let a;
 try{
-await db.query('insert into obi(bnick,msg) values($1,$2)',[nick,msg]);	
+a=await db.query('insert into obi(bnick,msg) values($1,$2) returning id',[nick,msg]);
+console.log('a: ', a.rows);	
 }catch(e){ctx.throw(400,e);}
-ctx.body={info:"ok"};	
+ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
 })
+
+pub.post("/api/cust_del_obi", async ctx=>{
+	let {id}=ctx.request.body;
+if(!id)ctx.throw(400, "no id");
+let db=ctx.db;
+try{
+	await db.query('delete from obi where id=$1', [id]);
+	}catch(err){ctx.throw(400, err);}	
+	ctx.body={info:"OK deleted", id: id};
+})
+
+
 
 /* ADVERTISE */
 pub.get("/home/advertise", async ctx=>{

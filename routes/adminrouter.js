@@ -350,6 +350,16 @@ adm.post("/api/save_start_reklama", auth, async ctx=>{
 					}
 				ctx.body={info:info}
 				})
+				
+adm.post("/api/del_obi", auth, async ctx=>{
+let {id}=ctx.request.body;
+if(!id)ctx.throw(400, "no id");
+let db=ctx.db;
+try{
+	await db.query('delete from obi where id=$1', [id]);
+	}catch(err){ctx.throw(400, err);}	
+	ctx.body={info:"OK deleted", id: id};
+});
 			
 /* ADVERTISE */
 

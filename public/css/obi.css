@@ -14,6 +14,8 @@ header{font-weight:bold;padding-left:10px;}
 .chelobi:nth-child(odd){background:silver;}
 .chelp{margin:0;padding:10px;}
 #regata{}
+.del-obi{color:red;padding:10px;font-weight: bold;}
+input[type=text], input[type=submit]{height:40px;padding:10px;font-weight:bold;}
 @media screen and (max-width: 751px){
 #obiDiv{width:100%;}
 	.kreuz{color:green;}

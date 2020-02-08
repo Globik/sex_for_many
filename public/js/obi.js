@@ -46,9 +46,37 @@ vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, null, false
 
 function on_obi_saved(l){
 console.log(l);	
-note({content: "Объявление сохранено и отправлено на премодерацию!", type:"info", time: 6});
+note({content: "Объявление сохранено.", type:"info", time: 6});
+//l.nick msg
+//<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p>
+//<div>${moment(el.ati).format('YYYY-MM-DD hh:mm')}</div>
+var div=document.createElement('div');
+div.setAttribute('data-id',l.id);
+div.className="chelobi";
+div.innerHTML='<header><b>'+l.nick+'</b></header><p class="chelp">'+l.msg+'</p><button class="del-obi" data-vid="'+l.id+'" onclick="del_obi2(this);">удалить объявление</button>';
+fuckSection.appendChild(div);
 }
 
+function del_obi(el){
+	var id=el.getAttribute('data-vid');
+	if(!id)return;
+	var d={};
+	d.id=id;
+	vax("post", "/api/del_obi", d, on_obi_del, on_obi_err, null, false);
+	}
+
+function on_obi_del(l){
+	note({content: l.info,type:"info",time:5});
+	var f2=document.querySelector('[data-id="'+l.id+'"]');
+	if(f2)f2.remove();
+}
+function del_obi2(el){
+	var id=el.getAttribute('data-vid');
+	if(!id)return;
+	var d={};
+	d.id=id;
+	vax("post", "/api/cust_del_obi", d, on_obi_del, on_obi_err, null, false);
+	}
 function on_obi_err(l){alert(l);}
 
 function finput(el){
