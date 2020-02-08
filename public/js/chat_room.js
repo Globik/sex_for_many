@@ -224,13 +224,10 @@ localVideo.play();
 localVideo.volume = 0;
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 
-	pc.setLocalDescription().then(function(){
-	pc.createOffer().then(function(){
-	//alert('musn '+myusername+'modname'+modelName.value);
+	pc.createOffer().then(function(offer){
+		return pc.setLocalDescription(offer)});
+	}).then(function(){
 	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
-	}).catch(function(e){
-	console.error(e);
-	webrtc.innerHTML+=e+'<br>';
 	})
 
 }).catch(function(er){
@@ -238,9 +235,7 @@ console.error(er);
 note({content:'Подключите веб-камеру!',type:'error',time:5});
 if(!owner())btnStart.disabled=false;
 webrtc.innerHTML+=er+'<br>';})
-}).catch(function(er){
-	
-});
+
 }
 function cancel_video(el){
 stopVideo();	
