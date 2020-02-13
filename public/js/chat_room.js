@@ -470,7 +470,7 @@ async function handle_offer(sdp, target){
 	pc=createPeer();
 	await pc.setRemoteDescription(sdp);
 	//var Bstream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-	//var su= await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+	var su= await navigator.mediaDevices.getUserMedia({video:true, audio:true});
 	//localVideo.srcObject=su;
 	console.log(1)
 	//su.getTracks().forEach(function(t){pc.addTrack(t,su)})
