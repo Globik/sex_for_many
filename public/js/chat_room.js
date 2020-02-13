@@ -465,7 +465,19 @@ v.className="connecting";
 }
 }
 
-function handle_offer(sdp, target){
+async function handle_offer(sdp, target){
+	try{
+	pc=createPeer();
+	await pc.setRemoteDescription(sdp);
+	var stream=await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+	localVideo.srcObject=stream;
+	stream.getTracks().forEach(function(){pc.addTrack(t,stream)})
+await pc.setLocalDescription(await pc.createAnswer());
+wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
+}catch(e){console.error(e);}
+
+
+	/*
 		console.log('in han off: ',sdp);
 		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
 		
@@ -477,13 +489,13 @@ function handle_offer(sdp, target){
 			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
 pc=createPeer();
 
- pc.setRemoteDescription(sdp.sdp).then(function(){
+ pc.setRemoteDescription(sdp).then(function(){
 
 return navigator.mediaDevices.getUserMedia({video:true,audio:true})}).then(function(stream){
 localVideo.srcObject=stream;
 
 stream.getTracks().forEach(function(track){pc.addTrack(track, stream)})
-return;
+
 }).then(function(){
 	return pc.createAnswer();
 }).then(function(answer){
@@ -496,6 +508,7 @@ wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":tar
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
 })
+*/ 
 
 }
 
