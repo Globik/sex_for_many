@@ -479,28 +479,24 @@ pc=createPeer();
 
  pc.setRemoteDescription(sdp).then(function(){
 
- navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(stream){
+return navigator.mediaDevices.getUserMedia({video:true,audio:true})}).then(function(stream){
 localVideo.srcObject=stream;
 
 stream.getTracks().forEach(function(track){pc.addTrack(track, stream)})
+return;
+}).then(function(){
+	return pc.createAnswer();
+}).then(function(answer){
+return pc.setLocalDescription(answer);	
+}).then(function(){
+	wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 
-
-pc.setLocalDescription().then(function(){
-pc.createAnswer();
-wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 
 }).catch(function(e){
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
 })
-}).catch(function(e){
-console.log(e);
-webrtc.innerHTML+=e+'<br>';	})
-}).catch(function(e){
-	console.log(e);
-webrtc.innerHTML+=e+'<br>';	
-	
-})
+
 }
 
 
