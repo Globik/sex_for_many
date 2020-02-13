@@ -120,7 +120,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <input type="hidden" id="xirTarget" value='${n.xirsys?JSON.stringify(n.xirsys):''}'>
 <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
 <input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT=='yes'?'y':'n'}">
-${js_help(["/js/adapter-latet.js","/js/chat_room.js","/js/qrcode.min.js"])}
+${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 <a href="#." class="overlay" id="insImg"></a>
 <div id="setImg" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
