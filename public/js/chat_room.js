@@ -469,9 +469,12 @@ async function handle_offer(sdp, target){
 	try{
 	pc=createPeer();
 	await pc.setRemoteDescription(sdp);
-	var stream=await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-	localVideo.srcObject=stream;
-	stream.getTracks().forEach(function(){pc.addTrack(t,stream)})
+	//var Bstream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+	//var su= await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+	//localVideo.srcObject=su;
+	console.log(1)
+	//su.getTracks().forEach(function(t){pc.addTrack(t,su)})
+	console.log(2);
 await pc.setLocalDescription(await pc.createAnswer());
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 }catch(e){console.error(e);}
