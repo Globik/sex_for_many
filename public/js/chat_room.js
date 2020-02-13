@@ -466,6 +466,7 @@ v.className="connecting";
 }
 
 async function handle_offer(sdp, target){
+	/*
 	try{
 	pc=createPeer();
 	await pc.setRemoteDescription(sdp);
@@ -478,9 +479,9 @@ async function handle_offer(sdp, target){
 await pc.setLocalDescription(await pc.createAnswer());
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 }catch(e){console.error(e);}
+*/
 
-
-	/*
+	
 		console.log('in han off: ',sdp);
 		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
 		
@@ -511,7 +512,7 @@ wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":tar
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
 })
-*/ 
+
 
 }
 
