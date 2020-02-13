@@ -464,11 +464,11 @@ setTimeout(function(){
 v.className="connecting";
 }
 }
-//async 
+
 function handle_offer(sdp, target){
 		console.log('in han off: ',sdp);
 		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
-		//alert(r);
+		
 		if(!r){
 			wsend({type:"reject_call",target:target,from:myusername});
 			stopVideo();
@@ -476,17 +476,15 @@ function handle_offer(sdp, target){
 			}
 			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
 pc=createPeer();
-//try{
-//await
+
  pc.setRemoteDescription(sdp).then(function(){
-//var wstream=await
+
  navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(function(stream){
-localVideo.srcObject=wstream;
+localVideo.srcObject=stream;
 
-wstream.getTracks().forEach(function(track){pc.addTrack(track,wstream)})
+stream.getTracks().forEach(function(track){pc.addTrack(track, stream)})
 
-//let l=await pc.createAnswer();
-//await 
+
 pc.setLocalDescription().then(function(){
 pc.createAnswer();
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
