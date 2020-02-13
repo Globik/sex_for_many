@@ -477,7 +477,7 @@ function handle_offer(sdp, target){
 			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
 pc=createPeer();
 
- pc.setRemoteDescription(sdp).then(function(){
+ pc.setRemoteDescription(sdp.sdp).then(function(){
 
 return navigator.mediaDevices.getUserMedia({video:true,audio:true})}).then(function(stream){
 localVideo.srcObject=stream;
@@ -489,7 +489,7 @@ return;
 }).then(function(answer){
 return pc.setLocalDescription(answer);	
 }).then(function(){
-	wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
+wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 
 
 }).catch(function(e){
