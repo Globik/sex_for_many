@@ -7,9 +7,14 @@ const https=require('https');
 const fs=require('fs');
 //const DB_URL='postgress://globik:null@localhost:5432/test';
 const DB_URL=process.env.DATABASE_URL;//for heroku
-//const koaBody=require('koa-body');
 
 
+
+
+
+
+
+const koaBody=require('koa-body');
 const Koa=require('koa');
 
 const passport=require('koa-passport');
