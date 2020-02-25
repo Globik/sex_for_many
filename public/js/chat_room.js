@@ -52,7 +52,7 @@ window.location.href="#.";
 rem_hash();	
 var d={};
 d.type="msg";
-d.msg = '<img src="'+forImg.value+'" height="80px" style="vertical-align:middle;"/>';
+d.msg = '<img src="'+forImg.value+'" height="80px"/>';
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);
@@ -130,7 +130,7 @@ function insert_message(ob){
 	console.log('insert_message');
 var m=document.createElement('div');
 m.className="chat-div";
-m.innerHTML='<span class="chat-user">'+ob.from+':&nbsp;</span><span class="chat-message">'+ob.msg+'</span>';
+m.innerHTML='<span class="chat-user">'+ob.from+': </span><span class="chat-message">'+ob.msg+'</span>';
 m.innerHTML+='<div class="g-data">'+g_data(ob.tz)+'</div>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight+chat.scrollHeight;
@@ -228,11 +228,15 @@ stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 		return pc.setLocalDescription(offer)}).then(function(){
 	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
 	})
-	}).catch(function(er){
-console.error(er);
-note({content:'Подключите веб-камеру!',type:'error',time:5});
+	}).catch(function(err){
+console.error(err);
+//alert(er.name);
+//note({content:'Подключите веб-камеру!',type:'error',time:5});
+if(err.name=="NotFoundError"){
+	note({content: "Включите веб-камеру.",type:"error",time:5});
+}else{note({content:err.name,type:"error",time:5});}
 if(!owner())btnStart.disabled=false;
-webrtc.innerHTML+=er+'<br>';
+webrtc.innerHTML+=err+'<br>';
 })
 }
 function cancel_video(el){
@@ -465,7 +469,8 @@ v.className="connecting";
 }
 }
 
-async function handle_offer(sdp, target){
+//async 
+function handle_offer(sdp, target){
 	/*
 	try{
 	pc=createPeer();

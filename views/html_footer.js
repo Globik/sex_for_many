@@ -5,7 +5,7 @@ return `<section id="footSec"><span class="foot-span">Сайт предназн�
 Вы обязаны покинуть этот сайт.</span></section>
 <section id="footReklama">
 <a href="/home/advertise">Реклама на сайте</a></section>
-<section><header><b>Мы в соцсетях</b></header>
+<section id="socseti"><header><b>Мы в соцсетях</b></header>
 <a href="https://vk.com/club189056307"><img src="/images/vk.png"></a>
 <a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
 </section>

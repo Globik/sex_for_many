@@ -137,7 +137,9 @@ position:relative;
 #under-chat2{background:rgba(0,3,5,0.6);height:12.1%;text-align:right;}
 #under-chat2 button:last-child{margin-right:0;}
 #under-chat2 button{margin-right:0.5em;}
+
 #chat{
+background:gray;
 width:100%;
 height:67%;
 display:block;
@@ -146,7 +148,7 @@ overflow-y:auto;
 white-space:pre-line;
 word-wrap:break-word;
 overflow-wrap:break-word;
-overflow-x:hidden;
+overflow-x:auto;
 }
 .chat-txt{
 width:100%;
@@ -170,8 +172,11 @@ color:white;
 display:inline-block;
 white-space: pre-line;
 word-wrap:break-word;
-overflow:hidden;
+verflow:hidden;
+vertical-align:bottom;
 }
+
+.chat-message img{}
 
 .g-data{ackground:red;color:white;font-size:0.5em;text-align:right;}
 
@@ -330,8 +335,8 @@ border:1px solid transparent;
 #video-wrapper{height:87%;}
 #remoteVideo{}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	#vasja{idth:20%;color:red;}
-	.btn-start{idth:50%;}
+	#vasja{}
+	.btn-start{}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	

@@ -497,6 +497,7 @@ display:inline-block;
 
 #footReklama{ackground:red; text-align:center;}
 #footReklama a{font-size: 0.8em;}
+#socseti{padding:40px;}
 
 @media screen and (max-width: 1024px) {
 #content {width: auto;float:none;padding: 3% 4%;}

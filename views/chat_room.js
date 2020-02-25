@@ -84,7 +84,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 </div>
 <div id="chat"></div>
 <div id="under-chat">
-<input id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200">
+<textarea id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></textarea>
 </div>
 <div id="under-chat2">
 <button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button>
