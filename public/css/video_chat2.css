@@ -328,7 +328,9 @@ border:1px solid transparent;
 
 }
 
-
+@media screen and (min-width: 1900px) {
+h2{margin-left:6px;}
+}
 @media screen and (max-width: 320px){
 #chat-container{color:red;margin-top:60px;}
 

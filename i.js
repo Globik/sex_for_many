@@ -1,7 +1,7 @@
 var fs=require('fs');
 var {spawn}=require('child_process');
 var a=[
-"test",
+"globi",
 "-f", "./sql/ads.sql",
 "-f","./sql/blog.sql",
 "-f","./sql/buser.sql",
@@ -13,7 +13,8 @@ var a=[
 "-f","./sql/reklama.sql",
 "-f","./sql/room.sql"
 ]
-var ls=spawn('/usr/local/pgsql/bin/psql',a);
+//const  ls=spawn('/usr/local/pgsql/bin/psql',a);
+const ls=spawn('psql',a)
 ls.stderr.on('data',data=>{console.log(data.toString())})
 ls.stdout.on('data',data=>{console.log(data.toString());})
 /*
