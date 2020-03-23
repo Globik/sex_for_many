@@ -50,11 +50,14 @@ padding: 0.9em 3em;
 padding: 0rem 2rem;
 min-height:100%;
 width:100%;}
-/*@media screen and (min-width: 1900px) {body{font: 1.9em/180% Calibri, Arial, Helvetica, sans-serif;}#pagewrap{margin-top:8px;min-width:1365px;width:2%;min-height:100%;} */
+
+@media screen and (min-width: 1900px) {
+ ody{font: 1.9em/180% Calibri, Arial, Helvetica, sans-serif;}
+ #pagerap{margin-top:8px;min-width:1365px;width:2%;min-height:100%;}
 
 :root {--mht:3.2rem;--pd:1rem;--spinnerh:.3rem;
 --hbg:black;
-}
+}}
 
 nav{display:block;position:relative;
 /*

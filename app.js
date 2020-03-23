@@ -2,12 +2,21 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 const HPORT = 3000;
+//<<<<<<< HEAD
 const SPORT = 8000;
 const https = require('https');
 const fs = require('fs');
 const is_ssl_http = false;
-//const DB_URL = 'postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;//for heroku
+const DB_URL = 'postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
+//'=======
+//const SPORT=8000;
+//const https=require('https');
+//const fs=require('fs');
+//const DB_URL='postgress://globi:null@localhost:5432/globi';
+//const DB_URL='postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
+//>>>>>>> 8b35968891e345db5ead6520de06ffb3d3b22d30
 
 
 
