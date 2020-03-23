@@ -7,8 +7,8 @@ const {js_help}=require('../libs/helper.js');
 var warnig=false;	  
 var haupt_ban=false;
 
-let profiles=n=>{
-const buser=n.user;
+let profiles = n=>{
+const buser = n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
 cssl:["/css/profiles.css"]})}
 </head><body>

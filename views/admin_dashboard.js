@@ -10,7 +10,7 @@ var warnig=false;
 var haupt_ban=false;
 
 
-let admin_dashboard=n=>{
+let admin_dashboard = n=> {
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css"})}
 <style>

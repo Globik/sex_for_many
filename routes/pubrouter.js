@@ -304,7 +304,7 @@ let db=ctx.db;
 let err;
 let a;
 try{
-let result=await db.query('select bname, age, isava from profile');
+let result=await db.query('select bname, age, isava, vs from profile');
 if(result.rows.length)a=result.rows;
 console.log('a: ',a);	
 }catch(e){err=e;}
@@ -513,6 +513,7 @@ async function pagination(ctx, next){
 		}catch(e){console.log(e);}
 		return next();
 }
+
 async function reklama(ctx,next){ 
 	let db=ctx.db;
 try{
@@ -523,14 +524,6 @@ ctx.state.banner=ban.rows;
 	}
 return next();
 }
-
-
-
-
-
-
-
-
 
 
 

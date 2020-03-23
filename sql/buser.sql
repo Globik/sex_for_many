@@ -9,7 +9,6 @@ pwd VARCHAR (100) NOT NULL,
 bname varchar(16) UNIQUE NOT NULL, --unique nickname of a user
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban 
 ll TIMESTAMP  NOT NULL default now()::timestamp -- last logined
-
 );
 
 -- insert into buser(pwd,bname) values(crypt('1234',gen_salt('bf',8)),'Globi');

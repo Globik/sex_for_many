@@ -20,15 +20,12 @@ done(e)
 
 passport.use(new LocalStrategy({usernameField:'username',passwordField:'password'}, (username, password, done)=>{
 	console.log("USERNAME AND PASSWORD: ",username,password);
-process.nextTick(async()=>{
-try{
-let user=await db.query('select id from buser where bname=$1 and pwd=crypt($2,pwd)', [username, password])
-if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль!'})}
-await db.query('update buser set ll=now() where bname=$1', [username]);
-return done(null,user.rows[0],{message: 'Авторизация прошла успешно!'})
-}catch(err){return done(err)} 
-})
-}))
+process.nextTick(async()=>{ 
+	try{ 
+let user=await db.query('select id from buser where bname=$1 and pwd=crypt($2,pwd)',[username, password]) 
+if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль!'})} 
+await db.query('update buser set ll=now() where bname=$1', [username]); return done(null,user.rows[0],{message: 
+'Авторизация прошла успешно!'}) }catch(err){return done(err)} }) }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
 const smsg='ОК, вы создали аккаунт успешно. Если Вы забудете пароль, то просто создайте другой аккаунт.'

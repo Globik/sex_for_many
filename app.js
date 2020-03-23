@@ -1,12 +1,13 @@
 // which psql 
 // heroku pg:psql --app frozen-atoll-47887
-
+// sudo mkdir /var/run/pgsql
 const HPORT = 3000;
-const SPORT=8000;
-const https=require('https');
-const fs=require('fs');
-const DB_URL='postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;//for heroku
+const SPORT = 8000;
+const https = require('https');
+const fs = require('fs');
+const is_ssl_http = false;
+//const DB_URL = 'postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;//for heroku
 
 
 
@@ -196,7 +197,7 @@ console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 function on_run(){
-console.log('soll on port: ', HPORT, 'started.');
+
 pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
 });
@@ -211,8 +212,14 @@ function(err,res){if(err)console.log(err);
 if(res.rows.length)btc_address=res.rows[0].adr;
 });
 }
-//const servak=https.createServer(ssl_options,app.callback()).listen(SPORT);
-const servak=app.listen(process.env.PORT || HPORT);
+var servak;
+if(is_ssl_http){
+	servak = https.createServer(ssl_options, app.callback()).listen(SPORT);
+	console.log("Must on, port: https://127.0.0.1:", SPORT, " started.");
+}else{
+	servak = app.listen(process.env.PORT || HPORT);
+	console.log("Must on http or localhost, port: ", HPORT, " started.");
+}
 const wss=new WebSocket.Server({server:servak});
 
 /* HELPERS FOR WS */

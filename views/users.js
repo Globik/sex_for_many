@@ -26,7 +26,7 @@ module.exports={users};
 function get_users(n){
 	let s="<ul>"
 n.forEach(function(el, i){
-	s+=`<li>${el.bname}`;
+	s+=`<li>${el.bname} - <a href="/webrtc/${el.id}">Комната</a>`;
 	})
 	s+="</ul>";
 	return s;
