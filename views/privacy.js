@@ -16,7 +16,7 @@ ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
-<h3>privacy</h3>
+<h1>privacy</h1>
 <article id="privacyArticle">${n.result?n.result.art : 'Пусто.'}</article>
 ${buser&&buser.brole=='superadmin'?get_redact():''}
 </main>
@@ -25,7 +25,7 @@ ${buser&&buser.brole=="superadmin"?js_help(["/js/privacy.js"]):''}
 }
 module.exports={privacy}
 function get_redact(){
-let s=`<br><hr><button onclick="redaktiert(this);">edit</button><hr>
+let s=`<br><hr><button onclick="redaktiert(this);">редактировать</button><hr>
 <form id="rForm" name="rform" method="post" action="/api/save_post_privacy">
 <textarea id="rText" name="rtext"></textarea><br>
 <input type="submit" value="Сохранить">

@@ -22,7 +22,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
-<br>${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
+${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
 <h1>Добро пожаловать в чат для гей сообщества</h1>
 <p>
 <ul>
