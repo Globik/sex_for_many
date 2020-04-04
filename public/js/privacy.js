@@ -1,10 +1,10 @@
 function redaktiert(el){
 rForm.style.display="block";
-alert(privacyArticle.innerHTML);
 rText.textContent=privacyArticle.innerHTML;	
 }
 var lf=document.forms.rform;
 lf.addEventListener('submit', on_submit, false);
+lf.addEventListener('reset', on_reset, false);
 
 function on_submit(ev){
 	try{
@@ -23,6 +23,9 @@ ev.className="";
 note({content:l.info,type:"info",time:5});
 privacyArticle.innerHTML=rText.value;	
 console.log(rText.value.length);
-rForm.style.display="none";
-	}
+ev.style.display="none";
+}
 function on_err(l, ev){ev.className="";alert(l);}
+function on_reset(ev){
+ev.target.style.display="none";
+}

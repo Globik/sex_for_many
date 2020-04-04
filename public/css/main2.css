@@ -37,7 +37,7 @@ a:hover {text-decoration: underline;}
 ul, ol {margin: 1rem 0 1.4rem 24px;padding: 0;line-height: 140%;}
 li {margin: 0 0 1.6rem 0;padding: 0;}*/
 h1, h2, h3, h4, h5, h6 {
-margin: 10px 0 10px 0;
+margin: 20px 0 10px 0;
 color: #000;
 padding-left:0rem;
 padding-top:10px;
@@ -64,7 +64,7 @@ width:100%;
  #pagewap{margin-top:8px;min-width:1365px;width:2%;min-height:100%;}
 }
 :root {--mht:3.2rem;--pd:1rem;--spinnerh:.3rem;
---hbg:black;
+--hbg:#bdf3d3;
 }
 
 
@@ -76,12 +76,12 @@ background: -webkit-gradient(linear, left top, left bottom, from(#4586ae), to(#6
 background: -moz-linear-gradient(top, #65acc8,  #4586ae);
 background: linear-gradient(#65acc8, #4586ae);
 */
-background: #6f4e37;
+background: rgb(55,111,91);/*#6f4e37;*/
 height:3.2rem;
 height:var(--mht);	
 width:100%;
 text-decoration:uppercase;
-border-bottom:1px solid black;
+border-bottom:1px solid transparent;
 }
 
 #menu{
@@ -107,7 +107,6 @@ font-size:1.3rem;
 display:inline-block;
 transition: 0.1s;
 z-index:1000;
-color:red;
 }
 nav #menu li a{text-decoration:none;}
  nav #menu li .mnav{
@@ -138,7 +137,7 @@ margin:0;padding:0;
 background:red;
 ackground:rgba(179,158,181,0.9);
 ackground: linear-gradient(rgba(179,158,189,.7), rgba(179,158,159,0.8));
-	z-index:999;
+-index:9;
 }
 .muka{
 	background:lightgreen;
@@ -148,6 +147,7 @@ ackground: linear-gradient(rgba(179,158,189,.7), rgba(179,158,159,0.8));
 	idth:calc(100% - 100px);
 	height:100%;
 	border-bottom:1px solid green;
+	-index:4;
 	}
 .muka span{background:orange;
 	vertical-align:-100%;
@@ -210,23 +210,31 @@ label .diagonal.part-2 {display:block;position:relative;
 margin-top: var(--spinnerh);
 }
 label .spinner.active{background:orange;}
-#admin_main_menu{border-bottom:1px solid black;padding: 0rem 2rem;position:relative;}
+#admin_main_menu{border-bottom:1px solid #bdf3d3;padding: 0rem 2rem;position:relative;}
 .admin-nav{cursor:pointer;}
 .admin-nav a{text-decoration:none;font-weight:bold;font-size:1.2em;padding:0.2em;}
 .label-login{color:red;position:absolute;right:4.9rem;top:1rem;}
 .label-login a{text-decoration:none;}
  
-.adm-ul{color:red;list-style:none;border:1px solid green;margin:0;padding:0;
+.adm-ul{
+color:red;list-style:none;border:1px solid green;margin:0;padding:0;
 position:absolute;
 display:none;
 width:100%;
-z-index:1;
+z-index:2;
 overflow:hidden;
 }
-.adm-ul > li{background:pink;border-bottom:1px solid brown;display:block;}
+.adm-ul > li{background: rgb(144,222,159);border-bottom:1px solid #bdf3d3;display:block;}
+.adm-ul > li:hover{background:rgb(154,232,169);}
 .adm-ul > li a{margin-left:2rem;text-decoration:none;line-height:1.5;font-weight:bold;}
 
-#footer{display:block;position: relative;ackground:green;min-height:40px;border-top:1px solid black;}
+#footer{
+display:block;
+position: relative;
+background: rgb(55,111,91);
+min-height:40px;
+border-top:1px solid transparent;
+}
 #footSec{ackground:red;text-align:center;padding:0.5em;}
 
 .foot-span{font-size:0.8em;olor:green;}
@@ -353,7 +361,7 @@ visibility:visible;
 transform:translate(-50%,1vh);
 /*transition: visibility 3s,ransform 0.4s;*/
 }
-button{-moz-appearance:none;-webkit-appearance:none;}
+/*button{-moz-appearance:none;-webkit-appearance:none;} */
 
 #abuse_id{min-width:80%;}
 
@@ -514,6 +522,36 @@ display:inline-block;
 #footReklama{ackground:red; text-align:center;}
 #footReklama a{font-size: 0.8em;}
 #socseti{padding:40px;}
+#socseti header{ackground:red;padding-bottom:10px;}
+
+button, input[type=submit], input[type=reset]{
+padding:10px 15px 10px 15px;
+font-weight: bold;
+cursor:pointer;
+font-size:18px;
+background: white;
+color:rgb(2,106,203);
+border: 2px solid rgb(2,106,203);
+letter-spacing:1px;
+}
+
+button:hover, input[type=submit]:hover, input[type=reset]:hover{
+background:rgb(2,106,203);
+color:white;
+border-color:silver;
+}
+
+@keyframes puls{
+from{background:green;}
+to{background:lightgreen;}
+}
+input[type=submit].puls, button.puls{
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+}
+
 
 @media screen and (max-width: 1024px) {
 #content {width: auto;float:none;padding: 3% 4%;}

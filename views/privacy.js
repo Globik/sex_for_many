@@ -9,7 +9,7 @@ var warnig=false;
 let privacy=n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"privacy", csslink:"/css/main2.css",
-cssl:["/css/privacy.css"]})}
+cssl:["/css/advertise.css"]})}
 
 </head><body><!-- privacy -->
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
@@ -28,7 +28,7 @@ function get_redact(){
 let s=`<br><hr><button onclick="redaktiert(this);">редактировать</button><hr>
 <form id="rForm" name="rform" method="post" action="/api/save_post_privacy">
 <textarea id="rText" name="rtext"></textarea><br>
-<input type="submit" value="Сохранить">
+<input type="submit" value="Сохранить">&nbsp;&nbsp;<input type="reset" value="Отменить">
 </form>`;
 return s;
 	}

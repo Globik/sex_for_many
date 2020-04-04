@@ -174,10 +174,10 @@ pub.post('/api/savebtcaddress', async ctx=>{
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
 if(ctx.state.is_test_btc){
 let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-if(!vali){ctx.throw(400,"not a valid test bitcoin address!");}
+if(!vali){ctx.throw(400,"Неправилььный тест биткоин адрес!");}
 }else{
 let valir=walletValidator.validate(btc_client,'bitcoin');
-if(!valir){ctx.throw(400,"not a valid bitcoin address!");}	
+if(!valir){ctx.throw(400,"Неправильный биткоин адрес!");}	
 }
 
 let db=ctx.db;
@@ -349,6 +349,7 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"Фото удалено!"};	
 })
+// obi
 pub.get('/home/obi', reklama, async ctx=>{
 	let db=ctx.db;
 	let res;
@@ -382,7 +383,17 @@ try{
 	ctx.body={info:"OK deleted", id: id};
 })
 
-
+pub.post("/api/fetch_obi_content", async ctx=>{
+let db=ctx.db;
+let r;
+try{
+r=await db.query('select*from obi limit 1');
+r=r.rows[0];	
+}catch(e){
+ctx.throw(400, e);	
+}
+ctx.body={info:"OK", r: r}
+})
 
 /* ADVERTISE */
 pub.get("/home/advertise", async ctx=>{

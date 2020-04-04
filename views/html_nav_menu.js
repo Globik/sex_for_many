@@ -49,7 +49,7 @@ var gr=true;
 function dowas1(){
 if(gr){
 minmen.style.display="block";
-minmen.style.zIndex="2";
+minmen.style.zIndex="3";
 //lb.classList.add('active');
 gad(dsel,'active');
 gr=false;

@@ -126,7 +126,7 @@ color:yellow;
 #video-wrapper.connected::after{
 content="";	
 }
-#btnFoto{height:1.3rem;cursor:pointer;border:1px solid black;}
+
 #under-chat{
 background:pink;
 width:100%;
@@ -134,7 +134,7 @@ height:13%;
 display:block;
 position:relative;	
 }
-#under-chat2{background:rgba(0,3,5,0.6);height:12.1%;text-align:right;}
+#under-chat2{background:rgba(0,3,5,0.6);height:12.1%;text-align:right;padding-right:3px;}
 #under-chat2 button:last-child{margin-right:0;}
 #under-chat2 button{margin-right:0.5em;}
 
@@ -179,40 +179,25 @@ vertical-align:bottom;
 .chat-message img{}
 
 .g-data{ackground:red;color:white;font-size:0.5em;text-align:right;}
-
+/*
 .btn-start{
 height:90%;	
-cursor:pointer;
-z-index:30;
-font-size:0.8em;
-font-weight:bold;
-letter-spacing:1px;
-border:2px solid black;
-display:inline-block;
 margin-top:0.125rem;
 margin-right:0.1rem;
-padding-right:0.5rem;
-padding-left:0.5rem;
 }
-#vasja{
-cursor:pointer;
-height:90%;
-margin-top:0.125rem;
+*/
+#vasja, #btnFoto, .btn-start{
+margin-top:0.3rem;
 font-size:0.9em;
-font-weight:bold;
-letter-spacing:1px;
-border:2px solid black;
-padding-right:0.5rem;
-padding-left:0.5rem;
 }
 .btn-saveL{
-width:auto;
-height:40px;
-ackground:red;
-font-weight:bold;
 font-size:0.7em;
-cursor:pointer;
-letter-spacing:1px;
+}
+.btn-saveL.puls{
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
 }
 #under-video{
 width:100%;
@@ -221,7 +206,7 @@ background:rgba(0,0,0,0.2);
 display:block;
 position:relative;	
 }
-#under-video2{background:pink;height:12.1%;text-align:right;background:rgba(0,3,5,0.6);}
+#under-video2{background:pink;height:12.1%;text-align:right;background:rgba(0,3,5,0.6);padding-right:3px;}
 header{font-weight:bold;margin-bottom:4px;}
 #under-video.start{background:rgba(0,0,0,0);}
 
@@ -248,9 +233,11 @@ position:absolute;top:0;left:0;z-index:2;
 #btcInfo{display:inline-block;border:1px solid black;vertical-align:top;margin-left: 0;padding:5px;overflow:hidden;}
 	
 
-.btc-footer{display:block;position:relative;height:auto;padding:5px;}
-#btc-container{display:block;vertical-align:top;padding:0.8rem;}
+.btc-footer{display:block;position:relative;height:auto;adding:5px;ackground:red;}
+#btc-container{display:block;vertical-align:top;margin-bottom: 3px;ackground:violet;}
+#bInput{font-size:0.625rem;}
 .btc-label{padding:0;}
+
 .btc-input{height:40px;width:300px;}
 .btn-save{height:40px;padding:8px;width:80px;border:1px solid black;font-weight:bold;vertical-align:top;}
 

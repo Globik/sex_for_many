@@ -10,6 +10,7 @@ var chatcnt=gid("chatcnt");
 var onlineDetector=gid("online-detector");
 var underVideo=gid("under-video");
 var btnStart=gid("btnStart");
+var vasja=gid("vasja");
 var btcc=gid("btcc");
 var sock;
 var myusername;
@@ -25,9 +26,6 @@ var hasAddTrack=false;
 var bon_ice;
 var wstream=null;
 
-//navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-//RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-//RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
 var ice_server={"iceServers":[]};
 
 var loc1=location.hostname+':'+location.port;
@@ -70,15 +68,18 @@ if(!btcInput.value){return;}
 let d={};
 d.btc_client=btcInput.value;
 d.username=modelName.value;
-
 vax("post", "/api/savebtcaddress", d, on_saved_btc, on_save_btc_error, el,false);
+el.classList.add("puls");
 }
 function on_saved_btc(d,el){
-alert('success '+JSON.stringify(d));
+//alert('success '+JSON.stringify(d));
+note({content: "Адрес сохранен!", type: "info", time: 5});
+el.classList.remove("puls")
 el.disabled=true;
 }
-function on_save_btc_error(l){
-console.error(l);	
+function on_save_btc_error(l, el){
+//console.error(l);	
+el.classList.remove("puls");
 let span=crel("span","\t"+l,"red");
 insert_after(span, bInput,"span");
 }
@@ -116,7 +117,7 @@ send_up();
 }
 chatTxt.addEventListener('keydown', sendi, false);
 
-function send_up(){
+function send_up(el){
 if(!chatTxt.value)return;
 let d={};
 d.type = "msg";
@@ -124,10 +125,12 @@ d.msg = escape_html(chatTxt.value);
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);	
+if(el)el.className="puls";
 chatTxt.value="";
 }
 function insert_message(ob){
 	console.log('insert_message');
+	vasja.className="";
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+': </span><span class="chat-message">'+ob.msg+'</span>';

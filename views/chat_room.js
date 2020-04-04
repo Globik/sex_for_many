@@ -37,7 +37,7 @@ ${n.owner?
 value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''}" 
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
-class="btn-saveL" onclick="saveBTC(this);">сохранить</button><button class="btn-saveL" onclick="reset_btc();">редактировать</button>
+class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<button class="btn-saveL" onclick="reset_btc();">редактировать</button>
 </div></div>`:''}
 
 
@@ -88,7 +88,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 </div>
 <div id="under-chat2">
 <button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button>
-<button id="vasja" onclick="send_up();">отправить</button>
+<button id="vasja" onclick="send_up(this);">отправить</button>
 </div>
 
 </section>

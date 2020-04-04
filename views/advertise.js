@@ -16,7 +16,7 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/advertise.css"],luser:buser})}
 
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
-<div id="haupt-banner"><b>Главный баннер. 1000 рублей в месяц.</b>
+<div id="haupt-banner"><b>Главный баннер.</b>
 <a href="#"><img src="/reklama/a4.jpg"/></a>
 </div>
 <main id="pagewrap"><h1>Заказать рекламу.</h1>
@@ -24,7 +24,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.art?n.art.art:'Пусто.'}
 </article>
 ${buser&&buser.brole=='superadmin'?get_redact():''}
-<section id="reklamaPodval"><div><b>Второстепенный баннер. 500 рублей в месяц.</b></div>
+<section id="reklamaPodval"><div><b>Второстепенный баннер.</b></div>
 <div class="f"><a class="a" href="#"><img class="img" src="/reklama/b3.jpg"/></a></div></section>
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
@@ -38,7 +38,7 @@ function get_redact(){
 let s=`<br><hr><button onclick="redaktiert(this);">редактировать</button><hr>
 <form id="rForm" name="rform" method="post" action="/api/save_post_advertise">
 <textarea id="rText" name="rtext"></textarea><br>
-<input type="submit" value="Сохранить">
+<input type="submit" value="Сохранить">&nbsp;&nbsp;<input type="reset" value="Oтменить">
 </form>`;
 return s;
 	}
