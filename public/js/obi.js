@@ -41,11 +41,13 @@ var f2=esci(ev.target.msg.value)+(f3?'<br><a href="/webrtc/'+f3+'">Мой про
 var d={};
 d.nick=f1;
 d.msg=f2;
-vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, null, false);
+vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, ev.target, false);
+ev.target.className="puls";
 }
 
-function on_obi_saved(l){
+function on_obi_saved(l, ev){
 console.log(l);	
+ev.className="";
 note({content: "Объявление сохранено.", type:"info", time: 6});
 //l.nick msg
 //<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p>
@@ -62,11 +64,13 @@ function del_obi(el){
 	if(!id)return;
 	var d={};
 	d.id=id;
-	vax("post", "/api/del_obi", d, on_obi_del, on_obi_err, null, false);
+	vax("post", "/api/del_obi", d, on_obi_del, on_obi_err, el, false);
+	el.className="puls";
 	}
 
-function on_obi_del(l){
-	note({content: l.info,type:"info",time:5});
+function on_obi_del(l, ev){
+	ev.className="";
+	note({content: l.info, type: "info",time:5});
 	var f2=document.querySelector('[data-id="'+l.id+'"]');
 	if(f2)f2.remove();
 }
@@ -75,9 +79,14 @@ function del_obi2(el){
 	if(!id)return;
 	var d={};
 	d.id=id;
-	vax("post", "/api/cust_del_obi", d, on_obi_del, on_obi_err, null, false);
+	vax("post", "/api/cust_del_obi", d, on_obi_del, on_obi_err, el, false);
+	el.className="puls";
 	}
-function on_obi_err(l){alert(l);}
+function on_obi_err(l, ev){
+	//alert(l);
+	ev.className="";
+	note({content: l, type: "error", time: 5});
+	}
 
 function finput(el){
 var fi=el.getAttribute('maxlength');

@@ -131,7 +131,7 @@ if(refnode.nextSibling.tagName==tagname.toUpperCase())refnode.parentNode.removeC
         "data-type": settings.type
       }, noteBox),
       noteItemText = create("div", { "class": "note-item-text" }, noteItem, settings.content),
-      noteItemBtn = create("button", {
+      noteItemBtn = create("div", {
         "class": "note-item-btn",
         "type": "button",
         "aria-label": "Скрыть"
