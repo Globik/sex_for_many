@@ -7,6 +7,7 @@ const uuid=require('uuid/v4');
 //const request=require('../../node_modules/request');
 const reqw=require('request-promise-native');
 const walletValidator=require('wallet-address-validator');//0.2.4
+const {RateLimiterMemory}=require('rate-limiter-flexible');
 const gr = "\x1b[32m", rs = "\x1b[0m";
 
 //var moment=require('moment');
@@ -357,11 +358,12 @@ pub.get('/home/obi', reklama, async ctx=>{
 	var res2=await db.query('select*from obi');	
 	//if(res2.rows&&res2.rows.length>0)res=res2.rows;
 	console.log(res2.rows);
+	res=res2.rows;
 	}catch(e){console.log(e);}
-ctx.body=await ctx.render('obi',{obis:res2.rows});	
+ctx.body=await ctx.render('obi',{obis:res});	
 })
 
-pub.post("/api/save_obi",async ctx=>{
+pub.post("/api/save_obi", wasi, async ctx=>{
 let {nick,msg}=ctx.request.body;
 if(!nick && !msg)ctx.throw(400,"Нет необходимых данных");
 let db=ctx.db;
@@ -372,6 +374,19 @@ console.log('a: ', a.rows);
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
 })
+
+const rateLimiter=new RateLimiterMemory({points:1,duration:60})
+
+async function wasi(ctx, next){
+try{
+	console.log('kuku1')
+await rateLimiter.consume(ctx.ip)
+console.log('kuku2 ', ctx.ip);
+return next();	
+}catch(e){
+ctx.throw(429,'too many requests');	
+}	
+}
 
 pub.post("/api/cust_del_obi", async ctx=>{
 	let {id}=ctx.request.body;
