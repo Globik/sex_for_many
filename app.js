@@ -39,7 +39,7 @@ const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 
-const dkey='./data/mykey.pem';
+const dkey='./data/groom_priv.pem';
 const dcert='./data/mycert.pem';
 const ca='./data/groom_ca.cert';
 const ssl_options={
