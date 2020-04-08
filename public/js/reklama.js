@@ -58,7 +58,7 @@ function fetch_folder(el){
 					ev.preventDefault();
 			
 					var formData=new FormData(f);
-					vax(ev.target.method, ev.target.action, formData, on_save_start, on_error, ev.target, true);
+vax(ev.target.method, ev.target.action, formData, on_save_start, on_error, ev.target, true);
 				ev.target.className="puls";
 					}
 					
@@ -79,6 +79,7 @@ if(!ulstart.value){note({content:"start time is empty", type:"error", time:5});r
 		}
 		function on_error(l,ev){
 			ev.className="";
+			console.log(l);
 			alert(l);
 			}
 			

@@ -7,8 +7,8 @@ const SPORT = 8000;
 const https = require('https');
 const fs = require('fs');
 const is_ssl_http = false;
-//const DB_URL = 'postgress://globik:null@localhost:5432/test';
-const DB_URL=process.env.DATABASE_URL;//for heroku
+const DB_URL = 'postgress://globik:null@localhost:5432/test';
+//const DB_URL=process.env.DATABASE_URL;//for heroku
 //const DB_URL='postgress://globi:null@localhost:5432/globi';
 
 

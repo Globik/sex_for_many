@@ -524,7 +524,7 @@ display:inline-block;
 #socseti{padding:40px;}
 #socseti header{ackground:red;padding-bottom:10px;}
 
-button, input[type=submit], input[type=reset]{
+button, input[type=submit], input[type=reset],input[type=date],select{
 padding:10px 15px 10px 15px;
 font-weight: bold;
 cursor:pointer;

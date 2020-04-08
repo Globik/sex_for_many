@@ -203,42 +203,54 @@ adm.get('/home/reklama', authed, async ctx=>{
 		ctx.body = {info: "Фото удалено!"}
 		})
 		
-		adm.post('/api/set_reklama', auth, 
+adm.post('/api/set_reklama', auth, 
 		bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
 		 async ctx=>{
-
-			let {zfile}=ctx.request.body.files;
-			let {zhref, zstart, zend, zname, ztype, zstatus, zprice, zmeta}=ctx.request.body.fields;
-			//console.log()
-			if(!zhref || !zstart || !zend || !zname || !ztype || !zstatus || !zprice)ctx.throw(400, "no data provided");
-			let db=ctx.db;
-			if(!zfile)ctx.throw(400,"no file provided.");
-			console.log('file path: ', zfile.path);
-			var readstr=fs.createReadStream(zfile.path);
-			var writestr=fs.createWriteStream('./public/reklama/'+zfile.name);
-			readstr.pipe(writestr);
-		 //open close ready
-		 
-		 readstr.on('open', function(){console.log('readstr is open');})
-		 readstr.on('close', function(){
-			 console.log('readstr is close');
-			 
-				 fs.unlink(zfile.path, function(e){if(e)ctx.throw(400,e);})
-			 
-			 })
-		 
-		 writestr.on('open', function(){console.log('writestr is open');})
-		 writestr.on('close',  function(){
-			 console.log('writestr is close');
+let {zfile}=ctx.request.body.files;
+let {zhref, zstart, zend, zname, ztype, zstatus, zprice, zmeta}=ctx.request.body.fields;
+if(!zhref || !zstart || !zend || !zname || !ztype || !zstatus || !zprice)ctx.throw(400, "no data provided");
+let db=ctx.db;
+if(!zfile)ctx.throw(400,"no file provided.");
+console.log('file path: ', zfile.path);
+let s_s='./public/reklama/'+zfile.name;
+try{
+await insert_foto(zfile.path, s_s, zfile.name, db, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus);
+}catch(e){
+ctx.throw(400,e);
+}	
+ctx.body={info:"OK, saved."}
+})
+		
+function insert_foto(path, name, name2, db, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus){
+return new Promise(function(res,rej){
+var readstr=fs.createReadStream(path);
+var writestr=fs.createWriteStream(name);
+readstr.pipe(writestr);
+readstr.on('open', function(){console.log('readstr is open');})
+readstr.on('close', function(){
+console.log('readstr is close');
+fs.unlink(path, function(e){
+if(e){
+console.log('readstr erri: ',e);
+rej(e);
+}
+})
+})
+writestr.on('open', function(){console.log('writestr is open');})
+writestr.on('close',  function(){
+console.log('writestr is close');
+let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
+db.query(s, [name2, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus], function(e, r){
+if(e){
+console.log("ERROR in write on close ");
+rej(e);
+}
+res();
+})
+})
+})
+}
 			
-	let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-				 db.query(s, [zfile.name, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus], function(e, r){
-				 if(e)ctx.throw(400, e);
-				 })
-			 })
-			
-		ctx.body={info:"OK, saved."}
-		})
 		
 adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
  async ctx=>{
@@ -251,7 +263,10 @@ readstr.pipe(writestr);
 readstr.on('open', function(){console.log('readstr is open');})
 readstr.on('close', function(){
 console.log('readstr is close');
-fs.unlink(filew.path, function(e){if(e)ctx.throw(400,e);})
+fs.unlink(filew.path, function(e){
+//if(e)ctx.throw(400,e);
+console.log(e);
+})
 })
 ctx.body={info:"ok, saved",src:filew.name}				
 })
