@@ -379,12 +379,11 @@ const rateLimiter=new RateLimiterMemory({points:1,duration:60})
 
 async function wasi(ctx, next){
 try{
-	console.log('kuku1')
 await rateLimiter.consume(ctx.ip)
-console.log('kuku2 ', ctx.ip);
+console.log('ctx.ip: ', ctx.ip);
 return next();	
 }catch(e){
-ctx.throw(429,'too many requests');	
+ctx.throw(429,'Погоди немножко.');	
 }	
 }
 

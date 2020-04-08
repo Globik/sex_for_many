@@ -7,8 +7,8 @@ const SPORT = 8000;
 const https = require('https');
 const fs = require('fs');
 const is_ssl_http = false;
-const DB_URL = 'postgress://globik:null@localhost:5432/test';
-//const DB_URL=process.env.DATABASE_URL;//for heroku
+//const DB_URL = 'postgress://globik:null@localhost:5432/test';
+const DB_URL=process.env.DATABASE_URL;//for heroku
 //const DB_URL='postgress://globi:null@localhost:5432/globi';
 
 
@@ -41,9 +41,11 @@ const adminrouter=require('./routes/adminrouter.js');
 
 const dkey='./data/mykey.pem';
 const dcert='./data/mycert.pem';
+const ca='./data/groom_ca.cert';
 const ssl_options={
 	key: fs.readFileSync(dkey),
-	cert: fs.readFileSync(dcert)
+	cert: fs.readFileSync(dcert),
+	ca: fs.readFileSync(ca)
 	};
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
