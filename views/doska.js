@@ -1,6 +1,6 @@
 const doska=n=>{
 	return `
-<section id="doska"><header><strong>Доска объявлений</strong></header>
+<section id="doska"><header><strong>Гей-доска</strong></header>
 <div id="obiContent"></div>
 <a id="doskaA" href="/home/obi">Читать все объявления</a></section>
 <script>

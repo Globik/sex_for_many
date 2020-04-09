@@ -55,7 +55,7 @@ var su=(suserli?'/webrtc/'+buserli.value:'/login');
 var s8=document.createElement("span");
 //<span id="zagln">Пока нет никого.</span>
 s8.id="zagln";
-s8.innerHTML='Пока нет никого. <a href="'+su+'">Будь первым!</a>';
+s8.innerHTML='Пока нет никого. <a class="ahero" href="'+su+'">Будь первым!</a>';
 gid('onlineContainer').appendChild(s8);
 }
 }

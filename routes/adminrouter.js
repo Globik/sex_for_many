@@ -213,15 +213,18 @@ let db=ctx.db;
 if(!zfile)ctx.throw(400,"no file provided.");
 console.log('file path: ', zfile.path);
 let s_s='./public/reklama/'+zfile.name;
+let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
 try{
-await insert_foto(zfile.path, s_s, zfile.name, db, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus);
+await insert_foto(zfile.path, s_s);
+await db.query(s, [zfile.name, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus])
+
 }catch(e){
 ctx.throw(400,e);
 }	
 ctx.body={info:"OK, saved."}
 })
 		
-function insert_foto(path, name, name2, db, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus){
+function insert_foto(path, name){
 return new Promise(function(res,rej){
 var readstr=fs.createReadStream(path);
 var writestr=fs.createWriteStream(name);
@@ -239,14 +242,7 @@ rej(e);
 writestr.on('open', function(){console.log('writestr is open');})
 writestr.on('close',  function(){
 console.log('writestr is close');
-let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-db.query(s, [name2, zhref, zstart, zend, zname, ztype, zprice, zmeta, zstatus], function(e, r){
-if(e){
-console.log("ERROR in write on close ");
-rej(e);
-}
-res();
-})
+res()
 })
 })
 }
@@ -256,6 +252,7 @@ adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uplo
  async ctx=>{
 let {filew}=ctx.request.body.files;
 if(!filew)ctx.throw(400,"no pic");
+/*
 let readstr=fs.createReadStream(filew.path);
 let  writestr=fs.createWriteStream('./public/blog/'+filew.name);
 readstr.pipe(writestr);
@@ -264,10 +261,17 @@ readstr.on('open', function(){console.log('readstr is open');})
 readstr.on('close', function(){
 console.log('readstr is close');
 fs.unlink(filew.path, function(e){
-//if(e)ctx.throw(400,e);
+
 console.log(e);
 })
 })
+*/
+let s_s = './public/blog/'+filew.name;
+try{
+	await insert_foto(filew.path, s_s);
+	}catch(e){
+	ctx.throw(400, e);
+	} 
 ctx.body={info:"ok, saved",src:filew.name}				
 })
 /*

@@ -8,7 +8,7 @@ var warnig=false;
 const advertise = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:'Реклама на сайте',
+<head>${html_head.html_head({title:'Реклама на сайте', meta:get_meta(),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/advertise.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -42,3 +42,22 @@ let s=`<br><hr><button onclick="redaktiert(this);">редактировать</b
 </form>`;
 return s;
 	}
+	
+	function get_meta(){
+let s='';
+s+=`
+<meta property="og:locale" content="ru_RU"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Заказать рекламу"/>
+<meta property="og:description" content="Заказать рекламу на гей сайте. Недорого."/>
+
+<meta property="og:site_name" content="gayroom"/>
+<meta itemprop="name" content="Заказать рекламу"/>
+<meta itemprop="description" content="Реклама на гей сайте знакомств. Заказать рекламу недорого."/>`
+return s;
+//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
+//<meta property="og:url" content="http://alikon.herokuapp.com"/>
+	
+	
+}
+

@@ -35,12 +35,19 @@ tt=true;
 function on_obi(ev){
 ev.preventDefault();
 var f3=ev.target.nid.value;
+var f5=(ev.target.admin.value=="true"?true:false);
 var f1=esci(ev.target.nick.value);
-var f2=esci(ev.target.msg.value)+(f3?'<br><a href="/webrtc/'+f3+'">Мой профайл</a>':'') ;
-
+//var f2=(f5?ev.target.msg.value:esci(ev.target.msg.value))+(f3?'<br><a class="aprofi" href="/webrtc/'+f3+'">Мой профайл</a>':'') ;
+var f4;
+if(f5){
+	f4=ev.target.zakrep.checked;
+}
+var f2=(f5?ev.target.msg.value:esci(ev.target.msg.value))+(f3 && !f4?'<br><a class="aprofi" href="/webrtc/'+f3+'">Мой профайл</a>':'') ;
 var d={};
 d.nick=f1;
 d.msg=f2;
+d.zakrep=f4;
+//alert(f4);
 vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, ev.target, false);
 ev.target.className="puls";
 }

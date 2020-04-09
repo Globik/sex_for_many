@@ -1,9 +1,17 @@
+.ahero{
+color:rgb(233,76,129);
+text-decoration:none;
+border:1px solid rgb(233,76,129);
+cursor:pointer;
+padding:20px;
+}
+p{line-height:1.7}
 #onlineSection{
-	border:1px solid black;
+	border:1px solid rgb(233,76,129);
 	width:100%;
 	height:auto;
 	display:block;
-	padding:0 0 20px 0;	
+	padding:20px 20px 30px 20px;	
 	}
 	#onlineContainer{
 	display:flex;
@@ -16,6 +24,7 @@
 	font-weight:bold;
 	font-size:2em;	
 	text-align:center;
+	margin-bottom: 30px;
 	}
 	.img-online-container{
 	display:inline-block;

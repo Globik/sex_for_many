@@ -29,7 +29,8 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <label>Текст объявления *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="fspan">0</span> (1500)<br>
 <textarea maxlength="1500" name="msg" oninput="finput(this);" placeholder="Объявления без контакта для связи удаляются" required></textarea></label>
 <input type="hidden" name="nid" value="${buser?buser.id:''}">
-<br><input type="submit" value="Опубликовать"><br><br>
+<input type="hidden" name="admin" value="${buser && buser.brole=='superadmin'?true:false}">
+<br><input type="submit" value="Опубликовать">${buser && buser.brole=='superadmin'?'&nbsp;&nbsp;<input type="checkbox" id="zakrep" name="zakrep"><label for="zakrep">закрепить</label>':''}<br><br>
 <a href="#regata" id="regata" onclick="do_reg(this);">Правила публикации</a>
 </form>
 
@@ -61,17 +62,23 @@ ${js_help(["/js/obi.js"])}
 </html>`;
 }
 module.exports={obi}
+
 function get_obi(n){
-//let s='<section id="fuckSection">'
+let abba=[];
 let s='';
 if(Array.isArray(n.obis)){
 n.obis.forEach(function(el,i){
-s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick}</b></header><p class="chelp">${el.msg}</p>
-<div>${moment(el.ati).format('YYYY-MM-DD hh:mm')}</div>${n.user && n.user.brole=='superadmin'?
-`<button data-vid="${el.id}" onclick="del_obi(this);">удалить</button>`:''}</div>`;	
+if(el.isg==6)abba.unshift({id:el.id, msg:el.msg})
+if(el.isg !=6)abba.push(el);	
 })	
+if(abba.length>0){
+abba.forEach(function(el,i){
+s+=`<div data-id="${el.id}" class="chelobi"><header><b>${el.bnick?el.bnick:''}</b></header><p class="chelp">${el.msg}</p>
+${el.ati?`<div class="chdata">${moment(el.ati).format('YYYY-MM-DD hh:mm')}</div>`:''}${n.user && n.user.brole=='superadmin'?
+`<button data-vid="${el.id}" onclick="del_obi(this);">удалить</button>`:''}</div>`;		
+})
 }
-//s+='</section>'
+}
 return s;
 }
 

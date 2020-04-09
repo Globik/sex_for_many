@@ -6,7 +6,7 @@ id serial primary key,
 ati timestamptz not null default now(),
 bnick varchar(50) not null,
 msg text not null,
-isg int not null default 0 -- 0 not checked, 1 - OK
+isg int not null default 0 -- 0 not checked, 1 - OK, 6 - закрепить объявление в верху
 );
 
 

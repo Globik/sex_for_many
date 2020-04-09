@@ -364,12 +364,14 @@ ctx.body=await ctx.render('obi',{obis:res});
 })
 
 pub.post("/api/save_obi", wasi, async ctx=>{
-let {nick,msg}=ctx.request.body;
+let {nick,msg, zakrep}=ctx.request.body;
 if(!nick && !msg)ctx.throw(400,"Нет необходимых данных");
 let db=ctx.db;
 let a;
+let d=0;
+if(zakrep)d=6;
 try{
-a=await db.query('insert into obi(bnick,msg) values($1,$2) returning id',[nick,msg]);
+a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id',[nick,msg,d]);
 console.log('a: ', a.rows);	
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	

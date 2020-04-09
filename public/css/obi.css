@@ -1,23 +1,27 @@
 #obiDiv,#regelDiv,#regelDiv2{display:inline-block;}
 #regelDiv,#regelDiv2{
-font-size:0.8em;
-background:silver;width:50%;height:auto;vertical-align:top;position:relative;padding:10px;}
-#regelDiv{display:none;}
-#obiDiv{height:auto;width:30%;background:silver;padding:10px;}
+font-size:0.8em;width:50%;height:auto;vertical-align:top;position:relative;padding:10px;}
+#regelDiv{display:none;background:rgb(200,245,255);}
+#obiDiv{height:auto;width:30%;background: rgb(200,245,255);padding:10px;}
 #obiDiv textarea{height:150px;width:100%;}
-form{padding:10px;background:silver;}
+form{padding:10px;background:rgb(150,199,200);}
 .kreuz{position:absolute;top:0px;right:0px;color:red;cursor:pointer;}
 header{font-weight:bold;padding-left:10px;}
-
+.aprofi{text-decoration:none;font-size:0.8em;}
 .nu{display:none;position:relative;}
 .nu.active{display:block;}
-.chelobi:nth-child(odd){background:silver;}
+.chdata{color:rgb(150,10,15);font-size:0.6em;padding-left:7px;}
+.chelobi:nth-child(odd){background: rgb(222,230,233);}
+.chelobi:nth-child(even){background: rgb(100,250,120);}
+.chelobi{margin-top:2px;margin-bottom:2px;padding:10px;}
 .chelp{margin:0;padding:10px;}
 #regata{}
+
+#suka1 ul > li, #suka2 ul > li{margin-top:8px;}
 .del-obi{color:red;padding:10px;font-weight: bold;}
 input[type=text]{height:40px;padding:10px;font-weight:bold;}
 @media screen and (max-width: 751px){
-#obiDiv{width:100%;}
+#obiDiv, #regelDiv{width:100%;}
 	.kreuz{color:green;}
 	#obiDiv input[type=text]{width:100%;}
 }
