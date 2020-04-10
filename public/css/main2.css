@@ -226,6 +226,8 @@ right:0;}*/
 #doska header{color:rgb(30,60,40);margin-bottom:30px;}
 #doskaA{color:green;font-weight:bold;line-height:2;font-size:0.9em;}
 #obiContent{margin-bottom:30px;}
+#basaUl{list-style: none;}
+.doskah{background:lightgreen;text-align:center;}
 
 /*
 #content {

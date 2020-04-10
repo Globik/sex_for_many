@@ -18,7 +18,7 @@ const chat_room = n=>{
 let {model}=n;
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:model?model.bname:'-', meta:get_meta(),
+<head>${html_head.html_head({title:model?model.bname:'-', meta:get_meta(model),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -32,7 +32,7 @@ ${n.owner?
 <!-- <button onclick="test_cb();">test callback</button> -->
 <h5>Прежде чем начать</h5>
 <div id="btc-container">
-<label id="bInput">Введите свой ${n.is_test_btc?'test':''} btc адрес для донатов (необязательно):</label><br>
+<label id="bInput">Введите свой ${n.is_test_btc?'test':''} <b>биткоин адрес</b> для донатов (<a href="/basa">где взять?</a>):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
 value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''}" 
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
@@ -87,7 +87,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <textarea id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></textarea>
 </div>
 <div id="under-chat2">
-<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">фото</button>
+<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">вставить фото</button>
 <button id="vasja" onclick="send_up(this);">отправить</button>
 </div>
 
@@ -147,21 +147,18 @@ module.exports={chat_room};
  delete from chat where //us_id=1\\ and tz in (select tz from chat where us_id=1 limit 3); --if count > lim
  */ 
  
-function get_meta(){
+function get_meta(n){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Чат комната. Донаты в биткоинах"/>
+<meta property="og:title" content="Чат комната ${n?n.bname:''}."/>
 <meta property="og:description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>
 
-<meta property="og:site_name" content="A"/>
-<meta itemprop="name" content="Чат комната. Донаты в биткоинах"/>
+<meta property="og:site_name" content="gayroom"/>
+<meta itemprop="name" content="Чат комната ${n?n.bname:''}."/>
 <meta itemprop="description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>`
 return s;
 //<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
 //<meta property="og:url" content="http://alikon.herokuapp.com"/>
-	
-	
 }
-

@@ -9,7 +9,7 @@ var warnig=false;
 
 const obi = n=>{
 const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
+return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
 <head>${html_head.html_head({title:'Доска gay объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 </head>
@@ -20,7 +20,8 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 
-<main id="pagewrap"><h2>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h2>
+<main id="pagewrap"><h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
+<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>
 <section id="fuckSection">${n.obis&&n.obis.length>0?get_obi(n):'Пока объявлений нет.'}</section><hr>
 <section id="obiContainer">
 <div id="obiDiv"><header>Подать объявление</header>

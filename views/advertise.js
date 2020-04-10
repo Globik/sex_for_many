@@ -7,7 +7,7 @@ var warnig=false;
 
 const advertise = n=>{
 const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
+return `<!DOCTYPE html><html lang="en"><!-- advertise.js -->
 <head>${html_head.html_head({title:'Реклама на сайте', meta:get_meta(),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/advertise.css"],luser:buser})}
 </head>
@@ -57,7 +57,4 @@ s+=`
 return s;
 //<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
 //<meta property="og:url" content="http://alikon.herokuapp.com"/>
-	
-	
 }
-

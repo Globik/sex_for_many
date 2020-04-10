@@ -8,7 +8,8 @@ var warnig=false;
 
 let profile=n=>{
 const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Мой профайл", csslink:"/css/main2.css",
+return `<!DOCTYPE html><html lang="en"><!-- profile.js -->
+<head>${html_head.html_head({title:"Мой профайл", csslink:"/css/main2.css",
 cssl:["/css/user_profile.css"]})}</head>
 <body><!-- profile -->
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}

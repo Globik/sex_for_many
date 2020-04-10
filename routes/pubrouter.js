@@ -421,8 +421,18 @@ pub.get("/home/advertise", async ctx=>{
 	ctx.body=await ctx.render('advertise',{art:art});
 	})
 
-/* PRIVACY */
+/* BASA знаний */
+pub.get("/basa", async ctx=>{
+	console.log('here basa');
+	let db = ctx.db;
+	let art;
+	try{let a = await db.query("select*from ads where sub='basa'");
+		if(a.rows && a.rows.length){art = a.rows[0];console.log('art: ', art)}
+		}catch(e){console.log(e);}
+	ctx.body=await ctx.render('basa',{art:art});
+	})
 
+/* PRIVACY */
 pub.get("/home/privacy", async ctx=>{
 let db=ctx.db;
 let a;

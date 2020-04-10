@@ -398,6 +398,26 @@ adm.post("/api/save_post_advertise", auth, async ctx=>{
 		}
 	ctx.body={info:"OK, text saved!"}
 	})	
+	
+	/* BASA  знаний */
+	
+adm.post("/api/save_post_basa", auth, async ctx=>{
+	let {art, sub}=ctx.request.body;
+	if(!art || !sub)ctx.throw(400, "No text, no sub");
+	let db = ctx.db;
+	try{
+		let a = await db.query("update ads set art=$1 where sub=$2", [art, sub]);
+		console.log("A: ", a.rowCount);//rowCount=0
+		if(a.rowCount == 0){
+			let b = await db.query("insert into ads(art, sub) values($1, $2)", [art, sub]);
+			console.log("b.rowCount: ", b.rowCount);
+			}
+		}catch(e){
+		ctx.throw(400, e);
+		}
+	ctx.body = {info:"OK, text saved!"}
+})
+	
 	/* PRIVACY */
 	
 	adm.post("/api/save_post_privacy", auth, async ctx=>{
