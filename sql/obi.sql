@@ -18,9 +18,9 @@ BEGIN
 -- DELETE FROM chat WHERE us_id=NEW.us_id AND tz < NOW() - INTERVAL '12 minutes';
 -- RETURN NEW;
 select count(*) from obi  into _cnt;
-if _cnt = 40 then
+if _cnt = 100 then
 delete from obi where ati=(select min(ati) from obi);
-elsif _cnt > 40 then
+elsif _cnt > 100 then
 delete from obi where ati in (select ati from obi limit _cnt - 40);
 end if;
 RETURN NEW;
