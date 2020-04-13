@@ -13,7 +13,7 @@ const is_ssl_http = false;
 
 //const DB_URL='postgress://root:null@45.89.67.145:5432/globi';
 
-const DB_URL = 'postgress://root:null@localhost:5432/globi';
+const DB_URL = 'postgress://root:null@127.0.0.1:5432/globi';
 
 
 
