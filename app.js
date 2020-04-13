@@ -11,7 +11,7 @@ const is_ssl_http = false;
 //const DB_URL=process.env.DATABASE_URL;//for heroku
 //const DB_URL='postgress://globi:null@45.89.67.145:5432/globi';
 
-const DB_URL='postgress://root:null@45.89.67.145:5432/globi';
+const DB_URL='postgress://globi:null@45.89.67.145:5432/globi';
 
 
 
