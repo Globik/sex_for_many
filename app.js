@@ -11,7 +11,7 @@ const is_ssl_http = false;
 //const DB_URL=process.env.DATABASE_URL;//for heroku
 //const DB_URL='postgress://globi:null@45.89.67.145:5432/globi';
 
-const DB_URL='postgress://root:null@145.89.67.145/globi';
+const DB_URL='postgress://root:null@45.89.67.145/globi';
 
 
 
@@ -227,7 +227,7 @@ if(is_ssl_http){
 	servak = https.createServer(ssl_options, app.callback()).listen(SPORT);
 	console.log("Must on, port: https://127.0.0.1:", SPORT, " started.");
 }else{
-	servak = app.listen(process.env.PORT || HPORT, '45.89.67.145');
+	servak = app.listen(process.env.PORT || HPORT);
 	console.log("Must on http or localhost, port: ", HPORT, " started.");
 }
 const wss=new WebSocket.Server({server:servak});
