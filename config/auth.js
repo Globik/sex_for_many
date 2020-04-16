@@ -22,7 +22,7 @@ passport.use(new LocalStrategy({usernameField:'username',passwordField:'password
 	console.log("USERNAME AND PASSWORD: ",username,password);
 process.nextTick(async()=>{ 
 	try{ 
-let user=await db.query('select id from buser where bname=$1 and pwd=$2)',[username, password]) 
+let user=await db.query('select id from buser where bname=$1 and pwd=$2'),[username, password]) 
 if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль!'})} 
 await db.query('update buser set ll=now() where bname=$1', [username]); return done(null,user.rows[0],{message: 
 'Авторизация прошла успешно!'}) }catch(err){return done(err)} }) }))
