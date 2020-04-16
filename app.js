@@ -3,7 +3,7 @@
 // sudo mkdir /var/run/pgsql
 const HPORT = 80;//3000;
 
-const SPORT = 8000;
+const SPORT = 443;//8000;
 const https = require('https');
 const fs = require('fs');
 const is_ssl_http = false;
