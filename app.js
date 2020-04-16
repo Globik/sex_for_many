@@ -1,7 +1,7 @@
 // which psql 
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
-const HPORT = 3000;
+const HPORT = 80;//3000;
 
 const SPORT = 8000;
 const https = require('https');
