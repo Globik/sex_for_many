@@ -29,7 +29,7 @@ await db.query('update buser set ll=now() where bname=$1', [username]); return d
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
 const smsg='ОК, вы создали аккаунт успешно. Если Вы забудете пароль, то просто создайте другой аккаунт.'
-const get_str=n=>`insert into buser(pwd, bname) values(crypt(${n.password},gen_salt('bf',8)),${n.username}) returning id`;
+const get_str=n=>`insert into buser(pwd, bname) values(${n.password},${n.username}) returning id`;
 //  insert into buser(pwd,bname) values(crypt('1234', gen_salt('bf',8)),'lo');
 passport.use('local-signup',new LocalStrategy({usernameField:'username',passReqToCallback:true},(req,username,password,done)=>{
 if(!req.body.username){return done(null,false,{message:"missing username",code:'1'})}	
