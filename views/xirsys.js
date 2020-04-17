@@ -15,7 +15,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 
 <main id="pagewrap"><h2>turn сервер</h2>
 <div id="xir" class="${n.xirsys?'stable':'momentan'}">${n.xirsys?JSON.stringify(n.xirsys):'Нет пока.'}</div>
-<button onclick="get_xirsys(this);">Взять сервера</button>&nbsp;|&nbsp;<button onclick="set_xirsys(this);">Сохранить сервера</button>
+<br><br><button onclick="get_xirsys(this);">Взять сервера</button>&nbsp;|&nbsp;<button onclick="set_xirsys(this);">Сохранить сервера</button>
 </main>
 <footer id="footer">${html_footer.html_footer({})}</footer>
 ${js_help(["/js/xirsys.js"])}
