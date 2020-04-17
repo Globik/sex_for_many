@@ -1,19 +1,17 @@
 // which psql 
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
-const HPORT = 80;//3000;
-
+const HPORT = 80;
+//const HPORT  = 3000;
 const SPORT = 443;//8000;
 const https = require('https');
 const fs = require('fs');
 const is_ssl_http = true;
 //const DB_URL = 'postgress://globik:null@localhost:5432/test';
 //const DB_URL=process.env.DATABASE_URL;//for heroku
-//const DB_URL='postgress://nu:null@45.89.67.145:5432/globi';
 
-//const DB_URL='postgress://root:null@45.89.67.145:5432/globi';
 
-const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';
+const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 
 
 
@@ -478,3 +476,4 @@ process.on('unhundledRejection', function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	
 // sudo mkdir /var/run/pgsql
+//grant all privileges on table x to suka

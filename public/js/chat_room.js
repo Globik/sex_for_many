@@ -287,8 +287,8 @@ var suona=[{urls: [
 
 
 var bona=(xirTarget.value?JSON.parse(xirTarget.value):null);
-//const dona=(bona?{"iceServers":bona}:null);
-const dona={iceServers: suona};
+const dona=(bona?{"iceServers":bona}:null);
+//const dona={iceServers: suona};
 console.warn("ICE SERVERS: ", dona);
 
 

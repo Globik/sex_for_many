@@ -40,3 +40,6 @@ height:100px;
 	.img-footer{
 	margin-top:-2px;	
 	}
+@media screen and (min-width:300px){
+.ahero{display:inline-block;}
+}
