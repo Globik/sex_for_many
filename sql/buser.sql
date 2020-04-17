@@ -11,7 +11,7 @@ brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban
 ll TIMESTAMP  NOT NULL default now()::timestamp -- last logined
 );
 
- insert into buser(pwd,bname) values('1234'','Globi');
+ insert into buser(pwd,bname) values('1234','Globi');
 
  update buser set brole='superadmin';
 
