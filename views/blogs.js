@@ -12,7 +12,7 @@ const blogs=function(n){
 const {lusers}=n;
 const buser=n.user;
 
-return `<!DOCTYPE html><html lang="en">
+return `<!DOCTYPE html><html lang="en"><!-- blogs.js -->
 <head>${html_head.html_head({title:"Блог о биткоинах, заработке в интернете, веб камерах", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}

@@ -211,6 +211,7 @@ let {zhref, zstart, zend, zname, ztype, zstatus, zprice, zmeta}=ctx.request.body
 if(!zhref || !zstart || !zend || !zname || !ztype || !zstatus || !zprice)ctx.throw(400, "no data provided");
 let db=ctx.db;
 if(!zfile)ctx.throw(400,"no file provided.");
+if(!zfile.name)ctx.throw(400, "no file name");
 console.log('file path: ', zfile.path);
 let s_s='./public/reklama/'+zfile.name;
 let s='insert into reklama(src, href, anf, ed, nick, typ, price, meta, statu) values($1, $2, $3, $4, $5, $6, $7, $8, $9)';
@@ -252,21 +253,13 @@ adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uplo
  async ctx=>{
 let {filew}=ctx.request.body.files;
 if(!filew)ctx.throw(400,"no pic");
-/*
-let readstr=fs.createReadStream(filew.path);
-let  writestr=fs.createWriteStream('./public/blog/'+filew.name);
-readstr.pipe(writestr);
-		 //open close ready
-readstr.on('open', function(){console.log('readstr is open');})
-readstr.on('close', function(){
-console.log('readstr is close');
-fs.unlink(filew.path, function(e){
+if(!filew.name)ctx.throw(400,"no picture");
 
-console.log(e);
-})
-})
-*/
+console.log('filev.name: ', filew.name);
+
 let s_s = './public/blog/'+filew.name;
+console.log('filew.path: ', filew.path);
+console.log('filew.name: ', filew.name);
 try{
 	await insert_foto(filew.path, s_s);
 	}catch(e){
