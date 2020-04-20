@@ -1,6 +1,6 @@
 //html_nav_menu.js
 const html_nav_menu=n=>{
-return `<!-- header_menu.js -->
+return `<!-- html_nav_menu.js -->
 <label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
 <li><a href="/"><div class="mnav">Главная</div></a>
@@ -17,10 +17,11 @@ return `<!-- header_menu.js -->
 <li><a href="/"><div class="muka"><span>На главную</span></div></a>
 <li><a href="/home/blog"><div class="muka"><span>Блог</span></div></a>
 <li><a href="/home/obi"><div class="muka"><span>Гей-доска</span></div></a>
+<li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a>
 ${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>Мой профиль</span></div></a>`:''}
 ${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
 ${n.buser?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
-'<li><a href="/login"><div class="muka"><span>войти</span></div></a>'}
+'<li><a href="/login"><div class="muka"><span>Войти</span></div></a>'}
 <!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
 </ul>
 

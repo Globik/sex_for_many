@@ -127,7 +127,7 @@ ${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 <div id="pizda1">
 <label for="forImg">Введите адрес картинки.</label><br><br>
 <input id="forImg" type="text" placeholder="адрес фото"/>
-<br><button onclick="send_ws_img();">Отправить</button>
+<br><br><br><button onclick="send_ws_img();">Отправить</button>
 </div>
 </div>
 </main>

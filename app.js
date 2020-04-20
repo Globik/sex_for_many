@@ -2,7 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-const HPORT = 80;
+//const HPORT = 80;
 //const HPORT  = 3000;
 const SPORT = 443;//8000;
 const https = require('https');
@@ -10,7 +10,6 @@ const fs = require('fs');
 const is_ssl_http = true;
 //const DB_URL = 'postgress://globik:null@localhost:5432/test';
 //const DB_URL=process.env.DATABASE_URL;//for heroku
-
 
 const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 
@@ -64,9 +63,9 @@ if(process.env.DEVELOPMENT==="yes"){
 }else{dop_ssl="?ssl=true";}
 //var ps=new PS(DB_URL);//+dop_ssl);
 
-pool.on('connect', function(client){console.log('db connected!')})
-pool.on('error', function(err, client){console.log('db err: ', err.name)})
-pool.on('acquire', function(client){console.log('db acquired!')})
+pool.on('connect', function(client){})
+pool.on('error', function(err, client){console.log('db err in pool: ', err.name)})
+pool.on('acquire', function(client){})
 
 const gr="\x1b[32m";
 const rs="\x1b[0m";

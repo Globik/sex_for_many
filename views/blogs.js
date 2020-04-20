@@ -80,7 +80,7 @@ s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">$
  <span class="d-date">${moment(el.cr_at).format('YYYY-DD-MM')}</span>
 	<article>${el.body.substring(0,100)}</article>
 	<div><a href="/home/ru/${el.slug}">Читать</a></div>
-	${n.user&&n.user.brole=="superadmin"?`<button data-bid="${el.id}" onclick="rem(this);">delete</button>`:''}</div>`;
+	${n.user&&n.user.brole=="superadmin"?`<br><br><br><button data-bid="${el.id}" onclick="rem(this);">delete</button>`:''}</div>`;
 	})	
 	return s;
 	}

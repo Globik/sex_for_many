@@ -130,7 +130,20 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
+pub.get("/home/users", async ctx=>{
+let db=ctx.db;
+let result;
+// select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;
+try{
+	result = await db.query("select*from buser");
+	}catch(e){
+	console.log(e);
+	}
+	ctx.body=await ctx.render("users",{result:result.rows});
+})
+
 pub.get('/webrtc/:buser_id', reklama, async function(ctx){
+	if(!Number(ctx.params.buser_id))return;
 let us=ctx.state.user;
 let db=ctx.db;
 console.log("USER: ",us);

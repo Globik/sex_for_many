@@ -432,6 +432,7 @@ adm.post("/api/save_post_basa", auth, async ctx=>{
 	
 			
 			/* USERS */
+			/*
 adm.get("/home/users", authed, async ctx=>{
 let db=ctx.db;
 let result;
@@ -442,6 +443,7 @@ try{
 	}
 	ctx.body=await ctx.render("users",{result:result.rows});
 })
+*/ 
 
 /* BLOG */
 
