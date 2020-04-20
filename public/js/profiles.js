@@ -11,3 +11,11 @@ function on_del_users(l, ev){
 		alert(l);
 		ev.className="";
 		}
+		
+function get_session(){
+	vax("post", "/get_session", {}, on_get_session, on_error_session, null, false);
+	}
+function on_get_session(l){
+	outsession.textContent=JSON.stringify(l);
+	}
+function on_error_session(l){console.error(l)}

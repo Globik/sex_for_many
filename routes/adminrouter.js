@@ -430,6 +430,14 @@ adm.post("/api/save_post_basa", auth, async ctx=>{
 	ctx.body={info:"OK, text saved!"}
 	})	
 	
+adm.post("/get_session", auth, async ctx=>{
+let db=ctx.db;
+let res;
+try{
+	res=await db.query('select session from session');
+}catch(e){ctx.throw(400, e);}	
+ctx.body={res:res.rows}
+})			
 			
 			/* USERS */
 			/*

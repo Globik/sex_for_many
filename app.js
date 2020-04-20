@@ -2,7 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-//const HPORT = 80;
+const HPORT = 80;
 //const HPORT  = 3000;
 const SPORT = 443;//8000;
 const https = require('https');
@@ -40,13 +40,7 @@ const adminrouter=require('./routes/adminrouter.js');
 const dkey='./data/groom_priv.pem';
 const dcert='./data/mycert.pem';
 const ca='./data/groom_ca.cert';
-/*
-const ssl_options={
-	key: fs.readFileSync(dkey),
-	cert: fs.readFileSync(dcert),
-	ca: fs.readFileSync(ca)
-	};
-*/
+
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
 pgtypes.setTypeParser(1114, str=>str);
 const pars=url.parse(DB_URL);
@@ -111,6 +105,11 @@ ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
 ctx.state.btc_percent = btc_percent;
 ctx.state.xirsys=xirsys;
+
+if(ctx.request.header["user-agent"]){
+	ctx.session.ua=ctx.request.header["user-agent"];
+	//console.log("REQUEST: ", ctx.request.header);
+	}
 
 if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){
 if(ctx.path=="/home/profile/enable_btc"){

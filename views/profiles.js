@@ -9,7 +9,7 @@ var haupt_ban=false;
 
 let profiles = n=>{
 const buser = n.user;
-return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
+return `<!DOCTYPE html><html lang="en"><!-- profiles.js --><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
 cssl:["/css/profiles.css"]})}
 </head><body>
 ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
@@ -17,6 +17,9 @@ ${(warnig ? `<div id="warnig">Warnig</div>`:``)}
 
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
+<h3>Sessions</h3>
+<button onclick="get_session();">get_session</button><br>
+<output id="outsession"></output>
 <h3>Профили</h3>
 ${n.err?`<hr>${n.err}<hr>`:''}
 <hr>
