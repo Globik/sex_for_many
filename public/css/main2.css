@@ -524,6 +524,7 @@ background:rgb(2,106,203);
 color:white;
 border-color:silver;
 }
+#ulKomnata li{margin-top:4px;}
 
 @keyframes puls{
 from{background:green;}

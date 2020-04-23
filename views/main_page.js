@@ -12,7 +12,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Текстовый и видео чат для гей-сообщества", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
+<head>${html_head.html_head({title:"Мультичат для гей-сообщества", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -24,13 +24,13 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
 <h1>Добро пожаловать в мультичат для геев!</h1>
-<p>После быстрой регистрации тебя ждет:
-<ul>
-<li>личная <b>чат-комната</b>
-<li>возможность принимать от юзеров <b>чаевые в биткоинах</b>
-<li>возможность принимать <b>входящие видеозвонки</b>
-<li>возможность вести беседу <b>тет-а-тет</b>
-<li>личный профайл с <b>анкетными данными</b>
+<p>После быстрой регистрации вы можете:
+<ul id="ulKomnata">
+<li>создавать личную <b>чат-комнату</b>
+<li>получать от юзеров <b>чаевые в биткоинах</b>
+<li>принимать <b>входящие видеозвонки</b>
+<li>участвовать в беседах <b>тет-а-тет</b>
+<li>заполнять личный профайл с <b>анкетными данными</b>
 </ul>
 </p>
 <p>
@@ -91,7 +91,7 @@ s+=`
 Получение донатов в биткоинах от заинтересованных пользователей"/>
 
 <meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Текстовый и видео чат для гей-сообщества"/>
+<meta itemprop="name" content="Мультичат для гей-сообщества"/>
 <meta itemprop="description" content="Анонимный секс чат для текстового, голосового или
 по вебкамере общения и знакомств, как для виртуального, так и реального секса. 
 Получение донатов в биткоинах от заинтересованных пользователей"/>`

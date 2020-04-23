@@ -16,6 +16,10 @@ function get_session(){
 	vax("post", "/get_session", {}, on_get_session, on_error_session, null, false);
 	}
 function on_get_session(l){
-	outsession.textContent=JSON.stringify(l);
+	//console.log(l);
+	//outsession.textContent=JSON.stringify(l);
+	l.res.forEach(function(el, i){
+	outsession.innerHTML+=(el.session.ua?el.session.ua:'')+'<br>'+(el.session.ref?el.session.ref:'')+'<br>';	
+	})
 	}
 function on_error_session(l){console.error(l)}

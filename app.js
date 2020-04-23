@@ -108,6 +108,7 @@ ctx.state.xirsys=xirsys;
 
 if(ctx.request.header["user-agent"]){
 	ctx.session.ua=ctx.request.header["user-agent"];
+	ctx.session.ref=ctx.request.header["referer"];
 	//console.log("REQUEST: ", ctx.request.header);
 	}
 
