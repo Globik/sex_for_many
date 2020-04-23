@@ -55,7 +55,7 @@ var dop_ssl="";
 if(process.env.DEVELOPMENT==="yes"){
 	
 }else{dop_ssl="?ssl=true";}
-//var ps=new PS(DB_URL);//+dop_ssl);
+var ps=new PS(DB_URL);//+dop_ssl);
 
 pool.on('connect', function(client){})
 pool.on('error', function(err, client){console.log('db err in pool: ', err.name)})
@@ -303,7 +303,7 @@ el.send(a);
 }
 }
 
-/*
+
 
 ps.addChannel('events', function (msg){
 console.log('msg: ', msg);
@@ -315,7 +315,7 @@ console.log('msg notify: ',msg);
 msg.data.type="on_btc";
 broadcast_satoshi(msg.data);
 });
-*/
+
 
 function noop(){}
 const interval=setInterval(function ping(){
