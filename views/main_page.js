@@ -4,6 +4,7 @@ const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
 const doska=require('./doska');
+const {people} = require('./people');
 const {get_banner, get_banner_podval}=require('./reklama_s');
 var warnig=false;
 
@@ -23,19 +24,19 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
-<h1>Добро пожаловать в мультичат для геев!</h1>
+<h1>Добро пожаловать в мультичат для гей-сообщества!</h1>
 <p>После быстрой регистрации вы можете:
 <ul id="ulKomnata">
-<li>создавать личную <b>чат-комнату</b>
-<li>получать от юзеров <b>чаевые в биткоинах</b>
-<li>принимать <b>входящие видеозвонки</b>
-<li>участвовать в беседах <b>тет-а-тет</b>
-<li>заполнять личный профайл с <b>анкетными данными</b>
+<li>создать личную <strong>чат-комнату</strong>
+<li>получать от юзеров <strong>чаевые в биткоинах</strong>
+<li>принимать <strong>входящие видеозвонки</strong>
+<li>участвовать в беседах <strong>тет-а-тет</strong>
+<li>заполнить личный профайл с <strong>анкетными данными</strong>
 </ul>
 </p>
 <p>
-Также обратите внимание на <b>гей-доску для знакомств</b>.
- Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</b>.
+Также обратите внимание на <strong>гей-доску для знакомств</strong>.
+ Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
 <p>Приятного общения!</p>
 <hr>
 <section id="onlineSection">
@@ -48,6 +49,7 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 <hr>
 ${doska.doska({})}
 <hr>
+${people({})}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">

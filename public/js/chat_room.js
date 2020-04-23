@@ -12,6 +12,7 @@ var underVideo=gid("under-video");
 var btnStart=gid("btnStart");
 var vasja=gid("vasja");
 var btcc=gid("btcc");
+var spanWhosOn = gid("spanWhosOn");
 var sock;
 var myusername;
 var clientNick;
@@ -196,6 +197,8 @@ handle_candidate(ad.candidate);
 }else if(ad.type=="reject_call"){
 note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
+}else if(ad.type=="spanWhosOn"){
+spanWhosOn.textContent=ad.cnt;	
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -603,10 +606,10 @@ function on_get_profile(l){
 	}
 }
 
-setTimeout(function(){set_vs()},1000);
+setTimeout(function(){set_vs()},3000);
 
 function set_vs(){
-	//alert('set_vs');
+if(owner())return;
 var d34={};
 d34.name=modelName.value;
 vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);

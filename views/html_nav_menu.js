@@ -1,6 +1,7 @@
 //html_nav_menu.js
 const html_nav_menu=n=>{
 return `<!-- html_nav_menu.js -->
+<a href="/" id="aSite"><strong id="strongSite">GAYROOM.RU</strong></a>
 <label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
 <li><a href="/"><div class="mnav">Главная</div></a>

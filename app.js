@@ -329,7 +329,8 @@ function heartbeat(){this.isAlive=true;}
 
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
-
+broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
+//console.log("clients: ", wss.clients.size);
 ws.owner=false;//if an owner 
 ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
@@ -420,6 +421,7 @@ insert_message(l.msg,ws.nick,ws.url.substring(1));
 
 ws.on('close', function(){
 console.log("websocket closed");
+broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 if(ws.owner){
 broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
 insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
@@ -471,6 +473,11 @@ try{
 a=JSON.stringify(obj);
 if(ws.readyState===WebSocket.OPEN)ws.send(a);	
 }catch(e){console.log('err in stringify: ',e);}	
+}
+function broadcasti(obj){
+wss.clients.forEach(function(client){
+	wsend(client, obj);
+})	
 }
 process.on('unhundledRejection', function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);

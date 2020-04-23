@@ -194,7 +194,7 @@ label .spinner.active{background:orange;}
 .admin-nav{cursor:pointer;}
 .admin-nav a{text-decoration:none;font-weight:bold;font-size:1.2em;padding:0.2em;}
 .label-login{position:absolute;right:4.9rem;top:1rem;}
-.label-login a{text-decoration:none;color: #250505;}
+.label-login a{text-decoration:none;color:rgb(5,12,74);padding:4px;background:rgb(6,154,150);}
  
 .adm-ul{
 color:red;list-style:none;border:1px solid green;margin:0;padding:0;
@@ -214,7 +214,9 @@ position: relative;
 background: rgb(55,111,91);
 min-height:40px;
 border-top:1px solid transparent;
+color:rgb(189,243,211);
 }
+#footer a{color:rgb(22,29,22);}
 #footSec{ackground:red;text-align:center;padding:0.5em;}
 
 .foot-span{font-size:0.8em;olor:green;}
@@ -222,7 +224,7 @@ border-top:1px solid transparent;
 right:0;}*/
 #html_abuse_popup{background:red;width:100%;height:100%;}
 
-#doska{border:5px solid rgb(0,234,23);padding:40px;margin-top:10px;}
+#doska{border:1px solid rgb(69,134,174);padding:40px;margin-top:10px;}
 #doska header{color:rgb(30,60,40);margin-bottom:30px;}
 #doskaA{color:green;font-weight:bold;line-height:2;font-size:0.9em;}
 #obiContent{margin-bottom:30px;}
@@ -524,7 +526,8 @@ background:rgb(2,106,203);
 color:white;
 border-color:silver;
 }
-#ulKomnata li{margin-top:4px;}
+#ulKomnata li{margin-top:4px;margin-bottom:4px;}
+#aSite{display:none;}
 
 @keyframes puls{
 from{background:green;}
@@ -549,6 +552,9 @@ animation-iteration-count:infinite;
 
 @media screen and (max-width: 750px) {
 html{ackground:red;}
+#aSite{display:inline-block;position:absolute;background:rgb(6,154,150);padding:4px;
+color:rgb(5,12,74);
+}
 	/*html{font-size:160%;}*/
 	/*body{font-size:1em;}*/
 	/*

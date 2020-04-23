@@ -1,4 +1,5 @@
 var sock=null;
+var spanWhosOn=gid("spanWhosOn");
 var loc1=location.hostname+':'+location.port;
 //var loc2='frozen-atoll-47887.herokuapp.com';
 var loc2=location.hostname;
@@ -63,5 +64,7 @@ gid('onlineContainer').appendChild(s8);
 }else if(ajson.type=="room_part"){
 var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
 if(s9)s9.textContent=ajson.part;
+}else if(ajson.type=="spanWhosOn"){
+spanWhosOn.textContent=ajson.cnt;	
 }else{console.log("unknown type: ", ajson.type);}
 }

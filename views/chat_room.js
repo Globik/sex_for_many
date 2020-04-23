@@ -4,6 +4,7 @@ const html_head=require('./html_head'),
    html_footer = require('./html_footer');
    const {get_banner, get_banner_podval}=require('./reklama_s');
    const doska=require('./doska');
+   const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
 var warnig=false;
 const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
@@ -109,6 +110,7 @@ ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать
 <hr>
 ${doska.doska({})}
 <hr>
+${people({})}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
