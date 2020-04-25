@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Мультичат для гей-сообщества", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
+<head>${html_head.html_head({title:"Мультичат для гей-сообщества Челябинска", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -71,36 +71,20 @@ s+=`<div data-roomid="${el.us_id}" class="img-online-container">
  }
 return s;
 }
-/*
-<section id="onlineSection">
-<header id="onlineHeader">Чат-комнаты.</header>
-<section id="onlineContainer">
-<div data-roomid="5" class="img-online-container">
-<img class="img-online" src="../public/images/default.jpg">
-<footer class="img-footer"><a href="/webrtc/1">Globi</a>&nbsp;, 18 лет.</footer>
-</div>
-</section>
-</section>
-*/
 function get_meta(){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Мультичат для гей-сообщества"/>
-<meta property="og:description" content="Анонимный секс чат для текстового, голосового или
-по вебкамере общения и знакомств, как для виртуального, так и реального секса. 
-Получение донатов в биткоинах от заинтересованных пользователей"/>
+<meta property="og:title" content="Мультичат для гей-сообщества Челябинска" />
+<meta property="og:url" content="httpы://gayroom.ru" />
+<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев Челябинска. 
+Получение донатов в биткоинах от заинтересованных пользователей" />
 
-<meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Мультичат для гей-сообщества"/>
-<meta itemprop="description" content="Анонимный секс чат для текстового, голосового или
-по вебкамере общения и знакомств, как для виртуального, так и реального секса. 
-Получение донатов в биткоинах от заинтересованных пользователей"/>`
+<meta property="og:site_name" content="gayroom" />
+<meta itemprop="name" content="Мультичат для гей-сообщества Челябинска" />
+<meta itemprop="description" content="Анонимный секс чат по вебкамере для общения и знакомств среди геев Челябинска. 
+Получение донатов в биткоинах от заинтересованных пользователей" />`
 return s;
-//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-//<meta property="og:url" content="http://alikon.herokuapp.com"/>
-	
-	
 }
-

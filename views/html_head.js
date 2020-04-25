@@ -6,8 +6,8 @@ return `<meta charset="utf-8">
 <title>${n.title ? n.title : "Simple title"}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="yandex-verification" content="c278551dc430f58d" />
 ${n.meta ? n.meta : ''}
+<meta name="yandex-verification" content="c278551dc430f58d" />
 <link rel="shortcut icon" type="image/ico" href="/images/w4.png"> 
 
 ${n.csslink ? `<link href="${n.csslink}" rel="stylesheet">` :''}

@@ -152,15 +152,15 @@ module.exports={chat_room};
 function get_meta(n){
 let s='';
 s+=`
-<meta property="og:locale" content="ru_RU"/>
+<meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Чат комната ${n?n.bname:''}."/>
-<meta property="og:description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>
+<meta property="og:url" content="https://gayroom.ru" />
+<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:title" content="Чат комната ${n?n.bname:''}." />
+<meta property="og:description" content="Секс видеочат для геев Челябинска, донаты в биткоинах, Заработок в интернете, технология webRTC" />
 
 <meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Чат комната ${n?n.bname:''}."/>
-<meta itemprop="description" content="Секс видеочат, донаты в биткоинах, Заработок в интернете, технология webRTC"/>`
+<meta itemprop="name" content="Чат комната ${n?n.bname:''}." />
+<meta itemprop="description" content="Секс видеочат для геев Челябиинска, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
 return s;
-//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-//<meta property="og:url" content="http://alikon.herokuapp.com"/>
 }

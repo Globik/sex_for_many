@@ -1,8 +1,8 @@
 const doska=n=>{
 	return `
-<section id="doska"><header><strong>Гей-доска</strong></header>
+<section id="doska"><header><strong>Гей-знакомства в Челябинске</strong></header>
 <div id="obiContent"></div>
-<a id="doskaA" href="/home/obi">Читать все объявления</a></section>
+<a id="doskaA" href="/home/obi">Читать все объявления</a>  <a id="doskaB" href="/home/obi#obiContainer">Подать объявление</a></section>
 <script>
 var obiContent=gid("obiContent");
 setTimeout(function(){fetchObiContent();},1000);

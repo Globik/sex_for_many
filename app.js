@@ -13,8 +13,6 @@ const is_ssl_http = true;
 
 const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 
-
-
 const koaBody=require('koa-body');
 const Koa=require('koa');
 
@@ -23,9 +21,6 @@ const WebSocket=require('ws');
 const {websock}=require('./libs/websock.js');
 const shortid=require('shortid');
 const Router=require('koa-router');
-
-
-
 const url=require('url');
 const Pool=require('pg-pool');
 const PgStore=require('./libs/pg-sess.js');

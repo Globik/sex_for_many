@@ -12,9 +12,10 @@ header{font-weight:bold;padding-left:10px;}
 .nu.active{display:block;}
 .chdata{color:rgb(150,10,15);font-size:0.6em;padding-left:7px;}
 .chelobi:nth-child(odd){background: rgb(222,230,233);}
-.chelobi:nth-child(even){background: rgb(100,250,120);}
+.chelobi:nth-child(even){background: /*rgb(100,250,120);*/rgb(85, 165, 159);}
 .chelobi{margin-top:2px;margin-bottom:2px;padding:10px;}
 .chelp{margin:0;padding:10px;}
+.chelp a{font-size:0.8em;color:rgb(10,20,200);text-decoration:none;}
 #regata{}
 
 #suka1 ul > li, #suka2 ul > li{margin-top:8px;}

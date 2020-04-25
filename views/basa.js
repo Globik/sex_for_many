@@ -36,15 +36,15 @@ return s;
 	function get_meta(){
 let s='';
 s+=`
-<meta property="og:locale" content="ru_RU"/>
+<meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="База знаний"/>
-<meta property="og:description" content="База знаний gayroom"/>
+<meta property="og:title" content="База знаний" />
+<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:url" content="https://gayroom.ru" />
+<meta property="og:description" content="База знаний gayroom" />
 
-<meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="База знаний"/>
-<meta itemprop="description" content="База знаний gayroom"/>`
+<meta property="og:site_name" content="gayroom" />
+<meta itemprop="name" content="База знаний" />
+<meta itemprop="description" content="База знаний gayroom" />`
 return s;
-//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-//<meta property="og:url" content="http://alikon.herokuapp.com"/>
 }

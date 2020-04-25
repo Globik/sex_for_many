@@ -165,7 +165,7 @@ height: 100%;
 right:0px;
 z-index:999;
 }
-.muka:hover{background:green;}
+.muka:hover{background:rgb(100,200,60);}
 
 label .spinner {
 	position:absolute;
@@ -216,7 +216,7 @@ min-height:40px;
 border-top:1px solid transparent;
 color:rgb(189,243,211);
 }
-#footer a{color:rgb(22,29,22);}
+#footer a{color:rgb(255,230,255);}
 #footSec{ackground:red;text-align:center;padding:0.5em;}
 
 .foot-span{font-size:0.8em;olor:green;}
@@ -226,7 +226,8 @@ right:0;}*/
 
 #doska{border:1px solid rgb(69,134,174);padding:40px;margin-top:10px;}
 #doska header{color:rgb(30,60,40);margin-bottom:30px;}
-#doskaA{color:green;font-weight:bold;line-height:2;font-size:0.9em;}
+#doskaA,#doskaB{color:green;font-weight:bold;line-height:2;font-size:0.9em;}
+#doskaB{float:right;}
 #obiContent{margin-bottom:30px;}
 #basaUl{list-style: none;}
 .doskah{background:lightgreen;text-align:center;}
@@ -602,5 +603,6 @@ nav .lb-menu-all:hover,nav .lb-menu-all.active{border:none;border-radius:none;bo
 
 #haupt-banner{height:54px;}
 #haupt-banner img{height: 54px;}
+#doskaB{float:none;}
 }
 /*@media screen and (min-width:359px){}*/

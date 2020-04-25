@@ -20,7 +20,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 
-<main id="pagewrap"><h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
+<main id="pagewrap"><h1>Гей-знакомства в Челябинске. <a href="#obiContainer">Подать объявление.</a></h1>
 <h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>
 <section id="fuckSection">${n.obis&&n.obis.length>0?get_obi(n):'Пока объявлений нет.'}</section><hr>
 <section id="obiContainer">
@@ -88,15 +88,13 @@ let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://gayroom.ru"/>
+<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
 <meta property="og:title" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
-<meta property="og:description" content="Доска частных интимных объявлений для взрослых."/>
+<meta property="og:description" content="Доска частных интимных объявлений для геев Челябинска. Без регистрации."/>
 
-<meta property="og:site_name" content="A"/>
+<meta property="og:site_name" content="gayroom"/>
 <meta itemprop="name" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
-<meta itemprop="description" content="Доска частных интимных объявлений для взрослых. Без регистрации"/>`
+<meta itemprop="description" content="Доска частных интимных объявлений для геев Челябинска. Без регистрации."/>`
 return s;
-//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-//<meta property="og:url" content="http://alikon.herokuapp.com"/>
-	
-	
 }
