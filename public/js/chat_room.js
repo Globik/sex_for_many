@@ -299,7 +299,7 @@ console.warn("ICE SERVERS: ", dona);
 
 //createPeer();
 function createPeer(){
-	alert('peer');
+	//alert('peer');
 pc=new RTCPeerConnection(dona);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
