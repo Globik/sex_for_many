@@ -98,13 +98,14 @@ ctx.body={info:fname};
 })
 
 adm.post("/api/del_users", auth, async ctx=>{
-	let db=ctx.db;
+	let db=ctx.db;let l;
 	try{
-		await db.query("delete from buser where ll < NOW() - interval '3 months'");
+		l=await db.query("delete from buser where ll < NOW() - interval '3 months'");
+		console.log('l: ', l.rows);
 		}catch(e){
 		ctx.throw(400, e);
 		}
-	ctx.body={info: "OK, users deleted!"}
+	ctx.body={info: (l&&l.rows.length?"OK, users deleted!":"No users match")}
 	})
 
 adm.get("/home/newmsg", authed, async ctx=>{

@@ -39,7 +39,7 @@ s+=`
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="База знаний" />
-<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:url" content="https://gayroom.ru" />
 <meta property="og:description" content="База знаний gayroom" />
 

@@ -155,7 +155,7 @@ s+=`
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://gayroom.ru" />
-<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:title" content="Чат комната ${n?n.bname:''}." />
 <meta property="og:description" content="Секс видеочат для геев Челябинска, донаты в биткоинах, Заработок в интернете, технология webRTC" />
 

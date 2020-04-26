@@ -89,7 +89,7 @@ s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://gayroom.ru"/>
-<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:title" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
 <meta property="og:description" content="Доска частных интимных объявлений для геев Челябинска. Без регистрации."/>
 

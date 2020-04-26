@@ -24,7 +24,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
-<h1>Добро пожаловать в мультичат для гей-сообщества!</h1>
+<h1>Добро пожаловать в мультичат для гей-сообщества Челябинска!</h1>
 <p>После быстрой регистрации вы можете:
 <ul id="ulKomnata">
 <li>создать личную <strong>чат-комнату</strong>
@@ -78,7 +78,7 @@ s+=`
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Мультичат для гей-сообщества Челябинска" />
 <meta property="og:url" content="httpы://gayroom.ru" />
-<meta property="og:image" content="https://gayroom.ru/images/default.jpg" />
+<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев Челябинска. 
 Получение донатов в биткоинах от заинтересованных пользователей" />
 

@@ -288,14 +288,18 @@ var suona=[{urls: [
 "username":"7tHAeL19_JqQHTtz5gpoms-AN8xmFtxKaI6K6vWKnS0gSq_eaM4VIvUg7QIy7cBEAAAAAF3dWNVHbG9iaQ==",
 "credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
 
-
-var bona=(xirTarget.value?JSON.parse(xirTarget.value):null);
+var liushka;
+try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error(e);}
+var bona=(xirTarget.value?[liushka]:null);
 const dona=(bona?{"iceServers":bona}:null);
+//const dona={iceServers:[bona]};
 //const dona={iceServers: suona};
+//const dona=bona;
 console.warn("ICE SERVERS: ", dona);
 
-
+createPeer();
 function createPeer(){
+	alert('peer');
 pc=new RTCPeerConnection(dona);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;

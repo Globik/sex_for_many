@@ -1,7 +1,9 @@
 function del_users(el){
+if(confirm("Delete users?")){
 let d={};
 	vax("post", "/api/del_users", d, on_del_users, on_error, el, false);
 el.className="puls";
+}
 }
 function on_del_users(l, ev){
 	ev.className="";
