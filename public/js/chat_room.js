@@ -297,7 +297,7 @@ const dona=(bona?{"iceServers":bona}:null);
 //const dona=bona;
 console.warn("ICE SERVERS: ", dona);
 
-createPeer();
+//createPeer();
 function createPeer(){
 	alert('peer');
 pc=new RTCPeerConnection(dona);
