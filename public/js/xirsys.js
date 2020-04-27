@@ -32,6 +32,7 @@ xir.className="stable";
 			xiri = l.xir;
 		var v=JSON.stringify(l.xir);
 		xir.textContent=v;
+		note({content:"OK, setted!", type: "info", time: 5});
 	}catch(e){console.log(e);}
 			}
 	
@@ -39,3 +40,11 @@ xir.className="stable";
 		ev.className="";
 		alert(l);
 		}
+function get_subscribe(){
+  var OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "b989ab63-af54-4afc-b68d-0ab78133540c",
+    });
+  });
+}

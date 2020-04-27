@@ -289,7 +289,7 @@ var suona=[{urls: [
 "credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
 
 var liushka;
-try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error(e);}
+try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("xirsys ice servers not available");}
 var bona=(xirTarget.value?[liushka]:null);
 const dona=(bona?{"iceServers":bona}:null);
 //const dona={iceServers:[bona]};

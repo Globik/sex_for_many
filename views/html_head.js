@@ -26,6 +26,15 @@ html.className='flex';flexsupport=true;
 
 </script>  
 <script src="/js/globalik.js"></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<!-- <script>
+ // var OneSignal = window.OneSignal || [];
+  //OneSignal.push(function() {
+    //OneSignal.init({
+      //appId: "b989ab63-af54-4afc-b68d-0ab78133540c",
+    //});
+  //}); 
+</script> -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
 ${n.js ? js_help(n):''}`;
