@@ -66,5 +66,6 @@ var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
 if(s9)s9.textContent=ajson.part;
 }else if(ajson.type=="spanWhosOn"){
 spanWhosOn.textContent=ajson.cnt;	
+vax("post", "/api/onesignal_count", {cnt: ajson.cnt}, function(){}, function(){}, null, false);
 }else{console.log("unknown type: ", ajson.type);}
 }

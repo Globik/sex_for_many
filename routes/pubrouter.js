@@ -4,9 +4,10 @@ const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const uuid=require('uuid/v4');
-//const request=require('../../node_modules/request');
-const reqw=require('request-promise-native');
 
+const reqw=require('request-promise-native');
+const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
+const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
 const walletValidator=require('wallet-address-validator');//0.2.4
 const {RateLimiterMemory}=require('rate-limiter-flexible');
 const gr = "\x1b[32m", rs = "\x1b[0m";
@@ -46,11 +47,33 @@ ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/})
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 
+/* onesignal.com */
+pub.post("/api/onesignal_count", async ctx=>{
+	let {cnt}=ctx.request.body;
+	let opt={app_id:onesignal_app_id,contents:{en:"eng message"},included_segments:["Subscribed Users"],data:{title:cnt}};
+	let mops={
+		url: "https://onesignal.com/api/v1/notifications",
+		 method:"post", 
+		 headers:"Authorization: Basic "+onesignal_app_key,
+		 json:true,
+		 body:opt
+		 };
+	try{
+		let r=await reqw(mops);
+		console.log("r: ", r);
+		}catch(e){console.log("err: ", e);}
+	ctx.body={info:"OK"}
+})
+
+/* end */
+
 pub.get('/login', async ctx=>{
 //let m=ctx.session.bmessage;
 ctx.body=await ctx.render('login'/*,{errmsg:m}*/);
 //delete ctx.session.bmessage;
 });
+
+
 
 pub.post('/login', (ctx,next)=>{
 if(ctx.isAuthenticated()){

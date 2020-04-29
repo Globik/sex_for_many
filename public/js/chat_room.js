@@ -198,7 +198,10 @@ handle_candidate(ad.candidate);
 note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
 }else if(ad.type=="spanWhosOn"){
-spanWhosOn.textContent=ad.cnt;	
+spanWhosOn.textContent=ad.cnt;
+if(!owner()){	
+vax("post", "/api/onesignal_count", {cnt: ad.cnt}, function(){}, function(){}, null, false);
+}
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -289,7 +292,7 @@ var suona=[{urls: [
 "credential":"73029f68-106d-11ea-85f6-9646de0e6ccd"},{urls:"stun:bturn2.xirsys.com"}];
 
 var liushka;
-try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("xirsys ice servers not available");}
+try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("Xirsys ice servers not available");}
 var bona=(xirTarget.value?[liushka]:null);
 const dona=(bona?{"iceServers":bona}:null);
 //const dona={iceServers:[bona]};
