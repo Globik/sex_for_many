@@ -60,7 +60,7 @@ pub.post("/api/onesignal_count", async ctx=>{
 		 };
 	try{
 		let r=await reqw(mops);
-		console.log("r: ", r);
+		console.log("r: ", r.body);
 		}catch(e){console.log("err: ", e);}
 	ctx.body={info:"OK"}
 })
