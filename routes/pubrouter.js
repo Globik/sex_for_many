@@ -50,22 +50,22 @@ ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/})
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
 	let {cnt}=ctx.request.body;
-	let opt={app_id:onesignal_app_id,contents:{en:"eng message"},included_segments:["Subscribed Users"],data:{title:cnt},
-		headers:"Authorization: Basic "+onesignal_app_key,
-		 header:"Authorization: Basic "+onesignal_app_key
+	let opt={app_id:onesignal_app_id,contents:{en:"eng message"},included_segments:["Subscribed Users"],data:{title:cnt}
+		//headers:"Authorization: Basic "+onesignal_app_key,
+		// header:"Authorization: Basic "+onesignal_app_key
 		};
 	let mops={
 		url: "https://onesignal.com/api/v1/notifications",
 		 method:"post", 
 		 headers:{"Authorization": "Basic "+onesignal_app_key},
-		 header:{"Authorization": "Basic "+onesignal_app_key},
+		// header:{"Authorization": "Basic "+onesignal_app_key},
 		 json:true,
 		 body:opt
 		 };
 		 console.log(onesignal_app_key);
 	try{
 		let r=await reqw(mops);
-		console.log("r: ", r.body);
+		console.log("r: ", r);
 		}catch(e){
 			console.log("err: ", e.name);
 			ctx.throw(400,e);
