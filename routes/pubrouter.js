@@ -57,8 +57,8 @@ pub.post("/api/onesignal_count", async ctx=>{
 	let mops={
 		url: "https://onesignal.com/api/v1/notifications",
 		 method:"post", 
-		 headers:{"Authorization: Basic "+onesignal_app_key},
-		 header:{"Authorization: Basic "+onesignal_app_key},
+		 headers:{"Authorization": "Basic "+onesignal_app_key},
+		 header:{"Authorization": "Basic "+onesignal_app_key},
 		 json:true,
 		 body:opt
 		 };
