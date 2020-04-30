@@ -49,8 +49,11 @@ ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/})
 
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
-	let {cnt}=ctx.request.body;
-	let opt={app_id:onesignal_app_id,contents:{en:"eng message"+cnt,title:"Title "+cnt},included_segments:["Subscribed Users"],data:{title:cnt}
+	let {cnt, desc}=ctx.request.body;
+	let opt={
+		app_id:onesignal_app_id,
+		contents:{en: desc+" :"+cnt},
+		included_segments:["Subscribed Users"]
 		};
 	let mops={
 		url: "https://onesignal.com/api/v1/notifications",
@@ -131,6 +134,32 @@ return ctx.redirect('/')
 }}
 return passport.authenticate('local-signup', (err,user,info,status)=>{
 console.log(err,user,info,status)
+
+if(user){
+let opt={
+		app_id:onesignal_app_id,
+		contents:{en: user.bname+" just signed up."},
+		included_segments:["Subscribed Users"]
+		};
+	let mops={
+		url: "https://onesignal.com/api/v1/notifications",
+		 method:"post", 
+		 headers:{"Authorization": "Basic "+onesignal_app_key},
+		 json:true,
+		 body:opt
+		 };
+
+	try{
+		let r=await reqw(mops);
+		console.log("r: ", r);
+		}catch(e){
+			console.log("err: ", e.name);
+			//ctx.throw(400,e);
+			}	
+	
+}
+
+
 if(ctx.state.xhr){
 	console.log('XHR!!!!');
 	//23505 name already in use

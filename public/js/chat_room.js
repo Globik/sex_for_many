@@ -199,9 +199,9 @@ note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
 }else if(ad.type=="spanWhosOn"){
 spanWhosOn.textContent=ad.cnt;
-if(!owner()){	
-vax("post", "/api/onesignal_count", {cnt: ad.cnt}, function(){}, function(){}, null, false);
-}
+
+vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
+
 }else{
 console.log('unknown type: '+ad.type);	
 }
