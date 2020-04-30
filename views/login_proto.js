@@ -17,7 +17,7 @@ const login_proto=n=>{
 return html`
 <section id="loginery-wrap">
 <form id="mform" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
-<h4>Добро пожаловать.<a href="/" style="float:right;font-size:1em;">на главную</a></h4>
+<h2>Добро пожаловать.<a href="/" style="float:right;font-size:1em;">на главную</a></h2>
 <span id="sessRed" class="${n.errmsg?classi(n.errmsg):''}">${messi(n)}</span><br>
 <label><strong>Ник</strong> </label>
 <div class="inpwrap">

@@ -8,6 +8,7 @@ const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- xirsys.js -->
 <head>${html_head.html_head({title:'turn сервер',
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/xirsys.css"],luser:buser})}
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 </head>
 <body>
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>

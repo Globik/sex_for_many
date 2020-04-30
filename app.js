@@ -2,16 +2,25 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-const HPORT = 80;
-//const HPORT  = 3000;
-const SPORT = 443;//8000;
+const proc = process.env.DEVELOPMENT;
+var HPORT = 80;
+var SPORT = 443;
+var is_ssl_http = true;
+var DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
+if(proc=="yes"){
+ HPORT = 3000;
+ SPORT = 8000;
+ is_ssl_http = false;
+ DB_URL = 'postgress://globik:null@localhost:5432/test';
+}
+
+
 const https = require('https');
 const fs = require('fs');
-const is_ssl_http = true;
+
 //const DB_URL = 'postgress://globik:null@localhost:5432/test';
 //const DB_URL=process.env.DATABASE_URL;//for heroku
-
-const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
+//const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 
 const koaBody=require('koa-body');
 const Koa=require('koa');

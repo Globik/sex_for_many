@@ -444,6 +444,30 @@ if(zakrep)d=6;
 try{
 a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id',[nick,msg,d]);
 console.log('a: ', a.rows);	
+
+let opt={
+		app_id:onesignal_app_id,
+		contents:{en: nick+" saved obiavlenije."},
+		included_segments:["Subscribed Users"]
+		};
+	let mops={
+		url: "https://onesignal.com/api/v1/notifications",
+		 method:"post", 
+		 headers:{"Authorization": "Basic "+onesignal_app_key},
+		 json:true,
+		 body:opt
+		 };
+
+	try{
+		let r=await reqw(mops);
+		console.log("r: ", r);
+		}catch(e){
+			console.log("err: ", e.name);
+			//ctx.throw(400,e);
+			}	
+
+
+
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
 })
