@@ -138,7 +138,7 @@ console.log(err,user,info,status)
 if(user){
 let opt={
 		app_id:onesignal_app_id,
-		contents:{en: user.bname+" just signed up."},
+		contents:{en: info.username+" just signed up."},
 		included_segments:["Subscribed Users"]
 		};
 	let mops={

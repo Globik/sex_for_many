@@ -39,7 +39,7 @@ try{
 var useri=await db.query(get_str({password:'$1',username:'$2'}),
 [password,req.body.username])
 //console.log('USER.rows[0]: ',useri.rows[0])
-return done(null,useri.rows[0],{message: smsg})
+return done(null,useri.rows[0],{message: smsg, username:username})
 }catch(err){
 	console.log('custom error handling in local signup auth.js: ', err.message);
 	if(err.code==='23505'){
