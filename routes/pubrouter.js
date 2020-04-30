@@ -132,7 +132,7 @@ ctx.throw(409, 'Already authenticated!')
 }else{
 return ctx.redirect('/')
 }}
-return passport.authenticate('local-signup', (err,user,info,status)=>{
+return passport.authenticate('local-signup',async (err,user,info,status)=>{
 console.log(err,user,info,status)
 
 if(user){
