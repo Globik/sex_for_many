@@ -31,7 +31,7 @@ return html`
 <div class="submitWrap">
 <input type="submit" value="Войти" class="login-submit" ${n.user ? 'disabled':''}>
 </div>
-<div class="underform"><strong style="">Нет аккаунта?</strong><a href="/signup" style="float:right;">
+<div class="underform"><strong style="">Нет аккаунта?</strong>  <a href="/signup" style="">
 <strong>создайте его</strong></a><hr>
 </div>
 </form>
