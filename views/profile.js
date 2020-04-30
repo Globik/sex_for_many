@@ -26,19 +26,31 @@ ${n.err?n.err:''}
 	то вероятен шанс на получение скорейшего отклика.</p>
 	<p><strong style="color:red;">*Внимание!<br>
 	Публикация любых объявлений с упоминанием возраста моложе 18-ти лет строго запрещена!</strong>
-	<a href="/home/rules">Правила размещения объявлений.</a></p>
-	<div>
+	<a href="/home/privacy">Правила размещения объявлений.</a></p>
+	<div class="profi">
 	<label for="fageId"><strong>Сколько вам лет?</strong> (не моложе 18-ти!)</label><br>
 	<input id="fageId" name="age" type="number" min="18" max="100" value="${n.result?n.result.age:'18'}">
 	</div>
+	<div class="profi">
+	<label><strong>Вы кто?</strong></label><br>
+	<select name="gay" id="zType" required>
+	<option value="gay" ${n.result&&n.result.bi=='gay'?' selected':''}>гей</option>
+	<option value="bi" ${n.result&&n.result.bi=='bi'?' selected':''}>би</option>
+	<option value="lesbi" ${n.result&&n.result.bi=='lesbi'?' selected':''}>лесби</option>
+	<option value="lesbi" ${n.result&&n.result.bi=='trans'?' selected':''}>транс</option>
+	</select>
+	</div>
+	<div class="profi">
+	<label for="cityId"><strong>Ваш город?</strong></label><br>
+	<input id="cityId" name="city" type="text" placeholder="Москва" value="${n.result&&n.result.city?n.result.city:''}" required">
+	</div>
 	<div>
-	
 	<label><strong>Ваш месседж</strong></label><span id="fspan">${n.result&&n.result.msg?(400-n.result.msg.length):400}</span>&nbsp;/&nbsp;400<br>
 	<div style="border:1px solid silver;" id="fcont" data-max="400" contenteditable='' 
 	oninput="finput(this);">${n.result&&n.result.msg?n.result.msg:''}</div>
 	<!-- <textarea id="profTxtar" name="txt_msg" placeholder="Ваше сообщение" maxlength="400" oninput="finput(this);"></textarea> --><br>
 	</div>
-	<div><label for="avaId"><strong>Ваше фото</strong> (тело не моложе 18-ти, не голое)</label><br>
+	<div class="profi"><label for="avaId"><strong>Ваше фото</strong> (тело не моложе 18-ти, не голое)</label><br>
 	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
 	<input id="fotoTxt" type="hidden" name="photo" value="${n.result&&n.result.ava?n.result.ava:''}">
 	<input type="hidden" name="fname" value="${buser?buser.bname:''}">

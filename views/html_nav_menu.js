@@ -6,7 +6,7 @@ return `<!-- html_nav_menu.js -->
 <ul id="menu">
 <li><a href="/"><div class="mnav">Главная</div></a>
 <li><a href="/home/blog"><div class="mnav">Блог</div></a>
-<li><a href="/home/obi"><div class="mnav">Гей-доска</div></a>
+<li><a href="/home/obi"><div class="mnav">Доска объявлений</div></a>
 </ul>
 <label id="lb-menu-all" class="lb-menu-all" onclick="dowas1();">
  <div class="spinner diagonal part-1"></div>
@@ -18,9 +18,9 @@ return `<!-- html_nav_menu.js -->
 <li><a href="/"><div class="muka"><span>На главную</span></div></a>
 ${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
 ${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>Мой профиль</span></div></a>`:''}
-<li><a href="/home/obi"><div class="muka"><span>Гей-доска</span></div></a>
-<li><a href="/home/blog"><div class="muka"><span>Блог</span></div></a>
+<li><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a>
+<li><a href="/home/blog"><div class="muka"><span>Блог</span></div></a>
 ${n.buser?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
 '<li><a href="/login"><div class="muka"><span>Войти</span></div></a>'}
 <!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->

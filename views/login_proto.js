@@ -27,12 +27,12 @@ return html`
 <div class="inpwrap">
 <input type="password" name="password" class="login-pwd ${n.errmsg?'redinput':''}" placeholder="Password" value="1234" required />
 </div>
-Забыл пароль? Не беда! Просто <a href="/signup">создай</a> новый аккаунт.
+Забыли пароль? Не беда! Просто <a href="/signup">создайте</a> новый аккаунт.
 <div class="submitWrap">
 <input type="submit" value="Войти" class="login-submit" ${n.user ? 'disabled':''}>
 </div>
 <div class="underform"><strong style="">Нет аккаунта?</strong><a href="/signup" style="float:right;">
-<strong>создай его</strong></a><hr>
+<strong>создайте его</strong></a><hr>
 </div>
 </form>
 </section>

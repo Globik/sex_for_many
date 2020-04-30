@@ -47,7 +47,7 @@ if(e.success==false){notif_er(e)}else{notif(e);}}
 function on_fail(e){console.error(e);notif_err(e)}
 function notif(e){	
 outresult.style.display="block";
-tohtml(outresult, '<p class="green"><h3>Thanks for creating an account with Alikon!</h3>'+e.message+'<br><br>Go to <a href="/">home</a><br><br></p>');
+tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт на gayroom!</h3>'+e.message+'<br><br>Перейти на <a href="/">главную страницу</a><br><br></p>');
 removeForm();
 setTimeout(function(){window.location.href=e.redirect;},4000);
 }

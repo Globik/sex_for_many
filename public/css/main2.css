@@ -530,6 +530,10 @@ border-color:silver;
 #ulKomnata li{margin-top:4px;margin-bottom:4px;}
 #aSite{display:none;}
 
+.newuserfoto{height:100px;}
+.newuserleft{display:inline-block;}
+#newusera{color:rgb(30,20,10);}
+
 @keyframes puls{
 from{background:green;}
 to{background:lightgreen;}

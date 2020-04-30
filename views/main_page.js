@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Мультичат для гей-сообщества Челябинска", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
+<head>${html_head.html_head({title:"Мультичат для ЛГБТ сообщества России", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -24,7 +24,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
-<h1>Добро пожаловать в мультичат для гей-сообщества Челябинска!</h1>
+<h1>Добро пожаловать в мультичат для ЛГБТ сообщества России!</h1>
 <p>После быстрой регистрации вы можете:
 <ul id="ulKomnata">
 <li>создать личную <strong>чат-комнату</strong>
@@ -38,6 +38,9 @@ ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'При
 Также обратите внимание на <strong>гей-доску для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
 <p>Приятного общения!</p>
+<hr>
+<h2>Новые профили</h2>
+${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
 <hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
@@ -71,20 +74,37 @@ s+=`<div data-roomid="${el.us_id}" class="img-online-container">
  }
 return s;
 }
+
+function get_new_users_list(n){
+let s='';
+n.forEach(function(el,i){
+s+=`<div class="newuserdiv">
+<div class="newuserleft"><img class="newuserfoto" src="${el.ava?el.ava:'/images/default.jpg'}"/></div>
+<div class="newuserrite">
+<div><a href="/webrtc/${el.id}">${el.bname}, ${el.age?el.age:18}</a></div>
+${el.bi?`<div>${el.bi}</div>`:''}
+${el.city?`<div>${el.city}</div>`:''}
+${el.msg?`<div>${el.msg}</div>`:''}
+</div></div>`;	
+})
+s+='<div><a id="newusera" href="/home/users">Смотреть все профили</a></div>';
+return s;	
+}
+
 function get_meta(){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Мультичат для гей-сообщества Челябинска" />
+<meta property="og:title" content="Мультичат для ЛГБТ сообщества России" />
 <meta property="og:url" content="httpы://gayroom.ru" />
 <meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
-<meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев Челябинска. 
-Получение донатов в биткоинах от заинтересованных пользователей" />
+<meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев и лесбиянок в России. 
+Получение донатов в биткоинахю" />
 
 <meta property="og:site_name" content="gayroom" />
-<meta itemprop="name" content="Мультичат для гей-сообщества Челябинска" />
-<meta itemprop="description" content="Анонимный секс чат по вебкамере для общения и знакомств среди геев Челябинска. 
-Получение донатов в биткоинах от заинтересованных пользователей" />`
+<meta itemprop="name" content="Мультичат для ЛГБТ сообщества России" />
+<meta itemprop="description" content="Анонимный секс чат по вебкамере для общения и знакомств среди геев и лесбиянок в России. 
+Получение донатов в биткоинах." />`
 return s;
 }

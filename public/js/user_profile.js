@@ -28,25 +28,27 @@ return {w:im.naturalWidth,h:im.naturalHeight};
 }
 function on_submit(ev){
 ev.preventDefault();
-//var f=ev.target.txt_msg;
 var f2=ev.target.age;
 var f3=ev.target.photo;
 var f4=ev.target.fname;
 var f5=fcont;
 var d={};
-//d.txt_msg=f.value;
 d.age=f2.value;
 d.photo=f3.value;
 d.fname=f4.value;
+d.city=ev.target.city.value;
+d.gay=ev.target.gay.value;
 d.txt_msg=esci(f5.textContent);
 //alert(JSON.stringify(d));
-vax(ev.target.method, ev.target.action, d, on_profile_saved, on_profile_err, null, false);
+vax(ev.target.method, ev.target.action, d, on_profile_saved, on_profile_err, ev.target, false);
+ev.target.className="puls";
 }
-function on_profile_saved(l){
+function on_profile_saved(l,ev){
 console.log(l);
+ev.className="";
 note({content: l.info, type:"info", time: 5});
 }
-function on_profile_err(l){alert(l);}
+function on_profile_err(l,ev){ev.className="";note({content: l, type:"error", time: 5});}
 
 function del_foto(el){
 var d={};

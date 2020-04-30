@@ -24,31 +24,31 @@ const pub=new Router();
 
 pub.get('/', reklama, async ctx=>{
 let bresult;
+let new_users;
 let db=ctx.db;
 
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
+let d='select buser.id, buser.bname, profile.age, profile.msg, profile.ava from buser left join profile on buser.bname=profile.bname order by id desc limit 20';
 let bus=await db.query(s);
-//console.log('bus rows: ', bus.rows);
+
 if(bus.rows.length>0){
 bresult=bus.rows;
-//bresult.forEach(function(el,i){
-	//console.log('el: ',el);	
-//})
+}
+let bus1=await db.query(d);
+if(bus1.rows.length>0){
+new_users=bus1.rows;
 }
 }catch(e){console.log(e)}	
-
-	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
-
-ctx.body=await ctx.render('main_page',{lusers:bresult /*,m:m,roomers:bresult*/});
-//ctx.body={hallo:'ok'}
+ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users});
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
+	if(process.env.DEVELOPMENT  !="yes"){
 	let {cnt, desc}=ctx.request.body;
 	let opt={
 		app_id:onesignal_app_id,
@@ -70,6 +70,7 @@ pub.post("/api/onesignal_count", async ctx=>{
 			console.log("err: ", e.name);
 			ctx.throw(400,e);
 			}
+		}
 	ctx.body={info:"OK"}
 })
 
@@ -136,6 +137,7 @@ return passport.authenticate('local-signup',async (err,user,info,status)=>{
 console.log(err,user,info,status)
 
 if(user){
+if(process.env.DEVELOPMENT !="yes"){	
 let opt={
 		app_id:onesignal_app_id,
 		contents:{en: info.username+" just signed up."},
@@ -156,7 +158,7 @@ let opt={
 			console.log("err: ", e.name);
 			//ctx.throw(400,e);
 			}	
-	
+	}
 }
 
 
@@ -188,17 +190,41 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
+/* USERS */
+
 pub.get("/home/users", async ctx=>{
 let db=ctx.db;
 let result;
-// select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;
+let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
 try{
-	result = await db.query("select*from buser");
+	result = await db.query(s);
 	}catch(e){
 	console.log(e);
 	}
 	ctx.body=await ctx.render("users",{result:result.rows});
 })
+
+pub.post("/api/get_more_users", async ctx=>{
+let {next}=ctx.request.body;
+console.log("next: ",next);
+if(!next)ctx.throw(400,"No next");
+let result;
+let db=ctx.db;
+let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
+ where buser.ll > $1 limit 5`;
+
+try{
+let a=await db.query(s,[next]);
+if(a.rows.length>0){
+result=a.rows;
+}
+}catch(e){
+ctx.throw(400,e);	
+}
+ctx.body={content:result,info:"ok"}	
+})
+
+/* WEBRTC */
 
 pub.get('/webrtc/:buser_id', reklama, async function(ctx){
 	if(!Number(ctx.params.buser_id))return;
@@ -402,12 +428,12 @@ ctx.body=await ctx.render('profile',{err:err, result:a,owner:owner});
 })
 
 pub.post("/api/save_profile", auth, async ctx=>{
-let {txt_msg, age, photo,fname}=ctx.request.body;
+let {txt_msg, age, photo, fname, gay, city} = ctx.request.body;
 let db=ctx.db;
 let isava=(photo?1:0);
-let s='insert into profile(bname,age,msg,ava,isava) values($1,$2,$3,$4,$5) on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5'
+let s='insert into profile(bname,age,msg,ava,isava,city,bi) values($1,$2,$3,$4,$5,$6,$7) on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5,city=$6,bi=$7'
 try{
-await db.query(s,[fname,age,txt_msg,photo,isava]);	
+await db.query(s,[fname,age,txt_msg,photo,isava,city,gay]);	
 }catch(e){ctx.throw(400,e);}
 
 ctx.body={info:"Профиль сохранен!"};	
@@ -428,7 +454,7 @@ pub.get('/home/obi', reklama, async ctx=>{
 	try{
 	var res2=await db.query('select*from obi');	
 	//if(res2.rows&&res2.rows.length>0)res=res2.rows;
-	console.log(res2.rows);
+	//console.log(res2.rows);
 	res=res2.rows;
 	}catch(e){console.log(e);}
 ctx.body=await ctx.render('obi',{obis:res});	
@@ -445,6 +471,7 @@ try{
 a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id',[nick,msg,d]);
 console.log('a: ', a.rows);	
 
+if(process.env.DEVELOPMENT !="yes"){
 let opt={
 		app_id:onesignal_app_id,
 		contents:{en: nick+" saved obiavlenije."},
@@ -466,7 +493,7 @@ let opt={
 			//ctx.throw(400,e);
 			}	
 
-
+}
 
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
@@ -656,8 +683,3 @@ ctx.state.banner=ban.rows;
 	}
 return next();
 }
-
-
-
-
-
