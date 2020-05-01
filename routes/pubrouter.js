@@ -29,7 +29,8 @@ let db=ctx.db;
 
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
-let d='select buser.id, buser.bname, profile.age, profile.msg, profile.ava from buser left join profile on buser.bname=profile.bname order by id desc limit 20';
+let d=`select buser.id, buser.bname, profile.age, profile.msg, 
+profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 20`;
 let bus=await db.query(s);
 
 if(bus.rows.length>0){
