@@ -157,10 +157,10 @@ s+=`
 <meta property="og:url" content="https://gayroom.ru" />
 <meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:title" content="Чат комната ${n?n.bname:''}." />
-<meta property="og:description" content="Секс видеочат для геев Челябинска, донаты в биткоинах, Заработок в интернете, технология webRTC" />
+<meta property="og:description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />
 
 <meta property="og:site_name" content="gayroom"/>
 <meta itemprop="name" content="Чат комната ${n?n.bname:''}." />
-<meta itemprop="description" content="Секс видеочат для геев Челябиинска, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
+<meta itemprop="description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
 return s;
 }

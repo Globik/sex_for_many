@@ -211,7 +211,7 @@ if(!next)ctx.throw(400,"No next");
 let result;
 let db=ctx.db;
 let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
- where buser.ll > $1 limit 5`;
+ where buser.crat > $1 limit 5`;
 
 try{
 let a=await db.query(s,[next]);

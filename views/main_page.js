@@ -37,7 +37,7 @@ ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'При
 <p>
 Также обратите внимание на <strong>гей-доску для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p>Приятного общения!</p>
+<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегестрироваться</a></button>':''}</p>
 <hr>
 <h2>Новые профили</h2>
 ${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}

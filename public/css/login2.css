@@ -2,7 +2,7 @@
 *{box-sizing: border-box;}
 h2{line-height:1.5;padding-top:5px;}
 #loginery-wrap{
-background: rgb(237, 201, 175);
+background: lightgreen;/*rgb(237, 201, 175);*/
 width: 50%;
 width: 50vw;
 margin:0 auto;
@@ -82,7 +82,7 @@ border:1px solid red;
 }
 #sessRed.red{color:red;}
 #sessRed.green{color:green;}
-.underform{color:red;margin-top:12px;font-size:2em;}
+.underform{color:red;margin-top:12px;font-size:1.1em;}
 
 #outresult{
 display:none;
