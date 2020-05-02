@@ -532,7 +532,7 @@ border-color:silver;
 
 .newuserfoto{height:100px;}
 .newuserleft{display:inline-block;}
-#newusera{color:rgb(30,20,10);}
+#newusera{color:rgb(30,20,10);line-height:1.5;}
 .rega{color:rgb(2,106,203);}
 .rega:hover{}
 .regabutton:hover{background:silver;}

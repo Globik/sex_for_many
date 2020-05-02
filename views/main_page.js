@@ -87,7 +87,7 @@ ${el.city?`<div>${el.city}</div>`:''}
 ${el.msg?`<div>${el.msg}</div>`:''}
 </div></div>`;	
 })
-s+='<div><a id="newusera" href="/home/users">Смотреть все профили</a></div>';
+s+='<div><br><a id="newusera" href="/home/users">Смотреть все профили</a></div>';
 return s;	
 }
 
