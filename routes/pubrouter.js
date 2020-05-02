@@ -205,6 +205,18 @@ try{
 	ctx.body=await ctx.render("users",{result:result.rows});
 })
 
+pub.post("/api/fetch_all_suchen", async ctx=>{
+let db=ctx.db;
+let result;
+let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
+try{
+	result = await db.query(s);
+	}catch(e){
+	console.log(e);
+	}
+	ctx.body={result:result.rows};
+})
+
 pub.post("/api/get_more_users", async ctx=>{
 let {next}=ctx.request.body;
 console.log("next: ",next);
@@ -223,6 +235,52 @@ result=a.rows;
 ctx.throw(400,e);	
 }
 ctx.body={content:result,info:"ok"}	
+})
+
+pub.post("/api/get_suchen", async ctx=>{
+let {ab,bis,city,bi,keywort}=ctx.request.body;
+let db=ctx.db;
+let result;
+let wab=(ab?ab:18);
+let wbis=(bis?bis:100);
+//select*from profile where msg like any(values('%g%'));
+//select*from profile where msg like any(values('%msg%')) and age between 18 and 60 limit 5;
+let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
+ where ${city?`city='${city}' and`:''}
+ ${keywort?` msg like any(values('%${keywort}%')) and`:``} bi='${bi}' and age between ${wab} and ${wbis} limit 5;`;
+try{
+console.log('S_S: ', s);
+result=await db.query(s,[]);
+}catch(e){
+ctx.throw(400, e);	
+}
+ctx.body={result:result.rows}	
+})
+/*
+ select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname;
+ select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser inner join profile on buser.bname=profile.bname;
+ select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser right join profile on buser.bname=profile.bname;
+  
+  select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from profile left join buser on profile.bname=buser.bname;
+ */ 
+pub.post("/api/update_query", async ctx=>{
+let {ab,bis,city,bi,keywort,next}=ctx.request.body;
+if(!next){ctx.throw(400,"no next");}
+let db=ctx.db;
+let result;
+let wab=(ab?ab:18);
+let wbis=(bis?bis:100);
+//select*from profile where msg like any(values('%msg%')) and age between 18 and 60 limit 5;
+let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
+ where ${city?`city='${city}' and`:''}
+ ${keywort?` msg like any(values('%${keywort}%')) and`:``} bi='${bi}' and age between ${wab} and ${wbis} and buser.crat > '${next}' limit 5;`;
+try{
+	console.log("S_S: ", s);
+result=await db.query(s,[]);
+}catch(e){
+ctx.throw(400, e);	
+}
+ctx.body={result:result.rows}	
 })
 
 /* WEBRTC */

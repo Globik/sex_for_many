@@ -599,6 +599,8 @@ function on_get_profile(l){
 	//id | bname | age |   msg    | ava | isava 
 	if(l.info=="ok"){
 		clientName.textContent=l.params.bname;
+		clientCity.textContent=l.params.city;
+		clientOrientation.textContent=l.params.bi;
 		clientAge.textContent=l.params.age;
 		clientMsg.textContent=l.params.msg;
 		clientViews.textContent=l.params.vs;
