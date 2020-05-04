@@ -219,9 +219,7 @@ position:absolute;top:0;left:0;z-index:2;
 color:rgb(226,193,193);
 background:rgb(10,111,66);
 height:8%;}
-
-  #btnDonate{position:absolute;z-index:50;bottom:5px;right:6px;} 
-
+#btnDonate{position:absolute;z-index:50;bottom:5px;right:6px;} 
 #btcadr{padding-left:0.3em;}
 
 .btc-img-a{display:inline-block;}
@@ -243,9 +241,6 @@ height:8%;}
 #setImg{width:30%;}/* top r bott left */
 #pizda1{ackground:pink;adding:2px;margin-top:20px;width:100%;}
 #pizda1 #forImg{color:green;height:40px;width:100%;font-size:14px;}
-/*
-#pizda1  button{height:40px; width:30%;font-weight:bold;margin-left:70%;margin-top:7px;font-size:16px;}
-*/ 
 #profileUl{list-style:none;margin:0;padding:0;}
 #profileUl li{padding-top:2px;padding-bottom:2px;}
 #qrcodeContainer{border:1px solid black;display:inline-block;padding:10px;margin-top:2px;}
@@ -253,15 +248,16 @@ height:8%;}
 #privatcontainer{
 background:rgba(0,0,5,0.2);
 color: white;
-display:none;
+display:inline-block;
 position:absolute;
-bottom:0;
+bottom:6px;
 left:0;
 width:40%;	
-eight:400px;
-height:30px;
+height:340px;
+eight:100%;
 overflow:hidden;
 text-align:left;
+vrtical-align:bottom;
 transition: height 0.2s linear;
 }
 #privatcontainer.ondisplay{
@@ -284,7 +280,8 @@ animation-fill-mode:backwards;
 }
 #privatpanel span{cursor:pointer;color:lightblue;}
 #privatchat{
-background:rgba(0,0,10,0.2);color:white;height:340px;overflow-y:auto;
+background:rgba(0,0,10,0.2);color:white;
+height:340px;overflow-y:auto;
 white-space:pre-line;
 word-wrap:break-word;
 overflow-wrap:break-word;
@@ -292,6 +289,15 @@ overflow-wrap:break-word;
 #privatinput{
 height:30px;
 width:100%;	
+}
+
+#dopPanel{background:red;height:60px;z-index:1;display:none;position:relative;
+padding:10px;
+margin-top:6px;
+}
+
+#dopPanel.dopPanel_out{
+display:block;
 }
 
 @media screen and (max-width: 751px){

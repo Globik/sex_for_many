@@ -46,17 +46,20 @@ function fetch_all_suchen(el){
 vax("post", "/api/fetch_all_suchen", {}, on_fetch_all_suchen, on_fetch_all_suchen_error, el, false);
 el.className="puls";	
 }
+function remove_nodes(el){
+if(!el)return;
+if(el.hasChildNodes()){
+while(el.hasChildNodes()){
+el.removeChild(v.firstChild);	
+}	
+}
+}
 
 function on_fetch_all_suchen(l,el){
 el.className="";
 if(!l.result)return;
 flagi=false;
-
-if(v.hasChildNodes()){
-while(v.hasChildNodes()){
-v.removeChild(v.firstChild);	
-}	
-}
+remove_nodes(v);
 formi_user_list(l.result);
 }
 function on_fetch_all_suchen_error(l,el){
@@ -86,11 +89,7 @@ if(!l.result)return;
 if(l.result.length==0)return;	
 flagi=true;
 //alert(JSON.stringify(l.result))
-if(v.hasChildNodes()){
-while(v.hasChildNodes()){
-v.removeChild(v.firstChild);	
-}	
-}
+remove_nodes(v);
 formi_user_list(l.result);
 }
 
@@ -116,11 +115,7 @@ function on_update_query(l,el){
 el.className="";
 if(!l.result)return;
 if(l.result.length==0)return;
-if(v.hasChildNodes()){
-while(v.hasChildNodes()){
-v.removeChild(v.firstChild);	
-}	
-}
+remove_nodes(v);
 formi_user_list(l.result);	
 }
 function on_update_query_error(l,el){

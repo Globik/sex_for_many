@@ -12,6 +12,15 @@ var underVideo=gid("under-video");
 var btnStart=gid("btnStart");
 var vasja=gid("vasja");
 var btcc=gid("btcc");
+var is_video_transfer = false;
+var is_dopPanel = false;
+var dopPanel=gid("dopPanel");
+var mediaSource=new MediaSource();
+mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
+var mediaRecorder;
+var recordedBlobs;
+var sourceBuffer;
+
 var spanWhosOn = gid("spanWhosOn");
 var sock;
 var myusername;
@@ -226,17 +235,29 @@ go_webrtc();
 }
 
  function go_webrtc(){	
+//audio:{echoCancellation:{exact:true}}
+navigator.mediaDevices.getUserMedia({video:true, audio:true,echoCancellation: false,audio:{echoCancellation:{exact:false}}}).then(function(stream){
 
-navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(function(stream){
+if(!owner()){
+
 localVideo.srcObject=stream;
 localVideo.play();
 localVideo.volume = 0;
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
-
-	pc.createOffer().then(function(offer){
-		return pc.setLocalDescription(offer)}).then(function(){
-	wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
+pc.createOffer().then(function(offer){
+return pc.setLocalDescription(offer)}).then(function(){
+wsend({type:'offer',offer:pc.localDescription, from:myusername,target:modelName.value});
 	})
+	
+}else{
+if(owner()){
+//MediaRecorder
+window.stream=stream;
+localVideo.srcObject=stream;
+is_video_transfer = true;
+}	
+}	
+	
 	}).catch(function(err){
 console.error(err);
 //alert(er.name);
@@ -246,6 +267,7 @@ if(err.name=="NotFoundError"){
 }else{note({content:err.name,type:"error",time:5});}
 if(!owner())btnStart.disabled=false;
 webrtc.innerHTML+=err+'<br>';
+if(owner())is_video_transfer=false;
 })
 }
 function cancel_video(el){
@@ -410,6 +432,80 @@ privatchat.scrollTop=privatchat.clientHeight+privatchat.scrollHeight;
 ev.target.value="";
 }
 }
+
+function dopPanel_out(el){
+if(!is_dopPanel){
+is_dopPanel=true;
+dopPanel.className="dopPanel_out";		
+}else{
+is_dopPanel=false;	
+dopPanel.className="";
+}
+}
+
+function start_mediaRecord(el){
+go_webrtc();	
+}
+
+function start_stream(el){
+if(el.textContent=="Старт стрим"){
+	//alert(1);
+startRecording();
+el.textContent="Стоп стрим";
+}else{
+stopRecording();
+el.textContent="Старт стрим";	
+}	
+}
+
+function startRecording(){
+recordedBlobs=[];
+var opti={mimeType:'video/webm;codecs=vp9'};
+if(!MediaRecorder.isTypeSupported(opti.mimeType)){
+	console.error(opti.mimeType + ' is not supported');
+	opti={mimeType:'video/webm;codecs=vp=8'};
+	if(!MediaRecorder.isTypeSupported(opti.mimeType)){
+		console.error(opti.mimeType+' is not supported');
+		opti={mimeType:'video/webm'};
+		if(!MediaRecorder.isTypeSupported(opti.mimeType)){
+			console.error(opti.mimeType+' is not supported');
+			opti={mimeType:''};
+			}
+		}
+	}
+	try{
+		mediaRecorder=new MediaRecorder(window.stream,opti);
+		}catch(e){
+			console.error('mediarecorder err: ', e);
+			return;
+			}
+			//button stop recording
+			
+			mediaRecorder.onstop=function(event){
+				console.warn('recorder stopped ', event);
+				console.log('recorded blobs: ', recordedBlobs);
+				}
+				mediaRecorder.ondataavailable=handlDataAvailable;
+				mediaRecorder.start(10);
+				console.warn('mediaRecorder started ', mediaRecorder);
+}
+
+function stopRecording(){
+mediaRecorder.stop();	
+}
+
+function handlDataAvailable(event){
+console.warn("DATA AVAILABLE");	
+if(event.data && event.data.size>0){
+console.log(event.data);
+recordedBlobs.push(event.data);	
+if(event.data.size>11071){
+//alert(2);
+mediaRecorder.consume();
+}
+}
+}
+function handleSourceOpen(){}
 
 function on_track(event){
 	//if(!event.streams[0])
