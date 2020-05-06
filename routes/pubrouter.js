@@ -3,6 +3,7 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const fs=require('fs');
 const uuid=require('uuid/v4');
 
 const reqw=require('request-promise-native');
@@ -422,7 +423,51 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
 	ctx.body=invoice;//{info:"ok",invoice:invoice}
 })
-/* profile */
+
+/* SAVE VIDEO */
+
+pub.post("/api/save_video", auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+async ctx=>{
+	let {v}=ctx.request.body.files;
+	let {vn,room_id,room_name}=ctx.request.body.fields;
+	console.log('path: ',v.path);
+	console.log('name: ', v.name);
+	console.log('room_name: ', room_name);
+	console.log('room_id: ',room_id);
+	let s_s='./public/video/'+v.name;
+	try{
+		await insert_foto(v.path, s_s);
+		}catch(e){
+		ctx.throw(400,e);
+		}
+		ctx.body={info:"ok, saved video"}
+})
+
+function insert_foto(path, name){
+return new Promise(function(res,rej){
+var readstr=fs.createReadStream(path);
+var writestr=fs.createWriteStream(name);
+readstr.pipe(writestr);
+readstr.on('open', function(){console.log('readstr is open');})
+readstr.on('close', function(){
+console.log('readstr is close');
+fs.unlink(path, function(e){
+if(e){
+console.log('readstr erri: ',e);
+rej(e);
+}
+})
+})
+writestr.on('open', function(){console.log('writestr is open');})
+writestr.on('close',  function(){
+console.log('writestr is close');
+res()
+})
+})
+}
+			
+
+/* PROFILE */
 
 pub.post("/api/get_p", async ctx=>{
 let {name}=ctx.request.body;

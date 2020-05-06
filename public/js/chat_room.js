@@ -20,6 +20,7 @@ mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
 var mediaRecorder;
 var recordedBlobs;
 var sourceBuffer;
+var file_srcs=[];
 
 var spanWhosOn = gid("spanWhosOn");
 var sock;
@@ -450,6 +451,7 @@ go_webrtc();
 function start_stream(el){
 if(el.textContent=="Старт стрим"){
 	//alert(1);
+	
 startRecording();
 el.textContent="Стоп стрим";
 }else{
@@ -457,8 +459,14 @@ stopRecording();
 el.textContent="Старт стрим";	
 }	
 }
+var kik=0;
+var dik=0;
+var tinterval;
+
+var figa_timer=false;
 
 function startRecording(){
+	if(figa_timer){figa_timer=false;}
 recordedBlobs=[];
 var opti={mimeType:'video/webm;codecs=vp9'};
 if(!MediaRecorder.isTypeSupported(opti.mimeType)){
@@ -481,29 +489,89 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 			}
 			//button stop recording
 			
-			mediaRecorder.onstop=function(event){
-				console.warn('recorder stopped ', event);
-				console.log('recorded blobs: ', recordedBlobs);
+			mediaRecorder.onstart=function(){
+				//dik+=1;
+			//	recordedBlobs=[];
+				console.warn("On start");
+				/*tinterval=setInterval(function(){
+					if(mediaRecorder.state !='inactive'){;
+					mediaRecorder.stop();
 				}
+					},4000);*/
+				}
+			mediaRecorder.onerror=function(){console.error('error');}
+			mediaRecorder.onpause=function(ev){
+				console.log('on pause',ev);
+				//var ti=mediaRecorder.requestData();
+				//console.log('ti: ',ti);
+//save_video_file();
+
+				}
+			mediaRecorder.onresume=function(){dik+=1;console.log('on resume');}
+			
+mediaRecorder.onstop=function(event){
+console.warn('recorder stopped ', event);
+console.log('recorded blobs: ', recordedBlobs);
+console.log("kik: ",kik);//500
+dik++;
+save_video_file();
+}
 				mediaRecorder.ondataavailable=handlDataAvailable;
-				mediaRecorder.start(10);
+				if(!figa_timer){
+				setTimeout(function(){
+					if(mediaRecorder.state=='inactive')return;
+					mediaRecorder.stop();
+					},4000);
+				}
+				mediaRecorder.start();
 				console.warn('mediaRecorder started ', mediaRecorder);
+}
+function save_video_file(){
+//if(figa_timer)return;
+var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:'video/webm;codecs=vp9'});
+var form_data=new FormData();
+form_data.append('vn',file.name);
+form_data.append('v',file);
+form_data.append('room_id',modelId.value)
+form_data.append('room_name',modelName.value);
+vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, null,true);
+}
+
+function on_save_video(l){
+console.log(l);	
+if(!figa_timer){startRecording();}
+}
+
+function on_save_video_error(l){
+console.error(l);	
 }
 
 function stopRecording(){
+figa_timer=true;
 mediaRecorder.stop();	
+//figa_timer=false;
 }
 
 function handlDataAvailable(event){
 console.warn("DATA AVAILABLE");	
+//var ti=mediaRecorder.requestData();
+//console.log('ti: ',ti);
 if(event.data && event.data.size>0){
-console.log(event.data);
+//	kik++;
+//console.log(event.data);
 recordedBlobs.push(event.data);	
-if(event.data.size>11071){
-//alert(2);
-mediaRecorder.consume();
+//dik++;
+//save_video_file();
+//recordedBlobs=[];
+if(kik==50){
+//mediaRecorder.pause();	
 }
 }
+
+}
+function do_play(){
+locv.src="/video/suka.webm";
+locv.play();	
 }
 function handleSourceOpen(){}
 

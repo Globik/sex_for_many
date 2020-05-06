@@ -57,8 +57,7 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
-data-owner="${owner_str}" data-notowner="${notowner_str}"
->
+data-owner="${owner_str}" data-notowner="${notowner_str}">
 <video id="remoteVideo" autoplay></video>
 <video id="localVideo" autoplay></video>
 </div>
@@ -112,6 +111,8 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
+<button onclick="do_play();">play</button>
+<video id="locv"></video>
 <hr>
 ${doska.doska({})}
 <hr>
