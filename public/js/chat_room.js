@@ -591,9 +591,11 @@ console.error(l);
 
 function stopRecording(){
 figa_timer=true;
+if(mediaRecorder.state !="inactive")
 mediaRecorder.stop();
 is_vstream_started=false;
 //vsrc=[];
+
 }
 
 function handlDataAvailable(event){
