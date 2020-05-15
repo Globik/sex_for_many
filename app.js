@@ -251,7 +251,7 @@ if(res && res.rows.length)btc_address=res.rows[0].adr;
 pool.query('delete from vroom',[],function(err,res){
 if(err)console.log(err);	
 })
-removeDir('public/video').then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
+removeDir(path.join('public','video')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 
 }
 var servak;
