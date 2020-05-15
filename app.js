@@ -112,7 +112,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=="public/video"){}else{
+if(dir=='public/video/'){}else{
 await rmdir(dir);
 }
 }catch(e){
@@ -497,7 +497,7 @@ if(er)console.log(er)
 	if(ws.on_vair){
 pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
 	if(er)console.log(er);
-	removeDir('./public/video/'+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
+	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 	});
 		}
 });
