@@ -456,7 +456,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=="./public/video"){}else{
+if(dir=="public/video"){}else{
 await rmdir(dir);
 }
 }catch(e){
@@ -476,14 +476,14 @@ async ctx=>{
 	console.log('room_id: ',room_id);
 	console.log('is_active: ',is_active);
 	console.log('is_first: ',is_first);
-	let s_s='./public/video/'+room_name+'/'+v.name;
+	let s_s='..public/video/'+room_name+'/'+v.name;
 	let v_src='/video/'+room_name+'/'+v.name;
 	try{
-		let l=await access('./public/video/'+room_name, fs.constants.F_OK);
+		let l=await access('..public/video/'+room_name, fs.constants.F_OK);
 		console.log('if file exists?: ', l);
 		}catch(e){
 console.log(e);
-await mkdir('./public/video/'+room_name);		
+await mkdir('../public/video/'+room_name);		
 		}
 try{
 await insert_foto(v.path, s_s);

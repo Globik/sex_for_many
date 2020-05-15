@@ -112,7 +112,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=="./public/video"){}else{
+if(dir=="public/video"){}else{
 await rmdir(dir);
 }
 }catch(e){
