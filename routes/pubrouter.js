@@ -483,7 +483,7 @@ async ctx=>{
 		console.log('if file exists?: ', l);
 		}catch(e){
 console.log(e);
-await mkdir('../public/video/'+room_name);		
+await mkdir('..public/video/'+room_name);		
 		}
 try{
 await insert_foto(v.path, s_s);
