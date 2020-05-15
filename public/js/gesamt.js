@@ -72,6 +72,9 @@ vax("post", "/api/onesignal_count",
 	//alert(440);
 var s6=gid("zagln2");
 if(s6)s6.remove();
+var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
+try{
+if(we)we.remove();}catch(e){}
 var dimi=document.createElement("div");
 dimi.setAttribute('data-roomidi',ajson.us_id);
 dimi.className="vroomers";

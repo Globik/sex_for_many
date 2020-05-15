@@ -215,15 +215,18 @@ stopVideo();
 spanWhosOn.textContent=ad.cnt;
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
 }else if(ad.type="on_vair"){
-
+vsrc.push(ad.vsrc);plad();
 if(ad.is_first=="true"){
 ONVAIR=true;
+//alert(9);
+
 if(!owner()){localVideo.style.display="none";v.className="";}
 }
 if(ad.is_active =="false"){
 ONVAIR=false;	
+//vsrc.push(ad.vsrc);plad();
 if(!owner()){localVideo.style.display="block";v.className="notowner";}
-}else{vsrc.push(ad.vsrc);plad();}	
+}else{/*vsrc.push(ad.vsrc);plad();*/}	
 }else if(ad.type=="out_vair"){
 	ONVAIR=false;
 }else{
@@ -521,6 +524,7 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 			
 			mediaRecorder.onstart=function(){
 				console.warn("On start");
+				console.log('vsrc: ',vsrc)
 				dik++;
 				}
 			mediaRecorder.onerror=function(){console.error('error');}
@@ -561,8 +565,11 @@ vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, nu
 
 function on_save_video(l){
 console.log(l);	
-if(!figa_timer){startRecording();is_first_time=false;}else{dik=0;is_first_time=false;}
-if(l.is_first=="true"){
+if(!figa_timer){
+startRecording();
+is_first_time=false;
+}else{dik=0;is_first_time=false;}
+//if(l.is_first=="true"){
 var d={};
 d.type="on_vair";
 d.is_first=l.is_first;
@@ -571,7 +578,7 @@ d.vsrc=l.vsrc;
 d.room_id=l.room_id;
 d.room_name=l.room_name;
 wsend(d);	
-}
+//}
 if(l.is_active=="false"){
 	//alert(2);
 var d2={};
