@@ -477,15 +477,20 @@ async ctx=>{
 	console.log('room_id: ',room_id);
 	console.log('is_active: ',is_active);
 	console.log('is_first: ',is_first);
-	let s_s='..public/video/'+room_name+'/'+v.name;
+	//let s_s=path.join('..','public/video/',room_name,'/',v.name);
+	let s_s='./public/video/'+room_name+'/'+v.name;
 	let v_src='/video/'+room_name+'/'+v.name;
+	//try{await mkdir('./public/video/'+room_name);}catch(e){console.log('err in mkdir: ',e)}	
 	try{
-		let l=await access('..public/video/'+room_name, fs.constants.F_OK);
+		let l=await access('./public/video/'+room_name, fs.constants.F_OK);
 		console.log('if file exists?: ', l);
 		}catch(e){
-console.log(e);
-await mkdir('..public/video/'+room_name);		
-		}
+console.log('haha: ',e);
+
+try{
+await mkdir('./public/video/'+room_name);
+}catch(e){console.log('err in mkdir: ',e)}	
+		} 
 try{
 await insert_foto(v.path, s_s);
 if(is_first=="true"){
@@ -496,10 +501,7 @@ if(is_active=="false"){
 await db.query('delete from vroom where nick=$1',[room_name]);
 console.log("REMOVING THE FILE DIRECTORY, ", room_name);
 await removeDir('./public/video/'+room_name);
-}
-
-			//await db.query(`notify events,'${JSON.stringify({a:'ru'})}'`);
-		}catch(e){
+}}catch(e){
 		ctx.throw(400,e);
 		}
 ctx.body={info:"ok, saved video",room_id:room_id,room_name:room_name,is_first:is_first,is_active,vsrc:v_src}
@@ -511,6 +513,7 @@ var readstr=fs.createReadStream(path);
 var writestr=fs.createWriteStream(name);
 readstr.pipe(writestr);
 readstr.on('open', function(){console.log('readstr is open');})
+readstr.on('error',function(e){rej(e);})
 readstr.on('close', function(){
 console.log('readstr is close');
 fs.unlink(path, function(e){
@@ -520,6 +523,7 @@ rej(e);
 }
 })
 })
+writestr.on('error',function(e){rej(e)})
 writestr.on('open', function(){console.log('writestr is open');})
 writestr.on('close',  function(){
 console.log('writestr is close');

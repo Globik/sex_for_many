@@ -28,7 +28,8 @@ const readdir=util.promisify(fs.readdir);
 const lstat=util.promisify(fs.lstat);
 const unlink=util.promisify(fs.unlink);
 const rmdir=util.promisify(fs.rmdir);
-
+const access=util.promisify(fs.access);
+const mkdir=util.promisify(fs.mkdir);
 const koaBody=require('koa-body');
 const Koa=require('koa');
 
@@ -233,7 +234,7 @@ console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
-function on_run(){
+async function on_run(){
 
 pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
@@ -251,6 +252,14 @@ if(res && res.rows.length)btc_address=res.rows[0].adr;
 pool.query('delete from vroom',[],function(err,res){
 if(err)console.log(err);	
 })
+try{
+let l=await access('public/video/', fs.constants.F_OK);
+console.log('if file exists?: ', l);
+		}catch(e){
+console.log('haha: ',e);
+try{
+await mkdir('public/video/');
+}catch(e){console.log('err in mkdir: ',e)}	
 removeDir(path.join('public','video/')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 
 }
@@ -354,7 +363,11 @@ console.log('msg notify: ',msg);
 msg.data.type="on_btc";
 broadcast_satoshi(msg.data);
 });
-
+function broadcasti(obj){
+wss.clients.forEach(function(client){
+wsend(client, obj);
+})	
+}
 
 function noop(){}
 const interval=setInterval(function ping(){
@@ -523,7 +536,7 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 
 })
 
-//}
+}
 
 
 
@@ -543,11 +556,8 @@ a=JSON.stringify(obj);
 if(ws.readyState===WebSocket.OPEN)ws.send(a);	
 }catch(e){console.log('err in stringify: ',e);}	
 }
-function broadcasti(obj){
-wss.clients.forEach(function(client){
-	wsend(client, obj);
-})	
-}
+
+
 process.on('unhundledRejection', function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	
