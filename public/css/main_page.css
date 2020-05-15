@@ -6,21 +6,21 @@ cursor:pointer;
 padding:20px;
 }
 p{line-height:1.7}
-#onlineSection{
+#onlineSection,#onlineVideo{
 	border:1px solid rgb(233,76,129);
 	width:100%;
 	height:auto;
 	display:block;
 	padding:20px 20px 30px 20px;	
 	}
-	#onlineContainer{
+	#onlineContainer,#videoContainer{
 	display:flex;
 	flex-direction: row; 
 	flex-wrap:wrap;
 	justify-content:center;
 	height:auto;
 	}
-	#onlineHeader{
+	#onlineHeader,#onlineVideoHeader{
 	font-weight:bold;
 	font-size:2em;	
 	text-align:center;
@@ -40,6 +40,14 @@ height:100px;
 	.img-footer{
 	margin-top:-2px;	
 	}
+.newuserdiv{
+margin-top:20px;
+margin-bottom:20px;
+}
+.onlineVideo{
+
+}
+.videovroomers{width:150px;}
 @media screen and (min-width:300px){
 .ahero{display:inline-block;}
 }

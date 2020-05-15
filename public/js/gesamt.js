@@ -54,7 +54,7 @@ var buserli=gid("buserli");
 var suserli=(buserli.value=="0"?false:true);
 var su=(suserli?'/webrtc/'+buserli.value:'/login');
 var s8=document.createElement("span");
-//<span id="zagln">Пока нет никого.</span>
+
 s8.id="zagln";
 s8.innerHTML='Пока нет никого. <a class="ahero" href="'+su+'">Будь первым!</a>';
 gid('onlineContainer').appendChild(s8);
@@ -66,6 +66,32 @@ var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
 if(s9)s9.textContent=ajson.part;
 }else if(ajson.type=="spanWhosOn"){
 spanWhosOn.textContent=ajson.cnt;	
-vax("post", "/api/onesignal_count", {cnt: ajson.cnt, desc: "main page"}, function(l){console.log(l)}, function(l){console.error(l)}, null, false);
+vax("post", "/api/onesignal_count", 
+{cnt: ajson.cnt, desc: "main page"}, function(l){console.log(l)}, function(l){console.error(l)}, null, false);
+}else if(ajson.type=="on_vair"){
+	//alert(440);
+var s6=gid("zagln2");
+if(s6)s6.remove();
+var dimi=document.createElement("div");
+dimi.setAttribute('data-roomidi',ajson.us_id);
+dimi.className="vroomers";
+dimi.innerHTML='<h5><a href="/webrtc/'+ajson.us_id+'"><span>'+ajson.room_name+'</span></a></h5>';
+dimi.innerHTML+='<video class="videovroomers" src="'+ajson.vsrc+'"'+' data-vidi="'+ajson.us_id+'"></video>';
+videoContainer.appendChild(dimi);
+}else if(ajson.type=="out_vair"){
+	//alert(1);
+var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
+try{
+if(we)we.remove();
+var s7=document.querySelector(".imgContself");
+if(!s7){
+var buserli=gid("buserli");
+var suserli=(buserli.value=="0"?false:true);
+var su=(suserli?'/webrtc/'+buserli.value:'/login');
+var s8=document.createElement("span");
+s8.id="zagln2";
+s8.innerHTML='Пока нет никого. <a class="ahero" href="'+su+'">Будь первым!</a>';
+gid('videoContainer').appendChild(s8);
+}}catch(e){console.log(e)}
 }else{console.log("unknown type: ", ajson.type);}
 }

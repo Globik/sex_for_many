@@ -19,20 +19,20 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <h3>Пользователи</h3>
 <hr>
 <form name="Z" method="POST" action="/api/get_suchen">
-<label>
+<div class="halter"><label>
 <strong class="strong">Возраст:</strong>
 <input type="number" name="ab" min="18" max="99" value="18"> - <input type="number" name="bis" min="19" max="100" value="60">
-</label>&nbsp;&nbsp;&nbsp;
-<label><strong class="strong">Город:</strong>&nbsp;<input name="city" type="text" placeholder="Москва"></label>
-<br><br><label><strong class="strong">Ориентация:</strong>
+</label></div>&nbsp;&nbsp;&nbsp;
+<div class="halter"><label><strong class="strong">Город:</strong>&nbsp;<input name="city" type="text" placeholder="Москва"></label></div>&nbsp;&nbsp;&nbsp;
+<div class="halter"><label><strong class="strong">Ориентация:</strong>
 <select name="bi" id="zType" required>
 	<option value="gay">гей</option>
 	<option value="bi">би</option>
 	<option value="lesbi">лесби</option>
 	<option value="trans">транс</option>
-	</select></label>&nbsp;&nbsp;&nbsp;
-	<label><strong class="strong">Ключевое слово:</strong>&nbsp;<input name="keywort" type="text"></label>
-	<input type="submit" value="Искать">
+	</select></label></div>&nbsp;&nbsp;&nbsp;
+	<div class="halter"><label><strong class="strong">Ключевое слово:</strong>&nbsp;<input name="keywort" type="text"></label></div>
+	<div class="halter">&nbsp;<input type="submit" value="Поиск"></div>
 	</form><br>
 <button onclick="fetch_all_suchen(this);">Показать всех</button>	
 <hr>
@@ -48,7 +48,7 @@ n.forEach(function(el, i){
 s+=`<div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}">
 <div class="newuserleft"><img class="newuserfoto" src="${el.ava?el.ava:'/images/default.jpg'}"/></div>
 <div class="newuserrite">
-<div><a href="/webrtc/${el.id}">${el.bname}, ${el.age?el.age:18}</a></div>
+<div><a href="/webrtc/${el.id}">${el.bname}</a>, ${el.age?el.age:18} лет</div>
 ${el.bi?`<div>${el.bi}</div>`:''}
 ${el.city?`<div>${el.city}</div>`:''}
 ${el.msg?`<div>${el.msg}</div>`:''}

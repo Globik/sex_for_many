@@ -4,6 +4,14 @@ const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const fs=require('fs');
+const util=require('util');
+const path=require('path');
+const readdir=util.promisify(fs.readdir);
+const unlink=util.promisify(fs.unlink);
+const mkdir=util.promisify(fs.mkdir);
+const access=util.promisify(fs.access);
+const rmdir=util.promisify(fs.rmdir);
+const lstat=util.promisify(fs.lstat);
 const uuid=require('uuid/v4');
 
 const reqw=require('request-promise-native');
@@ -27,6 +35,7 @@ pub.get('/', reklama, async ctx=>{
 let bresult;
 let new_users;
 let db=ctx.db;
+let videoUsers;
 
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
@@ -40,13 +49,19 @@ bresult=bus.rows;
 let bus1=await db.query(d);
 if(bus1.rows.length>0){
 new_users=bus1.rows;
+} 
+let a=await db.query('select*from vroom',[]);
+if(a.rows.length>0){
+videoUsers=a.rows;	
 }
 }catch(e){console.log(e)}	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
-ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users});
+ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers});
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
+
+
 
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
@@ -426,21 +441,67 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 
 /* SAVE VIDEO */
 
+const removeDir=async(dir)=>{
+try{
+const files=await readdir(dir);
+await Promise.all(files.map(async file=>{
+try{
+let p=path.join(dir,file);
+let stat=await lstat(p);
+if(stat.isDirectory()){
+await removeDir(p);	
+}else{
+await unlink(p);	
+}	
+}catch(e){console.log(e)}	
+}))
+console.log('dir:',dir);
+if(dir=="./public/video"){}else{
+await rmdir(dir);
+}
+}catch(e){
+console.log(e);	
+}	
+}
+
 pub.post("/api/save_video", auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
 async ctx=>{
 	let {v}=ctx.request.body.files;
-	let {vn,room_id,room_name}=ctx.request.body.fields;
+	let {vn,room_id,room_name,is_active,is_first}=ctx.request.body.fields;
+	if(!v || !room_id || !room_name)ctx.throw(400, "No data");
+	let db=ctx.db;
 	console.log('path: ',v.path);
 	console.log('name: ', v.name);
-	console.log('room_name: ', room_name);
+	console.log('room_name: ', room_name);//for directory in video
 	console.log('room_id: ',room_id);
-	let s_s='./public/video/'+v.name;
+	console.log('is_active: ',is_active);
+	console.log('is_first: ',is_first);
+	let s_s='./public/video/'+room_name+'/'+v.name;
+	let v_src='/video/'+room_name+'/'+v.name;
 	try{
-		await insert_foto(v.path, s_s);
+		let l=await access('./public/video/'+room_name, fs.constants.F_OK);
+		console.log('if file exists?: ', l);
+		}catch(e){
+console.log(e);
+await mkdir('./public/video/'+room_name);		
+		}
+try{
+await insert_foto(v.path, s_s);
+if(is_first=="true"){
+await db.query('insert into vroom(us_id,nick,vsrc) values($1,$2,$3) on conflict do nothing',[room_id,room_name,v_src]);
+}
+console.log('IS ACTIVE??: ',is_active)
+if(is_active=="false"){
+await db.query('delete from vroom where nick=$1',[room_name]);
+console.log("REMOVING THE FILE DIRECTORY, ", room_name);
+await removeDir('./public/video/'+room_name);
+}
+
+			//await db.query(`notify events,'${JSON.stringify({a:'ru'})}'`);
 		}catch(e){
 		ctx.throw(400,e);
 		}
-		ctx.body={info:"ok, saved video"}
+ctx.body={info:"ok, saved video",room_id:room_id,room_name:room_name,is_first:is_first,is_active,vsrc:v_src}
 })
 
 function insert_foto(path, name){

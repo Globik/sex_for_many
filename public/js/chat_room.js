@@ -12,15 +12,19 @@ var underVideo=gid("under-video");
 var btnStart=gid("btnStart");
 var vasja=gid("vasja");
 var btcc=gid("btcc");
-var is_video_transfer = false;
+var ONVAIR = false;
+var is_vstream_started=false;
+var is_first_time=false;
 var is_dopPanel = false;
 var dopPanel=gid("dopPanel");
-var mediaSource=new MediaSource();
-mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
+//var mediaSource=new MediaSource();
+//mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
 var mediaRecorder;
 var recordedBlobs;
 var sourceBuffer;
-var file_srcs=[];
+var vsrc = [];
+var is_playing=false;
+var current_playing=null;
 
 var spanWhosOn = gid("spanWhosOn");
 var sock;
@@ -209,9 +213,19 @@ note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
 }else if(ad.type=="spanWhosOn"){
 spanWhosOn.textContent=ad.cnt;
-
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
+}else if(ad.type="on_vair"){
 
+if(ad.is_first=="true"){
+ONVAIR=true;
+if(!owner()){localVideo.style.display="none";v.className="";}
+}
+if(ad.is_active =="false"){
+ONVAIR=false;	
+if(!owner()){localVideo.style.display="block";v.className="notowner";}
+}else{vsrc.push(ad.vsrc);plad();}	
+}else if(ad.type=="out_vair"){
+	ONVAIR=false;
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -451,12 +465,24 @@ go_webrtc();
 function start_stream(el){
 if(el.textContent=="Старт стрим"){
 	//alert(1);
-	
+	//wsend({type:});
 startRecording();
+is_vstream_started=true;
+is_first_time=true;
 el.textContent="Стоп стрим";
+v.className="";
+webcamStart.disabled=true;
 }else{
 stopRecording();
-el.textContent="Старт стрим";	
+is_vstream_started=false;
+webcamStart.disabled=false;
+//wsend({type:"out_vair",
+//is_first_time=false;
+el.textContent="Старт стрим";
+//wsend({type:"out_vair",);
+if(owner()){v.className="owner";}else{}	
+
+//localVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 }	
 }
 var kik=0;
@@ -466,12 +492,12 @@ var tinterval;
 var figa_timer=false;
 
 function startRecording(){
-	if(figa_timer){figa_timer=false;}
+if(figa_timer){figa_timer=false;}
 recordedBlobs=[];
 var opti={mimeType:'video/webm;codecs=vp9'};
 if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 	console.error(opti.mimeType + ' is not supported');
-	opti={mimeType:'video/webm;codecs=vp=8'};
+	opti={mimeType:'video/webm;codecs=vp8'};
 	if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 		console.error(opti.mimeType+' is not supported');
 		opti={mimeType:'video/webm'};
@@ -483,37 +509,31 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 	}
 	try{
 		mediaRecorder=new MediaRecorder(window.stream,opti);
+		//is_vstream_started=true;
 		}catch(e){
 			console.error('mediarecorder err: ', e);
+			is_vstream_started=false;
+			is_first_time=false;
+			vStreamStart.textContent="Стоп стрим";
 			return;
 			}
 			//button stop recording
 			
 			mediaRecorder.onstart=function(){
-				//dik+=1;
-			//	recordedBlobs=[];
 				console.warn("On start");
-				/*tinterval=setInterval(function(){
-					if(mediaRecorder.state !='inactive'){;
-					mediaRecorder.stop();
-				}
-					},4000);*/
+				dik++;
 				}
 			mediaRecorder.onerror=function(){console.error('error');}
 			mediaRecorder.onpause=function(ev){
 				console.log('on pause',ev);
-				//var ti=mediaRecorder.requestData();
-				//console.log('ti: ',ti);
-//save_video_file();
-
-				}
+}
 			mediaRecorder.onresume=function(){dik+=1;console.log('on resume');}
 			
 mediaRecorder.onstop=function(event){
 console.warn('recorder stopped ', event);
 console.log('recorded blobs: ', recordedBlobs);
-console.log("kik: ",kik);//500
-dik++;
+console.log("kik: ",kik);
+//dik++;
 save_video_file();
 }
 				mediaRecorder.ondataavailable=handlDataAvailable;
@@ -521,25 +541,48 @@ save_video_file();
 				setTimeout(function(){
 					if(mediaRecorder.state=='inactive')return;
 					mediaRecorder.stop();
-					},4000);
+					},10000);//60000
 				}
 				mediaRecorder.start();
-				console.warn('mediaRecorder started ', mediaRecorder);
+				console.warn('mediaRecorder started ');
 }
 function save_video_file(){
-//if(figa_timer)return;
-var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:'video/webm;codecs=vp9'});
+	//alert('dik:'+dik);
+var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:mediaRecorder.mimeType});
 var form_data=new FormData();
 form_data.append('vn',file.name);
 form_data.append('v',file);
 form_data.append('room_id',modelId.value)
 form_data.append('room_name',modelName.value);
+form_data.append('is_active',is_vstream_started);
+form_data.append('is_first',is_first_time);
 vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, null,true);
 }
 
 function on_save_video(l){
 console.log(l);	
-if(!figa_timer){startRecording();}
+if(!figa_timer){startRecording();is_first_time=false;}else{dik=0;is_first_time=false;}
+if(l.is_first=="true"){
+var d={};
+d.type="on_vair";
+d.is_first=l.is_first;
+d.is_active=l.is_active;
+d.vsrc=l.vsrc;
+d.room_id=l.room_id;
+d.room_name=l.room_name;
+wsend(d);	
+}
+if(l.is_active=="false"){
+	//alert(2);
+var d2={};
+d2.type="out_vair";
+d2.is_first=l.is_first;
+d2.is_active=l.is_active;
+d2.vsrc=l.vsrc;
+d2.room_id=l.room_id;
+d2.room_name=l.room_name;
+wsend(d2);
+}
 }
 
 function on_save_video_error(l){
@@ -548,30 +591,40 @@ console.error(l);
 
 function stopRecording(){
 figa_timer=true;
-mediaRecorder.stop();	
-//figa_timer=false;
+mediaRecorder.stop();
+is_vstream_started=false;
+//vsrc=[];
 }
 
 function handlDataAvailable(event){
 console.warn("DATA AVAILABLE");	
-//var ti=mediaRecorder.requestData();
-//console.log('ti: ',ti);
 if(event.data && event.data.size>0){
-//	kik++;
-//console.log(event.data);
 recordedBlobs.push(event.data);	
-//dik++;
-//save_video_file();
-//recordedBlobs=[];
-if(kik==50){
-//mediaRecorder.pause();	
 }
 }
 
+function plad(){
+if(!is_playing){
+//if(current_playing==vsrc[vsrc.length-1]){console.warn("it looks like stream ends up");vsrc=[];return;}
+console.log('vsrc: ', vsrc);
+console.log('vsrc.length: ',vsrc.length);
+console.log('vsrc[0]: ', vsrc[vsrc.length-1]);
+do_play(vsrc[vsrc.length-1]);
 }
-function do_play(){
-locv.src="/video/suka.webm";
-locv.play();	
+}
+function do_play(n){
+current_playing=n;
+remoteVideo.src=n;
+remoteVideo.play();	
+}
+remoteVideo.onplaying=function(){
+is_playing=true;
+console.log("it's playing");	
+}
+remoteVideo.onended=function(){
+console.log('locv video ended');
+is_playing=false;
+if(ONVAIR)plad();
 }
 function handleSourceOpen(){}
 
@@ -790,7 +843,13 @@ vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);
 function on_set_vs(l){console.log(l);}
 
 function on_get_profile_error(l){console.error(l);}
-localVideo.onloadedmetadata=function(e){console.log('on local video loaded video data');}
+localVideo.onloadedmetadata=function(e){
+	console.log('on local video loaded video data');
+	if(owner()){
+		//if(is_vstream_started)
+		vStreamStart.disabled=false;
+	}
+	}
 remoteVideo.onloadedmetadata=function(e){console.log('on remote video loaded video data');}
 
 

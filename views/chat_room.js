@@ -68,16 +68,16 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 
 <div id="under-video2">
 
-<div id="privatcontainer" class="ondisplay spanout">
+<div id="privatcontainer" class="">
 <div id="privatpanel"><span onclick="on_span();">приватчат</span></div>
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
-<button onclick="dopPanel_out(this);">m</button>
+${n.owner?'<button onclick="dopPanel_out(this);">||</button>':''}
 
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
-<div id="dopPanel"><button onclick="start_mediaRecord(this);">Веб камера</button><button onclick="start_stream(this);">Старт стрим</button></div>
+<div id="dopPanel"><button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button><button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
 </div>
 
 </section>
@@ -111,8 +111,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
-<button onclick="do_play();">play</button>
-<video id="locv"></video>
+
 <hr>
 ${doska.doska({})}
 <hr>

@@ -1,5 +1,6 @@
 var smally=gid("smally"),
 	outresult=gid("outresult");
+	var USNAME;
     var form=document.forms.namedItem("mform"); //gid("mform"),
 	//show_pwd=gid('show_pwd'),
     //pwd=form.password,
@@ -31,6 +32,7 @@ var tar=ev.target;
 //pars.email=email.value;
 pars.username=tar.username.value;
 pars.password=tar.password.value;
+USNAME=pars.username;
 //pars.age=tar.age.value;
 //pars.gender=tar.fem.value;
 //alert(ev.target.username.value+' '+ev.target.age.value);
@@ -47,9 +49,9 @@ if(e.success==false){notif_er(e)}else{notif(e);}}
 function on_fail(e){console.error(e);notif_err(e)}
 function notif(e){	
 outresult.style.display="block";
-tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт на gayroom!</h3>'+e.message+'<br><br>Перейти на <a href="/">главную страницу</a><br><br></p>');
+tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт на gayroom!</h3>'+e.message+'<br><br>Вы можете заполнить ваш <a href="/home/profile/'+USNAME+'">профиль</a>.<br><br>Или перейти на <a href="/">главную страницу</a><br><br></p>');
 removeForm();
-setTimeout(function(){window.location.href=e.redirect;},4000);
+setTimeout(function(){window.location.href=e.redirect;},10000);
 }
 
 

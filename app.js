@@ -22,6 +22,13 @@ const fs = require('fs');
 //const DB_URL=process.env.DATABASE_URL;//for heroku
 //const DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 
+const path=require('path');
+const util=require('util');
+const readdir=util.promisify(fs.readdir);
+const lstat=util.promisify(fs.lstat);
+const unlink=util.promisify(fs.unlink);
+const rmdir=util.promisify(fs.rmdir);
+
 const koaBody=require('koa-body');
 const Koa=require('koa');
 
@@ -89,6 +96,29 @@ await next()
 }
 }
 app.use(xhr());
+
+const removeDir=async(dir)=>{
+try{
+const files=await readdir(dir);
+await Promise.all(files.map(async file=>{
+try{
+let p=path.join(dir,file);
+let stat=await lstat(p);
+if(stat.isDirectory()){
+await removeDir(p);	
+}else{
+await unlink(p);	
+}	
+}catch(e){console.log(e)}	
+}))
+console.log('dir:',dir);
+if(dir=="./public/video"){}else{
+await rmdir(dir);
+}
+}catch(e){
+console.log(e);	
+}	
+}
 
 var test_btc_address;
 var btc_address;
@@ -218,6 +248,11 @@ function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows[0].adr);
 if(res && res.rows.length)btc_address=res.rows[0].adr;
 });
+pool.query('delete from vroom',[],function(err,res){
+if(err)console.log(err);	
+})
+removeDir('./public/video').then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
+
 }
 var servak;
 if(is_ssl_http){
@@ -311,8 +346,8 @@ el.send(a);
 
 ps.addChannel('events', function (msg){
 console.log('msg: ', msg);
-console.log('table: ', msg.table);
-send_to_all(wss, msg.data);// may be to defined room?
+//console.log('table: ', msg.table);
+//send_to_all(wss, msg.data);// may be to defined room?
 });
 ps.addChannel('on_smart_cb', function(msg){
 console.log('msg notify: ',msg);
@@ -336,6 +371,7 @@ console.log("websock client opened!", req.url);
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 //console.log("clients: ", wss.clients.size);
 ws.owner=false;//if an owner 
+ws.on_vair=false;
 ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
@@ -349,7 +385,8 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 ws.isAlive=true;
 ws.on('pong',heartbeat);
 
-ws.on('message',function sock_msg(msg){
+ws.on('message', async function sock_msg(msg){
+	console.log('json:',msg)
 var send_to_client=0;
 let l;
 try{
@@ -398,6 +435,28 @@ who_online(d5);
 }
 }
 send_to_client=1;
+}else if(l.type=="on_vair"){
+	console.log("ON VAIR: ",l)
+	ws.on_vair=true;
+broadcast_room(ws, l);
+who_online(l);
+send_to_client=1;
+}else if(l.type="out_vair"){
+	console.log("WE ARE HERE");
+//d.is_first=l.is_first;
+//d.is_active=l.is_active;
+//d.vsrc=l.vsrc;
+//d.room_id=l.room_id;
+//d.room_name=l.room_name;
+	
+	
+ws.on_vair=false;
+broadcast_room(ws,l);
+who_online(l);
+send_to_client=1;
+
+
+
 }else if(l.type=="candidate"){
 
 }else if(l.type=="offer"){
@@ -435,6 +494,12 @@ if(er)console.log(er)
 	d6.type="out_room";
 	d6.roomid=ws.url.substring(1);
 	who_online(d6);
+	if(ws.on_vair){
+pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
+	if(er)console.log(er);
+	removeDir('./public/video/'+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
+	});
+		}
 });
 }else{
 if(ws.url !== "/gesamt"){

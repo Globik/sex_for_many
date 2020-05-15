@@ -37,10 +37,18 @@ ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'При
 <p>
 Также обратите внимание на <strong>гей-доску для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегестрироваться</a></button>':''}</p>
+<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегистрироваться</a></button>':''}</p>
 <hr>
 <h2>Новые профили</h2>
 ${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
+<hr>
+<section id="onlineVideo">
+<header id="onlineVideoHeader">Живое видео</header>
+<section id="videoContainer">
+${n.videoUsers && n.videoUsers.length >0 ? vroomers_list(n.videoUsers) : 
+`<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
+</section>
+</section>
 <hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
@@ -65,13 +73,21 @@ function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<div data-roomid="${el.us_id}" class="img-online-container">
+s+=`<div data-roombid="${el.us_id}" сlass="img-online-container">
 <img class="img-online" src="${el.ava?(el.isava==2?el.ava:'/images/default.jpg'):'/images/default.jpg'}">
 <footer class="img-footer"><a href="/webrtc/${el.us_id}">${el.nick}</a>&nbsp;,&nbsp;${el.age?el.age:18}&nbsp;лет.&nbsp;
 (<span data-vid="${el.us_id}">${el.v}</span> чел.)</footer>
 </div>`;
 });
  }
+return s;
+}
+function vroomers_list(n){
+let s='';
+n.forEach(function(el,i){
+s+=`<div class="vroomers" data-roomidi="${el.us_id}" class="imgContself"><h5><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></h5>
+<video class="videovroomers" src="${el.vsrc}" data-vidi="${el.us_id}"></video></div>`;	
+})	
 return s;
 }
 
@@ -81,7 +97,7 @@ n.forEach(function(el,i){
 s+=`<div class="newuserdiv">
 <div class="newuserleft"><img class="newuserfoto" src="${el.ava?el.ava:'/images/default.jpg'}"/></div>
 <div class="newuserrite">
-<div><a href="/webrtc/${el.id}">${el.bname}, ${el.age?el.age:18}</a></div>
+<div><a href="/webrtc/${el.id}">${el.bname}</a> ${el.age?el.age:18} лет.</div>
 ${el.bi?`<div>${el.bi}</div>`:''}
 ${el.city?`<div>${el.city}</div>`:''}
 ${el.msg?`<div>${el.msg}</div>`:''}
