@@ -113,7 +113,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=='public/video/'){}else{
+if(dir=='public/video'){}else{
 await rmdir(dir);
 }
 }catch(e){
@@ -255,12 +255,14 @@ if(err)console.log(err);
 try{
 let l=await access('public/video/', fs.constants.F_OK);
 console.log('if file exists?: ', l);
+removeDir(path.join('public','video')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 		}catch(e){
 console.log('haha: ',e);
 try{
 await mkdir('public/video/');
 }catch(e){console.log('err in mkdir: ',e)}	
-removeDir(path.join('public','video/')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
+console.log('trying delete public/video');
+//removeDir(path.join('public','video')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 
 }
 var servak;

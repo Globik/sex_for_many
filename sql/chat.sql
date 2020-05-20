@@ -1,10 +1,10 @@
 -- \i /home/globik/sex_for_many/sql/chat.sql
--- drop table if exists chat;
--- create table chat(			
---					msg text,
-	--				tz timestamptz not null default now(),
-		--			us_id int not null,-- room id = us id
-			--	    nick varchar(25) not null);
+ drop table if exists chat;
+ create table chat(			
+					msg text,
+					tz timestamptz not null default now(),
+					us_id int not null,-- room id = us id
+			    nick varchar(25) not null);
 -- insert into chat(msg,us_id,nick) values('hello',1,'Globi');
 CREATE OR REPLACE FUNCTION expire_chat_delete_old_rows() RETURNS trigger
 LANGUAGE plpgsql AS $$

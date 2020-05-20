@@ -58,6 +58,9 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 </section>
 </section>
 <hr>
+<h3>Свежие видео</h3>
+${n.videos?get_videos(n.videos):'Пока нет видео.'}
+<hr>
 ${doska.doska({})}
 <hr>
 ${people({})}
@@ -106,7 +109,13 @@ ${el.msg?`<div>${el.msg}</div>`:''}
 s+='<div><br><a id="newusera" href="/home/users">Смотреть все профили</a></div>';
 return s;	
 }
-
+function get_videos(n){
+	let s='';
+	n.forEach(function(el,i){
+	s+=`<div data-vvid="${el.id}"><video src="/vid/${el.src}" controls></video></div>`;	
+	})
+	return s;
+}
 function get_meta(){
 let s='';
 s+=`

@@ -6,6 +6,7 @@ const Router=require('koa-router');
 const fs=require('fs');
 const util=require('util');
 const path=require('path');
+var {spawn}=require('child_process');
 const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
 const mkdir=util.promisify(fs.mkdir);
@@ -36,7 +37,7 @@ let bresult;
 let new_users;
 let db=ctx.db;
 let videoUsers;
-
+let videos;
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
 let d=`select buser.id, buser.bname, profile.age, profile.msg, 
@@ -54,10 +55,14 @@ let a=await db.query('select*from vroom',[]);
 if(a.rows.length>0){
 videoUsers=a.rows;	
 }
+let bb=await db.query('select*from video limit 5');
+if(bb.rows.length>0){
+videos=bb.rows;	
+}
 }catch(e){console.log(e)}	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
-ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers});
+ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers,videos:videos});
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 
@@ -306,7 +311,7 @@ pub.get('/webrtc/:buser_id', reklama, async function(ctx){
 let us=ctx.state.user;
 let db=ctx.db;
 console.log("USER: ",us);
-let a,result;
+let a,result,videos,videos2;
 let owner=false;
 let sis;
 if(ctx.state.is_test_btc){
@@ -319,6 +324,8 @@ on buser.bname=cladr.nick where buser.id=$1`;
 try{
 result=await db.query(sis,[ctx.params.buser_id]);
 a=result.rows[0];
+videos2=await db.query('select*from video where nick=$1',[a.bname]);
+videos=videos2.rows;
 }catch(e){
 console.log('db error: ',e);
 ctx.body=await ctx.render('room_err',{mess:"Нет такого пользователя."});
@@ -331,7 +338,8 @@ return;
 if(us){
 if(us.id==ctx.params.buser_id){owner=true;}
 }
-ctx.body= await ctx.render('chat_room',{model:a, owner:owner});
+
+ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos});
 });
 //pub.get('/webrtc/:buser_id', async function(ctx){});
 //save btc address
@@ -440,6 +448,37 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 })
 
 /* SAVE VIDEO */
+//const path=require('path');
+
+function s_video(user_name){
+return new Promise(function(res,rej){
+
+let sh=shortid.generate();
+let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",process.env.HOME+"/sex_for_many/public/vid/"+user_name+"_"+sh+".webm"];
+console.log('du: ',du);
+const ls=spawn('ffmpeg',du);
+ls.stderr.on('data',data=>{console.log(data.toString());})
+ls.stdout.on('data',data=>{console.log(data.toString());})
+ls.on('close',(code)=>{console.log('child process closed with code: ',code);
+	if(code==0){res(user_name+'_'+sh+'.webm')}else{rej("error");}
+	})
+ls.on('exit',(code)=>{console.log('child process exit: ', code);})
+})	
+} 
+
+function jopa(arr,us_name){
+	return new Promise(function(res,rej){
+var stream=fs.createWriteStream(process.env.HOME+"/sex_for_many/public/video/"+us_name+"/myfile.txt");
+stream.once('open',(fd)=>{
+	arr.forEach(function(el,i){
+	stream.write("file '"+process.env.HOME+"/sex_for_many/public"+el+"'\n")	
+	})
+	stream.on('error',function(e){rej(e)})
+	stream.end();
+	})
+stream.on('close',function(){console.log("closeeeeeeeee");res(us_name)})
+})
+}
 
 const removeDir=async(dir)=>{
 try{
@@ -468,9 +507,11 @@ console.log(e);
 pub.post("/api/save_video", auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
 async ctx=>{
 	let {v}=ctx.request.body.files;
-	let {vn,room_id,room_name,is_active,is_first}=ctx.request.body.fields;
+	let {vn,room_id,room_name,is_active,is_first,is_record,recordArr}=ctx.request.body.fields;
 	if(!v || !room_id || !room_name)ctx.throw(400, "No data");
 	let db=ctx.db;
+	var is_rec=false;
+	//console.log("pathi: ",path);
 	console.log('path: ',v.path);
 	console.log('name: ', v.name);
 	console.log('room_name: ', room_name);//for directory in video
@@ -500,11 +541,22 @@ console.log('IS ACTIVE??: ',is_active)
 if(is_active=="false"){
 await db.query('delete from vroom where nick=$1',[room_name]);
 console.log("REMOVING THE FILE DIRECTORY, ", room_name);
+if(is_record=="true"){
+	console.log("recordArr: ",recordArr);
+	let li=JSON.parse(recordArr);
+	console.log("li : ",li.d);
+	is_rec=is_record;
+	let jo=await jopa(li.d,room_name);
+	console.log("JO: ",jo);
+let da=await s_video(room_name);
+console.log("DA: ",da)
+await db.query('insert into video(nick,src) values($1,$2)',[room_name,da]);
+}
 await removeDir('./public/video/'+room_name);
 }}catch(e){
 		ctx.throw(400,e);
 		}
-ctx.body={info:"ok, saved video",room_id:room_id,room_name:room_name,is_first:is_first,is_active,vsrc:v_src}
+ctx.body={info:"ok, saved video",room_id:room_id,room_name:room_name,is_first:is_first,is_active,vsrc:v_src,is_record:is_rec}
 })
 
 function insert_foto(path, name){

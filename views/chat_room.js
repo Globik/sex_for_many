@@ -77,7 +77,7 @@ ${n.owner?'<button onclick="dopPanel_out(this);">||</button>':''}
 
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
-<div id="dopPanel"><button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button><button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
+<div id="dopPanel"><label for="ifRecord">Сохранить видео</label><input id="ifRecord" type="checkbox"><button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button><button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
 </div>
 
 </section>
@@ -111,7 +111,8 @@ ${n.owner?'<button onclick="dopPanel_out(this);">||</button>':''}
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
-
+<hr>
+${n.videos?get_videos(n.videos):''}
 <hr>
 ${doska.doska({})}
 <hr>
@@ -167,5 +168,12 @@ s+=`
 <meta property="og:site_name" content="gayroom"/>
 <meta itemprop="name" content="Чат комната ${n?n.bname:''}." />
 <meta itemprop="description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
+return s;
+}
+function get_videos(n){
+let s='';
+n.forEach(function(el,i){
+s+=`<div data-vvid="${el.id}"><video src="/vid/${el.src}" controls></video></div>`;	
+})	
 return s;
 }

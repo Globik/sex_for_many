@@ -214,7 +214,7 @@ stopVideo();
 }else if(ad.type=="spanWhosOn"){
 spanWhosOn.textContent=ad.cnt;
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
-}else if(ad.type="on_vair"){
+}else if(ad.type=="on_vair"){
 vsrc.push(ad.vsrc);plad();
 if(ad.is_first=="true"){
 ONVAIR=true;
@@ -228,7 +228,8 @@ ONVAIR=false;
 if(!owner()){localVideo.style.display="block";v.className="notowner";}
 }else{/*vsrc.push(ad.vsrc);plad();*/}	
 }else if(ad.type=="out_vair"){
-	ONVAIR=false;
+ONVAIR=false;vsrc=[];
+//console.log('VSRC: ',vsrc);
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -537,18 +538,17 @@ mediaRecorder.onstop=function(event){
 console.warn('recorder stopped ', event);
 console.log('recorded blobs: ', recordedBlobs);
 console.log("kik: ",kik);
-//dik++;
 save_video_file();
 }
-				mediaRecorder.ondataavailable=handlDataAvailable;
-				if(!figa_timer){
-				setTimeout(function(){
-					if(mediaRecorder.state=='inactive')return;
-					mediaRecorder.stop();
-					},10000);//60000
-				}
-				mediaRecorder.start();
-				console.warn('mediaRecorder started ');
+mediaRecorder.ondataavailable=handlDataAvailable;
+if(!figa_timer){
+setTimeout(function(){
+if(mediaRecorder.state=='inactive')return;
+mediaRecorder.stop();
+},10000);//60000
+}
+mediaRecorder.start();
+console.warn('mediaRecorder started ');
 }
 function save_video_file(){
 	//alert('dik:'+dik);
@@ -559,7 +559,15 @@ form_data.append('v',file);
 form_data.append('room_id',modelId.value)
 form_data.append('room_name',modelName.value);
 form_data.append('is_active',is_vstream_started);
+if(ifRecord.checked){
+	//alert("RECORD!");
+form_data.append('is_record',true);
+form_data.append('recordArr',JSON.stringify({d:vsrc}));
+}else{
+form_data.append('is_record',false);	
+}
 form_data.append('is_first',is_first_time);
+console.warn('vsrc: ',vsrc);
 vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, null,true);
 }
 
@@ -622,6 +630,7 @@ do_play(vsrc[vsrc.length-1]);
 }
 }
 function do_play(n){
+	console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
 remoteVideo.play();	
@@ -632,6 +641,7 @@ console.log("it's playing");
 }
 remoteVideo.onended=function(){
 console.log('locv video ended');
+//vsrc=[];
 is_playing=false;
 if(ONVAIR)plad();
 }
