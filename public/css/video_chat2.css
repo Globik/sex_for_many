@@ -328,7 +328,7 @@ h2{margin-left:6px;}
 #video-wrapper{height:87%;}
 #remoteVideo{}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
-	#vasja{}
+	
 	.btn-start{}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
@@ -338,4 +338,8 @@ h2{margin-left:6px;}
 	
 	#pizda1  button{width:100%;margin-left:0;}
 	#privatcontainer{width:100%;}
+	.videodiv{width:100%;}
+	.videodiv video{width:100%;}
+	#under-chat2{height:auto;}
+	#btnFoto,#vasja{font-size:0.7em;}
 }

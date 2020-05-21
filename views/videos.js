@@ -34,7 +34,8 @@ function get_videos(n,l){
 let s='<section id="uservideo">';
 n.forEach(function(el, i){
 s+=`<div class="videodiv" data-id="${el.id}" data-at="${el.cr_at}">
-<div><span><a href="/webrtc/${el.usid}">${el.nick}</a></span>&nbsp;<span>${moment(el.cr_at).format('DD-MM-YYYY')}</span>&nbsp;<span>Просмотров: </span><span>${el.v}</span></div>
+<div><span><a href="/webrtc/${el.usid}">${el.nick}</a></span>&nbsp;<span>${moment(el.cr_at).format('DD-MM-YYYY')}</span>&nbsp;
+<span>Просмотров: </span><span>${el.v}</span></div>
 <video data-vid="${el.id}" src="/vid/${el.src}" controls onplay="vplay(this);"></video>
 <div>${l.user&&l.user.brole=='superadmin'?`<button data-bid="${el.id}" data-src="${el.src}" onclick="del_video(this);">Удалить</button>`:''}
 </div></div>`;

@@ -248,6 +248,17 @@ result = a.rows;
 ctx.body={info:"OK",content:result}
 });
 
+pub.post("/api/video_deleteUs",auth, async ctx=>{
+let {vid, src}=ctx.request.body;
+if(!vid || !src)ctx.throw(400,"no vid or src provided");
+let db=ctx.db;
+try{
+await db.query('delete from video where id=$1',[vid]);
+await unlink(process.env.HOME+'/sex_for_many/public/vid/'+src);
+}catch(e){ctx.throw(400,e);}
+ctx.body={info: "OK, deleted!"}	
+})
+
 /* USERS */
 
 pub.get("/home/users", async ctx=>{

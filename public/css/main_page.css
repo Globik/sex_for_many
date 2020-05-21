@@ -48,6 +48,8 @@ margin-bottom:20px;
 
 }
 .videovroomers{width:150px;}
-@media screen and (min-width:300px){
+@media screen and (max-width:320px){
 .ahero{display:inline-block;}
+.videodiv{width:100%;}
+	.videodiv video{width:100%;}
 }

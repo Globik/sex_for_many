@@ -2,6 +2,7 @@ const html_head=require('./html_head'),
     html_nav_menu=require('./html_nav_menu'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
+   const moment=require('moment');
    const {get_banner, get_banner_podval}=require('./reklama_s');
    const doska=require('./doska');
    const {people} = require('./people');
@@ -112,7 +113,7 @@ ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</
 ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
 <hr>
-${n.videos?get_videos(n.videos):''}
+${n.videos?get_videos(n.videos,n):''}
 <hr>
 ${doska.doska({})}
 <hr>
@@ -170,10 +171,15 @@ s+=`
 <meta itemprop="description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
 return s;
 }
-function get_videos(n){
+function get_videos(n,l){
 let s='';
 n.forEach(function(el,i){
-s+=`<div data-vvid="${el.id}"><video src="/vid/${el.src}" controls></video></div>`;	
+s+=`<div class="videodiv" data-id="${el.id}" data-at="${el.cr_at}">
+<div><span><a href="/webrtc/${el.usid}">${el.nick}</a></span>&nbsp;<span>${moment(el.cr_at).format('DD-MM-YYYY')}</span>&nbsp;
+<span>Просмотров: </span><span>${el.v}</span></div>
+<video data-vid="${el.id}" src="/vid/${el.src}" controls onplay="vplay(this);"></video>
+<div>${l.owner?`<button data-bid="${el.id}" data-src="${el.src}" onclick="del_video(this);">Удалить</button>`:''}</div>
+</div>`;	
 })	
 return s;
 }

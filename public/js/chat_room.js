@@ -570,7 +570,7 @@ form_data.append('is_first',is_first_time);
 console.warn('vsrc: ',vsrc);
 vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, null,true);
 }
-//888888888
+
 function on_save_video(l){
 console.log(l);	
 if(!figa_timer){
@@ -645,6 +645,39 @@ console.log('locv video ended');
 is_playing=false;
 if(ONVAIR)plad();
 }
+
+function del_video(el){
+var a=el.getAttribute('data-bid');
+var e=el.getAttribute('data-src');
+if(!a || !e)return;
+if(confirm("Удалить видео?")){
+var d={};
+d.vid=a;
+d.src=e;
+vax("post", "/api/video_deleteUs", d, on_video_del, on_video_del_error, el, false);
+el.className="puls";
+}
+}
+
+function on_video_del(l,ev){
+ev.className="";
+note({content:l.info,type:"info",time:5});	
+var s=document.querySelector('[data-id="'+ev.getAttribute('data-bid')+'"]');
+if(s)s.remove();
+}
+function on_video_del_error(l,ev){
+ev.className="";
+note({content:l,type:"error",time:5});	
+}
+function vplay(el){
+var a=el.getAttribute('data-vid');
+if(!a)return;
+var d={};
+d.vid=a;
+vax("post", "/api/video_views", d, on_video_views, on_video_views_error, null, false);
+}
+
+
 function handleSourceOpen(){}
 
 function on_track(event){
