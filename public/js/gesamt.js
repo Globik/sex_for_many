@@ -98,3 +98,15 @@ gid('videoContainer').appendChild(s8);
 }}catch(e){console.log(e)}
 }else{console.log("unknown type: ", ajson.type);}
 }
+
+function vplay(el){
+var a=el.getAttribute('data-vid');
+if(!a)return;
+var d={};
+d.vid=a;
+vax("post", "/api/video_views", d, on_video_views, on_video_views_error, null, false);
+}
+function on_video_views(l){
+console.log(l);	
+}
+function on_video_views_error(l){console.error(l);}

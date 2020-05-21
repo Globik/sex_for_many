@@ -112,7 +112,7 @@ return s;
 function get_videos(n){
 	let s='';
 	n.forEach(function(el,i){
-	s+=`<div class="videodiv" data-vvid="${el.id}"><video src="/vid/${el.src}" controls></video></div>`;	
+	s+=`<div class="videodiv" data-vvid="${el.id}"><video data-vid="${el.id}" src="/vid/${el.src}" controls onplay="vplay(this);"></video></div>`;	
 	})
 	return s;
 }
