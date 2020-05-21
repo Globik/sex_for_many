@@ -59,7 +59,7 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 </section>
 <hr>
 <h3>Свежие видео</h3>
-${n.videos?get_videos(n.videos):'Пока нет видео.'}
+${n.videos?`${get_videos(n.videos)}<div><a href="/videos">Смотреть все видео</a></div>`:'Пока нет видео.'}
 <hr>
 ${doska.doska({})}
 <hr>

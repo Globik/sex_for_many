@@ -41,7 +41,7 @@ let videos;
 try{
 let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
 let d=`select buser.id, buser.bname, profile.age, profile.msg, 
-profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 20`;
+profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 5`;
 let bus=await db.query(s);
 
 if(bus.rows.length>0){
@@ -211,6 +211,42 @@ return ctx.login(user)
 }
 }})(ctx,next)
 })
+
+/*  VIDEOS */
+
+pub.get('/videos',reklama, async ctx=>{
+let db=ctx.db;
+let result;
+try{
+let a=await db.query('select * from video limit 5');
+if(a.rows.length>0)result=a.rows;	
+}catch(e){console.log(e);}
+ctx.body=await ctx.render('videos',{videos:result});
+})
+pub.post("/api/video_views", async ctx=>{
+let {vid}=ctx.request.body;
+if(!vid)ctx.throw(400,"no vid provided");
+let db=ctx.db;
+try{
+await db.query('update video set v=v+1 where id=$1',[vid]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK"}	
+})
+
+pub.post("/api/get_more_videos", async ctx=>{
+let {next}=ctx.request.body;
+if(!next)ctx.throw(400,"no next");
+let db=ctx.db;
+let result;
+let s=`select*from video where cr_at > $1 limit 5`;
+try{
+let a = await db.query(s,[next]);	
+if(a.rows.length > 0){
+result = a.rows;
+}
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK",content:result}
+});
 
 /* USERS */
 
@@ -550,7 +586,7 @@ if(is_record=="true"){
 	console.log("JO: ",jo);
 let da=await s_video(room_name);
 console.log("DA: ",da)
-await db.query('insert into video(nick,src) values($1,$2)',[room_name,da]);
+await db.query('insert into video(nick,src,usid) values($1,$2,$3)',[room_name,da,room_id]);
 }
 await removeDir('./public/video/'+room_name);
 }}catch(e){

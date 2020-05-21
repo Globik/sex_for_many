@@ -21,6 +21,7 @@ ${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>
 <li><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a>
 <li><a href="/home/blog"><div class="muka"><span>Блог</span></div></a>
+<li><a href="/videos"><div class="muka"><span>Видео</span></div></a>
 ${n.buser?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
 '<li><a href="/login"><div class="muka"><span>Войти</span></div></a>'}
 <!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
