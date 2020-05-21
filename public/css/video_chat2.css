@@ -316,7 +316,8 @@ border:1px solid transparent;
 #btcInfo{margin-left:0; font-size:0.8em;overflow:auto;width:100%;}
 
 #setImg{width:98%;}
-
+.videodiv{width:100%;}
+.videodiv video{width:100%;}
 }
 
 @media screen and (min-width: 1900px) {

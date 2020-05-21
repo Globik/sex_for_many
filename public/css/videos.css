@@ -1,4 +1,10 @@
 .videodiv{margin-top:15px;margin-bottom:15px;padding:10px;}
+
+@media screen and (max-width: 750px) {
+.videodiv{width:100%;}
+.videodiv video{width:100%;}
+}
+
 @media screen and (max-width:320px){
 .videodiv{width:100%;}
 .videodiv video{width:100%;}
