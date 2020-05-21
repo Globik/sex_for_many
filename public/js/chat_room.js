@@ -570,7 +570,7 @@ form_data.append('is_first',is_first_time);
 console.warn('vsrc: ',vsrc);
 vax("post", "/api/save_video", form_data, on_save_video, on_save_video_error, null,true);
 }
-
+//888888888
 function on_save_video(l){
 console.log(l);	
 if(!figa_timer){
