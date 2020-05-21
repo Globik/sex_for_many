@@ -676,7 +676,10 @@ var d={};
 d.vid=a;
 vax("post", "/api/video_views", d, on_video_views, on_video_views_error, null, false);
 }
-
+function on_video_views(l){
+console.log(l);	
+}
+function on_video_views_error(l){console.error(l);}
 
 function handleSourceOpen(){}
 
