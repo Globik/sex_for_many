@@ -451,10 +451,17 @@ who_online(d5);
 }
 send_to_client=1;
 }else if(l.type=="on_vair"){
-	console.log("ON VAIR: ",l)
-	ws.on_vair=true;
-broadcast_room(ws, l);
+console.log("ON VAIR: ",l);
+if(l.is_first=='true'){
+ws.on_vair=true;
 who_online(l);
+}
+broadcast_room(ws, l);
+//who_online(l);
+if(l.is_active=='false'){
+l.type="out_vair";
+who_online(l);	
+}
 send_to_client=1;
 }else if(l.type="out_vair"){
 	console.log("WE ARE HERE");
@@ -467,7 +474,7 @@ send_to_client=1;
 	
 ws.on_vair=false;
 broadcast_room(ws,l);
-who_online(l);
+//who_online(l);
 send_to_client=1;
 
 
@@ -510,6 +517,9 @@ if(er)console.log(er)
 	d6.roomid=ws.url.substring(1);
 	who_online(d6);
 	if(ws.on_vair){
+//{"type":"out_vair","is_first":"false","is_active":"false","vsrc":"/video/Globi/Globi_9.webm","room_id":"1","room_name":"Globi"}
+
+	who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)})
 pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
 	if(er)console.log(er);
 	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});

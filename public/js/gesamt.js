@@ -35,6 +35,13 @@ var ajson=JSON.parse(d);
 if(ajson.type=="new_room"){
 var s5=gid("zagln");
 if(s5)s5.remove();
+var selid=document.querySelector('[data-roomid="'+ajson.us_id+'"]');
+try{	
+if(selid){
+	//alert(selid);
+selid.remove();
+}
+}catch(e){}
 var dimg=document.createElement("div");
 dimg.setAttribute('data-roomid',ajson.us_id);
 dimg.className="img-online-container";
@@ -70,11 +77,14 @@ vax("post", "/api/onesignal_count",
 {cnt: ajson.cnt, desc: "main page"}, function(l){console.log(l)}, function(l){console.error(l)}, null, false);
 }else if(ajson.type=="on_vair"){
 	//alert(440);
+	if(ajson.is_first=='true'){
+		if(ajson.is_active=='false')return;
+		}
 var s6=gid("zagln2");
 if(s6)s6.remove();
-var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
-try{
-if(we)we.remove();}catch(e){}
+//var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
+//try{
+//if(we)we.remove();}catch(e){}
 var dimi=document.createElement("div");
 dimi.setAttribute('data-roomidi',ajson.us_id);
 dimi.className="vroomers";
@@ -86,7 +96,7 @@ videoContainer.appendChild(dimi);
 var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
 try{
 if(we)we.remove();
-var s7=document.querySelector(".imgContself");
+var s7=document.querySelector(".vroomers");
 if(!s7){
 var buserli=gid("buserli");
 var suserli=(buserli.value=="0"?false:true);
@@ -100,7 +110,7 @@ gid('videoContainer').appendChild(s8);
 }
 
 function vplay(el){
-var a=el.getAttribute('data-vid');
+var a=el.getAttribute('data-video_id');
 if(!a)return;
 var d={};
 d.vid=a;

@@ -226,7 +226,7 @@ if(ad.is_active =="false"){
 ONVAIR=false;	
 //vsrc.push(ad.vsrc);plad();
 if(!owner()){localVideo.style.display="block";v.className="notowner";}
-}else{/*vsrc.push(ad.vsrc);plad();*/}	
+}else{/*vsrc.push(ad.vsrc);plad();*/ONVAIR=true;}	
 }else if(ad.type=="out_vair"){
 ONVAIR=false;vsrc=[];
 //console.log('VSRC: ',vsrc);
@@ -609,8 +609,6 @@ figa_timer=true;
 if(mediaRecorder.state !="inactive")
 mediaRecorder.stop();
 is_vstream_started=false;
-//vsrc=[];
-
 }
 
 function handlDataAvailable(event){
@@ -630,7 +628,12 @@ do_play(vsrc[vsrc.length-1]);
 }
 }
 function do_play(n){
-	console.log('N: ',n)
+if(owner()){
+if(is_vstream_started==false){return;}
+}else{
+if(!ONVAIR)return;	
+}
+console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
 remoteVideo.play();	
@@ -640,8 +643,7 @@ is_playing=true;
 console.log("it's playing");	
 }
 remoteVideo.onended=function(){
-console.log('locv video ended');
-//vsrc=[];
+console.log('remote video ended');
 is_playing=false;
 if(ONVAIR)plad();
 }

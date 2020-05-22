@@ -59,7 +59,7 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
 data-owner="${owner_str}" data-notowner="${notowner_str}">
-<video id="remoteVideo" autoplay></video>
+<video id="remoteVideo" muted autoplay controls></video>
 <video id="localVideo" autoplay></video>
 </div>
 <div id="under-video">

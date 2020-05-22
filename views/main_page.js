@@ -76,7 +76,7 @@ function roomers_list(n){
 let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<div data-roombid="${el.us_id}" сlass="img-online-container">
+s+=`<div data-roomid="${el.us_id}" сlass="img-online-container">
 <img class="img-online" src="${el.ava?(el.isava==2?el.ava:'/images/default.jpg'):'/images/default.jpg'}">
 <footer class="img-footer"><a href="/webrtc/${el.us_id}">${el.nick}</a>&nbsp;,&nbsp;${el.age?el.age:18}&nbsp;лет.&nbsp;
 (<span data-vid="${el.us_id}">${el.v}</span> чел.)</footer>
@@ -88,7 +88,8 @@ return s;
 function vroomers_list(n){
 let s='';
 n.forEach(function(el,i){
-s+=`<div class="vroomers" data-roomidi="${el.us_id}" class="imgContself"><h5><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></h5>
+s+=`<div data-roomidi="${el.us_id}" class="vroomers">
+<h5><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></h5>
 <video class="videovroomers" src="${el.vsrc}" data-vidi="${el.us_id}"></video></div>`;	
 })	
 return s;
@@ -112,7 +113,8 @@ return s;
 function get_videos(n){
 	let s='';
 	n.forEach(function(el,i){
-	s+=`<div class="videodiv" data-vvid="${el.id}"><video data-vid="${el.id}" src="/vid/${el.src}" controls onplay="vplay(this);"></video></div>`;	
+	s+=`<div class="videodiv" data-vvid="${el.id}">
+	<video data-video_id="${el.id}" src="/vid/${el.src}" preload="metadata" controls onplay="vplay(this);"></video></div>`;	
 	})
 	return s;
 }
@@ -125,7 +127,7 @@ s+=`
 <meta property="og:url" content="httpы://gayroom.ru" />
 <meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
 <meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев и лесбиянок в России. 
-Получение донатов в биткоинахю" />
+Получение донатов в биткоинах." />
 
 <meta property="og:site_name" content="gayroom" />
 <meta itemprop="name" content="Мультичат для ЛГБТ сообщества России" />

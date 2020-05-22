@@ -56,5 +56,5 @@ margin-bottom:20px;
 @media screen and (max-width:320px){
 .ahero{display:inline-block;}
 .videodiv{width:100%;}
-	.videodiv video{width:100%;}
+.videodiv video{width:100%;}
 }
