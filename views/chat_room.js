@@ -74,18 +74,18 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
-${n.owner?'<button onclick="dopPanel_out(this);">||</button>':''}
+${n.owner?'<button class="btn-start" onclick="dopPanel_out(this);">||</button>':''}
 
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
-<div id="dopPanel"><label for="ifRecord">Сохранить видео</label><input id="ifRecord" type="checkbox"><button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button><button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
+<div id="dopPanel"><label for="ifRecord">Сохранить видео</label><input id="ifRecord" type="checkbox">
+<button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button>
+<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
 </div>
 
 </section>
 
-<section id="chat-container"><div id="chatPanel"><b>В&nbsp;чатe&nbsp;</b><span id="chatcnt">0</span>&nbsp;чел.
-
-</div>
+<section id="chat-container"><div id="chatPanel"><div><b>В&nbsp;чатe&nbsp;</b><span id="chatcnt">0</span>&nbsp;чел.</div></div>
 <div id="chat"></div>
 <div id="under-chat">
 <textarea id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></textarea>

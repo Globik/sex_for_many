@@ -299,6 +299,7 @@ width:100.6%;
 display:block;
 }
 #webcamStart{margin-right:3px;}
+
 @media screen and (max-width: 751px){
 #chatPanel{ackground:red;}
 #media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);} 
@@ -310,7 +311,7 @@ height: 500px;
 border:1px solid transparent;
 }
 #video-container{width:100%;}
-#chat-container{width:95%;}
+#chat-container{width:100%;}
 #btcadr{font-size:0.7em;}
 
 #btcInfo{margin-left:0; font-size:0.8em;overflow:auto;width:100%;}
@@ -325,12 +326,14 @@ h2{margin-left:6px;}
 }
 @media screen and (max-width: 320px){
 #chat-container{color:red;margin-top:60px;}
+#chatPanel{line-height:1.7;}
 
 #video-wrapper{height:87%;}
 #remoteVideo{}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
 	
-	.btn-start{}
+	.btn-start,#webcamStart,#vStreamStart{color:inherit;font-size:0.8em;margin-top:1em;margin-left:0.2em;}
+	#dopPanel{height:auto;}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
 	
@@ -342,5 +345,6 @@ h2{margin-left:6px;}
 	.videodiv{width:100%;}
 	.videodiv video{width:100%;}
 	#under-chat2{height:auto;}
-	#btnFoto,#vasja{font-size:0.7em;}
+	#under-video2{text-align:left;}
+	#btnFoto,#vasja{font-size:0.7em;margin-bottom:0.3em;}
 }
