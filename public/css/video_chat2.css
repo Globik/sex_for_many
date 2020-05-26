@@ -180,8 +180,9 @@ vertical-align:bottom;
 .g-data{ackground:red;color:rgb(60,60,20);font-size:0.5em;text-align:right;}
 
 #vasja, #btnFoto, .btn-start{
-margin-top:0.3rem;
+margin-top:0.2rem;
 font-size:0.9em;
+margin-right:0.2em;
 }
 .btn-saveL{
 font-size:0.7em;
@@ -289,7 +290,12 @@ height:30px;
 width:100%;	
 }
 
-#dopPanel{background:lightgreen;height:60px;z-index:1;display:none;position:relative;
+#dopPanel{
+background:lightgreen;
+height:60px;
+z-index:1;
+display:none;
+position:relative;
 padding:10px;
 margin-top:6px;
 width:100.6%;
@@ -300,8 +306,12 @@ display:block;
 }
 #webcamStart{margin-right:3px;}
 
+@media screen and (min-width: 1900px) {
+h2{margin-left:6px;}
+}
+
 @media screen and (max-width: 751px){
-#chatPanel{ackground:red;}
+#chatPanel{line-height:1.7;}
 #media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);} 
 #mediaPanel{height:52px;}
 #video-container,#chat-container{
@@ -319,13 +329,17 @@ border:1px solid transparent;
 #setImg{width:98%;}
 .videodiv{width:100%;}
 .videodiv video{width:100%;}
+.btn-start,#webcamStart,#vStreamStart{color:inherit;font-size:0.8em;margin-top:0.4em;margin-left:0.2em;}
+#dopPanel{height:auto;}
+#under-chat2{height:auto;}
+#under-video2{text-align:left;}
+#btnFoto,#vasja{font-size:0.7em;margin-bottom:0.3em;}
+label[for="ifRecord"]{color:red;vertical-align:0.09em;}
 }
 
-@media screen and (min-width: 1900px) {
-h2{margin-left:6px;}
-}
+
 @media screen and (max-width: 320px){
-#chat-container{color:red;margin-top:60px;}
+#chat-container{olor:red;margin-top:60px;}
 #chatPanel{line-height:1.7;}
 
 #video-wrapper{height:87%;}

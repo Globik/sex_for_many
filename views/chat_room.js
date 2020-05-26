@@ -59,8 +59,8 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
 data-owner="${owner_str}" data-notowner="${notowner_str}">
-<video id="remoteVideo" muted autoplay controls></video>
-<video id="localVideo" autoplay></video>
+<video id="remoteVideo" muted autoplay></video>
+<video id="localVideo" muted autoplay></video>
 </div>
 <div id="under-video">
 ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
@@ -78,7 +78,8 @@ ${n.owner?'<button class="btn-start" onclick="dopPanel_out(this);">||</button>':
 
 <button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
 <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
-<div id="dopPanel"><label for="ifRecord">Сохранить видео</label><input id="ifRecord" type="checkbox">
+<div id="dopPanel">
+<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox"/><span class="galka"></span></label>
 <button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
 </div>

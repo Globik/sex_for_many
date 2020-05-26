@@ -1,16 +1,17 @@
-const file='admin_main_menu.js',gf=`<!-- ${file} -->`;
+const file='html_admin_main_menu.js',gf=`<!-- ${file} -->`;
 var html_admin_nav_menu=n=>{
 	let {abuse_nots}=n;
 	return `${gf}<div id="admin_main_menu">
 <span class="admin-nav" onclick="perfect_das();">aдминка</span></div>
 <ul id="admUl" class="adm-ul">
 <li><a href="/home/dashboard/">btc</a></li>
-<li><a href="/home/profile">профили</a></li>
-<li><a href="/home/newavas">проверить аватарки</a></li>
-<li><a href="/home/newmsg">проверить объявления</a></li>
+<li><a href="/home/profile">Профили</a></li>
+<li><a href="/home/newavas">Проверить аватарки</a></li>
+<li><a href="/home/newmsg">Проверить объявления</a></li>
 <li><a href="/home/xirsys">turn сервер</a>&nbsp;${n.xirsys?"yes":"no"}</li>
 <li><a href="/home/reklama">Реклама</a></li>
 <li><a href="/home/write-post">Написать в блог</a></li>
+<li><a href="/home/videofiles">Видеофайлы</a></li>
 </ul>
 
 <!--
@@ -24,8 +25,7 @@ var html_admin_nav_menu=n=>{
 <div id="html_abuse_popup" class="lopi"><ul id="abuse_ul"></ul></div>
 <div class="podsmall"><small class="centstr" onclick="xhr_abuse_list();">else</small></div>
 <button onclick="insert_part();">insert part</button>
-</output>
- <script src="/js/abuse_notes.js"></script>${gf}`;}
+</output><script src="/js/abuse_notes.js"></script>${gf}`;}
 module.exports={html_admin_nav_menu};
 /*
 '2017-08-15 14:37:08.784881'

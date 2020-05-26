@@ -141,15 +141,38 @@ ctx.body={info:"OK",id:id};
 
 /* VIDEOS */
 
-adm.post("/api/video_delete",auth, async ctx=>{
-let {vid, src}=ctx.request.body;
-if(!vid || !src)ctx.throw(400,"no vid or src provided");
-let db=ctx.db;
+adm.post("/api/video_delete", auth, async ctx=>{
+let { vid, src } = ctx.request.body;
+if( !vid || !src )ctx.throw(400, "no vid or src provided");
+let db = ctx.db;
 try{
-await db.query('delete from video where id=$1',[vid]);
-await unlink(process.env.HOME+'/sex_for_many/public/vid/'+src);
-}catch(e){ctx.throw(400,e);}
-ctx.body={info: "OK, deleted!"}	
+await db.query('delete from video where id=$1', [ vid ]);
+await unlink(process.env.HOME + '/sex_for_many/public/vid/' + src);
+}catch(e){ ctx.throw(400, e); }
+ctx.body = { info: "OK, deleted!" }	
+})
+
+/* VIDEOFILES */
+
+adm.get("/home/videofiles", authed, async ctx=>{
+let res;
+try{
+res = await readdir(process.env.HOME + '/sex_for_many/public/vid');
+}catch(e){ console.log(e) }
+ctx.body = await ctx.render('videofiles',{ result: res });	
+})
+
+adm.post("/api/del_video_f", auth, async ctx=>{
+let { src } = ctx.request.body;
+if(!src) ctx.throw(400, "No src")
+let db = ctx.db;
+try{
+await db.query('delete from video where src=$1', [ src ]);
+await unlink(process.env.HOME + '/sex_for_many/public/vid/' + src);
+}catch(e){
+ctx.throw(400, e)	
+}
+ctx.body = { info: "OK, deleted!", src: src }
 })
 
 /* XIRSYS */

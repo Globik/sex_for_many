@@ -1,7 +1,6 @@
 // head.js
 const {js_help}=require('../libs/helper.js');
 const html_head=n=>{
-	//console.log('GORBI: ',n.luser)
 return `<meta charset="utf-8">
 <title>${n.title ? n.title : "Simple title"}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,7 @@ ${n.meta ? n.meta : ''}
 ${n.csslink ? `<link href="${n.csslink}" rel="stylesheet">` :''}
 ${n.csslink2 ? `<link href="${n.csslink2}" rel="stylesheet">` : ''}
 ${n.cssl ? get_cssl(n) : ''}
-${n.luser&&n.luser.role=='superadmin'?`<link href="/css/abuse_notes.css" rel="stylesheet">`:''}
+<!-- {n.luser&&n.luser.brole=='superadmin'?'<link href="/css/abuse_notes.css" rel="stylesheet">':''} -->
 ${n.csshelper ? `<style>${n.csshelper}</style>`:''}
 <script>
 var flexsupport=false;
