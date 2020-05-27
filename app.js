@@ -3,16 +3,20 @@
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
 const proc = process.env.DEVELOPMENT;
+console.log('proc: ', proc);
 var HPORT = 80;
 var SPORT = 443;
 var is_ssl_http = true;
-var DB_URL = 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
+var DB_URL= 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
 if(proc=="yes"){
  HPORT = 3000;
  SPORT = 8000;
  is_ssl_http = false;
- DB_URL = 'postgress://globik:null@localhost:5432/test';
-}
+ //DB_URL = 'postgress://globik:null@localhost:5432/test';
+ DB_URL='postgress://globi:null@localhost:5432/globi';
+}else{
+	//DB_URL= 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
+	}
 
 
 const https = require('https');
