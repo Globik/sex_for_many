@@ -1,16 +1,29 @@
 {
-  "mainmenu": [{"name":"home","path":"/"},{"name":"articles","path":"/articles"},
-  {"name":"labs","path":"/labs"}],
-"profiler":{
-"profilername":"profile",
-"profilerpath":"/home/profile",
-
-"loginname":"log in",
-"loginpath":"/login",
-"logoutname":"log out",
-"logoutpath":"/logout",
-"signupname":"sign up",
-"signuppath":"/signup",
-"signupshow":true},
-"showmodule":true
+ "is_reklama": false,
+ "meta":{"url":"https://gayroom.ru","image":"https://gayroom.ru/images/home.jpg",
+	 "obi":
+	 {"title":"Доска объявлений о сексе, знакомствах, тусовках, встречах.",
+	  "description":"Доска частных интимных объявлений для взрослых. Без регистрации."
+	 },
+	 "video":
+	 {"title":"Видюхи для взрослых.",
+	  "description":"Видюхи для взрослых. Порно."
+	 },
+	 "main_page":
+	 {"title":"Чат. Видеострим для взрослых.",
+	  "description":"Анонимный секс-чат по вебкамере для общения и знакомств для взрослых. Получение донатов в биткоинах."
+	 },
+	 "reklama":
+	 {"title":"Заказать рекламу.",
+	  "description":"Заказать рекламу на сайте для взрослых. Недорого."
+	 },
+	 "blog":
+	 {"title":"Блог o заработке.",
+	  "description":"Блог о биткоинах, заработке в интернете, веб камерах."
+	 },
+	 "basa":
+	 {"title":"База знаний.",
+	  "description":"База знаний gayroom."
+	 }
+}
 }

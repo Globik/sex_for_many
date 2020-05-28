@@ -23,7 +23,7 @@ module.exports={videofiles};
 function get_videofiles(arr){
 let s=`<div><span>Всего </span><span>${arr.length-2}</span><span> видео.</span></div><ul>`;
 arr.forEach(function(el, i){
-s+=`<li data-srcF="${el}">${el}&nbsp;<button data-src="${el}" onclick="del_video_f(this);">Удалить</button></li>`;	
+s+=`<li class="videoli" data-srcF="${el}">${el}&nbsp;<button data-src="${el}" onclick="del_video_f(this);">Удалить</button></li>`;	
 })	
 s+='</ul>'
 return s;

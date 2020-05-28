@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user;
 
 return `<!DOCTYPE html><html lang="en"><!-- blogs.js -->
-<head>${html_head.html_head({title:"Блог о биткоинах, заработке в интернете, веб камерах", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
+<head>${html_head.html_head({title:"Блог о биткоинах, заработке в интернете, веб камерах", meta:get_meta(n.meta),csslink:"/css/main2.css",cssl:["/css/blogs.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -35,7 +35,7 @@ ${doska.doska({})}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
  <script src="/js/blog.js"></script>
-<footer id="footer">${html_footer.html_footer(n)}</footer></body></html>`;}
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 
 module.exports={blogs};
 
@@ -85,17 +85,14 @@ s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">$
 	return s;
 	}
 
-function get_meta(){
+function get_meta(n){
 let s='';
 s+=`
-<meta name="description" content="Блог o заработке в биткоинах">
-<meta property="og:title" content="Блог о биткоинах, заработке в интернете, веб камерах">
-<meta property="og:description" content="Блог о заработке в биткоинах">
-<meta itemprop="name" content="Блог о биткоинах, заработке в интернете, веб камерах">
-<meta itemprop="description" content="Блог o заработке в биткоинах">
+<meta name="description" content="${n.blog.description}">
+<meta property="og:title" content="${n.blog.title}">
+<meta property="og:description" content="${n.blog.description}">
+<meta itemprop="name" content="${n.blog.title}">
+<meta itemprop="description" content="${n.blog.description}">
 `;
 return s;	
 }
-
-
-

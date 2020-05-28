@@ -3,7 +3,7 @@
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
 const proc = process.env.DEVELOPMENT;
-console.log('proc: ', proc);
+//console.log('proc: ', proc);
 var HPORT = 80;
 var SPORT = 443;
 var is_ssl_http = true;
@@ -12,11 +12,9 @@ if(proc=="yes"){
  HPORT = 3000;
  SPORT = 8000;
  is_ssl_http = false;
- //DB_URL = 'postgress://globik:null@localhost:5432/test';
- DB_URL='postgress://globi:null@localhost:5432/globi';
-}else{
-	//DB_URL= 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
-	}
+ DB_URL = 'postgress://globik:null@localhost:5432/test';
+ //DB_URL='postgress://globi:null@localhost:5432/globi';
+}else{}
 
 
 const https = require('https');
@@ -52,6 +50,7 @@ const serve=require('koa-static');
 const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
+const {meta}=require('./config/app.json');
 
 const dkey='./data/groom_priv.pem';
 const dcert='./data/mycert.pem';
@@ -137,6 +136,7 @@ app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
 ctx.db=pool;
+ctx.state.meta=meta;
 ctx.state.btc_pay= btc_pay;
 ctx.state.is_test_btc = is_test_btc;
 

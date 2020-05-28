@@ -1,18 +1,23 @@
 .ahero{
-color:rgb(233,76,129);
+color:purple;/*rgb(233,76,129);*/
 text-decoration:none;
-border:1px solid rgb(233,76,129);
+border:1px solid purple;
 cursor:pointer;
 padding:20px;
 }
+#mainArticle{background:rgb(85, 165, 159);padding:1em;color:rgb(40,30,11);}
+#newUserSection{background:rgb(202,230,199);padding:1em;}
 p{line-height:1.7}
 #onlineSection,#onlineVideo{
-	border:1px solid rgb(233,76,129);
+	border:1px solid rgb(85, 165, 159);
 	width:100%;
 	height:auto;
 	display:block;
 	padding:20px 20px 30px 20px;	
+	
 	}
+	#onlineSection{background:rgb(85, 165, 159);}
+	#onlineVideo{background:rgb(223,235,202);}
 	#onlineContainer,#videoContainer{
 	display:flex;
 	flex-direction: row; 
@@ -20,6 +25,7 @@ p{line-height:1.7}
 	justify-content:center;
 	height:auto;
 	}
+	#VidContainer{}
 	#onlineHeader,#onlineVideoHeader{
 	font-weight:bold;
 	font-size:2em;	
@@ -34,6 +40,8 @@ p{line-height:1.7}
 		text-align:center;
 		margin:11px;
 	}
+	.videodiv{width:200px;display:inline-block;flex:auto;}
+	.videodiv video{width:100%;}
 	.img-online{
 height:100px;
 	}
@@ -43,6 +51,7 @@ height:100px;
 .newuserdiv{
 margin-top:20px;
 margin-bottom:20px;
+background:rgb(202,230,233);
 }
 .onlineVideo{
 

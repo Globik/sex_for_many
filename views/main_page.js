@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Мультичат для ЛГБТ сообщества России", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
+<head>${html_head.html_head({title:"Сервис видеостримов для взрослых.", meta:get_meta(n.meta),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -24,10 +24,11 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
-<h1>Добро пожаловать в мультичат для ЛГБТ сообщества России!</h1>
+<article id="mainArticle"><h1>Добро пожаловать в сервис видеостримов для взрослых!</h1>
 <p>После быстрой регистрации вы можете:
 <ul id="ulKomnata">
 <li>создать личную <strong>чат-комнату</strong>
+<li><strong>стримить видео</strong>
 <li>получать от юзеров <strong>чаевые в биткоинах</strong>
 <li>принимать <strong>входящие видеозвонки</strong>
 <li>участвовать в беседах <strong>тет-а-тет</strong>
@@ -35,12 +36,9 @@ ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'При
 </ul>
 </p>
 <p>
-Также обратите внимание на <strong>гей-доску для знакомств</strong>.
+Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегистрироваться</a></button>':''}</p>
-<hr>
-<h2>Новые профили</h2>
-${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
+<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегистрироваться</a></button>':''}</p></article>
 <hr>
 <section id="onlineVideo">
 <header id="onlineVideoHeader">Живое видео</header>
@@ -58,9 +56,15 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 </section>
 </section>
 <hr>
+<section id="videoSection">
 <h3>Свежие видео</h3>
+<section id="VidContainer">
 ${n.videos?`${get_videos(n.videos)}<div><a href="/videos">Смотреть все видео</a></div>`:'Пока нет видео.'}
-<hr>
+</section></section><hr>
+<section id="newUserSection">
+<h2>Новые профили</h2>
+${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
+</section><hr>
 ${doska.doska({})}
 <hr>
 ${people({})}
@@ -68,7 +72,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 </main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 
 module.exports={main_page};
 
@@ -118,20 +122,18 @@ function get_videos(n){
 	})
 	return s;
 }
-function get_meta(){
+function get_meta(n){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Мультичат для ЛГБТ сообщества России" />
-<meta property="og:url" content="httpы://gayroom.ru" />
-<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
-<meta property="og:description" content="Анонимный секс-чат по вебкамере для общения и знакомств среди геев и лесбиянок в России. 
-Получение донатов в биткоинах." />
+<meta property="og:title" content="${n.main_page.title}" />
+<meta property="og:url" content="${n.url}" />
+<meta property="og:image" content="${n.image}" />
+<meta property="og:description" content="${n.main_page.description}" />
 
 <meta property="og:site_name" content="gayroom" />
-<meta itemprop="name" content="Мультичат для ЛГБТ сообщества России" />
-<meta itemprop="description" content="Анонимный секс чат по вебкамере для общения и знакомств среди геев и лесбиянок в России. 
-Получение донатов в биткоинах." />`
+<meta itemprop="name" content="${n.main_page.title}" />
+<meta itemprop="description" content="${n.main_page.description}" />`
 return s;
 }

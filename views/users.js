@@ -8,7 +8,7 @@ var warnig=false;
 
 let users=n=>{
 const buser=n.user;
-return `<!DOCTYPE html><!-- users.js --><html lang="en"><head>${html_head.html_head({title:"Пользователи", csslink:"/css/main2.css",
+return `<!DOCTYPE html><!-- users.js --><html lang="en"><head>${html_head.html_head({title:"Пользователи", meta:get_meta(n.meta),csslink:"/css/main2.css",
 cssl:["/css/users.css"]})}
 
 </head><body>
@@ -39,7 +39,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 ${n.result?get_users(n.result):'Нет никого.'}
 </main>
 ${js_help(["/js/users.js"])}
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
 module.exports={users};
 function get_users(n){
@@ -57,3 +57,19 @@ ${el.msg?`<div>${el.msg}</div>`:''}
 	s+='</section><br><br><button onclick="get_more_users(this);">Показать еще</button>';
 	return s;
 	}
+	function get_meta(n){
+let s='';
+s+=`
+<meta property="og:locale" content="ru_RU"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="${n.main_page.title}" />
+<meta property="og:url" content="${n.url}" />
+<meta property="og:image" content="${n.image}" />
+<meta property="og:description" content="${n.main_page.description}" />
+
+<meta property="og:site_name" content="gayroom" />
+<meta itemprop="name" content="${n.main_page.title}" />
+<meta itemprop="description" content="${n.main_page.description}" />`
+return s;
+}
+

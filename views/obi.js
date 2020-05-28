@@ -10,7 +10,7 @@ var warnig=false;
 const obi = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
-<head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(),
+<head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(n.meta),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -21,7 +21,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 
 
 <main id="pagewrap"><h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
-<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>
+${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>':''}
 <section id="fuckSection">${n.obis&&n.obis.length>0?get_obi(n):'Пока объявлений нет.'}</section><hr>
 <section id="obiContainer">
 <div id="obiDiv"><header>Подать объявление</header>
@@ -57,7 +57,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 </body>
 ${js_help(["/js/obi.js"])}
 </html>`;
@@ -83,18 +83,18 @@ ${el.ati?`<div class="chdata">${moment(el.ati).format('YYYY-MM-DD hh:mm')}</div>
 return s;
 }
 
-function get_meta(){
+function get_meta(n){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://gayroom.ru"/>
-<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
-<meta property="og:title" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
-<meta property="og:description" content="Доска частных интимных объявлений для геев и лесбиянок России. Без регистрации."/>
+<meta property="og:url" content="${n.url}"/>
+<meta property="og:image" content="${n.image}" />
+<meta property="og:title" content="${n.obi.title}"/>
+<meta property="og:description" content="${n.obi.description}"/>
 
 <meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Доска gay объявлений о сексе, знакомствах, тусовках, встречах"/>
-<meta itemprop="description" content="Доска частных интимных объявлений для геев и лесбиянок России. Без регистрации."/>`
+<meta itemprop="name" content="${n.obi.title}"/>
+<meta itemprop="description" content="${n.obi.description}"/>`
 return s;
 }

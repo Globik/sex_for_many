@@ -14,7 +14,8 @@ const access=util.promisify(fs.access);
 const rmdir=util.promisify(fs.rmdir);
 const lstat=util.promisify(fs.lstat);
 const uuid=require('uuid/v4');
-
+const {is_reklama}=require('../config/app.json');
+console.log("is_reklama: ",is_reklama);
 const reqw=require('request-promise-native');
 const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
 const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
@@ -943,6 +944,7 @@ async function pagination(ctx, next){
 }
 
 async function reklama(ctx,next){ 
+if(!is_reklama){return next();}
 	let db=ctx.db;
 try{
 var ban=await db.query("select*from reklama where statu=2");

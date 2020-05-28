@@ -20,14 +20,13 @@ const chat_room = n=>{
 let {model}=n;
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
-<head>${html_head.html_head({title:model?model.bname:'-', meta:get_meta(model),
+<head>${html_head.html_head({title:model?model.bname:'-', meta: get_meta(n.meta, model),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
-
 <main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
 ${n.owner?
 `<div class="btc-footer">
@@ -41,8 +40,6 @@ maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_te
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<button class="btn-saveL" onclick="reset_btc();">редактировать</button>
 </div></div>`:''}
-
-
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>
@@ -141,7 +138,7 @@ ${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 </div>
 </div>
 </main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 <!-- github.com/zhiyuan-l/qrcodejs -->
 <script>${!n.owner? model.padrtest || model.padr? `new QRCode(gid("qrcode"),{
 text:"${n.is_test_btc?model.padrtest !==null?model.padrtest:'': model.padr !==null?model.padr:''}",
@@ -157,19 +154,19 @@ module.exports={chat_room};
  delete from chat where //us_id=1\\ and tz in (select tz from chat where us_id=1 limit 3); --if count > lim
  */ 
  
-function get_meta(n){
+function get_meta(n, model){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://gayroom.ru" />
-<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
-<meta property="og:title" content="Чат комната ${n?n.bname:''}." />
-<meta property="og:description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />
+<meta property="og:url" content="${n.url}" />
+<meta property="og:image" content="${n.image}" />
+<meta property="og:title" content="Чат комната ${model?model.bname:''}." />
+<meta property="og:description" content="${n.main_page.description}" />
 
 <meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Чат комната ${n?n.bname:''}." />
-<meta itemprop="description" content="Секс видеочат для геев и лесбиянок России, донаты в биткоинах, Заработок в интернете, технология webRTC" />`
+<meta itemprop="name" content="Чат комната ${model?model.bname:''}." />
+<meta itemprop="description" content="${n.main_page.description}" />`
 return s;
 }
 function get_videos(n,l){

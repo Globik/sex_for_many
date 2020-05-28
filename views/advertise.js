@@ -8,7 +8,7 @@ var warnig=false;
 const advertise = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- advertise.js -->
-<head>${html_head.html_head({title:'Реклама на сайте', meta:get_meta(),
+<head>${html_head.html_head({title:'Реклама на сайте', meta:get_meta(n.meta),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/advertise.css"],luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
@@ -27,7 +27,7 @@ ${buser&&buser.brole=='superadmin'?get_redact():''}
 <section id="reklamaPodval"><div><b>Второстепенный баннер.</b></div>
 <div class="f"><a class="a" href="#"><img class="img" src="/reklama/b3.jpg"/></a></div></section>
 </main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 </body>
 ${buser&&buser.brole=="superadmin"?js_help(["/js/advertise.js"]):''}
 </html>`;
@@ -43,18 +43,18 @@ let s=`<br><hr><button onclick="redaktiert(this);">редактировать</b
 return s;
 	}
 	
-	function get_meta(){
+	function get_meta(n){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Заказать рекламу"/>
-<meta property="og:description" content="Заказать рекламу на гей сайте. Недорого."/>
+<meta property="og:url" content="${n.url}"/>
+<meta property="og:image" content="${n.image}" />
+<meta property="og:title" content="${n.reklama.title}"/>
+<meta property="og:description" content="${n.reklama.description}"/>
 
 <meta property="og:site_name" content="gayroom"/>
-<meta itemprop="name" content="Заказать рекламу"/>
-<meta itemprop="description" content="Реклама на гей сайте знакомств. Заказать рекламу недорого."/>`
+<meta itemprop="name" content="${n.reklama.title}"/>
+<meta itemprop="description" content="${n.reklama.description}"/>`
 return s;
-//<meta property="og:image" content="http://alikon.herokuapp.com/images/bona.png"/>
-//<meta property="og:url" content="http://alikon.herokuapp.com"/>
 }

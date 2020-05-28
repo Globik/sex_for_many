@@ -54,8 +54,6 @@ let s='';
 s+=`${n.descr?`<meta name="description" content="${n.descr}">`:''}
 <meta property="og:title" content="${n.title}">
 ${n.descr?`<meta property="og:description" content="${n.descr}">`:''}
-<meta itemprop="name" content="${n.title}">
-${n.descr?`<meta itemprop="description" content="${n.descr}">`:''}
-`;
+<meta itemprop="name" content="${n.title}">`;
 return s;	
 }

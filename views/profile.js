@@ -38,6 +38,7 @@ ${n.err?n.err:''}
 	<option value="bi" ${n.result&&n.result.bi=='bi'?' selected':''}>би</option>
 	<option value="lesbi" ${n.result&&n.result.bi=='lesbi'?' selected':''}>лесби</option>
 	<option value="trans" ${n.result&&n.result.bi=='trans'?' selected':''}>транс</option>
+	<option value="hetero" ${n.result&&n.result.hetero=='hetero'?' selected':''}>гетеро</option>
 	</select>
 	</div>
 	<div class="profi">

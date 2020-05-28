@@ -8,7 +8,7 @@ var warnig = false;
 const basa = function(n){
 const buser = n.user;
 return `<!DOCTYPE html><html lang="en"><!-- basa.js -->
-<head>${html_head.html_head({title:"База знаний", meta:get_meta(),csslink:"/css/main2.css",cssl:["/css/advertise.css"], luser:buser})}
+<head>${html_head.html_head({title:"База знаний", meta:get_meta(n.meta),csslink:"/css/main2.css",cssl:["/css/advertise.css"], luser:buser})}
 </head>
 <body>${warnig?'<div id="warnig">Warnig</div>':''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
@@ -21,7 +21,7 @@ ${n.art?n.art.art:'Пусто.'}
 ${buser&&buser.brole=='superadmin'?get_redact():''}
 </main>
 ${buser&&buser.brole=="superadmin"?js_help(["/js/basa.js"]):''}
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;}
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 
 module.exports = {basa};
 function get_redact(){
@@ -33,18 +33,17 @@ let s=`<br><hr><button onclick="redaktiert(this);">редактировать</b
 return s;
 	}
 	
-	function get_meta(){
+function get_meta(n){
 let s='';
 s+=`
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="База знаний" />
-<meta property="og:image" content="https://gayroom.ru/images/home.jpg" />
-<meta property="og:url" content="https://gayroom.ru" />
-<meta property="og:description" content="База знаний gayroom" />
-
+<meta property="og:title" content="${n.basa.title}" />
+<meta property="og:image" content="${n.image}" />
+<meta property="og:url" content="${n.url}" />
+<meta property="og:description" content="${n.basa.description}" />
 <meta property="og:site_name" content="gayroom" />
-<meta itemprop="name" content="База знаний" />
-<meta itemprop="description" content="База знаний gayroom" />`
+<meta itemprop="name" content="${n.basa.title}" />
+<meta itemprop="description" content="${n.basa.description}" />`
 return s;
 }
