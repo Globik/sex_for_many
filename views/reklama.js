@@ -50,7 +50,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.result&& n.result.length?get_stat(n.result):'Нет пока'}
 
 </main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 ${js_help(["/js/reklama.js"])}
 </body>
 </html>`;

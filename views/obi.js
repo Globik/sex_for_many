@@ -5,15 +5,13 @@ const html_head=require('./html_head'),
 const {js_help}=require('../libs/helper.js');
 const moment=require("moment");
 const {get_banner, get_banner_podval}=require('./reklama_s');
-var warnig=false;
-
 const obi = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
 <head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(n.meta),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
 </head>
-<body>${warnig?'<div id="warnig">Warnig</div>':''}
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}

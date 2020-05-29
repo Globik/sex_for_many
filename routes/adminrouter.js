@@ -5,6 +5,7 @@ const Router=require('koa-router');
 const walletValidator=require('wallet-address-validator');//0.2.4
 const reqw=require('request-promise-native');
 const sluger=require('limax');
+const axios=require('axios').default;
 const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
 const adm=new Router();
@@ -187,14 +188,18 @@ ctx.body=await ctx.render('xirsys',{});
 })
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
-let data={};
+//let data={};
 let v;
-data.format="urls";
-let mops={url: "https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon",
-	 method:"PUT", json:true,body:data};
+//data.format="urls";
+let vurl="https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon";
+//let mops={url: "https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon",method:"PUT", json:true,body:data};
 	 try{
-let bod=await reqw(mops);
-v=bod.v.iceServers;
+//let bod=await reqw(mops);
+let bod=await anxios.put(vurl,{format:"urls"});
+//v=bod.v.iceServers;
+v=bod.data.v.iceServers;
+console.log('status: ', bod.data.status);
+console.log('statusText: ', bod.data.statusText); 
 console.log('v: ', v);
 }catch(e){ctx.throw(400, e);}
 ctx.body={xir:v}	

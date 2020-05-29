@@ -2,19 +2,14 @@ const html_head=require('./html_head.js'); // head.js
 const html_nav_menu=require('./html_nav_menu.js');// header_menu.js
 const html_admin_nav_menu=require('./html_admin_nav_menu.js');// admin_main_menu.js
 const html_footer = require('./html_footer.js');// footer.js
-
 const {js_help}=require('../libs/helper.js');
-var warnig=false;	  
-var haupt_ban=false;
-
 let profiles = n=>{
 const buser = n.user;
 return `<!DOCTYPE html><html lang="en"><!-- profiles.js --><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
 cssl:["/css/profiles.css"]})}
 </head><body>
-${(warnig ? `<div id="warnig">Warnig</div>`:``)}
+${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
-
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Sessions</h3>
@@ -30,7 +25,7 @@ ${n.result?get_profiles(n):'Нет еще ни одного профиля.'}
 </ul>
 </main>
 ${js_help(['/js/profiles.js'])}
-<footer id="footer">${html_footer.html_footer({})}</footer></body></html>`;
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
 module.exports={profiles};
 function get_profiles(n){

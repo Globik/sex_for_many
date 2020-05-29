@@ -5,15 +5,13 @@ const html_footer=require('./html_footer');
 const moment=require('moment');
 const doska=require('./doska');
 const {get_banner, get_banner_podval}=require('./reklama_s');
-var warnig=false;
-
 const videos=function(n){
 const buser=n.user;
 
 return `<!DOCTYPE html><html lang="en"><!-- videos.js -->
 <head>${html_head.html_head({title:"Видео", meta:get_meta(n.meta),csslink:"/css/main2.css",cssl:["/css/videos.css"], luser:buser})}
 </head>
-<body>${warnig?'<div id="warnig">Warnig</div>':''}
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}

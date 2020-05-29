@@ -1,3 +1,4 @@
+h2{text-align:center;}
 .ahero{
 color:purple;/*rgb(233,76,129);*/
 text-decoration:none;
@@ -52,6 +53,7 @@ height:100px;
 margin-top:20px;
 margin-bottom:20px;
 background:rgb(202,230,233);
+padding:1em;
 }
 .onlineVideo{
 

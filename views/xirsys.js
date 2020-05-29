@@ -10,7 +10,7 @@ return `<!DOCTYPE html><html lang="en"><!-- xirsys.js -->
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/xirsys.css"],luser:buser})}
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 </head>
-<body>
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
@@ -18,7 +18,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <div id="xir" class="${n.xirsys?'stable':'momentan'}">${n.xirsys?JSON.stringify(n.xirsys):'Нет пока.'}</div>
 <br><br><button onclick="get_xirsys(this);">Взять сервера</button>&nbsp;|&nbsp;<button onclick="set_xirsys(this);">Сохранить сервера</button>
 <hr><button onclick="get_subscribe();">subscribe push notifications</button></main>
-<footer id="footer">${html_footer.html_footer({})}</footer>
+<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 ${js_help(["/js/xirsys.js"])}
 </body>
 </html>`;

@@ -50,7 +50,7 @@ const serve=require('koa-static');
 const session=require('koa-generic-session');
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
-const {meta}=require('./config/app.json');
+const {meta, warnig}=require('./config/app.json');
 
 const dkey='./data/groom_priv.pem';
 const dcert='./data/mycert.pem';
@@ -137,6 +137,7 @@ console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
 ctx.db=pool;
 ctx.state.meta=meta;
+ctx.state.warnig=warnig;
 ctx.state.btc_pay= btc_pay;
 ctx.state.is_test_btc = is_test_btc;
 
@@ -265,7 +266,7 @@ console.log('haha: ',e);
 try{
 await mkdir('public/video/');
 }catch(e){console.log('err in mkdir: ',e)}	
-console.log('trying delete public/video');
+//console.log('trying delete public/video');
 //removeDir(path.join('public','video')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 
 }

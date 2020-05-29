@@ -7,7 +7,6 @@ const html_head=require('./html_head'),
    const doska=require('./doska');
    const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
-var warnig=false;
 const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
 const notowner_str = "Вы можете позвонить юзеру. Нажмите на кнопку 'видеозвонок'";
 //const owner_online_str_en="Press start"
@@ -15,7 +14,6 @@ const notowner_str = "Вы можете позвонить юзеру. Нажм�
 //const us_ban="This user is banned.";
 const str_langsam_stop="We are sorry, but no more activity is acceptable. Site is closing for a profilactic works in a pair of hours.";
 const str_emergency_stop="Emergency stop all activities on this site. We are sorry";
-
 const chat_room = n=>{
 let {model}=n;
 const buser=n.user;
@@ -23,7 +21,7 @@ return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
 <head>${html_head.html_head({title:model?model.bname:'-', meta: get_meta(n.meta, model),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
 </head>
-<body>${warnig?'<div id="warnig">Warnig</div>':''}
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}

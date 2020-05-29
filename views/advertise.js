@@ -3,15 +3,13 @@ const html_head=require('./html_head'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
 const {js_help}=require('../libs/helper.js');
-var warnig=false;
-
 const advertise = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- advertise.js -->
 <head>${html_head.html_head({title:'Реклама на сайте', meta:get_meta(n.meta),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/advertise.css"],luser:buser})}
 </head>
-<body>${warnig?'<div id="warnig">Warnig</div>':''}
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}

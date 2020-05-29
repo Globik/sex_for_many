@@ -3,6 +3,7 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const axios=require('axios').default;
 const fs=require('fs');
 const util=require('util');
 const path=require('path');
@@ -73,26 +74,13 @@ ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,video
 pub.post("/api/onesignal_count", async ctx=>{
 	if(process.env.DEVELOPMENT  !="yes"){
 	let {cnt, desc}=ctx.request.body;
-	let opt={
-		app_id:onesignal_app_id,
-		contents:{en: desc+" :"+cnt},
-		included_segments:["Subscribed Users"]
-		};
-	let mops={
-		url: "https://onesignal.com/api/v1/notifications",
-		 method:"post", 
-		 headers:{"Authorization": "Basic "+onesignal_app_key},
-		 json:true,
-		 body:opt
-		 };
-		// console.log(onesignal_app_key);
-	try{
-		let r=await reqw(mops);
-		console.log("r: ", r);
-		}catch(e){
-			console.log("err: ", e.name);
-			ctx.throw(400,e);
-			}
+	//try{
+		//await 
+		oni(desc," :"+cnt);
+		//}catch(e){
+			//console.log("err: ", e.name);
+			//ctx.throw(400,e);
+			//}
 		}
 	ctx.body={info:"OK"}
 })
@@ -148,6 +136,21 @@ let m=ctx.session.bmessage;
 ctx.body=await ctx.render('signup',{errmsg: m});
 delete ctx.session.bmessage;
 })
+async function oni(us,txt){
+let vurl = "https://onesignal.com/api/v1/notifications";
+let data = {
+		app_id:onesignal_app_id,
+		contents:{en: us+" "+txt},
+		included_segments:["Subscribed Users"]
+		};
+let headers ={"Authorization": "Basic "+onesignal_app_key};
+try{
+let r=await anxios(vurl, data,{headers:headers});
+console.log("r: ", r.data);
+}catch(e){
+console.log("err: ", e.name);
+}	
+}
 
 pub.post('/signup', (ctx,next)=>{
 if(ctx.isAuthenticated()){
@@ -161,26 +164,12 @@ console.log(err,user,info,status)
 
 if(user){
 if(process.env.DEVELOPMENT !="yes"){	
-let opt={
-		app_id:onesignal_app_id,
-		contents:{en: info.username+" just signed up."},
-		included_segments:["Subscribed Users"]
-		};
-	let mops={
-		url: "https://onesignal.com/api/v1/notifications",
-		 method:"post", 
-		 headers:{"Authorization": "Basic "+onesignal_app_key},
-		 json:true,
-		 body:opt
-		 };
-
-	try{
-		let r=await reqw(mops);
-		console.log("r: ", r);
-		}catch(e){
-			console.log("err: ", e.name);
-			//ctx.throw(400,e);
-			}	
+//try{
+//await 
+oni(info.username,"just signed up.");
+//}catch(e){
+//console.log("err: ", e.name);
+//}	
 	}
 }
 
@@ -419,10 +408,11 @@ data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
-let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
+//let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
 try{
-bod=await reqw(mops);
-console.log('bod: ', bod);
+//bod=await reqw(mops);
+bod=await axios.post(base_url_smart_tbtc,data)
+console.log('bod: ', bod.data);
 
 try{
 let sql_create_smarti1=`insert into cladr(nick, cadrtest, padrtest, inv, pc) 
@@ -430,14 +420,14 @@ values($1,$2,$3,$4,$5) on conflict(nick) do update set cadrtest=$2,padrtest=$3,i
 
 let si=await db.query(sql_create_smarti1,[
 username, 
-bod.forwarding_address_secondary, //cadrtest
-bod.address, //padrtest
-bod.invoice,
-bod.payment_code
+bod.data.forwarding_address_secondary, //cadrtest
+bod.data.address, //padrtest
+bod.data.invoice,
+bod.data.payment_code
 ]);
 console.log("db query: ", si);
  
-}catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
+}catch(e){console.log("db error: ", e);ctx.throw(400, e)}
 }catch(e){ctx.throw(400, e.message);}
 
 ctx.body={status:"ok", data:"tested", bod:bod}
@@ -448,10 +438,11 @@ data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share=ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
-let mops={url: base_url_smart_btc, method:"post", json:true,body:data};
+//let mops={url: base_url_smart_btc, method:"post", json:true,body:data};
 try{
-bod=await reqw(mops);
-console.log('bod: ', bod);
+//bod=await reqw(mops);
+bod = await axios.post(base_url_smart_btc, data)
+console.log('bod: ', bod.data);
 
 try{
 let sql_create_smarti=`insert into cladr(nick, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)
@@ -459,10 +450,10 @@ let sql_create_smarti=`insert into cladr(nick, cadr, padr, inv, pc) values($1,$2
 
 let si1=await db.query(sql_create_smarti,[
 username, 
-bod.forwarding_address_secondary, //cadr
-bod.address, 
-bod.invoice,
-bod.payment_code
+bod.data.forwarding_address_secondary, //cadr
+bod.data.address, 
+bod.data.invoice,
+bod.data.payment_code
 ]);
 console.log("db query: ", si1);
  
@@ -742,6 +733,7 @@ a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id'
 console.log('a: ', a.rows);	
 
 if(process.env.DEVELOPMENT !="yes"){
+	/*
 let opt={
 		app_id:onesignal_app_id,
 		contents:{en: nick+" saved obiavlenije."},
@@ -754,14 +746,15 @@ let opt={
 		 json:true,
 		 body:opt
 		 };
-
-	try{
-		let r=await reqw(mops);
-		console.log("r: ", r);
-		}catch(e){
-			console.log("err: ", e.name);
+*/
+	//try{
+		//let r=await reqw(mops);
+		oni(nick,"saved objavlenie");
+		//console.log("r: ", r);
+		//}catch(e){
+			//console.log("err: ", e.name);
 			//ctx.throw(400,e);
-			}	
+			//}	
 
 }
 

@@ -2,17 +2,13 @@ const html_head=require('./html_head.js'); // head.js
 const html_nav_menu=require('./html_nav_menu.js');// header_menu.js
 const html_admin_nav_menu=require('./html_admin_nav_menu.js');// admin_main_menu.js
 const html_footer = require('./html_footer.js');// footer.js
-
-const {js_help}=require('../libs/helper.js');
-var warnig=false;	  
-
+const {js_help}=require('../libs/helper.js'); 
 let profile=n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- profile.js -->
 <head>${html_head.html_head({title:"Мой профайл", csslink:"/css/main2.css",
 cssl:["/css/user_profile.css"]})}</head>
-<body><!-- profile -->
-${(warnig ? `<div id="warnig">Warnig</div>`:``)}
+<body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
