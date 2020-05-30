@@ -126,6 +126,7 @@ ctx.body=await ctx.render('signup',{errmsg: m});
 delete ctx.session.bmessage;
 })
 async function oni(us,txt){
+	
 let vurl = "https://onesignal.com/api/v1/notifications";
 let data = {
 		app_id:onesignal_app_id,
@@ -134,10 +135,10 @@ let data = {
 		};
 let headers ={"Authorization": "Basic "+onesignal_app_key};
 try{
-let r=await axios(vurl, data,{headers:headers});
+let r=await axios.post(vurl, data,{headers:headers});
 console.log("r: ", r.data);
 }catch(e){
-console.log("err: ", e.name);
+console.log("err: ", e);
 }	
 }
 
@@ -392,9 +393,7 @@ data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
-//let mops={url: base_url_smart_tbtc, method:"post", json:true,body:data};
 try{
-//bod=await reqw(mops);
 bod=await axios.post(base_url_smart_tbtc,data)
 console.log('bod: ', bod.data);
 
@@ -422,9 +421,7 @@ data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share=ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
 
-//let mops={url: base_url_smart_btc, method:"post", json:true,body:data};
 try{
-//bod=await reqw(mops);
 bod = await axios.post(base_url_smart_btc, data)
 console.log('bod: ', bod.data);
 

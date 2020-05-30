@@ -186,15 +186,10 @@ ctx.body=await ctx.render('xirsys',{});
 })
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
-//let data={};
 let v;
-//data.format="urls";
 let vurl="https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon";
-//let mops={url: "https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon",method:"PUT", json:true,body:data};
 	 try{
-//let bod=await reqw(mops);
-let bod=await anxios.put(vurl,{format:"urls"});
-//v=bod.v.iceServers;
+let bod=await axios.put(vurl,{format:"urls"});
 v=bod.data.v.iceServers;
 console.log('status: ', bod.data.status);
 console.log('statusText: ', bod.data.statusText); 
