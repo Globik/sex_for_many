@@ -74,8 +74,9 @@ ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб ка
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button>Дать на чай</button><button>Приват</button>`}
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
-<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox"/><span class="galka"></span></label>
-${n.owner?`<button id="btnStart" class="btn-start" onclick="snapshot();">сделать снимок</button>`:''}
+
+${n.owner?`<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox"/><span class="galka"></span></label>
+<button id="btnStart" class="btn-start" onclick="snapshot();">сделать снимок</button>`:''}
 <!-- mute / unmute the sound -->
 </div>
 </div>

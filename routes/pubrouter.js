@@ -67,10 +67,10 @@ ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,video
 
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
-	if(process.env.DEVELOPMENT  !="yes"){
+	//if(process.env.DEVELOPMENT  !="yes"){
 	let {cnt, desc}=ctx.request.body;
 		oni(desc," :"+cnt);
-		}
+	//	}
 	ctx.body={info:"OK"}
 })
 
@@ -134,7 +134,7 @@ let data = {
 		};
 let headers ={"Authorization": "Basic "+onesignal_app_key};
 try{
-let r=await anxios(vurl, data,{headers:headers});
+let r=await axios(vurl, data,{headers:headers});
 console.log("r: ", r.data);
 }catch(e){
 console.log("err: ", e.name);
