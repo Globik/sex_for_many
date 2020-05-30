@@ -69,14 +69,15 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
-${n.owner?'<button class="btn-start" onclick="dopPanel_out(this);">||</button>':''}
-
-<button id="btnStart" class="btn-start" onclick="${n.owner?'snapshot();':'do_start(this);'}">${n.owner?'сделать снимок':'видеозвонок'}</button>
-<button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button>
+<button id="dopPanelbtn" class="" onclick="dopPanel_out(this);">||</button>
+${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
+<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button>Дать на чай</button><button>Приват</button>`}
+<!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 <label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox"/><span class="galka"></span></label>
-<button id="webcamStart" onclick="start_mediaRecord(this);">Веб камера</button>
-<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button></div>
+${n.owner?`<button id="btnStart" class="btn-start" onclick="snapshot();">сделать снимок</button>`:''}
+<!-- mute / unmute the sound -->
+</div>
 </div>
 
 </section>

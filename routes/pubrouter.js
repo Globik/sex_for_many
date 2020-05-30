@@ -16,7 +16,6 @@ const rmdir=util.promisify(fs.rmdir);
 const lstat=util.promisify(fs.lstat);
 const uuid=require('uuid/v4');
 const {is_reklama}=require('../config/app.json');
-console.log("is_reklama: ",is_reklama);
 const reqw=require('request-promise-native');
 const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
 const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
@@ -25,11 +24,7 @@ const {RateLimiterMemory}=require('rate-limiter-flexible');
 const gr = "\x1b[32m", rs = "\x1b[0m";
 
 //var moment=require('moment');
-//const {readf}=require('../libs/await-fs.js');//cofs
-//const fs=require('fs');
 //const email_enc=require('../libs/email_enc.js');
-//const {Encoder, Levels, Types}=require('../libs/qr-node.js');// any need?? i think no need . must be client side
-
 //const conf_pay=require('../config/pay.json');
 
 const pub=new Router();
@@ -74,13 +69,7 @@ ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,video
 pub.post("/api/onesignal_count", async ctx=>{
 	if(process.env.DEVELOPMENT  !="yes"){
 	let {cnt, desc}=ctx.request.body;
-	//try{
-		//await 
 		oni(desc," :"+cnt);
-		//}catch(e){
-			//console.log("err: ", e.name);
-			//ctx.throw(400,e);
-			//}
 		}
 	ctx.body={info:"OK"}
 })
@@ -164,12 +153,7 @@ console.log(err,user,info,status)
 
 if(user){
 if(process.env.DEVELOPMENT !="yes"){	
-//try{
-//await 
 oni(info.username,"just signed up.");
-//}catch(e){
-//console.log("err: ", e.name);
-//}	
 	}
 }
 
@@ -483,11 +467,11 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	try{
 	await db.query('update cladr set btc_amt=$1, btc_all=$2 where inv=$3',[amount,received_amount,invoice]);	
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
-	ctx.body=invoice;//{info:"ok",invoice:invoice}
+	ctx.body=invoice;
 })
 
 /* SAVE VIDEO */
-//const path=require('path');
+
 
 function s_video(user_name){
 return new Promise(function(res,rej){
@@ -538,7 +522,6 @@ if(dir=="public/video/"){}else{
 await rmdir(dir);
 }
 }catch(e){
-	//path.join('public','video/')
 console.log(e);	
 }	
 }
@@ -557,7 +540,6 @@ async ctx=>{
 	console.log('room_id: ',room_id);
 	console.log('is_active: ',is_active);
 	console.log('is_first: ',is_first);
-	//let s_s=path.join('..','public/video/',room_name,'/',v.name);
 	let s_s='./public/video/'+room_name+'/'+v.name;
 	let v_src='/video/'+room_name+'/'+v.name;
 	//try{await mkdir('./public/video/'+room_name);}catch(e){console.log('err in mkdir: ',e)}	
@@ -714,8 +696,6 @@ pub.get('/home/obi', reklama, async ctx=>{
 	let res;
 	try{
 	var res2=await db.query('select*from obi');	
-	//if(res2.rows&&res2.rows.length>0)res=res2.rows;
-	//console.log(res2.rows);
 	res=res2.rows;
 	}catch(e){console.log(e);}
 ctx.body=await ctx.render('obi',{obis:res});	
@@ -733,29 +713,7 @@ a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id'
 console.log('a: ', a.rows);	
 
 if(process.env.DEVELOPMENT !="yes"){
-	/*
-let opt={
-		app_id:onesignal_app_id,
-		contents:{en: nick+" saved obiavlenije."},
-		included_segments:["Subscribed Users"]
-		};
-	let mops={
-		url: "https://onesignal.com/api/v1/notifications",
-		 method:"post", 
-		 headers:{"Authorization": "Basic "+onesignal_app_key},
-		 json:true,
-		 body:opt
-		 };
-*/
-	//try{
-		//let r=await reqw(mops);
-		oni(nick,"saved objavlenie");
-		//console.log("r: ", r);
-		//}catch(e){
-			//console.log("err: ", e.name);
-			//ctx.throw(400,e);
-			//}	
-
+oni(nick,"saved objavlenie");
 }
 
 }catch(e){ctx.throw(400,e);}

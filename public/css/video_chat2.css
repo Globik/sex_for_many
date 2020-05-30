@@ -292,7 +292,7 @@ width:100%;
 
 #dopPanel{
 background:lightgreen;
-height:60px;
+height:80px;
 z-index:1;
 display:none;
 position:relative;
@@ -305,6 +305,12 @@ width:100.6%;
 display:block;
 }
 #webcamStart{margin-right:3px;}
+#dopPanelbtn,#webcamStart,#vStreamStart{margin-top:8px;}
+#webcamStart.active{background:orange;}
+button[disabled=true]{background:grey;border-color:grey;}
+#vStreamStart[disabled]{background:grey;border-color:grey;}
+
+#vStreamStart.active{background:orange;}
 
 @media screen and (min-width: 1900px) {
 h2{margin-left:6px;}

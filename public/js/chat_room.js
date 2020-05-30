@@ -40,11 +40,11 @@ var dc;
 var hasAddTrack=false;
 var bon_ice;
 var wstream=null;
+var is_webcam = false;
 
 var ice_server={"iceServers":[]};
 
 var loc1=location.hostname+':'+location.port;
-//var loc2='frozen-atoll-47887.herokuapp.com';
 var loc2=location.hostname;
 var loc3=loc1 || loc2;
 var new_uri;
@@ -253,9 +253,9 @@ pc=createPeer();
 go_webrtc();
 }
 
- function go_webrtc(){	
+ function go_webrtc(el){	
 //audio:{echoCancellation:{exact:true}}
-navigator.mediaDevices.getUserMedia({video:true, audio:true,echoCancellation: false,audio:{echoCancellation:{exact:false}}}).then(function(stream){
+navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(function(stream){
 
 if(!owner()){
 
@@ -274,6 +274,10 @@ if(owner()){
 window.stream=stream;
 localVideo.srcObject=stream;
 is_video_transfer = true;
+//el.className="active";
+//is_webcam = true;
+//vStreamStart.disabled=false;
+//console.log('webcam is active');
 }	
 }	
 	
@@ -289,14 +293,28 @@ webrtc.innerHTML+=err+'<br>';
 if(owner())is_video_transfer=false;
 })
 }
+
 function cancel_video(el){
 stopVideo();	
 }
 
 function snapshot(){
+if(is_webcam){
+do_slepok();
+return;	
+}
 navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(function(stream){
 localVideo.srcObject=stream;
-setTimeout(function(){
+setTimeout(do_slepok,1000);
+}).catch(function(err){
+console.error(err.name);
+if(err.name=="NotFoundError"){
+note({content: "Включите веб-камеру.",type:"error",time:5});
+}else{note({content:err.name,type:"error",time:5});}
+});
+
+}
+function do_slepok(){
 var cnv=document.createElement('canvas');
 var w=80;var h=60;
 cnv.width=w;cnv.height=h;
@@ -309,17 +327,8 @@ d.msg = '<img src="'+img_data+'" height="80px" style="vertical-align:middle;"/>'
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);
-stopVideo();
-},1000);
-}).catch(function(err){
-	console.error(err.name);
-	if(err.name=="NotFoundError"){
-	note({content: "Включите веб-камеру.",type:"error",time:5});
-}else{note({content:err.name,type:"error",time:5});}
-});
-
+if(!is_webcam)stopVideo();
 }
-
 
 var suona=[{urls: [
 "turn:bturn2.xirsys.com:80?transport=udp",
@@ -462,8 +471,16 @@ dopPanel.className="";
 }
 }
 
-function start_mediaRecord(el){
-go_webrtc();	
+function start_webCamera(el){
+	console.log('is_webcam: ',is_webcam);
+if(!is_webcam){
+go_webrtc(el);	
+}else{
+el.className = "";
+is_webcam = false;
+cancel_video(el);
+vStreamStart.disabled=true;
+}
 }
 
 function start_stream(el){
@@ -471,15 +488,20 @@ if(el.textContent=="Старт стрим"){
 	//alert(1);
 	//wsend({type:});
 startRecording();
+el.className="active";
 is_vstream_started=true;
 is_first_time=true;
 el.textContent="Стоп стрим";
 v.className="";
+webcamStart.className="";
 webcamStart.disabled=true;
 }else{
 stopRecording();
 is_vstream_started=false;
 webcamStart.disabled=false;
+webcamStart.className="active";
+el.className="";
+
 //wsend({type:"out_vair",
 //is_first_time=false;
 el.textContent="Старт стрим";
@@ -519,6 +541,10 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 			is_vstream_started=false;
 			is_first_time=false;
 			vStreamStart.textContent="Стоп стрим";
+			vStreamStart.className="";
+v.className="";
+webcamStart.className="active";
+webcamStart.disabled=false;
 			return;
 			}
 			//button stop recording
@@ -633,10 +659,12 @@ if(is_vstream_started==false){return;}
 }else{
 if(!ONVAIR)return;	
 }
+try{
 console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
 remoteVideo.play();	
+}catch(er){console.log('err: ', er);}
 }
 remoteVideo.onplaying=function(){
 is_playing=true;
@@ -821,6 +849,7 @@ function stop_failure(obj){
 stopVideo();	
 note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',time:5});
 }
+
 function stopVideo(){
 	console.log('stop video');
 if(remoteVideo.srcObject){
@@ -903,19 +932,11 @@ function on_get_profile_error(l){console.error(l);}
 localVideo.onloadedmetadata=function(e){
 	console.log('on local video loaded video data');
 	if(owner()){
-		//if(is_vstream_started)
+		webcamStart.className="active";
+		is_webcam = true;
 		vStreamStart.disabled=false;
 	}
 	}
+localVideo.onerror=function(e){console.error('err: ',e);}
+remoteVideo.onerror=function(e){console.error('err: ', e);}
 remoteVideo.onloadedmetadata=function(e){console.log('on remote video loaded video data');}
-
-
-
-
-
-
-
-
-
-
-

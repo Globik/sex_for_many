@@ -4,7 +4,7 @@ return `<!-- html_nav_menu.js -->
 <a href="/" id="aSite"><strong id="strongSite">GAYROOM.RU</strong></a>
 <label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
-<li><a href="/"><div class="mnav">Главная</div></a>
+<li><a href="/"><div class="mnav">Стримы</div></a>
 <li><a href="/home/blog"><div class="mnav">Блог</div></a>
 <li><a href="/home/obi"><div class="mnav">Доска объявлений</div></a>
 </ul>
@@ -15,7 +15,7 @@ return `<!-- html_nav_menu.js -->
 </label>
 
 <ul id="miniMenu" class="">
-<li><a href="/"><div class="muka"><span>На главную</span></div></a>
+<li><a href="/"><div class="muka"><span>Стримы</span></div></a>
 ${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
 ${n.buser?`<li><a href="/home/profile/${n.buser.bname}"><div class="muka"><span>Мой профиль</span></div></a>`:''}
 <li><a href="/home/obi"><div class="muka"><span>Доска объявлений</span></div></a>

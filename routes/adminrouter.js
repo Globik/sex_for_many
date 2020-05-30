@@ -14,8 +14,6 @@ adm.get('/home/dashboard', authed, async ctx=>{
 	ctx.body=await ctx.render('admin_dashboard',{});
 });
 adm.post("/home/profile/enable_btc", auth, async ctx=>{
-//	ctx.state.asia="dura";
-//console.log("ctx state asia: ",ctx.state.asia);
 console.log("ctx request body: ", ctx.request.body);
 ctx.body={info:"ok", btc_pay:ctx.state.btc_pay}	
 })
