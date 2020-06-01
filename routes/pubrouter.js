@@ -16,7 +16,6 @@ const rmdir=util.promisify(fs.rmdir);
 const lstat=util.promisify(fs.lstat);
 const uuid=require('uuid/v4');
 const {is_reklama}=require('../config/app.json');
-const reqw=require('request-promise-native');
 const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
 const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
 const walletValidator=require('wallet-address-validator');//0.2.4
@@ -67,10 +66,10 @@ ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,video
 
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
-	//if(process.env.DEVELOPMENT  !="yes"){
+if(process.env.DEVELOPMENT  !="yes"){
 	let {cnt, desc}=ctx.request.body;
 		oni(desc," :"+cnt);
-	//	}
+}
 	ctx.body={info:"OK"}
 })
 

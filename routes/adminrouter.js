@@ -3,7 +3,6 @@ const util=require('util');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
 const walletValidator=require('wallet-address-validator');//0.2.4
-const reqw=require('request-promise-native');
 const sluger=require('limax');
 const axios=require('axios').default;
 const readdir=util.promisify(fs.readdir);

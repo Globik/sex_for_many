@@ -41,6 +41,7 @@ var hasAddTrack=false;
 var bon_ice;
 var wstream=null;
 var is_webcam = false;
+//var vorlogincontainer=gid("vorlogincontainer");
 
 var ice_server={"iceServers":[]};
 
@@ -74,6 +75,13 @@ forImg.value="";
 
 function owner(){return (is_owner.value==='true'?true:false);}
 function buser(){return (is_buser.value==='true'?true:false);}
+
+function give_token(){
+window.location.href="#vorlogery";
+var dikStr=gid("vorlogincontainer").innerHTML=gid("loginStr").value;
+
+}
+
 
 open_socket();
 
@@ -344,16 +352,16 @@ var suona=[{urls: [
 var liushka;
 try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("Xirsys ice servers not available");}
 var bona=(xirTarget.value?[liushka]:null);
-const dona=(bona?{"iceServers":bona}:null);
+var donat=(bona?{"iceServers":bona}:null);
 //const dona={iceServers:[bona]};
 //const dona={iceServers: suona};
 //const dona=bona;
-console.warn("ICE SERVERS: ", dona);
+console.warn("ICE SERVERS: ", donat);
 
 //createPeer();
 function createPeer(){
 	//alert('peer');
-pc=new RTCPeerConnection(dona);
+pc=new RTCPeerConnection(donat);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;

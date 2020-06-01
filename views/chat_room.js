@@ -5,6 +5,7 @@ const html_head=require('./html_head'),
    const moment=require('moment');
    const {get_banner, get_banner_podval}=require('./reklama_s');
    const doska=require('./doska');
+   
    const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
 const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
@@ -69,9 +70,10 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
-<button id="dopPanelbtn" class="" onclick="dopPanel_out(this);">||</button>
+<button id="dopPanelbtn" class="btn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
-<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button>Дать на чай</button><button>Приват</button>`}
+<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>
+<button class="btn-start">Приват</button>`}
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 
@@ -127,8 +129,9 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <input type="hidden" id="xirTarget" value='${n.xirsys?JSON.stringify(n.xirsys):''}'>
 <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
 <input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT=='yes'?'y':'n'}">
-${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
-<a href="#." class="overlay" id="insImg"></a>
+
+
+<a href="#" class="overlay" id="insImg"></a>
 <div id="setImg" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
 <div id="pizda1">
@@ -137,8 +140,10 @@ ${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 <br><br><br><button onclick="send_ws_img();">Отправить</button>
 </div>
 </div>
+
 </main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
+${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 <!-- github.com/zhiyuan-l/qrcodejs -->
 <script>${!n.owner? model.padrtest || model.padr? `new QRCode(gid("qrcode"),{
 text:"${n.is_test_btc?model.padrtest !==null?model.padrtest:'': model.padr !==null?model.padr:''}",

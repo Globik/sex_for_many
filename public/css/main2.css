@@ -225,24 +225,6 @@ right:0;}*/
 #obiContent{margin-bottom:30px;}
 #basaUl{list-style: none;}
 .doskah{background:lightgreen;text-align:center;}
-
-/*
-#content {
-	background: rgba(255,255,230,1);
-	padding: 60px 5em;
-	margin-right:0px;width: 70%;min-height:40%;float: left;}
-.post {margin-bottom: 40px;}
-.post-title {margin: 0 0 5px;padding: 0;}
-.post-title a {text-decoration: none;color: #000;}
-.post-meta {margin: 0 0 10px;font-size: 90%;}
-.post-image {margin: 0 0 15px;}
-#cntent  img{width:100%;height:auto;}
-#sidebar {width: 30%;float: right;margin: 0% 0 0%;box-sizing:border-box;}
-.widget {background: #fff;margin: 0 0 0px;padding: 10px 20px;}
-.widgettitle {margin: 0 0 5px;padding: 0;}
-.widget ul {margin: 0;padding: 0;}
-.widget li {margin: 0;padding: 6px 0;list-style: none;clear: both;border-top: solid 1px #eee;}
-*/
 /*popup*/
 
 .overlay {
@@ -279,9 +261,9 @@ position: fixed;
 height:auto;
 visibility: hidden;
 z-index: 100;
-transform: translate(-50%, 1%);
--webkit-transform:translate(-50%,1%);
--ms-transform:translate(-50%,1%);
+transform: translate(-50%, -25%);
+-webkit-transform:translate(-50%,-25%);
+-ms-transform:translate(-50%,-25%);
 border-radius: 2px;
 transition: opacity .5s, top .5s;
 }
@@ -342,9 +324,22 @@ visibility:visible;
 transform:translate(-50%,1vh);
 /*transition: visibility 3s,ransform 0.4s;*/
 }
-/*button{-moz-appearance:none;-webkit-appearance:none;} */
-
 #abuse_id{min-width:80%;}
+
+/* LOGIN PART */
+
+#vorlogin{width:50%;}
+#vorlogin a{color:blue;font-weight:bold;text-decoration:none;}
+#vorlogincontainer{margin-top:1.2rem;border:1px solid transparent;}
+.login-section{width:100%;background:lightgreen;padding:2rem;border-radius:2px;}
+#formLogin{}
+#formLogin input[type=text],#formLogin input[type=password]{height:40px;width:100%;padding-left:4px;font-size:0.8rem;}
+.submitDiv{text-align:right;}
+.submitDiv input[type=submit]{margin-right:0;}
+.inpwrapDiv{margin-top:5px;margin-bottom:15px;}
+label strong{color:rgb(72,76,86);}
+header{color:rgb(72,76,86);}
+
 
 .flex dialog{
 	/* ackground:rgba(250,254,255,0.9);*/
@@ -635,6 +630,8 @@ height:50px;
 .muka span{
 vertical-align:-25%;
 }
+
+#vorlogin{width:98%;font-size:0.8rem;}
 }
 	
 @media screen and (max-width: 321px) {
