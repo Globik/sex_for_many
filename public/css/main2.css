@@ -255,6 +255,7 @@ left: 50%;
 top: 25%;
 width:auto;
 padding: 10px 20px 20px 20px;
+overflow:auto;
 opacity:0;
 adding: 10em;
 position: fixed;
@@ -328,7 +329,7 @@ transform:translate(-50%,1vh);
 
 /* LOGIN PART */
 
-#vorlogin{width:50%;}
+#vorlogin{width:50%;overflow:auto;}
 #vorlogin a{color:blue;font-weight:bold;text-decoration:none;}
 #vorlogincontainer{margin-top:1.2rem;border:1px solid transparent;}
 .login-section{width:100%;background:lightgreen;padding:2rem;border-radius:2px;}
@@ -339,7 +340,9 @@ transform:translate(-50%,1vh);
 .inpwrapDiv{margin-top:5px;margin-bottom:15px;}
 label strong{color:rgb(72,76,86);}
 header{color:rgb(72,76,86);}
-
+#sessRed{color:rgb(72,76,86);}
+#vorlogincontainer section.active{display:block;}
+#vorlogincontainer section{display:none;}
 
 .flex dialog{
 	/* ackground:rgba(250,254,255,0.9);*/

@@ -1,6 +1,6 @@
 const login_proto=n=>{
 return html`
-<section class="login-section">
+<section class="active">
 <form id="formLogin" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
 <header>Вход</header>
 <span id="sessRed"></span><br>

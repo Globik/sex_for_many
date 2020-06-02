@@ -1,4 +1,30 @@
 var si=0, sendto=true;
+
+function go_login(ev){
+var data={};
+data.username=ev.username.value;
+data.password=ev.password.value;
+vax(ev.method, ev.action, data, on_login, on_login_error, null,false);	
+}
+function on_login(l){
+var sessRed=gid('sessRed');
+if_cont(sessRed,'green','red');
+
+sessRed.innerHTML=l.info;
+window.location.href="#.";
+in_rem_hash();
+setTimeout(function(){location.reload();},0);
+}
+function on_login_error(l){
+sessRed.innerHTML=l;
+}
+
+
+function get_tab(){
+var el=document.querySelector("section.activ");
+el.className="";	
+}
+/*
 function go_login(ev){
 	try{
 //var submit=cl('login-submit');
@@ -86,6 +112,7 @@ if(b){
 //if_cont(em,'redinput','no');
 //if_cont(pwd,'redinput','no');
 }}
+*/ 
 function cl(n){return document.getElementsByClassName(n)[0];}
 function if_cont(el,a,b){
 if(el.classList.contains(b)){el.classList.remove(b)}

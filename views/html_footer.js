@@ -11,11 +11,11 @@ ${n.banner?'<section id="footReklama"><a href="/home/advertise">Реклама �
 <a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
 </section>
 <section><span>&#9400; 2020 - </span><span>${a.getFullYear()}г.</span></section>
-<input type="hidden" id="loginStr" value='${login_proto({})}'>
+<input type="hidden" id="loginStr" value='${login_proto({})+signup_proto({})}'>
 <a href="#" class="overlay" id="vorlogery"></a>
 <output id="vorlogin" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
-<div><a href="">вход</a> | <a href="">регистрация</a></div>
+<div><a href="" onclick="get_tab();">вход</a> | <a href="" onclick="get_tab();">регистрация</a></div>
 <div id="vorlogincontainer"></div>
 </output>
 <script src="/js/login.js"><script><!-- html_footer.js -->
