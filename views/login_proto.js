@@ -1,6 +1,6 @@
 const login_proto=n=>{
 return html`
-<section class="active">
+<section id="loginSection" class="">
 <form id="formLogin" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
 <header>Вход</header>
 <span id="sessRed"></span><br>
@@ -12,7 +12,7 @@ return html`
 <div class="inpwrapDiv">
 <input id="parolId" type="password" name="password" placeholder="Password" value="" required />
 </div>
-<a href="">Забыли пароль?</a>
+<span onclick="get_forget();">Забыли пароль?</span>
 <div class="submitDiv">
 <input type="submit" value="Войти">
 </div>

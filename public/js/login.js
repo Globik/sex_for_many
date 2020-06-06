@@ -1,5 +1,5 @@
 var si=0, sendto=true;
-
+//get_registr()
 function go_login(ev){
 var data={};
 data.username=ev.username.value;
@@ -20,9 +20,50 @@ sessRed.innerHTML=l;
 }
 
 
-function get_tab(){
-var el=document.querySelector("section.activ");
-el.className="";	
+function get_login(){
+//var el=document.querySelector("section.tabactive");
+//if(!el)return;
+//el.className="";
+var signupSection=gid("signupSection")	
+signupSection.className='';
+signupSection.style.display="none";
+loginSection.style.display="block"
+loginSection.className="tabactive";
+var a=gid("resetSection");
+	a.style.display="none";
+	a.className="";
+}
+function get_registr(){
+//var el=document.querySelector("section.tabactive");
+//alert(el);
+//if(el)el.className="";
+var signupSection=gid("signupSection")	
+loginSection.className='';
+loginSection.style.display="none";
+signupSection.className="tabactive";
+signupSection.style.display="block";
+
+var a=gid("resetSection");
+	a.style.display="none";
+	a.className="none";
+}
+
+function show_pwd(el){
+	if(password.value){
+		if(password.type=="password"){
+			password.type="text";
+			
+			}else{password.type="password"}
+		}
+}
+function get_forget(){
+	var a=gid("resetSection");
+	a.style.display="block";
+	a.className="tabactive";
+loginSection.className='';
+loginSection.style.display="none";
+signupSection.className="";
+signupSection.style.display="none";
 }
 /*
 function go_login(ev){

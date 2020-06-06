@@ -341,8 +341,19 @@ transform:translate(-50%,1vh);
 label strong{color:rgb(72,76,86);}
 header{color:rgb(72,76,86);}
 #sessRed{color:rgb(72,76,86);}
-#vorlogincontainer section.active{display:block;}
-#vorlogincontainer section{display:none;}
+
+#vorlogincontainer section {display:none;}
+
+#vorlogincontainer section.tabactive{display:block;background:lightgreen;}
+
+/*
+#loginSection section.tabactive{display:block;}
+#signupSection section.tabactive{display:block;}
+
+#loginSection section{display:none;}
+#signupSection section{display:none;}
+*/
+
 
 .flex dialog{
 	/* ackground:rgba(250,254,255,0.9);*/

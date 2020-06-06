@@ -1,5 +1,6 @@
 const {login_proto}=require('./login_proto');
 const {signup_proto}=require('./signup_proto');
+const {reset_proto}=require('./reset_proto')
 const html_footer=n=>{let a=new Date();
 return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">Сайт предназначен для лиц старше 18 лет.
 Вход в чат означает Ваше согласие с <a href="/home/privacy">правилами</a>. Если вам менее 18 лет, 
@@ -11,14 +12,14 @@ ${n.banner?'<section id="footReklama"><a href="/home/advertise">Реклама �
 <a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
 </section>
 <section><span>&#9400; 2020 - </span><span>${a.getFullYear()}г.</span></section>
-<input type="hidden" id="loginStr" value='${login_proto({})+signup_proto({})}'>
+<input type="hidden" id="loginStr" value='${login_proto({})+signup_proto({})+reset_proto({})}'>
 <a href="#" class="overlay" id="vorlogery"></a>
 <output id="vorlogin" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
-<div><a href="" onclick="get_tab();">вход</a> | <a href="" onclick="get_tab();">регистрация</a></div>
+<div><span onclick="get_login();">вход</span> | <span onclick="get_registr();">регистрация</span></div>
 <div id="vorlogincontainer"></div>
 </output>
 <script src="/js/login.js"><script><!-- html_footer.js -->
 `;
 }
-module.exports={html_footer}; 
+module.exports={html_footer};
