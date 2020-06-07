@@ -186,6 +186,12 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
+pub.post("/reset", async ctx=>{
+	let {email}=ctx.request.body;
+	console.log(email)
+	ctx.body= {ku:1}
+})
+
 /*  VIDEOS */
 
 pub.get('/videos',reklama, async ctx=>{

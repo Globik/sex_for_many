@@ -16,7 +16,7 @@ ${n.banner?'<section id="footReklama"><a href="/home/advertise">Реклама �
 <a href="#" class="overlay" id="vorlogery"></a>
 <output id="vorlogin" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
-<div><span onclick="get_login();">вход</span> | <span onclick="get_registr();">регистрация</span></div>
+<div><span id="vhod" onclick="get_login(this);" class="">вход</span> | <span id="vout" onclick="get_registr(this);">регистрация</span></div>
 <div id="vorlogincontainer"></div>
 </output>
 <script src="/js/login.js"><script><!-- html_footer.js -->

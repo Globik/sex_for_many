@@ -5,14 +5,14 @@ return html`
 <header>Вход</header>
 <span id="sessRed"></span><br>
 <label for="nameId"><strong>Ник</strong> </label>
-<div class="inpwrapDiv">
+<div class="inwrapDiv">
 <input id="nameId" type="text" name="username" placeholder="your name" value="" required />
 </div>
 <label for="parolId"><strong>Пароль</strong></label>
-<div class="inpwrapDiv">
+<div class="inwrapDiv">
 <input id="parolId" type="password" name="password" placeholder="Password" value="" required />
 </div>
-<span onclick="get_forget();">Забыли пароль?</span>
+<span onclick="get_forget();" class="foget">Забыли пароль?</span>
 <div class="submitDiv">
 <input type="submit" value="Войти">
 </div>

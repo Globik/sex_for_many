@@ -1,8 +1,8 @@
 const signup_proto=function(n){
 return html`<section id="signupSection" class="tabactive">
-<form id="mform2" name="mform" action="/signup" method="post">
+<form id="mform2" name="mform2" action="/signup" method="post" onsubmit="go_login2(this);return false;">
 <header>Регистpaция</header>
-<span id="sessRed" class=""></span><br>
+<span id="sessRed2" class=""></span><br>
 
 <label><strong>Твой ник</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
 <div class="inpwrap">
@@ -20,11 +20,11 @@ return html`<section id="signupSection" class="tabactive">
 class="login-pwd" placeholder="Пароль" value="1234"  maxlength="20"/>
 <label id="lShow" onclick="show_pwd(this);" title="show password">
 <strong id="sShow">показать</strong></label></div>
-<small id="smally" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy">условиями</a></small>
-<div class="inwrap">
+<small id="smally2" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy">условиями</a></small>
+<div class="inwrapkuku">
 <input type="submit" value="Готово">
 </div>
-<div class="underform"><strong>Уже есть аккаунт?</strong> <a href="/login" style="margin-left:20px;color:blue;"><b>Войти</b></a></div><hr>
+<div class="underform"><strong>Уже есть аккаунт?</strong>&nbsp;&nbsp;<b onclick="get_login();">Войти</b></a></div><hr>
 </form>
 </section>`;	
 }

@@ -1,10 +1,13 @@
 var si=0, sendto=true;
-//get_registr()
+
 function go_login(ev){
+	try{
 var data={};
 data.username=ev.username.value;
 data.password=ev.password.value;
+//data.email=ev.email.value;
 vax(ev.method, ev.action, data, on_login, on_login_error, null,false);	
+}catch(e){alert(e);console.log(e);}
 }
 function on_login(l){
 var sessRed=gid('sessRed');
@@ -16,11 +19,12 @@ in_rem_hash();
 setTimeout(function(){location.reload();},0);
 }
 function on_login_error(l){
-sessRed.innerHTML=l;
+	//alert('suka');
+gid("sessRed").innerHTML=l;
 }
 
 
-function get_login(){
+function get_login(el){
 //var el=document.querySelector("section.tabactive");
 //if(!el)return;
 //el.className="";
@@ -29,11 +33,13 @@ signupSection.className='';
 signupSection.style.display="none";
 loginSection.style.display="block"
 loginSection.className="tabactive";
+if(el)el.className="yellow";
+vout.className="";
 var a=gid("resetSection");
 	a.style.display="none";
 	a.className="";
 }
-function get_registr(){
+function get_registr(el){
 //var el=document.querySelector("section.tabactive");
 //alert(el);
 //if(el)el.className="";
@@ -42,7 +48,8 @@ loginSection.className='';
 loginSection.style.display="none";
 signupSection.className="tabactive";
 signupSection.style.display="block";
-
+el.className="yellow";
+vhod.className="";
 var a=gid("resetSection");
 	a.style.display="none";
 	a.className="none";
@@ -65,7 +72,51 @@ loginSection.style.display="none";
 signupSection.className="";
 signupSection.style.display="none";
 }
+function go_login2(el){
+try{
+var d={};
+d.username=el.username.value;
+d.password=el.password.value;
+d.email=el.email.value;
+console.log('d: ',d)
+vax(el.method, el.action, d, on_glogin, on_glogin_error, null,false);	
+return false;
+}catch(e){}
+return false;
+}
+
+function on_glogin(l){
+try{
+console.log(l);
+if(!l.success){
+let s=gid("sessRed2").textContent=l.message;
+}else{
+gid("sessRed2").textContent=l.message
+window.location.href="#.";
+in_rem_hash();
+setTimeout(function(){location.reload();},4000);
+}
+}catch(e){alert(e)}
+}
+function on_glogin_error(l){
+console.log("l")	
+gid("sessRed").textContent=l.message
+}
+function do_sub(el){
+	try{
+let d={};
+d.email=el.email.value;
+vax(el.method, el.action, d, on_do_sub, on_do_sub_error, null,false);
+return false;
+}catch(e){alert(e);console.log(e);return false;}
+return false;
+}
+
+function on_do_sub(l){console.log(l);}
+function on_do_sub_error(l){console.error(l);}
+
 /*
+ 
 function go_login(ev){
 	try{
 //var submit=cl('login-submit');

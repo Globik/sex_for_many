@@ -334,18 +334,29 @@ transform:translate(-50%,1vh);
 #vorlogincontainer{margin-top:1.2rem;border:1px solid transparent;}
 .login-section{width:100%;background:lightgreen;padding:2rem;border-radius:2px;}
 #formLogin{}
-#formLogin input[type=text],#formLogin input[type=password]{height:40px;width:100%;padding-left:4px;font-size:0.8rem;}
+#formLogin input[type=text],#formLogin input[type=password],
+#mform2 input[type=text],#mform2 input[type=password],#mform2 input[type=email],#mform3 input[type=email]{
+height:40px;width:100%;padding-left:4px;font-size:0.8rem;}
 .submitDiv{text-align:right;}
 .submitDiv input[type=submit]{margin-right:0;}
 .inpwrapDiv{margin-top:5px;margin-bottom:15px;}
 label strong{color:rgb(72,76,86);}
 header{color:rgb(72,76,86);}
 #sessRed{color:rgb(72,76,86);}
-
+.submitWrap{text-align:right;}
+.inwrap,.submitWrap{margin-top:10px;margin-bottom:10px;}
+#resetSection{padding:20px;}
+.psuka{color:black;}
 #vorlogincontainer section {display:none;}
 
 #vorlogincontainer section.tabactive{display:block;background:lightgreen;}
-
+#loginSection, #signupSection{padding:20px;}
+#loginSection strong,#signupSection strong{font-size:0.8rem;}
+.foget{color:black;}
+span.yellow{color:yellow;}
+.inwrapkuku{text-align:right;}
+.blue,.underform strong{color:blue;}
+.underform b{color:black;}
 /*
 #loginSection section.tabactive{display:block;}
 #signupSection section.tabactive{display:block;}
@@ -632,7 +643,8 @@ padding:0.2rem;
 #admin_main_menu{padding: 0rem 0.2rem;}
 	/*.adm-ul > li a{margin-left:0.2rem;}*/
 #content {width: auto;float: none;margin: 2px 0;padding:2.8rem;}
-#sidebar {width: 100%;margin: 0;float: none;}#sidebar .widget {padding: 3% 4%;margin: 0 0 1px;}
+#sidebar {width: 100%;margin: 0;float: none;}
+#sidebar .widget {padding: 3% 4%;margin: 0 0 1px;}
 #sidebar  img{width:40%;}
 #out_box{width:100%;}
 .flex dialog{width:98%;}
@@ -640,16 +652,29 @@ padding:0.2rem;
 #haupt-banner img{height:80px;}
 #miniMenu li{
 height:50px;
+
 }
 .muka span{
 vertical-align:-25%;
 }
 
+#vorlogincontainer section.tabactive{display:block;ackground:red;font-size:0.8rem;}
+#signupSection.tabactive{height:10%;}
 #vorlogin{width:98%;font-size:0.8rem;}
 }
+
+@media screen and (orientation: landscape){
+#vorlogin{width:100wh;}
+#vorlogincontainer section.tabactive{display:block;ackground:pink;font-size:0.8rem;}
+#vorlogincontainer{height:90%;}
+}
+
 	
 @media screen and (max-width: 321px) {
 html{font-size:100%;}
+#vorlogincontainer section.tabactive{display:block;ackground:red;font-size:0.7rem;}
+
+#signupSection.tabactive{color:red;}
 /*html {font-size:0.1vw;-webkit-text-size-adjust: none;}*/
 .flex dialog{width:98%;}
 .touch-mini-menu li a {border-bottom:none;}

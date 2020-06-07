@@ -1,29 +1,22 @@
 const reset_proto=function(n){
 return html`<section id="resetSection" class="">
-<form id="mform" name="mform" action="/signup" method="post">
-<header>Регистрация</header>>
-<span id="sessRed" class=""></span><br>
+<form id="mform3" name="mform3" action="/reset" method="post" onsubmit="do_sub(this);return false;">
+<header>Восстановление пароля</header>
+<span id="sessRed3" class=""></span>
 
-<label><strong>Твой ник</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
 
-<div class="inwrap">
-<input type="text" class="login-text" style="" name="username" maxlength="20" placeholder="твой ник" value="lo" required/>
-</div>
+
+<p class="psuka">Для восстановления пароля укажите адрес электронной почты.</p>
+
 <label for="mailId"><strong>Email</strong></label><span id="mailout"></span>
 <div class="inwrap">
 <input id="mailIda" type="email" class="login-email" name="email" style="" placeholder="E-mail" value="ag@yandex.ru" required/>
 </div>
-<label for="passwordi"><strong>Пароль</strong></label>
-<div class="inpwrap">
 
-<input type="password" id="passwordi" name="password" class="login-pwd" placeholder="Пароль" value="1234"  maxlength="20"/>
-<label id="lShow" onclick="show_pwd(this);" title="show password">
-<strong id="sShow">показать</strong></label></div>
-<small id="smally" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy">условиями</a></small>
 <div class="submitWrap">
-<input type="submit" value="">
+<input type="submit" value="OK">
 </div><br><br>
-<div class="underform"><strong>Уже есть аккаунт?</strong> <a href="/login" style="margin-left:20px;color:blue;"><b>Войти</b></a></div><hr>
+<div class="underform"><strong>Уже есть аккаунт?</strong> <b onclick="get_login();">    Войти</b></div><hr>
 </form>
 </section>`;
 }
