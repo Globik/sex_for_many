@@ -1,0 +1,2 @@
+Hali hallo <b>there</b>
+mail -a  'Content-Type: text/html' -s "subject" gru5@yandex.ru < /home/globik/sex_for_many/mail.html

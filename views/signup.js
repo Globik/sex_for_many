@@ -48,13 +48,14 @@ return s;
 }
 return `<!DOCTYPE html><html lang="en">
 <head>
-${html_head.html_head({title:"sign up",cssl:["/css/login2.css"]})}
+${html_head.html_head({title:"sign up",cssl:["/css/main2.css"]})}
 </head>
 <body>
 
 <main id="pagewrap">
-{signup_proto.signup_proto({})}
-${js_help(['/js/signup.js'])}
+<a href="/">На главную</a>&nbsp;<a href="/login">Войти</a>
+${signup_proto.signup_proto({})}
+${js_help(['/js/login.js'])}
 </main></body></html>`;
 }
 module.exports={signup};

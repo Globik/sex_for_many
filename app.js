@@ -48,6 +48,11 @@ const pgtypes=require('pg').types;
 const render=require('koa-rend');
 const serve=require('koa-static');
 const session=require('koa-generic-session');
+const nodemailer=require('nodemailer');
+let transporter=nodemailer.createTransport({
+	sendmail:true,
+	newline: 'unix',
+	path:'/usr/sbin/sendmail'})
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 const {meta, warnig}=require('./config/app.json');
@@ -136,6 +141,7 @@ app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
 ctx.db=pool;
+ctx.transporter=transporter;
 ctx.state.meta=meta;
 ctx.state.warnig=warnig;
 ctx.state.btc_pay= btc_pay;

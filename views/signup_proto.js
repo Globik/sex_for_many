@@ -1,5 +1,5 @@
 const signup_proto=function(n){
-return html`<section id="signupSection" class="tabactive">
+return html`<section id="signupSection" class="">
 <form id="mform2" name="mform2" action="/signup" method="post" onsubmit="go_login2(this);return false;">
 <header>Регистpaция</header>
 <span id="sessRed2" class=""></span><br>
@@ -24,7 +24,7 @@ class="login-pwd" placeholder="Пароль" value="1234"  maxlength="20"/>
 <div class="inwrapkuku">
 <input type="submit" value="Готово">
 </div>
-<div class="underform"><strong>Уже есть аккаунт?</strong>&nbsp;&nbsp;<b onclick="get_login();">Войти</b></a></div><hr>
+<div class="underform"></div><hr>
 </form>
 </section>`;	
 }

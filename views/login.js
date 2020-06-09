@@ -5,10 +5,10 @@ const html_head=require('./html_head.js'),
 const {js_help}=require('../libs/helper.js');
 const login= n =>{
 const buser=n.user;
-return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Log in",cssl:["css/login2.css"]})}</head>
+return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Log in",cssl:["css/main2.css"]})}</head>
 <body>
 <main id="pagewrap">
-<a href="/">Стримы</a>
+<a href="/">Стримы</a>&nbsp;&nbsp;&nbsp;<a href="/login">Войти</a>
 ${login_proto.login_proto(n)}
 </main></body>
 ${js_help(['/js/login.js'])}

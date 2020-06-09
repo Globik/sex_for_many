@@ -28,7 +28,8 @@ function get_login(el){
 //var el=document.querySelector("section.tabactive");
 //if(!el)return;
 //el.className="";
-var signupSection=gid("signupSection")	
+var signupSection=gid("signupSection");
+if(!signupSection){window.location.href="/login";alert(signupSection);return;}
 signupSection.className='';
 signupSection.style.display="none";
 loginSection.style.display="block"
@@ -64,7 +65,8 @@ function show_pwd(el){
 		}
 }
 function get_forget(){
-	var a=gid("resetSection");
+var a=gid("resetSection");
+if(!a){window.location.href="/reset";return;}
 	a.style.display="block";
 	a.className="tabactive";
 loginSection.className='';
@@ -100,7 +102,7 @@ setTimeout(function(){location.reload();},4000);
 }
 function on_glogin_error(l){
 console.log("l")	
-gid("sessRed").textContent=l.message
+gid("sessRed2").textContent=l.message
 }
 function do_sub(el){
 	try{

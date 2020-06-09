@@ -3,9 +3,6 @@ return html`<section id="resetSection" class="">
 <form id="mform3" name="mform3" action="/reset" method="post" onsubmit="do_sub(this);return false;">
 <header>Восстановление пароля</header>
 <span id="sessRed3" class=""></span>
-
-
-
 <p class="psuka">Для восстановления пароля укажите адрес электронной почты.</p>
 
 <label for="mailId"><strong>Email</strong></label><span id="mailout"></span>

@@ -19,12 +19,10 @@ return s;
 }
 return `<!DOCTYPE html><html lang="en">
 <head>
-${html_head.html_head({title:"Reset Password", cssl:["/css/login2.css"]})}
+${html_head.html_head({title:"Reset Password", cssl:["/css/main2.css"]})}
 </head><body>
 <main id="pagewrap">
-
-
-//{reset_proto(90);}
-${js_help(['/js/reset.js'])}
+${reset_proto({})}
+${js_help(['/js/login.js'])}
 </main></body></html>`;};
 module.exports={reset};

@@ -186,9 +186,22 @@ return ctx.login(user)
 }})(ctx,next)
 })
 
+pub.get("/reset", async ctx=>{
+	ctx.body=await ctx.render('reset',{});
+})
 pub.post("/reset", async ctx=>{
 	let {email}=ctx.request.body;
 	console.log(email)
+	let t=ctx.transporter;
+	t.sendMail({
+		from: 'ag1@yandex.ru',
+		to: 'gru5@yandex.ru',
+		subject:'Subject message',
+		text: 'bla bla text from within the app'
+	},(err,info)=>{
+		console.log(info)
+		console.log(err);
+		})
 	ctx.body= {ku:1}
 })
 
