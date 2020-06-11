@@ -8,3 +8,4 @@ animation-duration:1s;
 animation-direction: alternate;
 animation-iteration-count:infinite;
 }
+button[data-table]{width:4rem;margin-top:1rem;}

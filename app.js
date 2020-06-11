@@ -2,6 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
+//ssh root@45.89.67.145
 const proc = process.env.DEVELOPMENT;
 //console.log('proc: ', proc);
 var HPORT = 80;

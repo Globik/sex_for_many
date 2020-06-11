@@ -20,9 +20,19 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <hr>
 <header>Удалить пользователей, которые за последние три месяца не логинились.</header>
 <button onclick="del_users(this);">Удалить</button><hr>
-<ul>
-${n.result?get_profiles(n):'Нет еще ни одного профиля.'}
-</ul>
+<!--<ul>
+{n.result?get_profiles(n):'Нет еще ни одного профиля.'}
+</ul> -->
+<hr><h5>Размер базы данных</h5>
+<button onclick="db_total_size(this);">total</button>&nbsp;<span id="totaldbspan">0</span><hr>
+<h5>Размер таблиц</h5>
+<button data-table="buser" onclick="get_table(this);">buser</button>&nbsp;<span id="buser">0</span><br>
+<button data-table="blog" onclick="get_table(this);">blog</button>&nbsp;<span id="blog">0</span><br>
+<button data-table="chat" onclick="get_table(this);">chat</button>&nbsp;<span id="chat">0</span><br>
+<button data-table="cladr" onclick="get_table(this);">cladr</button>&nbsp;<span id="cladr">0</span><br>
+<button data-table="profile" onclick="get_table(this);">profile</button>&nbsp;<span id="profile">0</span><br>
+<button data-table="video" onclick="get_table(this);">video</button>&nbsp;<span id="video">0</span><br>
+
 </main>
 ${js_help(['/js/profiles.js'])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;

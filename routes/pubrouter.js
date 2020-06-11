@@ -655,6 +655,8 @@ try{
 ctx.body={info:"ok, setted views"};
 })
 
+/*
+
 pub.get('/home/profile', authed, async ctx=>{
 let db=ctx.db;
 let err;
@@ -666,6 +668,7 @@ console.log('a: ',a);
 }catch(e){err=e;}
 ctx.body=await ctx.render('profiles',{err:err,result:a});	
 })
+*/ 
 
 pub.get('/home/profile/:profile_name', authed, async ctx=>{
 let db=ctx.db;

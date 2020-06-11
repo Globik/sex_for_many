@@ -16,7 +16,14 @@ if_cont(sessRed,'green','red');
 sessRed.innerHTML=l.info;
 window.location.href="#.";
 in_rem_hash();
-setTimeout(function(){location.reload();},0);
+setTimeout(function(){
+//alert(window.location.pathname);
+if(window.location.pathname=="/login"){
+window.location.href="/";	
+}else{
+location.reload();
+}
+},1);
 }
 function on_login_error(l){
 	//alert('suka');
@@ -29,7 +36,7 @@ function get_login(el){
 //if(!el)return;
 //el.className="";
 var signupSection=gid("signupSection");
-if(!signupSection){window.location.href="/login";alert(signupSection);return;}
+if(!signupSection){window.location.href="/login";return;}
 signupSection.className='';
 signupSection.style.display="none";
 loginSection.style.display="block"
@@ -75,6 +82,7 @@ signupSection.className="";
 signupSection.style.display="none";
 }
 function go_login2(el){
+//registration
 try{
 var d={};
 d.username=el.username.value;
@@ -93,10 +101,17 @@ console.log(l);
 if(!l.success){
 let s=gid("sessRed2").textContent=l.message;
 }else{
-gid("sessRed2").textContent=l.message
+gid("sessRed2").textContent=l.message;
+gid("submitkuku").disabled=true;
 window.location.href="#.";
 in_rem_hash();
-setTimeout(function(){location.reload();},4000);
+setTimeout(function(){
+if(window.location.pathname=="/signup"){
+window.location.href="/";	
+}else{
+location.reload();
+}
+},4000);
 }
 }catch(e){alert(e)}
 }
@@ -105,7 +120,8 @@ console.log("l")
 gid("sessRed2").textContent=l.message
 }
 function do_sub(el){
-	try{
+//views/reset_proto.js
+try{
 let d={};
 d.email=el.email.value;
 vax(el.method, el.action, d, on_do_sub, on_do_sub_error, null,false);

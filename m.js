@@ -50,6 +50,7 @@ console.log('child proces exit with code: ',code);
 */
 
 var nodemailer=require('nodemailer')
+/*
 let transporter=nodemailer.createTransport({
 	sendmail:true,
 	newline: 'unix',
@@ -60,6 +61,20 @@ let transporter=nodemailer.createTransport({
 		to: 'gru5@yandex.ru',
 		subject:'message',
 		text: 'bla bla text'
+	},(err,info)=>{
+		console.log(info)
+		console.log(err);
+		})
+		*/
+		let transporter=nodemailer.createTransport({
+			service:'gmail',
+			auth:{user:'',pass:''}}) 
+			
+			transporter.sendMail({
+		from: 'globi@example.com',
+		to: 'gru5@yandex.ru',
+		subject:'message subject',
+		text: 'bla bla show'
 	},(err,info)=>{
 		console.log(info)
 		console.log(err);

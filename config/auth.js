@@ -28,16 +28,17 @@ await db.query('update buser set ll=now() where bname=$1', [username]); return d
 'Авторизация прошла успешно!'}) }catch(err){return done(err)} }) }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
-const smsg='ОК, вы создали аккаунт успешно. Если Вы забудете пароль, то просто создайте другой аккаунт.'
-const get_str=n=>`insert into buser(pwd, bname) values(${n.password},${n.username}) returning id`;
+const smsg='ОК, вы создали аккаунт успешно.'
+const get_str=n=>`insert into buser(pwd, bname,email) values(${n.password},${n.username},${n.email}) returning id`;
 //  insert into buser(pwd,bname) values(crypt('1234', gen_salt('bf',8)),'lo');
-passport.use('local-signup',new LocalStrategy({usernameField:'username',passReqToCallback:true},(req,username,password,done)=>{
+passport.use('local-signup',new LocalStrategy({usernameField:'username', passReqToCallback:true},(req,username,password,done)=>{
 if(!req.body.username){return done(null,false,{message:"missing username",code:'1'})}	
 process.nextTick(async()=>{
 try{
 	console.log(username,password);
-var useri=await db.query(get_str({password:'$1',username:'$2'}),
-[password,req.body.username])
+	console.log('email? :', req.body.email)
+var useri=await db.query(get_str({password:'$1',username:'$2',email:'$3'}),
+[password,req.body.username,req.body.email])
 //console.log('USER.rows[0]: ',useri.rows[0])
 return done(null,useri.rows[0],{message: smsg, username:username})
 }catch(err){

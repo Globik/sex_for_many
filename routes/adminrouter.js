@@ -536,6 +536,40 @@ adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uplo
 ctx.body={info:"ok, saved",src:src}				
 })
 */ 
+
+adm.get('/home/profile', authed, async ctx=>{
+let db=ctx.db;
+let err;
+let a;
+try{
+//let result=await db.query('select bname, age, isava, vs from profile');
+//if(result.rows.length)a=result.rows;
+//console.log('a: ',a);	
+}catch(e){err=e;}
+ctx.body=await ctx.render('profiles',{err:err,result:[{1:1}]});	
+})
+/* DB SIZE */
+
+adm.post("/api/db_total_size", auth, async ctx=>{
+let db=ctx.db;
+let r;
+let name=(process.env.DEVELOPMENT=='yes'?'test':'globi')
+try{
+r=await db.query(`select pg_size_pretty(pg_database_size('${name}'))`);
+//console.log(r.rows[0]);	
+}catch(e){ctx.throw(400, e);}
+ctx.body={info:r.rows[0]}	
+});
+adm.post("/api/table_size", auth, async ctx=>{
+let db=ctx.db;
+let {s}=ctx.request.body;
+let r;
+if(!s)ctx.throw(400, "no data");
+try{
+r=await db.query(`select pg_size_pretty(pg_relation_size('${s}'))`)	
+}catch(e){ctx.throw(400, e);}	
+ctx.body={info:r.rows[0], table: s}
+})
 module.exports=adm;
 
 function auth(ctx,next){
