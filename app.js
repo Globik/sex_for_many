@@ -50,10 +50,11 @@ const render=require('koa-rend');
 const serve=require('koa-static');
 const session=require('koa-generic-session');
 const nodemailer=require('nodemailer');
-let transporter=nodemailer.createTransport({
-	sendmail:true,
-	newline: 'unix',
-	path:'/usr/sbin/sendmail'})
+let transporter=nodemailer.createTransport(
+{
+			service:'gmail',
+			auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
+)
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 const {meta, warnig}=require('./config/app.json');

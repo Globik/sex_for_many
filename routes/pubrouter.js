@@ -185,24 +185,83 @@ return ctx.login(user)
 }
 }})(ctx,next)
 })
-
+const FORGET_PWD = function(n){ return`Forgot your password?\n
+We've received a request to reset the password for this email address.\n
+To reset your password please click on this link or cut and paste this URL into your browser(link expires in 24 hours):
+<a href="${n.page_url}/reset/${n.token}">${n.page_url}/reset/${n.token}</a>
+This link takes you to a secure page where you can change your password.
+If you don't want to reset your password, please ignore this message. Your password will not be reset.
+If you received this email by mistake or believe it is spam, please...`;
+} 
+const FORGET_PWD_HTML = function(n){
+	const TEXT2=`<html lang="en"><body>
+Forgot your password?
+<br><br>
+We've received a request to reset the password for this email address.
+<br><br>
+To reset your password please click on this link or cut and paste this URL into your browser(link expires in 24 hours):
+<a href="${n.page_url}/reset/${n.token}">${n.page_url}/reset/${n.token}</a>
+<br><br>
+This link takes you to a secure page where you can change your password.
+<br><br>
+If you don't want to reset your password, please ignore this message. Your password will not be reset.</body></html>`;
+	return TEXT2;
+}
 pub.get("/reset", async ctx=>{
 	ctx.body=await ctx.render('reset',{});
 })
 pub.post("/reset", async ctx=>{
 	let {email}=ctx.request.body;
-	console.log(email)
+	if(!email)ctx.throw(400, "no email provided!");
+	console.log(email);
+	let db = ctx.db;
+	let r;
+	try{
+	r = await db.query(`select request_password_reset($1)`, [email]);
+	//console.log("result: ", r.rows[0].request_password_reset);
+	}catch(e){ctx.throw(400, e);}
+let ms=`We have sent a password reset email to your email address: <a href="mailto:${email}">${email}</a><br><br> Please check your inbox to continue.`;
+let m=`Мы послали письмо на ваш адрес: <a href="mailto:${email}">${email}</a><br>Если не пришло, пожалуйста, загляните в спам.`
 	let t=ctx.transporter;
 	t.sendMail({
-		from: 'ag1@yandex.ru',
-		to: 'gru5@yandex.ru',
-		subject:'Subject message',
-		text: 'bla bla text from within the app'
+		from: process.env.GMAIL,
+		to: email,
+		subject:'Смена пароля',
+		text: FORGET_PWD({page_url: ctx.origin, token: r.rows[0].request_password_reset}),
+		html: FORGET_PWD_HTML({page_url: ctx.origin, token: r.rows[0].request_password_reset})
 	},(err,info)=>{
 		console.log(info)
 		console.log(err);
-		})
-	ctx.body= {ku:1}
+		}) 
+	ctx.body= {info: m}
+})
+
+pub.get('/reset/:token', async ctx=>{
+// 833410fe-281a-42c1-8544-b7e684ae8e6e
+let r;
+let db = ctx.db;
+let err;
+try{
+let resu = await db.query(`select*from tokens where token=$1 and created_at > now() - interval '2 days'`, [ ctx.params.token ]);
+console.log('resu: ', resu.rows[0]);
+if(resu.rows.length > 0){r=resu.rows[0].token;}else{err = "Время ссылки вышло.";}
+}catch(e){
+console.log('error in reset params: ',e.name);
+err  = "Страница не найдена.";
+}	
+ctx.body=await ctx.render('reset_token',{"reset-token":r, err: err})
+})
+
+pub.post("/reset/reset_token", async ctx=>{
+let { email, password, token } = ctx.request.body;
+if(!email || !password || !token) ctx.throw(400, "No data provided!")
+let db = ctx.db;
+try{
+await db.query('select reset_password($1, $2, $3)', [ email, token, password ])	
+}catch(e){
+ctx.throw(400, e)	
+}	
+ctx.body = { info: "Пароль успешно сменен!" }
 })
 
 /*  VIDEOS */

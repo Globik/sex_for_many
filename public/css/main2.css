@@ -611,7 +611,7 @@ border-width: 0 4px 4px 0;
 -ms-transform:rotate(45deg);
 transform:rotate(45deg);
 }
-#sShow{cursor:pointer;}
+#sShow,.foget{cursor:pointer;}
 
 @media screen and (max-width: 1024px) {
 #content {width: auto;float:none;padding: 3% 4%;}

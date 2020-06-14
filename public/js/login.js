@@ -64,12 +64,11 @@ var a=gid("resetSection");
 }
 
 function show_pwd(el){
-	if(password.value){
-		if(password.type=="password"){
-			password.type="text";
-			
-			}else{password.type="password"}
-		}
+if(password.value){
+if(password.type=="password"){
+password.type="text";
+}else{password.type="password"}
+}
 }
 function get_forget(){
 var a=gid("resetSection");

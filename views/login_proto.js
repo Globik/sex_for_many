@@ -6,7 +6,7 @@ return html`
 <span id="sessRed"></span><br>
 <label for="nameId"><strong>Ник</strong> </label>
 <div class="inwrapDiv">
-<input id="nameId" type="text" name="username" placeholder="your name" value="" required />
+<input id="nameId" type="text" name="username" placeholder="your name" value="" required  autocomplete="off"/>
 </div>
 <label for="parolId"><strong>Пароль</strong></label>
 <div class="inwrapDiv">

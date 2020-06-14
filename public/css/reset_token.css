@@ -1,0 +1,7 @@
+#reset-wrap{margin:0 auto; width: 50%;}
+#resetform div{margin-top:0.5rem;}
+input[type=password],input[type=email]{padding-left:0.2rem;}
+.blue{cursor:pointer;}
+@media screen and (max-width: 750px) {
+#reset-wrap{width:99%;}
+}

@@ -66,9 +66,11 @@ let transporter=nodemailer.createTransport({
 		console.log(err);
 		})
 		*/
-		let transporter=nodemailer.createTransport({
+		let transporter=nodemailer.createTransport(
+		{
 			service:'gmail',
-			auth:{user:'',pass:''}}) 
+			auth:{user:'',pass:''}}
+			) 
 			
 			transporter.sendMail({
 		from: 'globi@example.com',
