@@ -2,7 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-//ssh root@45.89.67.145
+// ssh root@45.89.67.145
 const proc = process.env.DEVELOPMENT;
 //console.log('proc: ', proc);
 var HPORT = 80;
@@ -52,8 +52,8 @@ const session=require('koa-generic-session');
 const nodemailer=require('nodemailer');
 let transporter=nodemailer.createTransport(
 {
-			service:'gmail',
-			auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
+service:'gmail',
+auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
 )
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');

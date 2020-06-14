@@ -123,14 +123,23 @@ function do_sub(el){
 try{
 let d={};
 d.email=el.email.value;
-vax(el.method, el.action, d, on_do_sub, on_do_sub_error, null,false);
+vax(el.method, el.action, d, on_do_sub, on_do_sub_error, el,false);
+el.className="puls";
 return false;
 }catch(e){alert(e);console.log(e);return false;}
 return false;
 }
 
-function on_do_sub(l){console.log(l);}
-function on_do_sub_error(l){console.error(l);}
+function on_do_sub(l, el){
+console.log(l);
+el.className="";
+sessRed3.innerHTML=l.info
+}
+function on_do_sub_error(l, el){
+console.error(l);
+el.className="";
+sessRed3.innerHTML=l;
+}
 
 /*
  
