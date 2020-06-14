@@ -52,8 +52,14 @@ const session=require('koa-generic-session');
 const nodemailer=require('nodemailer');
 let transporter=nodemailer.createTransport(
 {
+	/*
 service:'gmail',
 auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
+*/
+{
+	sendmail:true,
+newline: 'unix',
+	path:'/usr/sbin/sendmail'} 
 )
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
