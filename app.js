@@ -56,7 +56,7 @@ let transporter=nodemailer.createTransport(
 service:'gmail',
 auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
 */
-{
+
 	sendmail:true,
 newline: 'unix',
 	path:'/usr/sbin/sendmail'} 
