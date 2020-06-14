@@ -9,7 +9,6 @@ return `<!DOCTYPE html><html lang="en"><!-- reset_token.js -->
 </head>
 <body>
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
-${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 <main id="pagewrap">
 ${n.err?`<h1>${n.err}</h1>`:`
 <h1>Смена пароля</h1>
