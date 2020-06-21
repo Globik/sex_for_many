@@ -34,6 +34,7 @@ tt=true;
 }
 function on_obi(ev){
 ev.preventDefault();
+try{
 var f3=ev.target.nid.value;
 var f5=(ev.target.admin.value=="true"?true:false);
 var f1=esci(ev.target.nick.value);
@@ -50,6 +51,7 @@ d.zakrep=f4;
 //alert(f4);
 vax(ev.target.method, ev.target.action, d, on_obi_saved, on_obi_err, ev.target, false);
 ev.target.className="puls";
+}catch(e){alert(e);}
 }
 
 function on_obi_saved(l, ev){
