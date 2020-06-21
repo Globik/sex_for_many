@@ -651,9 +651,32 @@ await removeDir('./public/video/'+room_name);
 }}catch(e){
 		ctx.throw(400,e);
 		}
-ctx.body={info:"ok, saved video",room_id:room_id,room_name:room_name,is_first:is_first,is_active,vsrc:v_src,is_record:is_rec}
+ctx.body = { info: "ok, saved video", room_id: room_id, room_name: room_name, is_first: is_first, is_active, vsrc: v_src, is_record: is_rec }
 })
 
+pub.post("/api/del_arr_video", auth, async ctx=>{
+let { arr, name } = ctx.request.body;
+if( !arr || !name ){ ctx.throw(400, "no data") }
+console.log('arr: ', arr);
+console.log('name: ', name)
+try{
+await Promise.all( arr.map(async function(f){
+console.log('f: ', f);
+try{
+await unlink( process.env.HOME + '/sex_for_many/public' + f)	
+}catch(e){ ctx.throw(400, e) }	
+}))
+}catch(e){ ctx.throw(400, e) }
+ctx.body = { info: "OK deleted" }	
+})
+
+/*
+async function remove_files(name, eli){
+try{
+unlink(process.env.HOME+'/sex_for_many/public/video/'+name+'/'+eli)	
+}catch(e){throw(e)}	
+}
+*/
 function insert_foto(path, name){
 return new Promise(function(res,rej){
 var readstr=fs.createReadStream(path);

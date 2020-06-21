@@ -591,7 +591,7 @@ var form_data=new FormData();
 form_data.append('vn',file.name);
 form_data.append('v',file);
 form_data.append('room_id',modelId.value)
-form_data.append('room_name',modelName.value);
+form_data.append('room_name', modelName.value);
 form_data.append('is_active',is_vstream_started);
 if(ifRecord.checked){
 	//alert("RECORD!");
@@ -651,7 +651,7 @@ if(event.data && event.data.size>0){
 recordedBlobs.push(event.data);	
 }
 }
-
+var q_n = 10;
 function plad(){
 if(!is_playing){
 //if(current_playing==vsrc[vsrc.length-1]){console.warn("it looks like stream ends up");vsrc=[];return;}
@@ -659,7 +659,28 @@ console.log('vsrc: ', vsrc);
 console.log('vsrc.length: ',vsrc.length);
 console.log('vsrc[0]: ', vsrc[vsrc.length-1]);
 do_play(vsrc[vsrc.length-1]);
+if(owner()){
+if(!ifRecord.checked){
+if(vsrc.length > q_n){
+var del_arr = vsrc.splice(0, vsrc.length - 3);
+var del_arr_d = {};
+del_arr_d.arr = del_arr;
+del_arr_d.name = modelName.value;
+vax("post", "/api/del_arr_video", del_arr_d, on_del_arr, on_del_arr_error, null, false);
 }
+}
+}else{
+if(vsrc.length > q_n){
+vsrc.splice(0, vsrc.length - 3);	
+}	
+}
+}
+}
+function on_del_arr(l){
+console.log("ok - deleted some files - ", l.info);	
+}
+function on_del_arr_error(l){
+console.error(l);	
 }
 function do_play(n){
 if(owner()){
@@ -672,6 +693,9 @@ console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
 remoteVideo.play();	
+
+
+
 }catch(er){console.log('err: ', er);}
 }
 remoteVideo.onplaying=function(){

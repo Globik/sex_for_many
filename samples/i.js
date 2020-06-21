@@ -10,3 +10,9 @@ if(el.d==6)abba.unshift(el)
 if(el.d !=6)abba.push(el);	
 })
 console.log('abba: ', abba);
+
+var si=[0,1,2,3,4,5,6,7,8,9]
+console.log('si: ',si)
+var sid=si.splice(0,4);
+console.log('sid: ', sid)// на удаление файлов 
+console.log('si: ',si)//остается на проигрывании
