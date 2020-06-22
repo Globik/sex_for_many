@@ -3,6 +3,7 @@ const shortid=require('shortid');
 const passport=require('koa-passport');
 const bodyParser=require('koa-body');
 const Router=require('koa-router');
+const crypto=require('crypto')
 const axios=require('axios').default;
 const fs=require('fs');
 const util=require('util');
@@ -705,10 +706,35 @@ res()
 /* YANDEX */
 
 pub.post('/api/cb/yam', async ctx=>{
-console.log('req body: ',ctx.request.body);
-console.log('ctx params: ', ctx.params)
-ctx.body="OK";	
+console.log('ctx.request.body: ', ctx.request.body)
+let { notification_type, operation_id, amount, currency, datetime, sender, codepro, label, sha1_hash, withdraw_amount } = ctx.request.body;
+let  s = `${notification_type}&${operation_id}&${amount}&${currency}&${datetime}&${sender}&${process.env.YANDEX_SEC}&${label}`;
+let sh = crypto.createHash('sha1')
+let li = sh.update(s).digest('hex')
+if(li == sha1_hash){
+console.log('HASH IS GUET')
+}else{
+console.log('HASH DOES NOT MATCH!!!')	
+}
+ctx.body = "OK";	
 })
+
+/* 
+ 'p2p-incoming&test-notification&318.77&643&2020-06-22T16:25:03Z&41001000040&false&yandex_sec&'
+ notification_type: 'p2p-incoming', //card-incoming => sender=''
+  bill_id: '',
+  amount: '198.37',
+  datetime: '2020-06-22T15:16:11Z',
+  codepro: 'false',
+  sender: '41001000040',
+  sha1_hash: '899d87fc049c3917c9cee37d9e4aebcbeb0c769f',
+  test_notification: 'true',
+  operation_label: '',
+  operation_id: 'test-notification',
+  currency: '643',
+  label: ''
+
+ */ 
 
 /* PROFILE */
 

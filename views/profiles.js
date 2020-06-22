@@ -21,6 +21,7 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <header>Удалить пользователей, которые за последние три месяца не логинились.</header>
 <button onclick="del_users(this);">Удалить</button><hr>
 <!--<ul>
+
 {n.result?get_profiles(n):'Нет еще ни одного профиля.'}
 </ul> -->
 <hr><h5>Размер базы данных</h5>
