@@ -711,6 +711,8 @@ let { notification_type, operation_id, amount, currency, datetime, sender, codep
 let  s = `${notification_type}&${operation_id}&${amount}&${currency}&${datetime}&${sender}&${process.env.YANDEX_SEC}&${label}`;
 let sh = crypto.createHash('sha1')
 let li = sh.update(s).digest('hex')
+console.log('li: ',li)
+console.log('sha:', sha1_hash)
 if(li == sha1_hash){
 console.log('HASH IS GUET')
 }else{

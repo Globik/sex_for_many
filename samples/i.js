@@ -21,33 +21,24 @@ var sh=crypto.createHash('sha1')
 
 /*
  
-  notification_type: 'p2p-incoming',
+ 
+ notification_type: 'p2p-incoming',
   bill_id: '',
-  amount: '34.48',
-  datetime: '2020-06-22T16:20:10Z',
+  amount: '346.02',
+  datetime: '2020-06-22T17:45:33Z',
   codepro: 'false',
   sender: '41001000040',
-  sha1_hash: '3421693c5a94edcc2edba4e71cb344f3b44f8b0c',
+  sha1_hash: '0ef39f432a2cbf601b84de7b0701abed8e0b092e',
   test_notification: 'true',
   operation_label: '',
   operation_id: 'test-notification',
   currency: '643',
   label: ''
 
-notification_type: 'p2p-incoming',
-  bill_id: '',
-  amount: '318.77',
-  datetime: '2020-06-22T16:25:03Z',
-  codepro: 'false',
-  sender: '41001000040',
-  sha1_hash: '2745c95b5083473a2b24a889f4b8f6e78f02f4aa',
-  test_notification: 'true',
-  operation_label: '',
-  operation_id: 'test-notification',
-  currency: '643',
-  label: ''
+  
+
 
 */
-var da='p2p-incoming&test-notification&318.77&643&2020-06-22T16:25:03Z&41001000040&false&yandex_sec&'
+var da='p2p-incoming&test-notification&346.02&643&2020-06-22T17:45:33Z&41001000040&false&yandex_sec&'
 var li=sh.update(da).digest('hex')
 console.log('LI: ',li)
