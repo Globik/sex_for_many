@@ -32,7 +32,11 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <button data-table="cladr" onclick="get_table(this);">cladr</button>&nbsp;<span id="cladr">0</span><br>
 <button data-table="profile" onclick="get_table(this);">profile</button>&nbsp;<span id="profile">0</span><br>
 <button data-table="video" onclick="get_table(this);">video</button>&nbsp;<span id="video">0</span><br>
-
+<hr>
+<form method="POST" action="/api/cb/yam">
+<input type="text" name="name" placeholder="name"><input type="text" name="family" placeholder="fammily"><input type="submit" value="send">
+</form>
+<hr>
 </main>
 ${js_help(['/js/profiles.js'])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;

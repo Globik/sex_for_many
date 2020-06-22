@@ -16,3 +16,7 @@ console.log('si: ',si)
 var sid=si.splice(0,4);
 console.log('sid: ', sid)// на удаление файлов 
 console.log('si: ',si)//остается на проигрывании
+var crypto=require('crypto')
+var sh=crypto.createHash('sha1')
+var li=sh.update('suka').digest('hex')
+console.log('LI: ',li)

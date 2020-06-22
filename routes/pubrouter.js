@@ -702,6 +702,13 @@ res()
 })
 }
 			
+/* YANDEX */
+
+pub.post('/api/cb/yam', async ctx=>{
+console.log('req body: ',ctx.request.body);
+console.log('ctx params: ', ctx.params)
+ctx.body="OK";	
+})
 
 /* PROFILE */
 
