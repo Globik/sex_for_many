@@ -40,6 +40,6 @@ var sh=crypto.createHash('sha1')
 
 */
 //var da='p2p-incoming&test-notification&346.02&643&2020-06-22T17:45:33Z&41001000040&false&yandex_sec&'
-var da='p2p-incoming&test-notification&388.70&643&2020-06-22T18:01:44Z&41001000040&false&nLUJ6jpPEf+JGSJDWMNFep&';
+var da='p2p-incoming&test-notification&388.70&643&2020-06-22T18:01:44Z&41001000040&false&yandex_sec&';
 var li=sh.update(da).digest('hex')
 console.log('LI: ',li)
