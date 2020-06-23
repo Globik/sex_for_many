@@ -1,7 +1,7 @@
-const html_head=require('./html_head.js'); // head.js 
-const html_nav_menu=require('./html_nav_menu.js');// header_menu.js
-const html_admin_nav_menu=require('./html_admin_nav_menu.js');// admin_main_menu.js
-const html_footer = require('./html_footer.js');// footer.js
+const html_head=require('./html_head.js');  
+const html_nav_menu=require('./html_nav_menu.js');
+const html_admin_nav_menu=require('./html_admin_nav_menu.js');
+const html_footer = require('./html_footer.js');
 const {js_help}=require('../libs/helper.js');
 let profiles = n=>{
 const buser = n.user;

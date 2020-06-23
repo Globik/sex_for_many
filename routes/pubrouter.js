@@ -740,6 +740,10 @@ ctx.body = "OK";
   label: ''
 
  */ 
+ 
+pub.get('/tokens', async ctx=>{
+ctx.body = await ctx.render('token',{})
+})
 
 /* PROFILE */
 
