@@ -707,17 +707,24 @@ res()
 
 pub.post('/api/cb/yam', async ctx=>{
 console.log('ctx.request.body: ', ctx.request.body)
-let { notification_type, operation_id, amount, currency, datetime, sender, codepro, label, sha1_hash, withdraw_amount } = ctx.request.body;
+let { notification_type, operation_id, amount, currency, datetime, sender, codepro, label, sha1_hash, withdraw_amount, test_notification } = ctx.request.body;
 let  s = `${notification_type}&${operation_id}&${amount}&${currency}&${datetime}&${sender}&${codepro}&${process.env.YANDEX_SEC}&${label}`;
 let r=(label?label:'no label')
 console.log('is label?: ',r)
 console.log(s);
+let db = ctx.db;
 let sh = crypto.createHash('sha1')
 let li = sh.update(s).digest('hex')
 console.log('li: ',li)
 console.log('sha:', sha1_hash)
 if(li == sha1_hash){
 console.log('HASH IS GUET')
+//on_token_order(bname varchar(16),tok int, tsum numeric, wsum numeric, order_id int)
+if(test_notification == 'true'){}else{
+try{
+await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,withdraw_amount/1,amount,widthdraw_amount, operation_id])	
+}catch(e){console.log(e)}
+}
 }else{
 console.log('HASH DOES NOT MATCH!!!')	
 }

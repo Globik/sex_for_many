@@ -18,7 +18,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <input type="hidden" name="receiver" value="4100115502427578">
 <input type="hidden" name="formcomment" value="Покупка токенов">
 <input type="hidden" name="short-dest" value="Покупка токенов">
-<input type="hidden" name="label" value="orderid">
+<input type="hidden" name="label" value="${buser.bname}">
 <input type="hidden" name="quickpay-form" value="shop">
 <input type="hidden" name="targets" value="Купить 100 токенов">
 <input type="hidden" name="sum" value="100" data-type="number">

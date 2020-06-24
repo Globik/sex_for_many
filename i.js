@@ -13,7 +13,12 @@ var a=[
 "-f","./sql/reklama.sql",
 "-f","./sql/room.sql",
 "-f","./sql/video.sql",
-"-f","./sql/vroom.sql"
+"-f","./sql/vroom.sql",
+"-f","./sql/token_order.sql",
+"-f","./sql/token_transfer.sql",
+"-f","/sql/token_payout.sql",
+"-f","./sql/card_number.sql",
+"-f","./sql/model_doc.sql"
 ]
 //const  ls=spawn('/usr/local/pgsql/bin/psql',a);
 const ls=spawn('psql',a)
