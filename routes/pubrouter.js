@@ -274,6 +274,9 @@ try{
 let a=await db.query('select * from video limit 5');
 if(a.rows.length>0)result=a.rows;	
 }catch(e){console.log(e);}
+if(process.env.DEVELOPMENT !="yes"){	
+oni('videos',"here");
+	}
 ctx.body=await ctx.render('videos',{videos:result});
 })
 pub.post("/api/video_views", async ctx=>{
@@ -322,6 +325,9 @@ try{
 	result = await db.query(s);
 	}catch(e){
 	console.log(e);
+	}
+	if(process.env.DEVELOPMENT !="yes"){	
+oni('users',"here.");
 	}
 	ctx.body=await ctx.render("users",{result:result.rows});
 })
@@ -847,6 +853,9 @@ pub.get('/home/obi', reklama, async ctx=>{
 	var res2=await db.query('select*from obi');	
 	res=res2.rows;
 	}catch(e){console.log(e);}
+	if(process.env.DEVELOPMENT !="yes"){	
+oni('obi ',"here.");
+	}
 ctx.body=await ctx.render('obi',{obis:res});	
 })
 
@@ -921,6 +930,9 @@ pub.get("/basa", async ctx=>{
 	try{let a = await db.query("select*from ads where sub='basa'");
 		if(a.rows && a.rows.length){art = a.rows[0];console.log('art: ', art)}
 		}catch(e){console.log(e);}
+		if(process.env.DEVELOPMENT !="yes"){	
+oni('basa ',"here.");
+	} 
 	ctx.body=await ctx.render('basa',{art:art});
 	})
 
@@ -934,6 +946,9 @@ try{
 	}catch(e){
 	console.log(e);
 	}	
+	if(process.env.DEVELOPMENT !="yes"){	
+oni('privacy ',"just here.");
+	}
 	ctx.body=await ctx.render('privacy',{result: a});
 })
 
@@ -949,6 +964,9 @@ pub.get("/home/blog", reklama, pagination, async ctx=>{
 		}catch(e){console.log(e);}
 		
 		console.log("B: ", ctx.locals);
+		if(process.env.DEVELOPMENT !="yes"){	
+oni('blog ',"just here.");
+	}
 	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
 	
@@ -976,6 +994,9 @@ pub.get("/home/ru/:slug", reklama, async ctx=>{
 	try{
 		 result=await db.query('select*from blog where slug=$1', [ctx.params.slug]);
 		}catch(e){console.log(e);}
+		if(process.env.DEVELOPMENT !="yes"){	
+oni('an article ',"just here.");
+	}
 		ctx.body=await ctx.render('article_v',{result:result.rows[0]})
 	})
 
