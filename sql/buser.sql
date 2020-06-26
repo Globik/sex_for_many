@@ -9,8 +9,7 @@ pwd VARCHAR (100) NOT NULL,
 bname varchar(16) UNIQUE NOT NULL, --unique nickname of a user
 email text check(email ~*'^.+@.+\..+$') unique,
 items int not null default 0, -- how much tokens
-rubls numeric not null default 0.00, --how much rubles
-proz numeric not null default 50, -- how much процентов отстегивать,
+proz int not null default 50, -- how much процентов отстегивать,
 model boolean not null default false, -- а модель ли? одобрено ли быть таковой
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban 
 crat TIMESTAMP NOT NULL default now()::timestamp, -- created at
@@ -30,4 +29,4 @@ update buser set brole='superadmin';
 -- alter table buser add column model boolean not null default false;
 -- alter table buser add column items int not null default 0;
 -- alter table buser add column rubls numeric not null default 0.00;
--- alter table buser add column proz numeric not null default 50;
+-- alter table buser add column proz int not null default 50;

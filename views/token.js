@@ -13,6 +13,7 @@ ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Купить токены</h3>
+<h4>100 токенов.</h4>
 <!-- https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage -->
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
 <input type="hidden" name="receiver" value="4100115502427578">
@@ -23,9 +24,11 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <input type="hidden" name="targets" value="Купить 100 токенов">
 <input type="hidden" name="sum" value="100" data-type="number">
 <input type="hidden" name="successURL" value="https://gayroom.ru">
+<div>
 <label><input type="radio" name="paymentType" value="PC">Яндекс.Деньгами</label>
 <label><input type="radio" name="paymentType" value="AC">Банковской картой</label>
-<input type="submit" value="Перевести"> 
+</div><div>
+<input type="submit" value="Перевести"></div>
 </form>
 </main>
 <!-- {js_help(['/js/profiles.js'])} -->

@@ -59,6 +59,7 @@ console.log('h: ',h)
 onlineSection.style.height=h;
 console.log(h+ch);
 */ 
+console.log('N: ',Number('12px'))
 }else if(ajson.type=="out_room"){
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
 try{	

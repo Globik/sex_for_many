@@ -882,7 +882,7 @@ pub.get('/home/obi', reklama, async ctx=>{
 	let db=ctx.db;
 	let res;
 	try{
-	var res2=await db.query('select*from obi');	
+	var res2=await db.query('select*from obi order by id desc');	
 	res=res2.rows;
 	}catch(e){console.log(e);}
 	if(process.env.DEVELOPMENT !="yes"){	
