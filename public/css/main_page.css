@@ -38,18 +38,21 @@ p{line-height:1.7}
 	flex:auto;
 	height:100px;
 	width:250px;
-	
-		text-align:center;
-		margin:11px;
+	text-align:center;
+	margin:11px;
+	position:relative;
 	}
 	.videodiv{width:200px;display:inline-block;flex:auto;}
 	.videodiv video{width:100%;}
-	.img-online{
-height:250px;
-	}
+.img-online{
+height:200px;
+isplay:block;
+osition:relative;
+}
 	.img-footer{
 	margin-top:-2px;	
 	font-size:0.6rem;
+	position:relative;
 	}
 .newuserdiv{
 margin-top:20px;

@@ -33,6 +33,7 @@ try{
 var ajson=JSON.parse(d);	
 }catch(e){return;}
 if(ajson.type=="new_room"){
+	/*
 var s5=gid("zagln");
 if(s5)s5.remove();
 var selid=document.querySelector('[data-roomid="'+ajson.us_id+'"]');
@@ -42,13 +43,22 @@ if(selid){
 selid.remove();
 }
 }catch(e){}
+
+
 var dimg=document.createElement("div");
 dimg.setAttribute('data-roomid',ajson.us_id);
 dimg.className="img-online-container";
-dimg.innerHTML='<img class="img-online" src="'+(ajson.ava?ajson.ava:'/images/default.jpg')+'">'+
-'<footer class="img-footer"><a href="/webrtc/'+ajson.us_id+'">'+ajson.nick+'</a>&nbsp;,&nbsp;'+(ajson.age?ajson.age:'18')+' лет.'+
-'&nbsp;(<span data-vid="'+ajson.us_id+'">'+ajson.v+'</span>&nbsp;чел.)</footer>';
+dimg.innerHTML='<img class="img-online" src="'+(ajson.ava?ajson.ava:'/images/default.jpg')+'">';
+dimg.innerHTML+='<div class="img-footer"><a href="/webrtc/'+ajson.us_id+'">'+ajson.nick+'</a> , '+(ajson.age?ajson.age:'18')+' лет.'
+dimg.innerHTML+='(<span data-vid="'+ajson.us_id+'">'+ajson.v+'</span> чел.)</div>';
 gid('onlineContainer').appendChild(dimg);
+var ch=window.getComputedStyle(gid('onlineContainer'),null).getPropertyValue('height');
+console.log("HEIGHT: ",ch);
+var h=window.getComputedStyle(gid('onlineSection'),null).getPropertyValue('height');
+console.log('h: ',h)
+onlineSection.style.height=h;
+console.log(h+ch);
+*/ 
 }else if(ajson.type=="out_room"){
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
 try{	
