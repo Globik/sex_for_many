@@ -470,10 +470,13 @@ who_online(d5);
 }
 send_to_client=1;
 }else if(l.type=="on_vair"){
-console.log("ON VAIR: ",l);
+console.log("ON VAIR: ");
 if(l.is_first=='true'){
 ws.on_vair=true;
 who_online(l);
+try{
+await pool.query('insert into vroom(us_id,nick,src) values($1,$2,$3) on conflict do nothing',[l.room_id,l.room_name,l.src]);
+}catch(e){console.log('db.error inserting vroom: ',e)}
 }
 broadcast_room(ws, l);
 //who_online(l);

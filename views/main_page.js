@@ -80,7 +80,7 @@ let s='';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
 s+=`<div data-roomid="${el.us_id}" сlass="img-online-container">
-<img class="img-online" src="${el.ava?(el.isava==2?el.ava:'/images/default.jpg'):'/images/default.jpg'}">
+<img class="img-online" src="${el.ava?el.ava:'/images/default.jpg'}">
 <footer class="img-footer"><a href="/webrtc/${el.us_id}">${el.nick}</a>&nbsp;,&nbsp;${el.age?el.age:18}&nbsp;лет.&nbsp;
 (<span data-vid="${el.us_id}">${el.v}</span> чел.)</footer>
 </div>`;
@@ -93,7 +93,7 @@ let s='';
 n.forEach(function(el,i){
 s+=`<div data-roomidi="${el.us_id}" class="vroomers">
 <h5><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></h5>
-<video class="videovroomers" src="${el.vsrc}" data-vidi="${el.us_id}"></video></div>`;	
+<video class="videovroomers" poster="${el.src}" data-vidi="${el.us_id}"></video></div>`;	
 })	
 return s;
 }

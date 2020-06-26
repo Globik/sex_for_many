@@ -637,7 +637,7 @@ await mkdir('./public/video/'+room_name);
 try{
 await insert_foto(v.path, s_s);
 if(is_first=="true"){
-await db.query('insert into vroom(us_id,nick,vsrc) values($1,$2,$3) on conflict do nothing',[room_id,room_name,v_src]);
+//await db.query('insert into vroom(us_id,nick,vsrc) values($1,$2,$3) on conflict do nothing',[room_id,room_name, v_src]);
 }
 console.log('IS ACTIVE??: ',is_active)
 if(is_active=="false"){
@@ -825,21 +825,53 @@ if(us.bname==ctx.params.profile_name){owner=true;}
 ctx.body=await ctx.render('profile',{err:err, result:a,owner:owner});	
 })
 
-pub.post("/api/save_profile", auth, async ctx=>{
-let {txt_msg, age, photo, fname, gay, city} = ctx.request.body;
+pub.post("/api/save_profile", auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+ async ctx=>{
+	// console.log(ctx.request.body.fields)
+let {txt_msg, age, photo, fname, gay, city} = ctx.request.body.fields;
+console.log(txt_msg, age, photo,fname, gay, city);
+let {zfile}=ctx.request.body.files;
+console.log('zfile: ',zfile.path,zfile.name)
+let s_name;
+//let s_name='/profile/'+zfile.name;
 let db=ctx.db;
 let isava=(photo?1:0);
 let s='insert into profile(bname,age,msg,ava,isava,city,bi) values($1,$2,$3,$4,$5,$6,$7) on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5,city=$6,bi=$7'
 try{
-await db.query(s,[fname,age,txt_msg,photo,isava,city,gay]);	
+if(zfile && zfile.name){
+ s_name='/profile/'+zfile.name;
+//let result=await db.query();
+try{
+let result=await db.query('select ava from profile where bname=$1',[fname] );
+
+console.log('result:',result.rows);
+if(result.rows && result.rows.length==1){
+try{
+await unlink('./public'+result.rows[0].ava)
+}catch(e){}
+}
+}catch(e){
+console.log(e);	
+}
+await insert_foto(zfile.path,'./public/'+ s_name)
+}else{
+try{
+await unlink(zfile.path);	
+}catch(e){}	
+}
+await db.query(s,[fname,age,txt_msg,s_name,isava,city,gay]);	
 }catch(e){ctx.throw(400,e);}
 
 ctx.body={info:"Профиль сохранен!"};	
 })
 pub.post("/api/del_ava", auth, async ctx=>{
-let {fname}=ctx.request.body;
+let {fname,src}=ctx.request.body;
 if(!fname)ctx.throw(400, "Нет имени");
+console.log(fname,src);
 let db=ctx.db;
+try{
+await unlink('./public'+src)	
+}catch(e){conssole.log(e);}
 try{
 await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);	
 }catch(e){ctx.throw(400,e);}

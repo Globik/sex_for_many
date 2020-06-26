@@ -45,7 +45,7 @@ selid.remove();
 var dimg=document.createElement("div");
 dimg.setAttribute('data-roomid',ajson.us_id);
 dimg.className="img-online-container";
-dimg.innerHTML='<img class="img-online" src="'+(ajson.ava?(ajson.isava==2?ajson.ava:'/images/default.jpg'):'/images/default.jpg')+'">'+
+dimg.innerHTML='<img class="img-online" src="'+(ajson.ava?ajson.ava:'/images/default.jpg')+'">'+
 '<footer class="img-footer"><a href="/webrtc/'+ajson.us_id+'">'+ajson.nick+'</a>&nbsp;,&nbsp;'+(ajson.age?ajson.age:'18')+' лет.'+
 '&nbsp;(<span data-vid="'+ajson.us_id+'">'+ajson.v+'</span>&nbsp;чел.)</footer>';
 gid('onlineContainer').appendChild(dimg);
@@ -77,23 +77,24 @@ vax("post", "/api/onesignal_count",
 {cnt: ajson.cnt, desc: "main page"}, function(l){console.log(l)}, function(l){console.error(l)}, null, false);
 }else if(ajson.type=="on_vair"){
 	//alert(440);
-	if(ajson.is_first=='true'){
-		if(ajson.is_active=='false')return;
-		}
+if(ajson.is_first=='true'){
+if(ajson.is_active=='false')return;
+}
 var s6=gid("zagln2");
 if(s6)s6.remove();
 //var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
 //try{
 //if(we)we.remove();}catch(e){}
+console.log('ajson: ',ajson);
 var dimi=document.createElement("div");
-dimi.setAttribute('data-roomidi',ajson.us_id);
+dimi.setAttribute('data-roomidi',ajson.room_id);
 dimi.className="vroomers";
 dimi.innerHTML='<h5><a href="/webrtc/'+ajson.us_id+'"><span>'+ajson.room_name+'</span></a></h5>';
-dimi.innerHTML+='<video class="videovroomers" src="'+ajson.vsrc+'"'+' data-vidi="'+ajson.us_id+'"></video>';
+dimi.innerHTML+='<video class="videovroomers"  poster="'+ajson.src+'"'+' data-vidi="'+ajson.room_id+'"></video>';
 videoContainer.appendChild(dimi);
 }else if(ajson.type=="out_vair"){
 	//alert(1);
-var we=document.querySelector('[data-roomidi="'+ajson.us_id+'"]')
+var we=document.querySelector('[data-roomidi="'+ajson.room_id+'"]')
 try{
 if(we)we.remove();
 var s7=document.querySelector(".vroomers");

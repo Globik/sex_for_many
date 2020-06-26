@@ -18,7 +18,7 @@ cnv.width=wi;
 cnv.height=hi;
 ctx.drawImage(img,0,0,wi,hi);
 var rc=cnv.toDataURL('image/png',0.5);
-fotoTxt.value=rc;
+//fotoTxt.value=rc;
 }
 }
 function get_natural(ev){
@@ -34,13 +34,14 @@ var f4=ev.target.fname;
 var f5=fcont;
 var d={};
 d.age=f2.value;
-d.photo=f3.value;
+d.photo='f3.value';
 d.fname=f4.value;
 d.city=ev.target.city.value;
 d.gay=ev.target.gay.value;
 d.txt_msg=esci(f5.textContent);
-//alert(JSON.stringify(d));
-vax(ev.target.method, ev.target.action, d, on_profile_saved, on_profile_err, ev.target, false);
+var dich=new FormData(profile_form);
+dich.append('txt_msg',d.txt_msg);
+vax(ev.target.method, ev.target.action, dich, on_profile_saved, on_profile_err, ev.target, true);
 ev.target.className="puls";
 }
 function on_profile_saved(l,ev){
@@ -53,6 +54,7 @@ function on_profile_err(l,ev){ev.className="";note({content: l, type:"error", ti
 function del_foto(el){
 var d={};
 d.fname=el.getAttribute("data-fname");
+d.src=el.getAttribute('data-src');
 vax('post','/api/del_ava',d,on_del_ava,on_err_ava,null,false);
 }
 

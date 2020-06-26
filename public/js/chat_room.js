@@ -322,22 +322,28 @@ note({content: "Включите веб-камеру.",type:"error",time:5});
 });
 
 }
-function do_slepok(){
+function do_slepok(b){
 var cnv=document.createElement('canvas');
 var w=80;var h=60;
 cnv.width=w;cnv.height=h;
 var c=cnv.getContext('2d');
 c.drawImage(localVideo,0,0,w,h);
 var img_data=cnv.toDataURL('image/png',1.0);
+if(b){
+return img_data;	
+}else{
 var d={};
 d.type="msg";
 d.msg = '<img src="'+img_data+'" height="80px" style="vertical-align:middle;"/>';
 d.roomname = modelName.value;
 d.from = myusername;// yourNick.value;
 wsend(d);
+}
 if(!is_webcam)stopVideo();
 }
-
+function get_slepok(){
+	return do_slepok(true);
+}
 var suona=[{urls: [
 "turn:bturn2.xirsys.com:80?transport=udp",
 "turn:bturn2.xirsys.com:3478?transport=udp",
@@ -617,6 +623,7 @@ d.type="on_vair";
 d.is_first=l.is_first;
 d.is_active=l.is_active;
 d.vsrc=l.vsrc;
+d.src=(l.is_first=='true'?get_slepok():'');
 d.room_id=l.room_id;
 d.room_name=l.room_name;
 wsend(d);	
@@ -941,7 +948,8 @@ function on_get_profile(l){
 		clientViews.textContent=l.params.vs;
 		var d=document.createElement('img');
 		d.height="150";
-		if(l.params.ava && l.params.isava==2){
+		//alert(l.params.ava);
+		if(l.params.ava){
 		d.src=l.params.ava;
 			}else{
 				d.src='/images/default.jpg';

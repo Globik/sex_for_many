@@ -48,7 +48,7 @@ ${n.err?n.err:''}
 	<!-- <textarea id="profTxtar" name="txt_msg" placeholder="Ваше сообщение" maxlength="400" oninput="finput(this);"></textarea> --><br>
 	</div>
 	<div class="profi"><label for="avaId"><strong>Ваше фото</strong> (тело не моложе 18-ти, не голое)</label><br>
-	<input id="aveId" type="file" accept="image/*" onchange="thumb(this.files);">
+	<input id="aveId" type="file" name="zfile" accept="image/*" onchange="thumb(this.files);">
 	<input id="fotoTxt" type="hidden" name="photo" value="${n.result&&n.result.ava?n.result.ava:''}">
 	<input type="hidden" name="fname" value="${buser?buser.bname:''}">
 	</div>
@@ -56,7 +56,7 @@ ${n.err?n.err:''}
 <div style="border:1px solid green;display:inline-block;" id="preview"></div>
 
 ${n.result && n.result.ava?`<figure id="figFoto" style="border:1px solid black;display:inline-block;">
-<img src="${n.result.ava}" width="100">${n.owner?`<figcaption><b style="color:darkblue;" data-fname="${buser?buser.bname:''}"
+<img src="${n.result.ava}" width="100">${n.owner?`<figcaption><b style="color:darkblue;"data-src="${n.result.ava}" data-fname="${buser?buser.bname:''}"
 	 onclick="del_foto(this);">Удалить</b></figcaption>`:''}
 	</figure>`:''}
 <br>${n.owner?'<input id="profSubm" type="submit" value="Сохранить профиль">':''}</div>

@@ -37,17 +37,19 @@ p{line-height:1.7}
 	display:inline-block;
 	flex:auto;
 	height:100px;
-	width:200px;
+	width:250px;
+	
 		text-align:center;
 		margin:11px;
 	}
 	.videodiv{width:200px;display:inline-block;flex:auto;}
 	.videodiv video{width:100%;}
 	.img-online{
-height:100px;
+height:250px;
 	}
 	.img-footer{
 	margin-top:-2px;	
+	font-size:0.6rem;
 	}
 .newuserdiv{
 margin-top:20px;
@@ -58,7 +60,7 @@ padding:1em;
 .onlineVideo{
 
 }
-.videovroomers{width:150px;}
+.videovroomers{width:250px;}
 
 @media screen and (max-width: 750px) {
 .videodiv{width:100%;}
