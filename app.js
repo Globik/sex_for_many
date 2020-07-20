@@ -255,9 +255,11 @@ pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_stor
 
 async function on_run(){
 
+/*
 pool.query("delete from room",[], function(err,res){
 if(err)console.log(err);	
 });
+*/ 
 pool.query("select*from prim_adr where type=true",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows);
@@ -268,7 +270,7 @@ function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows[0].adr);
 if(res && res.rows.length)btc_address=res.rows[0].adr;
 });
-pool.query('delete from vroom',[],function(err,res){
+pool.query("delete from vroom where typ='activ'",[],function(err,res){
 if(err)console.log(err);	
 })
 try{
@@ -440,6 +442,7 @@ broadcast_room(ws, {type: "owner_in",nick:ws.nick});
 insert_message('вошел в чат.',l.name,blin_id);
 
 console.log('blin_id: ',blin_id);
+/*
 pool.query('insert into room(us_id,nick) values($1,$2) on conflict(nick) do nothing returning *',[blin_id, l.roomname],
 function(er,r){if(er)console.log(er);
 if(r.rows && r.rows.length){
@@ -454,18 +457,19 @@ who_online(d4);
 })
 }
 });
+*/
 }else{
 if(ws.url !=="/gesamt"){
-pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
-if(er)console.log(er);
-if(r.rows && r.rows.length){
+//pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
+//if(er)console.log(er);
+//if(r.rows && r.rows.length){
 let d5={};
 d5.type="room_part";
-d5.part=r.rows[0].v;
-d5.roomid=r.rows[0].us_id;
-who_online(d5);	
-}
-})
+//d5.part=r.rows[0].v;
+//d5.roomid=r.rows[0].us_id;
+//who_online(d5);	
+//}
+//})
 }
 }
 send_to_client=1;
@@ -532,12 +536,12 @@ broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 if(ws.owner){
 broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
 insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
-pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
-if(er)console.log(er)
+//pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
+//if(er)console.log(er)
 	let d6={};
 	d6.type="out_room";
 	d6.roomid=ws.url.substring(1);
-	who_online(d6);
+	//who_online(d6);
 	if(ws.on_vair){
 //{"type":"out_vair","is_first":"false","is_active":"false","vsrc":"/video/Globi/Globi_9.webm","room_id":"1","room_name":"Globi"}
 
@@ -547,19 +551,19 @@ pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
 	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 	});
 		}
-});
+//});
 }else{
 if(ws.url !== "/gesamt"){
-pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
-if(er)console.log(er);
-if(r.rows && r.rows.length){
+//pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
+//if(er)console.log(er);
+//if(r.rows && r.rows.length){
 	let d9={};
 	d9.type="room_part";
-	d9.part=r.rows[0].v;
-    d9.roomid=r.rows[0].us_id;
-    who_online(d9);	
-}
-});	
+	//d9.part=r.rows[0].v;
+   // d9.roomid=r.rows[0].us_id;
+ //   who_online(d9);	
+//}
+//});	
 
 }
 }

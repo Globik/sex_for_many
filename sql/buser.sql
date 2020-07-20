@@ -11,7 +11,7 @@ email text check(email ~*'^.+@.+\..+$') unique,
 items int not null default 0, -- how much tokens
 proz int not null default 50, -- how much процентов отстегивать,
 model boolean not null default false, -- а модель ли? одобрено ли быть таковой
-brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban 
+brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban, fake 
 crat TIMESTAMP NOT NULL default now()::timestamp, -- created at
 ll TIMESTAMP  NOT NULL default now()::timestamp -- last logined
 );

@@ -23,21 +23,17 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
-<article id="mainArticle"><h1>Добро пожаловать в сервис видеостримов для взрослых!</h1>
-<p>После быстрой регистрации вы можете:
+<article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
+<p>После простой регистрации вы сможете:
 <ul id="ulKomnata">
-<li>создать личную <strong>чат-комнату</strong>
 <li><strong>стримить видео</strong>
-<li>получать от юзеров <strong>чаевые в биткоинах</strong>
-<li>принимать <strong>входящие видеозвонки</strong>
-<li>участвовать в беседах <strong>тет-а-тет</strong>
-<li>заполнить личный профайл с <strong>анкетными данными</strong>
+<li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>
 </ul>
 </p>
 <p>
 Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p>Приятного общения! ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Зарегистрироваться</a></button>':''}</p></article>
+<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Начать видеотрансляцию</a></button>':''}</p></article>
 <hr>
 <section id="onlineVideo">
 <header id="onlineVideoHeader">Живое видео</header>
@@ -46,6 +42,7 @@ ${n.videoUsers && n.videoUsers.length >0 ? vroomers_list(n.videoUsers) :
 `<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
 </section>
 </section>
+<!--
 <hr>
 <section id="onlineSection">
 <header id="onlineHeader">Чат-комнаты.</header>
@@ -54,19 +51,23 @@ ${lusers && lusers.length >0 ? roomers_list(lusers) :
 `<span id="zagln">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
 </section>
 </section>
-<hr>
+-->
+<!-- <hr>
 <section id="videoSection">
 <h3>Свежие видео</h3>
 <section id="VidContainer">
-${n.videos?`${get_videos(n.videos)}<div><a href="/videos">Смотреть все видео</a></div>`:'Пока нет видео.'}
-</section></section><hr>
+${n.videos?`{get_videos(n.videos)}<div><a href="/videos">Смотреть все видео</a></div>`:'Пока нет видео.'}
+</section></section> -->
+<!-- <hr>
 <section id="newUserSection">
 <h2>Новые профили</h2>
-${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
-</section><hr>
-${doska.doska({})}
+{n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
+</section>
+-->
+
 <hr>
-${people({})}
+${doska.doska({})}
+${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">

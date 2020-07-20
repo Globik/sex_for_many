@@ -16,7 +16,16 @@ return `<!DOCTYPE html><html lang="en"><!-- videos.js -->
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 <main id="pagewrap">
-<h1>Видео</h1>
+<h1>Фейковые Видео</h1>
+<form method="post" action="/api/upload_fake_poster" name="fakeposterform">
+<div><label>Name:</label><br><input type="text" name="username" required></div>
+<div><label>Poster:</label><br><input type="file" name="posterfile" required></div>
+<div><input type="submit" value="save"></div>
+</form>
+<form method="post" action="/api/upload_fake_video" name="fakevideoform">
+<div><label>Name:</label><br><input type="text" name="username" required></div>
+<div><label>Video:</label><br><input type="file" name="videofile" required></div>
+<div><input type="submit" value="upload"></div></form>
 ${n.videos?get_videos(n.videos,n):'Нет видео.'}
 <hr>
 ${doska.doska({})}

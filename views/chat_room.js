@@ -48,6 +48,7 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
+<div id="tokencount"><span id="tokencc">0</span>&nbsp;<span id="tokenspan">токенов</span></div>
 <div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">сатоши</span></div>
 </div>
 <section id="video-container">
@@ -116,8 +117,7 @@ ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать
 ${n.videos?get_videos(n.videos,n):''}
 <hr>
 ${doska.doska({})}
-<hr>
-${people({})}
+${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 <output id="webrtc"></output>
 <input type="hidden" id="owner" value="${n.owner}">
@@ -129,6 +129,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <input type="hidden" id="xirTarget" value='${n.xirsys?JSON.stringify(n.xirsys):''}'>
 <input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
 <input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT=='yes'?'y':'n'}">
+
 
 
 <a href="#" class="overlay" id="insImg"></a>

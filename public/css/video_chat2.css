@@ -48,6 +48,13 @@ height: 12%;
 	z-index:1;
 	color:yellow
 }
+#tokencount{
+position:absolute;
+left:10px;
+top:10px;
+padding:5px;
+border:1px solid white;
+}
 #video-container{
 background:rgba(20,25,25,0.9);
 order:10px solid red;

@@ -7,6 +7,7 @@ const sluger=require('limax');
 const axios=require('axios').default;
 const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
+const uploader=require('huge-uploader-nodejs')
 const adm=new Router();
 
 adm.get('/home/dashboard', authed, async ctx=>{
@@ -570,6 +571,51 @@ r=await db.query(`select pg_size_pretty(pg_relation_size('${s}'))`)
 }catch(e){ctx.throw(400, e);}	
 ctx.body={info:r.rows[0], table: s}
 })
+
+adm.get("/home/fakevideo", authed,async ctx=>{
+ctx.body=await ctx.render('fakevideo',{});	
+})
+
+const tmp="./public/uploads/tmp";
+const maxfilesize=1000000000;
+// github.com/Buzut/huge-uploader-nodejs
+adm.post("/fakevideo", auth, async ctx=>{
+console.log("YES")
+console.log('params ', ctx.request.body,ctx.params)
+//console.log('req: ', ctx.req.pipe)
+uploader(ctx.req,tmp,maxfilesize,1500000).then((assembleChunks)=>{
+	ctx.status=204;
+	ctx.body={info:"ok"}
+	if(assembleChunks){
+	assembleChunks().then(data=>console.log('data: ',data)).catch(err=>console.log('ERR1 :',err))	
+	}
+}).catch(function(err){
+	if(err.message==="Missing header(s)"){
+		
+	ctx.throw(400,'missing uploader-* header')	
+	}
+	if(err.message==='Missing Content-Type'){
+	ctx.throw(400,'Missing Content-Type')	
+	}
+	if(err.message.includes('Unsupported content type'){
+		ctx.throw(400,'Unsupported content type')	
+	}
+	if(err.message==='Chunk is out of range'){
+	ctx.throw(400,'chunk number must be between 0 and total chunks - 1 (0 indexed)')	
+	}
+	if(err.message==='File is above size limit'){
+	ctx.throw(413,'file is too large. max chunksize is: '+maxfilesize)
+		}
+		if(err.message==='Chunk is above size limit'){
+		ctx.throw(413,'chunk is too large.')	
+		}
+		if(err && err.message==='Upload has expired'){
+			ctx.throw(410,err.message)
+		}
+	})
+ctx.body={info:"ok"}	
+})
+
 module.exports=adm;
 
 function auth(ctx,next){

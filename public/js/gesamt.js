@@ -59,8 +59,8 @@ console.log('h: ',h)
 onlineSection.style.height=h;
 console.log(h+ch);
 */ 
-console.log('N: ',Number('12px'))
 }else if(ajson.type=="out_room"){
+/*
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
 try{	
 if(seli){
@@ -79,11 +79,14 @@ gid('onlineContainer').appendChild(s8);
 }
 }
 }catch(e){}
+*/ 
 }else if(ajson.type=="room_part"){
 var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
 if(s9)s9.textContent=ajson.part;
 }else if(ajson.type=="spanWhosOn"){
+if(spanWhosOn){
 spanWhosOn.textContent=ajson.cnt;	
+}
 vax("post", "/api/onesignal_count", 
 {cnt: ajson.cnt, desc: "main page"}, function(l){console.log(l)}, function(l){console.error(l)}, null, false);
 }else if(ajson.type=="on_vair"){
