@@ -14,8 +14,23 @@ return `<!DOCTYPE html><html lang="en"><!-- fakevideo.js -->
 <nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 <main id="pagewrap">
-<h1>fake videos</h1>
+<div><span id="ferr"></span></div>
+<div><span id="fprogress"></span></div>
+<div><span id="fertig"></span></div>
+<h2>1. create user</h2>
+<div>
+<span id="username"></span> | <span id="us_id"></span> <button onclick="send_name(this);">create user</button>
+</div>
+<input id="usernameinput" type="text" placeholder="name" >
+<h2>2. fake videos</h2>
 <div><input id="tfile" type="file"></div>
+<div>
+<h2>3. Poster</h2>
+<form method="post" name="posterform" action="/fake_poster">
+<input type="file" id="tposter" name="tposter"><br>
+<input type="submit" value="save">
+</form>
+</div>
 <script src="/js/index.js"></script>
 <script src="/js/fakevideo.js"></script>
 </main>

@@ -103,9 +103,13 @@ console.log('ajson: ',ajson);
 var dimi=document.createElement("div");
 dimi.setAttribute('data-roomidi',ajson.room_id);
 dimi.className="vroomers";
-dimi.innerHTML='<h5><a href="/webrtc/'+ajson.us_id+'"><span>'+ajson.room_name+'</span></a></h5>';
-dimi.innerHTML+='<video class="videovroomers"  poster="'+ajson.src+'"'+' data-vidi="'+ajson.room_id+'"></video>';
+dimi.innerHTML='<header><a href="/webrtc/'+ajson.us_id+'"><span>'+ajson.room_name+'</span></a></header>';
+dimi.innerHTML+='<a href="/webtc/'+ajson.us_id+'"><video class="videovroomers"  poster="'+ajson.src+'"'+' data-vidi="'+ajson.room_id+'"></video></a>';
+dimi.innerHTML+='<header class="untervideo"><span class="timecl" id="ptime">'+get_min()+'</span>&nbsp;<span class="timecl">мин</span>,&nbsp;<span class="timecl" id="vtime">'+3+'</span>&nbsp;<span class="timecl">зрителей</span></header>';
 videoContainer.appendChild(dimi);
+function get_min(){
+	return Math.floor(Math.random()*(60-10+1))+10;
+}
 }else if(ajson.type=="out_vair"){
 	//alert(1);
 var we=document.querySelector('[data-roomidi="'+ajson.room_id+'"]')

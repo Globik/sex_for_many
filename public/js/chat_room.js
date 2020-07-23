@@ -2,6 +2,8 @@ var v=gid("video-wrapper");
 var is_owner=gid('owner');
 var yourNick=gid("yourNick");
 var is_buser=gid("buser");
+var isfake=gid("isfake");
+var fakesrc=gid("fakesrc");
 var modelName=gid("modelName");
 var modelId=gid('modelId');
 var chatTxt=gid('chatTxt');
@@ -75,6 +77,10 @@ forImg.value="";
 
 function owner(){return (is_owner.value==='true'?true:false);}
 function buser(){return (is_buser.value==='true'?true:false);}
+function fake(){return (isfake.value==='true'?true:false);}
+function fake_src(){return fakesrc.value;}
+
+//alert(fake());
 
 function give_token(){
 window.location.href="#vorlogery";
@@ -715,6 +721,15 @@ is_playing=false;
 if(ONVAIR)plad();
 }
 
+if(fake()){
+remoteVideo.src='/vid/sveta.webm';
+remoteVideo.play();
+remoteVideo.muted=true;
+//remoteVideo.controls=true;
+}
+function popa(){
+remoteVideo.muted=false;	
+}
 function del_video(el){
 var a=el.getAttribute('data-bid');
 var e=el.getAttribute('data-src');

@@ -93,8 +93,11 @@ function vroomers_list(n){
 let s='';
 n.forEach(function(el,i){
 s+=`<div data-roomidi="${el.us_id}" class="vroomers">
-<h5><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></h5>
-<video class="videovroomers" poster="${el.src}" data-vidi="${el.us_id}"></video></div>`;	
+<header><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></header>
+<a href="/webrtc/${el.us_id}"><video class="videovroomers" poster="${el.typ=='fake'?'/vid/'+el.p:el.p}" data-vidi="${el.us_id}"></video></a>
+<header class="untervideo"><span class="timecl" id="ptime">${get_min()}</span>&nbsp;<span class="timecl">мин</span>,&nbsp;
+<span class="timecl" id="vtime">${el.typ=='fake'?gruss():el.v}</span>&nbsp;<span class="timecl">зрителей</span></header>
+</div>`;	
 })	
 return s;
 }
@@ -121,6 +124,12 @@ function get_videos(n){
 	<video data-video_id="${el.id}" src="/vid/${el.src}" preload="metadata" controls onplay="vplay(this);"></video></div>`;	
 	})
 	return s;
+}
+function gruss(){
+return Math.floor(Math.random()*(1000-80+1))+80;	
+}
+function get_min(){
+	return Math.floor(Math.random()*(60-10+1))+10;
 }
 function get_meta(n){
 let s='';

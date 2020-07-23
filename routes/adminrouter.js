@@ -572,7 +572,8 @@ r=await db.query(`select pg_size_pretty(pg_relation_size('${s}'))`)
 ctx.body={info:r.rows[0], table: s}
 })
 
-adm.get("/home/fakevideo", authed,async ctx=>{
+/* fake video */
+ adm.get("/home/fakevideo", authed,async ctx=>{
 ctx.body=await ctx.render('fakevideo',{});	
 })
 
@@ -583,13 +584,33 @@ adm.post("/fakevideo", auth, async ctx=>{
 console.log("YES")
 console.log('params ', ctx.request.body,ctx.params)
 //console.log('req: ', ctx.req.pipe)
-uploader(ctx.req,tmp,maxfilesize,1500000).then((assembleChunks)=>{
+let db=ctx.db;
+try{
+let assembleChunks=await uploader(ctx.req,tmp,maxfilesize,1500000);
 	ctx.status=204;
 	ctx.body={info:"ok"}
 	if(assembleChunks){
-	assembleChunks().then(data=>console.log('data: ',data)).catch(err=>console.log('ERR1 :',err))	
+	try{
+	let data=await assembleChunks();
+	console.log('data: ',data)
+	let pi='./public/vid/'+data.postParams.nick;
+	let pi2=data.postParams.nick;
+	try{
+	await insert_foto(data.filePath, pi)
+	await db.query("insert into vroom(us_id,nick,src,typ) values($1,$2,$3,'fake')",[data.postParams.us_id,data.postParams.name,
+	data.postParams.nick])
+	}catch(e){
+		console.log(e);
+		try{await unlink(data.filePath)}catch(e){console.log(e)}
+		ctx.throw(400,e);
+		}
+	}catch(err){
+		console.log('ERR1 :',err)
+		try{await unlink(data.filePath)}catch(e){console.log(e)}
+		}	
 	}
-}).catch(function(err){
+}catch(err){
+	try{await unlink(data.filePath)}catch(e){console.log(e)}
 	if(err.message==="Missing header(s)"){
 		
 	ctx.throw(400,'missing uploader-* header')	
@@ -597,7 +618,7 @@ uploader(ctx.req,tmp,maxfilesize,1500000).then((assembleChunks)=>{
 	if(err.message==='Missing Content-Type'){
 	ctx.throw(400,'Missing Content-Type')	
 	}
-	if(err.message.includes('Unsupported content type'){
+	if(err.message.includes('Unsupported content type')){
 		ctx.throw(400,'Unsupported content type')	
 	}
 	if(err.message==='Chunk is out of range'){
@@ -612,10 +633,54 @@ uploader(ctx.req,tmp,maxfilesize,1500000).then((assembleChunks)=>{
 		if(err && err.message==='Upload has expired'){
 			ctx.throw(410,err.message)
 		}
-	})
+	}
 ctx.body={info:"ok"}	
 })
 
+adm.post("/save_fake_user", auth, async ctx=>{
+let {username}=ctx.request.body;
+if(!username)ctx.throw(400,"no name provided")
+let db=ctx.db;
+let e=username+'@ya.ru';
+let r;
+try{
+r=await db.query("insert into buser(pwd,bname,email,brole) values('1234',$1,$2,'fake') returning id",[username,e]);	
+}catch(er){ctx.throw(400,er)}
+ctx.body={info:username,us_id:r.rows[0].id}	
+})
+adm.post("/fake_poster",auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}), async ctx=>{
+	//console.log(ctx.request.body.files)
+	//console.log(ctx.request.body.fields);
+	let {tposter}=ctx.request.body.files;
+	let {nick}=ctx.request.body.fields;
+	let db=ctx.db;
+	let s_s='./public/vid/'+tposter.name;
+	try{
+		await insert_foto(tposter.path,s_s);
+		await db.query("update vroom set p=$1 where nick=$2",[tposter.name,nick]);
+		}catch(e){ctx.throw(400,e)}
+	ctx.body={info: "ok"}
+})
+/*
+adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+ async ctx=>{
+let {filew}=ctx.request.body.files;
+if(!filew)ctx.throw(400,"no pic");
+if(!filew.name)ctx.throw(400,"no picture");
+
+console.log('filev.name: ', filew.name);
+
+let s_s = './public/blog/'+filew.name;
+console.log('filew.path: ', filew.path);
+console.log('filew.name: ', filew.name);
+try{
+	await insert_foto(filew.path, s_s);
+	}catch(e){
+	ctx.throw(400, e);
+	} 
+ctx.body={info:"ok, saved",src:filew.name}				
+})
+*/ 
 module.exports=adm;
 
 function auth(ctx,next){

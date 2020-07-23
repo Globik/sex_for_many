@@ -43,3 +43,7 @@ var sh=crypto.createHash('sha1')
 var da='p2p-incoming&test-notification&388.70&643&2020-06-22T18:01:44Z&41001000040&false&yandex_sec&';
 var li=sh.update(da).digest('hex')
 console.log('LI: ',li)
+
+console.log("random:")
+var ti=Math.floor(Math.random()*(60-10+1))+10;
+console.log("ti: ", ti);

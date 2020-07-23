@@ -421,17 +421,20 @@ let a,result,videos,videos2;
 let owner=false;
 let sis;
 if(ctx.state.is_test_btc){
-sis=`select buser.bname , buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname ,buser.brole, buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis=`select buser.bname , buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname , buser.brole,buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
 result=await db.query(sis,[ctx.params.buser_id]);
 a=result.rows[0];
-videos2=await db.query('select*from video where nick=$1',[a.bname]);
-videos=videos2.rows;
+if(a&&a.brole=='fake'){
+videos2=await db.query('select*from vroom where nick=$1',[a.bname]);
+videos=videos2.rows[0];
+console.log('videos: ',videos);
+}
 }catch(e){
 console.log('db error: ',e);
 ctx.body=await ctx.render('room_err',{mess:"Нет такого пользователя."});

@@ -30,6 +30,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
+
 <h5>Прежде чем начать</h5>
 <div id="btc-container">
 <label id="bInput">Введите свой ${n.is_test_btc?'test':''} <b>биткоин адрес</b> для донатов (<a href="/basa">где взять?</a>):</label><br>
@@ -43,8 +44,9 @@ class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<but
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>
 <span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
-
-
+<!-- <video src="/vid/sveta.webm" style="border:2px solid red;" autoplay></video>
+ffmpeg - input.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus output.webm -->
+<button onclick="popa();">popa</button>
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
@@ -114,8 +116,6 @@ ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</
 ${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
 </ul>
 <hr>
-${n.videos?get_videos(n.videos,n):''}
-<hr>
 ${doska.doska({})}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
@@ -123,6 +123,9 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'Anon'}">
+
+<input type="hidden" id="isfake" value="${model&&model.brole=='fake'?true:false}">
+<input type="hidden" id="fakesrc" value="${n.videos.src}">
 
 <input type="hidden" id="modelName" value="${model?model.bname:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">

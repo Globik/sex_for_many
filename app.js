@@ -286,6 +286,24 @@ await mkdir('public/video/');
 //removeDir(path.join('public','video')).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 
 }
+try{
+let a=await access('public/uploads/tmp',fs.constants.F_OK);
+console.log('a: ',a);	
+}catch(e){
+try{
+await mkdir('public/uploads/tmp');
+console.log('created directory public/uploads/tmp')
+}catch(e){console.log(e)}	
+}
+try{
+let b=await access('public/vid',fs.constants.F_OK);
+console.log('b: ',b);	
+}catch(e){
+try{
+await mkdir('public/vid');
+console.log('created directory public/vid')
+}catch(e){console.log(e)}	
+}
 var servak;
 if(is_ssl_http){
 	const ssl_options={
@@ -479,7 +497,7 @@ if(l.is_first=='true'){
 ws.on_vair=true;
 who_online(l);
 try{
-await pool.query('insert into vroom(us_id,nick,src) values($1,$2,$3) on conflict do nothing',[l.room_id,l.room_name,l.src]);
+await pool.query('insert into vroom(us_id,nick,p) values($1,$2,$3) on conflict do nothing',[l.room_id,l.room_name,l.src]);
 }catch(e){console.log('db.error inserting vroom: ',e)}
 }
 broadcast_room(ws, l);
