@@ -47,3 +47,16 @@ console.log('LI: ',li)
 console.log("random:")
 var ti=Math.floor(Math.random()*(60-10+1))+10;
 console.log("ti: ", ti);
+
+var s=new Date().getTime();
+console.log('s: ', s);
+var s1=1595577196673;
+var s2=new Date().getTime();
+var s3=(s2-s1)/60000;
+var s4=Math.round(s3);
+console.log('s4: ',s4);
+if(s4>=60){console.log((s4/60).toFixed(2),' hours')}else{
+console.log(s4, ' min')	
+}
+//console.log(((60/60).toFixed(2)));
+//console.log(''+124/60+''.substring(0,2));

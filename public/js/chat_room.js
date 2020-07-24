@@ -27,6 +27,7 @@ var sourceBuffer;
 var vsrc = [];
 var is_playing=false;
 var current_playing=null;
+var the_time;
 
 var spanWhosOn = gid("spanWhosOn");
 var sock;
@@ -511,6 +512,7 @@ startRecording();
 el.className="active";
 is_vstream_started=true;
 is_first_time=true;
+the_time=new Date().getTime();
 el.textContent="Стоп стрим";
 v.className="";
 webcamStart.className="";
@@ -624,6 +626,18 @@ startRecording();
 is_first_time=false;
 }else{dik=0;is_first_time=false;}
 //if(l.is_first=="true"){
+var min_1=new Date().getTime();
+var min_2=(min_1-the_time)/60000;
+var min_3=Math.round(min_2);
+var min_time;
+var min_str;
+if(min_3>=60){
+	min_time=(min_3/60).toFixed(2);
+	min_str='ч';
+}else{
+	min_time=(min_3==0?1:min_3);
+	min_str='мин';
+	}
 var d={};
 d.type="on_vair";
 d.is_first=l.is_first;
@@ -632,6 +646,9 @@ d.vsrc=l.vsrc;
 d.src=(l.is_first=='true'?get_slepok():'');
 d.room_id=l.room_id;
 d.room_name=l.room_name;
+d.min_time=min_time;
+d.min_str=min_str;
+d.v=chatcnt.textContent;
 wsend(d);	
 //}
 if(l.is_active=="false"){

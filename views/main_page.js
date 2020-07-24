@@ -95,11 +95,30 @@ n.forEach(function(el,i){
 s+=`<div data-roomidi="${el.us_id}" class="vroomers">
 <header><a href="/webrtc/${el.us_id}"><span>${el.nick}</span></a></header>
 <a href="/webrtc/${el.us_id}"><video class="videovroomers" poster="${el.typ=='fake'?'/vid/'+el.p:el.p}" data-vidi="${el.us_id}"></video></a>
-<header class="untervideo"><span class="timecl" id="ptime">${get_min()}</span>&nbsp;<span class="timecl">мин</span>,&nbsp;
-<span class="timecl" id="vtime">${el.typ=='fake'?gruss():el.v}</span>&nbsp;<span class="timecl">зрителей</span></header>
+<header class="untervideo"><span class="timecl" data-min_time="${el.us_id}">${el.typ=='fake'?get_min():get_mini(el.crat).t}</span>&nbsp;<span class="timecl" data-min_str="${el.us_id}">${el.typ=='fake'?'мин':get_mini(el.crat).s}</span>,&nbsp;
+<span class="timecl" data-v_str="${el.us_id}">${el.typ=='fake'?gruss():el.v}</span>&nbsp;<span class="timecl">зрителей</span></header>
 </div>`;	
 })	
 return s;
+}
+function gruss(){
+return Math.floor(Math.random()*(1000-80+1))+80;	
+}
+function get_min(){
+	return Math.floor(Math.random()*(60-10+1))+10;
+}
+function get_mini(crat){
+let a=new Date(crat).getTime();
+let b=new Date().getTime();
+let d=(b-a)/60000;
+let c=Math.round(d);
+if(c>=60){
+console.log((c/60).toFixed(2),' hours');
+return {t:(c/60).toFixed(2), s:'ч'}
+}else{
+console.log(c, ' min')
+return {t: (c==0?1:c), s: 'мин'}	
+}	
 }
 
 function get_new_users_list(n){
@@ -125,12 +144,7 @@ function get_videos(n){
 	})
 	return s;
 }
-function gruss(){
-return Math.floor(Math.random()*(1000-80+1))+80;	
-}
-function get_min(){
-	return Math.floor(Math.random()*(60-10+1))+10;
-}
+
 function get_meta(n){
 let s='';
 s+=`

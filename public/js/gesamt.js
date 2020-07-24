@@ -81,8 +81,12 @@ gid('onlineContainer').appendChild(s8);
 }catch(e){}
 */ 
 }else if(ajson.type=="room_part"){
-var s9=document.querySelector('[data-vid="'+ajson.roomid+'"]');
-if(s9)s9.textContent=ajson.part;
+var s9=document.querySelector('[data-min_time="'+ajson.roomid+'"]');
+if(s9)s9.textContent=ajson.min_t;
+var s10=document.querySelector('[data-min_str="'+ajson.roomid+'"]');
+if(s10)s10.textContent=ajson.min_s;
+var s11=document.querySelector('[data-v_str="'+ajson.roomid+'"]');
+if(s11)s11.textContent=ajson.part;
 }else if(ajson.type=="spanWhosOn"){
 if(spanWhosOn){
 spanWhosOn.textContent=ajson.cnt;	
@@ -103,9 +107,9 @@ console.log('ajson: ',ajson);
 var dimi=document.createElement("div");
 dimi.setAttribute('data-roomidi',ajson.room_id);
 dimi.className="vroomers";
-dimi.innerHTML='<header><a href="/webrtc/'+ajson.us_id+'"><span>'+ajson.room_name+'</span></a></header>';
-dimi.innerHTML+='<a href="/webtc/'+ajson.us_id+'"><video class="videovroomers"  poster="'+ajson.src+'"'+' data-vidi="'+ajson.room_id+'"></video></a>';
-dimi.innerHTML+='<header class="untervideo"><span class="timecl" id="ptime">'+get_min()+'</span>&nbsp;<span class="timecl">мин</span>,&nbsp;<span class="timecl" id="vtime">'+3+'</span>&nbsp;<span class="timecl">зрителей</span></header>';
+dimi.innerHTML='<header><a href="/webrtc/'+ajson.room_id+'"><span>'+ajson.room_name+'</span></a></header>';
+dimi.innerHTML+='<a href="/webtc/'+ajson.room_id+'"><video class="videovroomers"  poster="'+ajson.src+'"'+' data-vidi="'+ajson.room_id+'"></video></a>';
+dimi.innerHTML+='<header class="untervideo"><span class="timecl" data-min_time="'+ajson.room_id+'">'+ajson.min_time+'</span>&nbsp;<span class="timecl" data-min_str="'+ajson.room_id+'">'+ajson.min_str+'</span>,&nbsp;<span class="timecl" data-v_str="'+ajson.room_id+'">'+ajson.v+'</span>&nbsp;<span class="timecl">зрителей</span></header>';
 videoContainer.appendChild(dimi);
 function get_min(){
 	return Math.floor(Math.random()*(60-10+1))+10;

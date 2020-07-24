@@ -478,16 +478,18 @@ who_online(d4);
 */
 }else{
 if(ws.url !=="/gesamt"){
-//pool.query('update room set v=v+1 where nick=$1 returning us_id,v',[l.roomname],function(er,r){
-//if(er)console.log(er);
-//if(r.rows && r.rows.length){
+pool.query('update vroom set v=v+1 where nick=$1 returning us_id,v,crat',[l.roomname],function(er,r){
+if(er)console.log(er);
+if(r.rows && r.rows.length){
 let d5={};
 d5.type="room_part";
-//d5.part=r.rows[0].v;
-//d5.roomid=r.rows[0].us_id;
-//who_online(d5);	
-//}
-//})
+d5.part=r.rows[0].v;
+d5.roomid=r.rows[0].us_id;
+d5.min_t=get_mini(r.rows[0].crat).t;
+d5.min_s=get_mini(r.rows[0].crat).s;
+who_online(d5);	
+}
+})
 }
 }
 send_to_client=1;
@@ -508,7 +510,6 @@ who_online(l);
 }
 send_to_client=1;
 }else if(l.type="out_vair"){
-	console.log("WE ARE HERE");
 //d.is_first=l.is_first;
 //d.is_active=l.is_active;
 //d.vsrc=l.vsrc;
@@ -572,16 +573,18 @@ pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
 //});
 }else{
 if(ws.url !== "/gesamt"){
-//pool.query('update room set v=v-1 where nick=$1 returning us_id,v',[ws.roomname],function(er,r){
-//if(er)console.log(er);
-//if(r.rows && r.rows.length){
-	let d9={};
-	d9.type="room_part";
-	//d9.part=r.rows[0].v;
-   // d9.roomid=r.rows[0].us_id;
- //   who_online(d9);	
-//}
-//});	
+pool.query('update vroom set v=v-1 where nick=$1 returning us_id,v,crat',[ws.roomname],function(er,r){
+if(er)console.log(er);
+if(r.rows && r.rows.length){
+let d9={};
+d9.type="room_part";
+d9.part=r.rows[0].v;
+d9.roomid=r.rows[0].us_id;
+d9.min_t=get_mini(r.rows[0].crat).t;
+d9.min_s=get_mini(r.rows[0].crat).s;
+who_online(d9);	
+}
+});	
 
 }
 }
@@ -613,7 +616,19 @@ if(ws.readyState===WebSocket.OPEN)ws.send(a);
 }catch(e){console.log('err in stringify: ',e);}	
 }
 
-
+function get_mini(crat){
+let a=new Date(crat).getTime();
+let b=new Date().getTime();
+let d=(b-a)/60000;
+let c=Math.round(d);
+if(c>=60){
+console.log((c/60).toFixed(2),' hours');
+return {t:(c/60).toFixed(2), s:'ч'}
+}else{
+console.log(c, ' min')
+return {t: c, s: 'мин'}	
+}	
+}
 process.on('unhundledRejection', function(reason, p){
 console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	

@@ -125,7 +125,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'Anon'}">
 
 <input type="hidden" id="isfake" value="${model&&model.brole=='fake'?true:false}">
-<input type="hidden" id="fakesrc" value="${n.videos.src}">
+<input type="hidden" id="fakesrc" value="${n.videos?n.videos.src:''}">
 
 <input type="hidden" id="modelName" value="${model?model.bname:''}">
 <input type="hidden" id="modelId" value="${model?model.id:''}">
