@@ -46,7 +46,6 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
 <!-- <video src="/vid/sveta.webm" style="border:2px solid red;" autoplay></video>
 ffmpeg - input.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus output.webm -->
-<button onclick="popa();">popa</button>
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
@@ -76,7 +75,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <button id="dopPanelbtn" class="btn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>
-<button class="btn-start">Приват</button>`}
+<button class="btn-start" onclick="popa();">звук</button><button class="btn-start">Приват</button>`}
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 

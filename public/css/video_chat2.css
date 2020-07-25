@@ -87,7 +87,7 @@ ackground:red;
 #video-wrapper::after{
 position:absolute;
 ackground:brown;
-background:rgba(24,20,20,0.7);
+ackground:rgba(24,20,20,0.7);
 box-sizing:border-box;
 top:0;
 left:0;

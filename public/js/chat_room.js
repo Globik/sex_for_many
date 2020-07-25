@@ -159,8 +159,7 @@ if(el)el.className="puls";
 chatTxt.value="";
 }
 function insert_message(ob){
-	console.log('insert_message');
-	vasja.className="";
+vasja.className="";
 var m=document.createElement('div');
 m.className="chat-div";
 m.innerHTML='<span class="chat-user">'+ob.from+': </span><span class="chat-message">'+ob.msg+'</span>';
@@ -168,6 +167,7 @@ m.innerHTML+='<div class="g-data">'+g_data(ob.tz)+'</div>';
 chat.appendChild(m);
 chat.scrollTop=chat.clientHeight+chat.scrollHeight;
 }
+
 function insert_notice(ob){
 var m=document.createElement('div');
 m.className="chat-div";
@@ -204,6 +204,7 @@ obj7.tz=new Date();
 insert_message(obj7);
 }else if(ad.type=="count"){
 	chatcnt.textContent=ad.user_count;
+	if(fake())chatcnt.textContent=Math.floor(Math.random()*(100-10+1))+10;
 }else if(ad.type=="owner_in"){
 	//ad.tz=new Date();
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.',tz:new Date()});
@@ -227,7 +228,7 @@ handle_candidate(ad.candidate);
 note({content:ad.from+' отклонил звонок.', type:'error',time:5});
 stopVideo();
 }else if(ad.type=="spanWhosOn"){
-spanWhosOn.textContent=ad.cnt;
+if(spanWhosOn)spanWhosOn.textContent=ad.cnt;
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
 }else if(ad.type=="on_vair"){
 vsrc.push(ad.vsrc);plad();
@@ -742,10 +743,39 @@ if(fake()){
 remoteVideo.src='/vid/sveta.webm';
 remoteVideo.play();
 remoteVideo.muted=true;
+remoteVideo.loop="loop";
+v.className="";
 //remoteVideo.controls=true;
+tokencc.textContent=24;
+conversation();
 }
 function popa(){
 remoteVideo.muted=false;	
+}
+
+
+
+function conversation(){
+let ab=["давай, давай!","ух ты", "писька пиздатая", "ну и сиськи", "задница зашибись", "ну и попка", "молодец!","так держать", "ну и ну"];
+let names=["Nicky","Sveta","lettali","haylix","xaevynne","sexyru_couple","miss_julia","sasha","kaileeshy","wowgirls","john","mik","dura"];
+
+let a=Math.floor(Math.random()*(ab.length-1));
+let b=ab[a];
+let c=Math.floor(Math.random()*(names.length-1));
+let d=names[c];
+insert_message({from:d,msg:b,tz:new Date()});
+setTimeout(conversation,60000);
+dummi_token();
+}
+function dummi_token(){
+var nameD=["Nicky","Sveta","lettali","haylix","xaevynne","sexyru_couple","miss_julia","sasha","kaileeshy","wowgirls","john","mik","dura"];
+let c=Math.floor(Math.random()*(nameD.length-1));
+let d=nameD[c];
+insert_message({from: d, msg: "шлет на чай один токен.", tz: new Date()});
+insert_message({from: modelName.value, msg: "Спасибо, "+d+"!", tz: new Date()});
+tokencc.textContent=Number(tokencc.textContent)+1;
+
+setTimeout(dummi_token,58000);	
 }
 function del_video(el){
 var a=el.getAttribute('data-bid');
