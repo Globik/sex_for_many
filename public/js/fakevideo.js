@@ -3,6 +3,10 @@ tfile.oninput=function(ev){
 	alert('give me an user name!');
 	return;	
 	}
+	if(!us_id.textContent){
+	alert('gimme an user id!');
+	return;	
+}
 	let a=ev.target;
 	console.log(a.files)
 	console.log('suka ',ev.target.files[0].name);
@@ -52,6 +56,10 @@ var poster_form=document.forms.posterform;
 	ev.preventDefault();
 	try{
 	var d=new FormData(poster_form);
+	if(!username.textContent){
+	alert('give me an user name!');
+	return;	
+	}
 	d.append("nick",username.textContent);	
 	vax("post", "/fake_poster", d, on_submit, on_submit_err, ev.target, true);
 	ev.target.className="puls";
@@ -66,17 +74,3 @@ var poster_form=document.forms.posterform;
 	ev.className="";
 	note({content:l,type:'error',time:5})	
 	}
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-

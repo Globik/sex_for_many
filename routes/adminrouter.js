@@ -653,11 +653,12 @@ adm.post("/fake_poster",auth, bodyParser({multipart:true,formidable:{uploadDir:'
 	//console.log(ctx.request.body.fields);
 	let {tposter}=ctx.request.body.files;
 	let {nick}=ctx.request.body.fields;
+	console.log('nick:',nick)
 	let db=ctx.db;
 	let s_s='./public/vid/'+tposter.name;
 	try{
-		await insert_foto(tposter.path,s_s);
-		await db.query("update vroom set p=$1 where nick=$2",[tposter.name,nick]);
+		await insert_foto(tposter.path, s_s);
+		await db.query("update vroom set p=$1 where nick=$2",[ tposter.name, nick ]);
 		}catch(e){ctx.throw(400,e)}
 	ctx.body={info: "ok"}
 })
