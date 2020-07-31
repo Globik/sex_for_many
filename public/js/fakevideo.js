@@ -74,3 +74,23 @@ var poster_form=document.forms.posterform;
 	ev.className="";
 	note({content:l,type:'error',time:5})	
 	}
+function save_room_descr(el){
+if(!roomdescr.value)return;
+if(!username.textContent){
+	alert('give me an user name!');
+	return;	
+	}
+var d={};
+d.roomdescr=roomdescr.value;
+d.username=username.textContent;
+el.className="puls";
+vax("post","/api/save_room_descr", d, on_save_roomdescr, on_save_roomdescr_error, el, false);
+}
+function on_save_roomdescr(l,ev){
+note({content:l.info,type:"info",time:5})
+ev.className="";	
+}
+function on_save_roomdescr_error(l,ev){
+alert(l);
+ev.className="";	
+}

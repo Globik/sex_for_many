@@ -32,6 +32,12 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 <div><input type="submit" value="save"></div>
 </form></div>
 </div>
+<div>
+<h2>add description</h2>
+<div><label for="roomdescr">add room description:</label><br>
+<input type="text" id="roomdescr">&nbsp;&nbsp;<button onclick="save_room_descr(this);">save</button>
+</div>
+</div>
 <script src="/js/index.js"></script>
 <script src="/js/fakevideo.js"></script>
 </main>

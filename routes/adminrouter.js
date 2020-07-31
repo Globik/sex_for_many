@@ -573,7 +573,7 @@ ctx.body={info:r.rows[0], table: s}
 })
 
 /* fake video */
- adm.get("/home/fakevideo", authed,async ctx=>{
+adm.get("/home/fakevideo", authed,async ctx=>{
 ctx.body=await ctx.render('fakevideo',{});	
 })
 
@@ -648,6 +648,19 @@ r=await db.query("insert into buser(pwd,bname,email,brole) values('1234',$1,$2,'
 }catch(er){ctx.throw(400,er)}
 ctx.body={info:username,us_id:r.rows[0].id}	
 })
+
+adm.post("/api/save_room_descr", auth, async ctx=>{
+let {roomdescr,username}=ctx.request.body;
+if(!roomdescr)ctx.throw(400,"no room description!");
+if(!username)ctx.throw(400,"no username!");
+console.log('roomdescr: ', roomdescr);
+let db=ctx.db;
+try{
+await db.query('update vroom set descr=$1 where nick=$2',[roomdescr, username]);
+}catch(e){}
+ctx.body={info:"ok, saved room description"};	
+})
+
 adm.post("/fake_poster",auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}), async ctx=>{
 	//console.log(ctx.request.body.files)
 	//console.log(ctx.request.body.fields);
