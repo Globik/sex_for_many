@@ -26,7 +26,7 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
-<main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>
+<main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
@@ -39,7 +39,7 @@ value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==nu
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<button class="btn-saveL" onclick="reset_btc();">редактировать</button>
-</div></div>`:''}
+</div></div><div><label for="roomdescr">Добавьте описание стрима:</label><br><input type="text" id="roomdescr" maxlength="200"></div>`:''}
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>

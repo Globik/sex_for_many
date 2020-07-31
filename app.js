@@ -499,7 +499,7 @@ if(l.is_first=='true'){
 ws.on_vair=true;
 who_online(l);
 try{
-await pool.query('insert into vroom(us_id,nick,p) values($1,$2,$3) on conflict do nothing',[l.room_id,l.room_name,l.src]);
+await pool.query('insert into vroom(us_id,nick,p,descr) values($1,$2,$3,$4) on conflict do nothing',[l.room_id,l.room_name,l.src,l.descr]);
 }catch(e){console.log('db.error inserting vroom: ',e)}
 }
 broadcast_room(ws, l);

@@ -19,6 +19,7 @@ p{line-height:1.7}
 	}
 	#onlineSection{background:rgb(85, 165, 159);}
 	#onlineVideo{background:rgb(223,235,202);}
+	
 	#onlineContainer,#videoContainer{
 	display:flex;
 	flex-direction: row; 
@@ -61,12 +62,15 @@ background:rgb(202,230,233);
 padding:1em;
 }
 
-.vroomers{margin:10px;}
+.vroomers{margin:10px;padding:10px;background:rgba(255,255,255,0.4);}
 .timecl{font-size:0.7rem;}
 .onlineVideo{
 
 }
 .videovroomers{width:250px;}
+
+span[itemprop="uploadDate"]{font-size:0;color:rgba(0,0,0,0);}
+p[itemprop="description"]{margin:0;ine-height:1;font-size:0.6em;}
 
 @media screen and (max-width: 750px) {
 .videodiv{width:100%;}

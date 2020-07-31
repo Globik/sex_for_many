@@ -419,7 +419,7 @@ let db=ctx.db;
 console.log("USER: ",us);
 let a,result,videos,videos2;
 let owner=false;
-let sis;
+let sis;let descr;
 if(ctx.state.is_test_btc){
 sis=`select buser.bname ,buser.brole, buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
@@ -433,7 +433,11 @@ a=result.rows[0];
 if(a&&a.brole=='fake'){
 videos2=await db.query('select*from vroom where nick=$1',[a.bname]);
 videos=videos2.rows[0];
+descr=videos2.rows[0].descr;
 console.log('videos: ',videos);
+}else{
+let de=await db.query('select descr from vroom where nick=$1',[a.bname]);
+if(de&&de.rows.length)descr=de.rows[0].descr;
 }
 }catch(e){
 console.log('db error: ',e);
@@ -448,7 +452,7 @@ if(us){
 if(us.id==ctx.params.buser_id){owner=true;}
 }
 
-ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos});
+ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos,descr:descr});
 });
 //pub.get('/webrtc/:buser_id', async function(ctx){});
 //save btc address
