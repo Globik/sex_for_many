@@ -742,7 +742,7 @@ if(ONVAIR)plad();
 }
 
 if(fake()){
-remoteVideo.src='/vid/sveta.webm';
+remoteVideo.src='/vid/'+fakesrc.value;
 remoteVideo.play();
 remoteVideo.muted=true;
 remoteVideo.loop="loop";

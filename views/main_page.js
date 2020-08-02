@@ -21,6 +21,8 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">
+<!-- <div id="left"><ul><li>prazdnik</ul></div> -->
+<div id="right">
 ${n.m?n.m.msg:''}<br>
 ${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
 <article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
@@ -72,6 +74,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 </main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>
+</div>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 
 module.exports={main_page};
