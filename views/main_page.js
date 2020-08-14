@@ -21,10 +21,10 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">
-<!-- <div id="left"><ul><li>prazdnik</ul></div> -->
+<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
 <div id="right">
-${n.m?n.m.msg:''}<br>
-${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}<br>
+${n.m?n.m.msg:''}
+<div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
 <article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
 <p>После простой регистрации вы сможете:
 <ul id="ulKomnata">
@@ -71,10 +71,10 @@ ${n.videos?`{get_videos(n.videos)}<div><a href="/videos">Смотреть все
 ${doska.doska({})}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
-</main>
+</div></main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>
-</div>
+
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 
 module.exports={main_page};

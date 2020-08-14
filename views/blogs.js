@@ -20,6 +20,8 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"> 
+<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+<div id="right">
 <!--
 page ${n.locals.page}
 total aricles: ${n.locals.total_articles};
@@ -31,7 +33,7 @@ ${getPaginator(n)}
 ${doska.doska({})}
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
-</main>
+</div></main>
  <script src="/js/blog.js"></script>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 

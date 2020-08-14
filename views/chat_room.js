@@ -26,7 +26,10 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})
 <nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
-<main id="pagewrap"><h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
+<main id="pagewrap">
+<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+<div id="right">
+<h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
@@ -101,7 +104,7 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 
 </section>
  <div style="clear:both;"></div>  
-
+<!--
 <h4>Профиль</h4>
 <div id="clientFoto"></div>
 <ul id="profileUl">
@@ -110,9 +113,9 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 <li><b>Ориентация: </b><span id="clientOrientation"></span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
-<li><b>Просмотров: </b><span id="clientViews"></span>
+<li> --><br><b>Просмотров: </b><span id="clientViews"></span>
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
-${n.owner?`<li><a href="/home/profile/${model.bname}">редактировать</a>`:''}
+<!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>
 <hr>
 ${doska.doska({})}
@@ -144,7 +147,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 </div>
 </div>
 
-</main>
+</div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 ${js_help(["/js/adapter-latest.js","/js/chat_room.js","/js/qrcode.min.js"])}
 <!-- github.com/zhiyuan-l/qrcodejs -->

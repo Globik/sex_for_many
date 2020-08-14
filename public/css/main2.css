@@ -57,12 +57,36 @@ width:100%;
 
 @media screen and (min-width: 1900px) {
  bodyhhhh{font: 1.9em/180% Calibri, Arial, Helvetica, sans-serif;}
- #pagewap{margin-top:8px;min-width:1365px;width:2%;min-height:100%;}
+ #pagewap{margin-top:8px;in-width:1365px;idth:2%;min-height:100%;}
+ 
 }
 :root {--mht:3.2rem;--pd:1rem;--spinnerh:.3rem;
 --hbg:#bdf3d3;
 }
 
+#left{display:none;}
+
+
+@media screen and (min-width: 1900px){
+#pagewrap{
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+align-items:stretch;
+}
+#left nav{adding:20px;}
+#privet{padding:23px;}
+#left nav div{padding:20px;}
+#left nav ul{list-style:none;margin:0px;padding:20px;}
+#left nav ul li{padding-top:5px;padding-bottom:5px;}
+#left nav ul a{text-decoration:none;color:inherit;}
+#sat{margin-left:40px;}
+
+#left{display:block;margin:0;width:500px;}
+#right{width:100%;}
+#doska{width:25%;}
+#pagewrapi #loginSection{width:25%;margin:0 auto;}
+}
 
 nav{display:block;position:relative;
 /*
@@ -351,6 +375,7 @@ header{color:rgb(72,76,86);}
 
 #vorlogincontainer section.tabactive{display:block;background:lightgreen;}
 #loginSection, #signupSection{padding:20px;}
+/* #pagewrapi #loginSection{width:50%;margin:0 auto;} */
 #loginSection strong,#signupSection strong{font-size:0.8rem;}
 .foget{color:black;}
 span.yellow{color:yellow;}
@@ -620,6 +645,9 @@ transform:rotate(45deg);
 #sidebar img{width:50%;} #sidebar .widget .agenda{width:50%;}
 .video embed,.video object,.video iframe {width: 100%;height: auto;min-height: 300px;}
 .adm-ul > li a{margin-left:0.2rem;}
+}
+@media screen and (max-width: 850px){
+nav #menu{display:none;}
 }
 
 @media screen and (max-width: 750px) {

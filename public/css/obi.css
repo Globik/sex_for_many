@@ -1,3 +1,4 @@
+h1{padding:20px;}
 #obiDiv,#regelDiv,#regelDiv2{display:inline-block;}
 #regelDiv,#regelDiv2{
 font-size:0.8em;width:50%;height:auto;vertical-align:top;position:relative;padding:10px;}

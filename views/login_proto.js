@@ -16,7 +16,6 @@ return html`
 <div class="submitDiv">
 <input type="submit" value="Войти">
 </div>
-<div class="underform">facebook vk</div>
 </form></section>`;
 }
 module.exports={login_proto}

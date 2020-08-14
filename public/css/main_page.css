@@ -1,7 +1,18 @@
 /*
-main{display:flex;}
-#left{background:red;margin:0;}
-#left ul{list-style:none;margin:0;padding:0;}
+main{
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+align-items:stretch;
+}
+#left{ackground:red;margin:0;width:500px;}
+#left nav{adding:20px;}
+#privet{padding:23px;}
+#left nav div{padding:20px;}
+#left nav ul{list-style:none;margin:0px;padding:20px;}
+#left nav ul li{padding-top:5px;padding-bottom:5px;}
+#left nav ul a{text-decoration:none;color:inherit;}
+#sat{margin-left:40px;}
 */
 h2{text-align:center;}
 .ahero{

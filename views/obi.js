@@ -18,7 +18,10 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 
-<main id="pagewrap"><h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
+<main id="pagewrap">
+<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+<div id="right">
+<h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
 ${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>':''}
 <section id="fuckSection">${n.obis&&n.obis.length>0?get_obi(n):'Пока объявлений нет.'}</section><hr>
 <section id="obiContainer">
@@ -54,7 +57,7 @@ ${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши �
 </section>
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
-</main>
+</div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 </body>
 ${js_help(["/js/obi.js"])}
