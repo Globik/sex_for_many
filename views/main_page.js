@@ -3,6 +3,7 @@ const html_head=require('./html_head');
 const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
+const vert_menu=require('./vert_menu.js');
 const doska=require('./doska');
 const {people} = require('./people');
 const {get_banner, get_banner_podval}=require('./reklama_s');
@@ -21,7 +22,7 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">
-<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+${vert_menu.vert_menu({})}
 <div id="right">
 ${n.m?n.m.msg:''}
 <div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>

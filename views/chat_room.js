@@ -5,6 +5,7 @@ const html_head=require('./html_head'),
    const moment=require('moment');
    const {get_banner, get_banner_podval}=require('./reklama_s');
    const doska=require('./doska');
+   const vert_menu=require('./vert_menu.js');
    
    const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
@@ -27,7 +28,7 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 <main id="pagewrap">
-<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+${vert_menu.vert_menu({})}
 <div id="right">
 <h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
 ${n.owner?

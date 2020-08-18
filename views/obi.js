@@ -2,6 +2,7 @@ const html_head=require('./html_head'),
     html_nav_menu=require('./html_nav_menu'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
+const vert_menu=require('./vert_menu.js');
 const {js_help}=require('../libs/helper.js');
 const moment=require("moment");
 const {get_banner, get_banner_podval}=require('./reklama_s');
@@ -19,7 +20,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 
 
 <main id="pagewrap">
-<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+${vert_menu.vert_menu({})}
 <div id="right">
 <h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
 ${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>':''}

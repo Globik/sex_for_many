@@ -3,6 +3,7 @@ const html_head=require('./html_head');
 const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
+const vert_menu=require('./vert_menu.js');
 const doska=require('./doska');
 const {get_banner, get_banner_podval}=require('./reklama_s');
 const article_v=function(n){
@@ -20,6 +21,8 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"> 
+${vert_menu.vert_menu({})}
+<div id="right">
 <div id="inlineFoto"></div>
 <article>${n.result?get_post(n.result):''}</article>
 ${buser && buser.brole=="superadmin"?`<button onclick='edit_article(this)'>Редактировать</button>
@@ -34,7 +37,7 @@ ${buser && buser.brole=="superadmin"?`<button onclick='edit_article(this)'>Ре�
 ${doska.doska({})}
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
-</main>
+</div></main>
 ${buser && buser.brole=="superadmin"?'<script src="/js/article_v.js"></script>':''}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 

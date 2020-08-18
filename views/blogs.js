@@ -4,6 +4,7 @@ const html_head=require('./html_head');
 const html_nav_menu=require('./html_nav_menu');
 const html_admin_nav_menu=require('./html_admin_nav_menu');
 const html_footer=require('./html_footer');
+const vert_menu=require('./vert_menu.js');
 const doska=require('./doska');
 const {get_banner, get_banner_podval}=require('./reklama_s');
 const blogs=function(n){
@@ -20,7 +21,7 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"> 
-<div id="left"><nav><div>groom.ru</div><ul><a href=""><li>prazdnik</a><li>vybory<span id="sat">20</span></ul></nav></div>
+${vert_menu.vert_menu({})}
 <div id="right">
 <!--
 page ${n.locals.page}
@@ -57,11 +58,11 @@ function getPaginator(n){
 			console.log(i);
 			i+=1;
 			(page==i ? s+=`<div class="pactive">${i}</div>`:
-			 s+=`<a href="${page>=2 && i==1 ? '/home/blog':`/home/blog/${i}`}"><div class="num">${i}</div></a>`)
+			 s+=`<a href="${page>=2 && i==1 ? '/blog':`/blog/${i}`}"><div class="num">${i}</div></a>`)
 			});
 			
 		}
-		(n.locals.next ? s+=`<a href="/home/blog/${page+1}"><div class="num">следующая</div></a>`:'');
+		(n.locals.next ? s+=`<a href="/blog/${page+1}"><div class="num">следующая</div></a>`:'');
 		return s;
 	}
 
@@ -69,7 +70,7 @@ function getPaginator(n){
 function psaki(n){
 	let s='';
 	let page=Number(n.locals.page);
-	if(page==2){s+="/home/blog"}else{s+=`/home/blog/${page-1}`}
+	if(page==2){s+="/blog"}else{s+=`/blog/${page-1}`}
 	return s;
 	}
 	
@@ -79,7 +80,7 @@ n.posts.forEach(function(el,i){
 s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">${el.auth}</span>,
  <span class="d-date">${moment(el.cr_at).format('YYYY-DD-MM')}</span>
 	<article>${el.body.substring(0,100)}</article>
-	<div><a href="/home/ru/${el.slug}">Читать</a></div>
+	<div><a href="/ru/${el.slug}">Читать</a></div>
 	${n.user&&n.user.brole=="superadmin"?`<br><br><br><button data-bid="${el.id}" onclick="rem(this);">delete</button>`:''}</div>`;
 	})	
 	return s;

@@ -49,7 +49,7 @@ if(e.success==false){notif_er(e)}else{notif(e);}}
 function on_fail(e){console.error(e);notif_err(e)}
 function notif(e){	
 outresult.style.display="block";
-tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт на gayroom!</h3>'+e.message+'<br><br>Вы можете заполнить ваш <a href="/home/profile/'+USNAME+'">профиль</a>.<br><br>Или перейти на <a href="/">главную страницу</a><br><br></p>');
+tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт!</h3>'+e.message+'<br><br>Если вас не перенаправит через 10 сек на <a href="/">главную страницу</a>, то вы можете сделать это сами.<br><br></p>');
 removeForm();
 setTimeout(function(){window.location.href=e.redirect;},10000);
 }

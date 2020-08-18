@@ -2,7 +2,7 @@ const doska=n=>{
 	return `
 <section id="doska"><header><strong>Доска объявлений</strong></header>
 <div id="obiContent"></div>
-<a id="doskaA" href="/home/obi">Читать все объявления</a>  <a id="doskaB" href="/home/obi#obiContainer">Подать объявление</a></section>
+<a id="doskaA" href="/obi">Читать все объявления</a>  <a id="doskaB" href="/obi#obiContainer">Подать объявление</a></section>
 <script>
 var obiContent=gid("obiContent");
 setTimeout(function(){fetchObiContent();},1000);

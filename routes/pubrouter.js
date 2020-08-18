@@ -885,7 +885,7 @@ await db.query("update profile set ava='',isava=0 where bname=$1",[fname]);
 ctx.body={info:"Фото удалено!"};	
 })
 // obi
-pub.get('/home/obi', reklama, async ctx=>{
+pub.get('/obi', reklama, async ctx=>{
 	let db=ctx.db;
 	let res;
 	try{
@@ -994,7 +994,7 @@ oni('privacy ',"just here.");
 
 /* BLOG */
 
-pub.get("/home/blog", reklama, pagination, async ctx=>{
+pub.get("/blog", reklama, pagination, async ctx=>{
 	let db=ctx.db;
 	let posts;
 	try{
@@ -1009,7 +1009,7 @@ oni('blog ',"just here.");
 	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
 	
-	pub.get("/home/blog/:page", reklama, pagination, async ctx=>{
+	pub.get("/blog/:page", reklama, pagination, async ctx=>{
 		console.log("ctx params: ", ctx.params);
 		let {page}=ctx.params;
 		page=Number(page);
@@ -1027,7 +1027,7 @@ oni('blog ',"just here.");
 		ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts})
 		})
 
-pub.get("/home/ru/:slug", reklama, async ctx=>{
+pub.get("/ru/:slug", reklama, async ctx=>{
 	let db=ctx.db;
 	let result;
 	try{
