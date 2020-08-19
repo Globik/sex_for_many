@@ -4,6 +4,7 @@ const html_head=require('./html_head.js'); // head.js
 const html_nav_menu=require('./html_nav_menu.js');// header_menu.js
 const html_admin_nav_menu=require('./html_admin_nav_menu.js');// admin_main_menu.js
 const html_footer = require('./html_footer.js');// footer.js
+const vert_menu=require('./vert_menu.js');
 const {js_help}=require('../libs/helper.js');
 let admin_dashboard = n=> {
 const buser=n.user;
@@ -15,9 +16,11 @@ return `<!DOCTYPE html><!-- admin_dashboard.js -->
 </style>
 </head><body>
 ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
+${vert_menu.vert_menu(n)}
+<div id="right">
 hallo ${buser.bname}<br>
 
 <br><hr>
@@ -50,7 +53,7 @@ value="${n.btc_address?n.btc_address:''}">
 <li><a href="/home/profile">Профили</a>
 <li><a href="/home/newavas">Проверить аватары</a>
 </ul>
-</main>
+</div></main>
 ${js_help(["/js/adm_btc_pay.js"])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }

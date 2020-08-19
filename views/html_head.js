@@ -11,7 +11,7 @@ ${n.meta ? n.meta : ''}
 ${n.csslink ? `<link href="${n.csslink}" rel="stylesheet">` :''}
 ${n.csslink2 ? `<link href="${n.csslink2}" rel="stylesheet">` : ''}
 ${n.cssl ? get_cssl(n) : ''}
-<!-- {n.luser&&n.luser.brole=='superadmin'?'<link href="/css/abuse_notes.css" rel="stylesheet">':''} -->
+<!-- {n.user&&n.user.brole=='superadmin'?'<link href="/css/abuse_notes.css" rel="stylesheet">':''} -->
 ${n.csshelper ? `<style>${n.csshelper}</style>`:''}
 <script>
 var flexsupport=false;

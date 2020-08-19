@@ -6,21 +6,21 @@ const vert_menu=require('./vert_menu.js');
 const {js_help}=require('../libs/helper.js');
 const moment=require("moment");
 const {get_banner, get_banner_podval}=require('./reklama_s');
-const obi = n=>{
+const obi = function(n){
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
 <head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(n.meta),
-csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"],luser:buser})}
+csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 
 <main id="pagewrap">
-${vert_menu.vert_menu({})}
+${vert_menu.vert_menu(n)}
 <div id="right">
 <h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
 ${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>':''}

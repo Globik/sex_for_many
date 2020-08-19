@@ -148,6 +148,7 @@ var xirsys;
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
+ctx.state.site="globik.ru";
 ctx.db=pool;
 ctx.transporter=transporter;
 ctx.state.meta=meta;

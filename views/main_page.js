@@ -16,13 +16,13 @@ return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
 <head>${html_head.html_head({title:"Сервис видеостримов для взрослых.", meta:get_meta(n.meta),csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">
-${vert_menu.vert_menu({})}
+${vert_menu.vert_menu(n)}
 <div id="right">
 ${n.m?n.m.msg:''}
 <div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>

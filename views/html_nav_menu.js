@@ -1,8 +1,8 @@
 //html_nav_menu.js
 const html_nav_menu=n=>{
 return `<!-- html_nav_menu.js -->
-<a href="/" id="aSite"><strong id="strongSite">GAYROOM.RU</strong></a>
-<label class="label-login">${n.buser?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
+<a href="/" id="aSite"><strong id="strongSite">${n.site}</strong></a>
+<label class="label-login">${n.user?'<a href="/logout">выход</a>':'<a href="/login">вход</a>'}</label>
 <ul id="menu">
 <li><a href="/"><div class="mnav">Стримы</div></a>
 <li><a href="/blog"><div class="mnav">Блог</div></a>
@@ -16,14 +16,14 @@ return `<!-- html_nav_menu.js -->
 
 <ul id="miniMenu" class="">
 <li><a href="/"><div class="muka"><span>Стримы</span></div></a>
-${n.buser?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
-<!-- {n.buser?'<li><a href="/home/profile/{n.buser.bname}"><div class="muka"><span>Мой профиль</span></div></a>':''} -->
+${n.user?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
+<!-- {n.user?'<li><a href="/home/profile/{n.user.bname}"><div class="muka"><span>Мой профиль</span></div></a>':''} -->
 <li><a href="/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 <!-- <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a> -->
 <li><a href="/blog"><div class="muka"><span>Блог</span></div></a>
 <!-- <li><a href="/videos"><div class="muka"><span>Видео</span></div></a> -->
 <li><a href="/tokens"><div class="muka"><span>Купить токены</span></div></a>
-${n.buser?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
+${n.user?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
 '<li><a href="/login"><div class="muka"><span>Войти</span></div></a>'}
 <!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
 </ul>

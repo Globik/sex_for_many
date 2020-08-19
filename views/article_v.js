@@ -7,21 +7,19 @@ const vert_menu=require('./vert_menu.js');
 const doska=require('./doska');
 const {get_banner, get_banner_podval}=require('./reklama_s');
 const article_v=function(n){
-
-const buser=n.user;
-
+	const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- article_v.js -->
 <head>${html_head.html_head({title:(n.result ? n.result.title:'article'), meta:get_meta(n.result), 
-csslink:"/css/main2.css",cssl:["/css/article_v.css"], luser:buser})}
+csslink:"/css/main2.css",cssl:["/css/article_v.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser:buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
 
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap"> 
-${vert_menu.vert_menu({})}
+${vert_menu.vert_menu(n)}
 <div id="right">
 <div id="inlineFoto"></div>
 <article>${n.result?get_post(n.result):''}</article>

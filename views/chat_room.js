@@ -17,18 +17,18 @@ const notowner_str = "Вы можете позвонить юзеру. Нажм�
 const str_langsam_stop="We are sorry, but no more activity is acceptable. Site is closing for a profilactic works in a pair of hours.";
 const str_emergency_stop="Emergency stop all activities on this site. We are sorry";
 const chat_room = n=>{
-let {model}=n;
 const buser=n.user;
+let {model}=n;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
 <head>${html_head.html_head({title:model?model.bname:'-', meta: get_meta(n.meta, model),
-csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"],luser:buser})}
+csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 <main id="pagewrap">
-${vert_menu.vert_menu({})}
+${vert_menu.vert_menu(n)}
 <div id="right">
 <h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
 ${n.owner?

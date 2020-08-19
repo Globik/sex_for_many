@@ -2,19 +2,20 @@ const html_head=require('./html_head'),
     html_nav_menu=require('./html_nav_menu'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
+   const vert_menu=require('./vert_menu.js');
 const {js_help}=require('../libs/helper.js');
 const moment=require('moment');
 const reklama = n=>{
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- reklama.js -->
 <head>${html_head.html_head({title:'Реклама',
-csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/reklama.css"],luser:buser})}
+csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/reklama.css"]})}
 </head>
 <body>
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
 
-<main id="pagewrap"><h2>Реклама</h2>
+<main id="pagewrap">${vert_menu.vert_menu(n)}<div id="right"><h2>Реклама</h2>
 <h6>Рекламные фотографии</h6>
 <button onclick="fetch_folder(this);">Открыть папку</button>
 <section id="fcontent"></section>
@@ -49,7 +50,7 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 
 ${n.result&& n.result.length?get_stat(n.result):'Нет пока'}
 
-</main>
+</div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 ${js_help(["/js/reklama.js"])}
 </body>

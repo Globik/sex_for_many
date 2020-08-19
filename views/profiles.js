@@ -2,6 +2,7 @@ const html_head=require('./html_head.js');
 const html_nav_menu=require('./html_nav_menu.js');
 const html_admin_nav_menu=require('./html_admin_nav_menu.js');
 const html_footer = require('./html_footer.js');
+const vert_menu=require('./vert_menu.js');
 const {js_help}=require('../libs/helper.js');
 let profiles = n=>{
 const buser = n.user;
@@ -9,9 +10,9 @@ return `<!DOCTYPE html><html lang="en"><!-- profiles.js --><head>${html_head.htm
 cssl:["/css/profiles.css"]})}
 </head><body>
 ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
-<main id="pagewrap">
+<main id="pagewrap">${vert_menu.vert_menu(n)}<div id="right">
 <h3>Sessions</h3>
 <button onclick="get_session();">get_session</button><br>
 <output id="outsession"></output>
@@ -38,7 +39,7 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <input type="text" name="name" placeholder="name"><input type="text" name="family" placeholder="fammily"><input type="submit" value="send">
 </form>
 <hr>
-</main>
+</div></main>
 ${js_help(['/js/profiles.js'])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
