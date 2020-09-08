@@ -5,7 +5,7 @@ const html_footer=n=>{let a=new Date();
 return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">Сайт предназначен для лиц старше 18 лет.
 Вход в чат означает Ваше согласие с <a href="/home/privacy">правилами</a>. Если вам менее 18 лет, 
 Вы обязаны покинуть этот сайт.</span></section>
-${n.banner?'<section id="footReklama"><a href="/home/advertise">Реклама на сайте</a></section><section>':''}
+<section id="footReklama"><a href="/home/advertise">Реклама на сайте</a></section><section>
 <ul id="basaUl"><li><a href="/basa">База знаний.</a></ul></section>
 <section id="socseti"><header><b>Мы в соцсетях</b></header>
 <a href="https://vk.com/club196544064"><img src="/images/vk.png"></a>
