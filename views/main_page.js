@@ -18,7 +18,46 @@ return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
+<script>
+function check_age(){
+if(is_local_storage()){
+if(localStorage.getItem('age')==1){
+return;
+}
+}
+if(is_dialogi()){
+dialogConfirm2.showModal();
+dialogConfirm2.onclose=function(ev){
+//alert(ev.target.returnValue);
+ev.target.returnValue=='true'?gsiska():gpiska();
+function gsiska(){set_yes();}
+function gpiska(){say_no();}
+}
+}else{
+window.location.href="#message_box2";
+var qtar=document.querySelector('.overlay:target');
+if(qtar){
+qtar.onclick=function(){in_rem_hash();}
+}
+}
+}
 
+check_age();
+
+function say_yes(){
+window.location.href="#";
+in_rem_hash();
+set_yes();
+}
+function say_no(){
+window.location.href="https://www.yandex.ru";
+}
+function set_yes(){
+if(is_local_storage()){
+localStorage.setItem('age',1);
+}
+}
+</script>
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">

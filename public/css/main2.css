@@ -126,7 +126,7 @@ font-family:Trebuchet MS;
 font-size:1.3rem;
 display:inline-block;
 transition: 0.1s;
-z-index:1000;
+z-index:900;
 }
 nav #menu li a{text-decoration:none;}
  nav #menu li .mnav{
@@ -181,7 +181,7 @@ width: 3.2rem;
 width: var(--mht);
 height: 100%;
 right:0px;
-z-index:999;
+z-index:99;
 }
 .muka:hover{background:rgb(100,200,60);}
 
@@ -261,7 +261,7 @@ cursor: default;
 opacity: 1.0;
 position: fixed;
 visibility: hidden;
-z-index: 1;
+z-index:1;
 transition: opacity .5s;
 	
 }
@@ -335,10 +335,13 @@ background:rgba(255,0,0,0.4);
 }
 /* message_box */
 #out_box {width:50%;}
+#out_box2{width:50%;text-align:center;padding:20px;}
+#inbox2{padding:20px;margin:20px;}
+.yesno{margin:10px;width:60px;}
 #inbox{padding-left:40px;padding-right:40px; padding-top:5px;padding-bottom:5px; color:red;background:yellow;}
 /* CONFIRM  */
 #alert_id{}
-#inbox2{}
+
 .alert{visibility:hidden;position:fixed;left: 30%;background:yellow;color:green;
 top: 1%;width:30%;
 transform:translate(-100%,1vh);
@@ -392,14 +395,13 @@ span.yellow{color:yellow;}
 
 
 .flex dialog{
-	/* ackground:rgba(250,254,255,0.9);*/
-	background:green;
-	
+background:rgba(20,20,30,1);
 }
+#inbox32{color:white;text-align:center;font-size:30px;}
 .flex dialog form{display:flex;justify-content:center;}
-.flex dialog button{min-width:6rem;color:rgb(0,200,0);margin:1.8rem 0.3rem;
+.flex dialog button{min-width:6rem;color:blue;margin:1.8rem 0.3rem;
 	font-weight:bold;font-size:1.2rem;cursor:pointer;
-border:2px solid rgb(0,200,0);outline:none;z-index:100;padding:0.8rem;}
+border:2px solid blue;outline:none;z-index:100;padding:0.8rem;}
 .flex dialog button:hover{background:rgba(255,200,205,0.3);border-color:rgb(4,14,21);color:rgb(4,14,21);}
 .flex dialog::backdrop{background:rgba(4,18,45,0.8);}
 
@@ -676,6 +678,7 @@ padding:0.2rem;
 #sidebar .widget {padding: 3% 4%;margin: 0 0 1px;}
 #sidebar  img{width:40%;}
 #out_box{width:100%;}
+#out_box2{width:96%;}
 .flex dialog{width:98%;}
 #haupt-banner{width:100%; height:80px;}
 #haupt-banner img{height:80px;}
