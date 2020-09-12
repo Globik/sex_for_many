@@ -16,7 +16,7 @@ return `<!-- html_nav_menu.js -->
 
 <ul id="miniMenu" class="">
 <li><a href="/"><div class="muka"><span>Стримы</span></div></a>
-${n.user?`<li><a href="/webrtc/${n.buser.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
+${n.user?`<li><a href="/webrtc/${n.user.id}"><div class="muka"><span>Мой видеочат</span></div></a>`:''}
 <!-- {n.user?'<li><a href="/home/profile/{n.user.bname}"><div class="muka"><span>Мой профиль</span></div></a>':''} -->
 <li><a href="/obi"><div class="muka"><span>Доска объявлений</span></div></a>
 <!-- <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a> -->

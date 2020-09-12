@@ -30,16 +30,16 @@ const gr = "\x1b[32m", rs = "\x1b[0m";
 const pub=new Router();
 
 pub.get('/', reklama, async ctx=>{
-let bresult;
-let new_users;
+//let bresult;
+//let new_users;
 let db=ctx.db;
 let videoUsers;
-let videos;
+//let videos;
 try{
-let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
-let d=`select buser.id, buser.bname, profile.age, profile.msg, 
-profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 5`;
-let bus=await db.query(s);
+//let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
+//let d=`select buser.id, buser.bname, profile.age, profile.msg, 
+//profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 5`;
+/*let bus=await db.query(s);
 
 if(bus.rows.length>0){
 bresult=bus.rows;
@@ -47,19 +47,21 @@ bresult=bus.rows;
 let bus1=await db.query(d);
 if(bus1.rows.length>0){
 new_users=bus1.rows;
-} 
+} */
 let a=await db.query('select*from vroom',[]);
 if(a.rows.length>0){
 videoUsers=a.rows;	
 }
+/*
 let bb=await db.query('select*from video limit 5');
 if(bb.rows.length>0){
 videos=bb.rows;	
-}
+}*/
 }catch(e){console.log(e)}	
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
-ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers,videos:videos});
+//ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers,videos:videos});
+ctx.body=await ctx.render('main_page',{videoUsers:videoUsers});
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 
@@ -716,7 +718,13 @@ res()
 })
 }
 			
-/* YANDEX */
+/* YANDEX 
+ * https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage/
+ * https://yandex.ru/dev/money/doc/payment-buttons/reference/notifications-docpage/
+ * Build https POST notifications(hooks):
+ * https://money.yandex.ru/transfer/myservices/http-notification
+ * */
+
 
 pub.post('/api/cb/yam', async ctx=>{
 console.log('ctx.request.body: ', ctx.request.body)

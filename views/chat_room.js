@@ -76,7 +76,7 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
-<button id="dopPanelbtn" class="btn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
+<button id="dopPanelbtn" id="btnDopPanel" class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>
 <button class="btn-start" onclick="popa();">звук</button><button class="btn-start">Приват</button>`}

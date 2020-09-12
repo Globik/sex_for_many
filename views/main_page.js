@@ -80,7 +80,7 @@ ${n.m?n.m.msg:''}
 <section id="onlineVideo">
 <header id="onlineVideoHeader">Живое видео</header>
 <section id="videoContainer">
-${n.videoUsers && n.videoUsers.length >0 ? vroomers_list(n.videoUsers) : 
+${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) : 
 `<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
 </section>
 </section>
