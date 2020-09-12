@@ -49,8 +49,9 @@ Based on nodemailer.js and sendmail as a transport.
 XIRSYS_SECRET, YANDEX_SEC
 
 # domain on reg.ru
+
 # deploy to dedicated server to ihor.ru instructions
 ``` sudo apt-get install screen ```
-``` ssh root@45.89.67.145 
+```ssh root@45.89.67.145 
 enter your password
 screen -r ```
