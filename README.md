@@ -52,8 +52,9 @@ XIRSYS_SECRET, YANDEX_SEC
 
 # deploy to dedicated server to ihor.ru instructions
 
-``` sudo apt-get install screen ```
-
-``` ssh root@45.89.67.145 
+``` 
+    sudo apt-get install screen 
+    ssh root@45.89.67.145 
     enter your password
-    screen -r ```
+    screen -r 
+    ```
