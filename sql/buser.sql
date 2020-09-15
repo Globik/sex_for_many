@@ -10,30 +10,6 @@ pwd VARCHAR (100) NOT NULL,
 bname varchar(16) UNIQUE NOT NULL, --unique nickname of a user
 email text check(email ~*'^.+@.+\..+$') unique,
 items int not null default 0, -- how much tokens",",
-"-f","./sql/vroom.sql",
-"-f","./sql/reset.sql",
-"-f","./sql/token_order.sql",
-"-f","./sql/token_transfer.sql",
-"-f","/sql/token_payout.sql"
-]
-//const  ls=spawn('/usr/local/pgsql/bin/psql',a);
-const ls=spawn('psql',a)
-ls.stderr.on('data',data=>{console.log(data.toString())})
-ls.stdout.on('data',data=>{console.log(data.toString());})
-ls.on('exit',function(code){console.log("exit: ",code)})
-
-"-f","./sql/vroom.sql",
-"-f","./sql/reset.sql",
-"-f","./sql/token_order.sql",
-"-f","./sql/token_transfer.sql",
-"-f","/sql/token_payout.sql"
-]
-//const  ls=spawn('/usr/local/pgsql/bin/psql',a);
-const ls=spawn('psql',a)
-ls.stderr.on('data',data=>{console.log(data.toString())})
-ls.stdout.on('data',data=>{console.log(data.toString());})
-ls.on('exit',function(code){console.log("exit: ",code)})
-
 proz int not null default 50, -- how much процентов отстегивать,
 model boolean not null default false, -- а модель ли? одобрено ли быть таковой
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban, fake 
