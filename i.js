@@ -1,7 +1,7 @@
 var fs=require('fs');
 var {spawn}=require('child_process');
 var a=[
-"sudo -u suka psql globi",
+"globi",
 "-f", "./sql/ads.sql",
 "-f","./sql/blog.sql",
 "-f","./sql/buser.sql",

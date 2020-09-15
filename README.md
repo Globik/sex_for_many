@@ -66,10 +66,14 @@ sudo apt-get install -y nodejs
 sudo apt install postgresql postgresql-contrib
 21.6 mB
 sudo -u postgres createuser --interactive
-(suka - superuser)
+(suka or globi  - superuser)
 sudo -u postgres createdb globi
 sudo -u postgres psql globi
-sudo -u suka psql globi
+create role root;
+grant root to globi;
+alter role root with login;
+psql globi
+-- sudo -u suka psql globi --
 sudo apt-get install git (76.3 mB)
 git --version (2.17.1)
 sudo apt-get install sendmail (5,229kB)
