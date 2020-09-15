@@ -59,6 +59,9 @@ XIRSYS_SECRET, YANDEX_SEC
     screen -r 
     
 ```
+
+```
+
 sudo apt-get install curl
 curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 sudo apt-get install -y nodejs
@@ -80,3 +83,5 @@ psql globi
 sudo apt-get install git (76.3 mB)
 git --version (2.17.1)
 sudo apt-get install sendmail (5,229kB)
+
+```
