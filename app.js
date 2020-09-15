@@ -9,7 +9,7 @@ const proc = process.env.DEVELOPMENT;
 var HPORT = 80;
 var SPORT = 443;
 var is_ssl_http = true;
-var DB_URL= 'postgress://suka:suka@127.0.0.1:5432/globi';// for gayroom.ru
+var DB_URL= 'postgress://globi:globi@127.0.0.1:5432/globi';// for gayroom.ru
 if(proc=="yes"){
  HPORT = 3000;
  SPORT = 8000;
