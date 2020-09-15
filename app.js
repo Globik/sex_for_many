@@ -2,7 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-// ssh root@45.89.67.145 gayroom
+// ssh root@45.89.67.145 gayroom.ru
 // ssh root@91.217.80.183 (globikon.space)
 const proc = process.env.DEVELOPMENT;
 //console.log('proc: ', proc);
