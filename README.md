@@ -72,6 +72,8 @@ sudo -u postgres psql globi
 create role root;
 grant root to globi;
 alter role root with login;
+grant all privileges  on database globi to globi;
+alter user globi with password 'globi';
 psql globi
 -- sudo -u suka psql globi --
 sudo apt-get install git (76.3 mB)
