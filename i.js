@@ -21,4 +21,4 @@ var a=[
 const ls=spawn('psql',a)
 ls.stderr.on('data',data=>{console.log(data.toString())})
 ls.stdout.on('data',data=>{console.log(data.toString());})
-ls.on('exit',function(code){console.log("exit: ",code})
+ls.on('exit',function(code){console.log("exit: ",code)})
