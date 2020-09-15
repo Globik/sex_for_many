@@ -3,6 +3,7 @@
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
 // ssh root@45.89.67.145
+// ssh root@91.217.80.183 (globikon.space)
 const proc = process.env.DEVELOPMENT;
 //console.log('proc: ', proc);
 var HPORT = 80;
@@ -65,9 +66,9 @@ const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 const {meta, warnig}=require('./config/app.json');
 
-const dkey='./data/groom_priv.pem';
-const dcert='./data/mycert.pem';
-const ca='./data/groom_ca.cert';
+const dkey='./data/glo_key.pem';
+const dcert='./data/glo_cert.pem';
+const ca='./data/glo_ca.cert';
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
 pgtypes.setTypeParser(1114, str=>str);

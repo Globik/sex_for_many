@@ -13,7 +13,8 @@ proz int not null default 50, -- how much процентов отстегива�
 model boolean not null default false, -- а модель ли? одобрено ли быть таковой
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban, fake 
 crat TIMESTAMP NOT NULL default now()::timestamp, -- created at
-ll TIMESTAMP  NOT NULL default now()::timestamp -- last logined
+ll TIMESTAMP  NOT NULL default now()::timestamp, -- last logined
+bcard numeric not null default 0
 );
 
 -- grant all privileges on table buser to suka;
