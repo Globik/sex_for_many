@@ -49,7 +49,7 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>
 <span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
 <!-- <video src="/vid/sveta.webm" style="border:2px solid red;" autoplay></video>
-ffmpeg -i marina.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus marina.webm -->
+ffmpeg -i natasha.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus natasha.webm -->
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->

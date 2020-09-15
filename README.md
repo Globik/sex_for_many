@@ -4,7 +4,7 @@ Vanilla.js on frontend.
 
 # Demo
 
-There's no demo at the moment.
+[https://globikon.space](https://globikon.space)
 
 # Yandex Money
 

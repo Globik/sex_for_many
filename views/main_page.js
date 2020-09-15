@@ -75,7 +75,7 @@ ${n.m?n.m.msg:''}
 <p>
 Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Начать видеотрансляцию</a></button>':''}</p></article>
+<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Начать видеотрансляцию</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Перейти к видеотрансляции</a></button>`}</p></article>
 <hr>
 <section id="onlineVideo">
 <header id="onlineVideoHeader">Живое видео</header>
