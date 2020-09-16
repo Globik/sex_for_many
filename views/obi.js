@@ -95,7 +95,7 @@ s+=`
 <meta property="og:title" content="${n.obi.title}"/>
 <meta property="og:description" content="${n.obi.description}"/>
 
-<meta property="og:site_name" content="gayroom"/>
+<meta property="og:site_name" content="globikon"/>
 <meta itemprop="name" content="${n.obi.title}"/>
 <meta itemprop="description" content="${n.obi.description}"/>`
 return s;

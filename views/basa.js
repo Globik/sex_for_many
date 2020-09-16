@@ -41,7 +41,7 @@ s+=`
 <meta property="og:image" content="${n.image}" />
 <meta property="og:url" content="${n.url}" />
 <meta property="og:description" content="${n.basa.description}" />
-<meta property="og:site_name" content="gayroom" />
+<meta property="og:site_name" content="globikon" />
 <meta itemprop="name" content="${n.basa.title}" />
 <meta itemprop="description" content="${n.basa.description}" />`
 return s;

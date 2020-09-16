@@ -52,7 +52,7 @@ s+=`
 <meta property="og:title" content="${n.reklama.title}"/>
 <meta property="og:description" content="${n.reklama.description}"/>
 
-<meta property="og:site_name" content="gayroom"/>
+<meta property="og:site_name" content="globikon"/>
 <meta itemprop="name" content="${n.reklama.title}"/>
 <meta itemprop="description" content="${n.reklama.description}"/>`
 return s;

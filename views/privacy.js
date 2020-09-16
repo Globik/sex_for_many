@@ -40,7 +40,7 @@ s+=`
 <meta property="og:image" content="${n.image}" />
 <meta property="og:description" content="${n.main_page.description}" />
 
-<meta property="og:site_name" content="gayroom" />
+<meta property="og:site_name" content="globikon" />
 <meta itemprop="name" content="${n.main_page.title}" />
 <meta itemprop="description" content="${n.main_page.description}" />`
 return s;

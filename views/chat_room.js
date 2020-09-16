@@ -180,7 +180,7 @@ s+=`
 <meta property="og:title" content="Чат комната ${model?model.bname:''}." />
 <meta property="og:description" content="${n.main_page.description}" />
 
-<meta property="og:site_name" content="gayroom"/>
+<meta property="og:site_name" content="globikon"/>
 <meta itemprop="name" content="Чат комната ${model?model.bname:''}." />
 <meta itemprop="description" content="${n.main_page.description}" />`
 return s;
