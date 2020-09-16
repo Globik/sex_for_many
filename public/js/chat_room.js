@@ -990,15 +990,36 @@ btnStart.disabled=false;
 }
 
 //profile
+//pc.onremovestream=null;
+
+pc.oniceconnectionstatechange = null;
+pc.onicegatheringstatechange = null;
+pc.onicecandidaterror = null;
+pc.onnegotiationneeded = null;
+pc.signalingstatechange = null;
+pc.onconnectionstatechange=null;
+pc.on_track=null;
+pc=null;
+console.log('pc: ',pc);
+if(owner()){
+v.className="owner";
+}else{
+	v.className="notowner"
+	}
+btnStart.disabled=false;
+}
+
+//profile
 function get_profile(){
 	//alert(modelName.value);
 	if(!modelName.value)return;
-vax("post", "/api/get_p", {name:modelName.value}, on_get_profile, on_get_profile_error, null,false);
+//vax("post", "/api/get_p", {name:modelName.value}, on_get_profile, on_get_profile_error, null,false);
 }
+/*
 setTimeout(function(){
 	console.log("time");
 	get_profile()},1)
-
+*/
 function on_get_profile(l){
 //alert(1);
 	console.log(l);
@@ -1009,7 +1030,7 @@ function on_get_profile(l){
 		//clientOrientation.textContent=l.params.bi;
 		//clientAge.textContent=l.params.age;
 		//clientMsg.textContent=l.params.msg;
-		clientViews.textContent=l.params.vs;
+		//clientViews.textContent=l.params.vs;
 		//var d=document.createElement('img');
 		//d.height="150";
 		//alert(l.params.ava);
@@ -1022,17 +1043,38 @@ function on_get_profile(l){
 	}
 }
 
-setTimeout(function(){set_vs()},3000);
+//setTimeout(function(){set_vs()},3000);
 
 function set_vs(){
+/*
 if(owner())return;
 var d34={};
 d34.name=modelName.value;
 vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);
+*/
 }
-function on_set_vs(l){console.log(l);}
+//function on_set_vs(l){console.log(l);}
 
-function on_get_profile_error(l){console.error(l);}
+//function on_get_profile_error(l){console.error(l);}
+
+function save_bankcard(el){
+if(!bankcardinput.value){alert('Заполни поле');return;}
+var d={};
+d.bankcard=bankcardinput.value;
+d.userid=modelId.value;
+vax("post", "/api/set_bankcard", d, on_set_bankcard, on_set_bankcard_error, el, false);
+el.className="puls";
+}
+
+function on_set_bankcard(l,el){
+el.className="";
+note({content:"ОК, номер банковской карты сохранен!",type:"info",time:5})	
+}
+function on_set_bankcard_error(l,el){
+el.className="";
+note({content:l,type:"error",time:5});	
+}
+
 localVideo.onloadedmetadata=function(e){
 	console.log('on local video loaded video data');
 	if(owner()){

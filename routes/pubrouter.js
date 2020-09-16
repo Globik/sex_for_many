@@ -423,10 +423,10 @@ let a,result,videos,videos2;
 let owner=false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis=`select buser.bname ,buser.brole, buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis=`select buser.bname , buser.brole,buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
@@ -464,7 +464,7 @@ const base_url_smart_btc='https://api.bitaps.com/btc/v1/create/payment/address/d
 const cb_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
 
 
-pub.post('/api/savebtcaddress', async ctx=>{
+pub.post('/api/savebtcaddress', auth, async ctx=>{
 	console.log('body: ',ctx.request.body);
 	let {btc_client, is_testnet, username}=ctx.request.body;
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
@@ -558,6 +558,19 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	await db.query('update cladr set btc_amt=$1, btc_all=$2 where inv=$3',[amount,received_amount,invoice]);	
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
 	ctx.body=invoice;
+})
+
+// bankcard
+
+pub.post("/api/set_bankcard", auth, async ctx=>{
+let {bankcard, userid}=ctx.request.body;
+if(!bankcard)ctx.throw(400,"No bankcard number!");
+if(!userid)ctx.throw(400,"No userid!");
+let db=ctx.db;
+try{
+await db.query('update buser set bcard=$1 where id=$2',[bankcard,userid]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK"};
 })
 
 /* SAVE VIDEO */

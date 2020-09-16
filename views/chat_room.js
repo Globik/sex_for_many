@@ -34,16 +34,20 @@ ${vert_menu.vert_menu(n)}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
-
-<h5>Прежде чем начать</h5>
-<div id="btc-container">
+<div>У вас <span id="rublescnt">${(model.items*model.proz)/100}</span> рублей. <a href="/payout/${model.bname}">Посмотреть выплаты.</a></div>
+<h5>Прежде чем начать (необязательно)</h5>
+<div id="btc-container" class="requis">
 <label id="bInput">Введите свой ${n.is_test_btc?'test':''} <b>биткоин адрес</b> для донатов (<a href="/basa">где взять?</a>):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
 value="${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''}" 
 maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_test_btc?'test':''} btc address"/>
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<button class="btn-saveL" onclick="reset_btc();">редактировать</button>
-</div></div><div><label for="roomdescr">Добавьте описание стрима:</label><br><input type="text" id="roomdescr" maxlength="200"></div>`:''}
+</div>
+<div class="requis"><label for="bankcardinput">Введите номер вашей <b>банковской карты</b>. Для перечисления заработанных денег.</label>
+<br><input id="bankcardinput" type="number" value="${buser.bcard !=0?buser.bcard:''}">&nbsp;<button onclick="save_bankcard(this);">сохранить</button></div>
+<div class="requis"><label for="roomdescr">Добавьте описание стрима(200 знаков):</label>
+<br><input type="text" id="roomdescr" maxlength="200" placeholder="Название видеострима"></div></div>`:''}
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>
@@ -53,7 +57,7 @@ ffmpeg -i natasha.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus nata
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
-<div id="tokencount"><span id="tokencc">0</span>&nbsp;<span id="tokenspan">токенов</span></div>
+<div id="tokencount"><span id="tokencc">${model?model.items:0}</span>&nbsp;<span id="tokenspan">токенов</span></div>
 <div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">сатоши</span></div>
 </div>
 <section id="video-container">
@@ -114,7 +118,7 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 <li><b>Ориентация: </b><span id="clientOrientation"></span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
-<li> --><br><b>Просмотров: </b><span id="clientViews"></span>
+<li> <br><b>Просмотров: </b><span id="clientViews"></span> -->
 ${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
 <!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>

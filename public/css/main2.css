@@ -88,6 +88,7 @@ align-items:stretch;
 #pagewrapi #loginSection{width:25%;margin:0 auto;}
 }
 
+
 nav{display:block;position:relative;
 /*
 
@@ -225,6 +226,8 @@ overflow:hidden;
 .adm-ul > li{background: rgb(144,222,159);border-bottom:1px solid #bdf3d3;display:block;}
 .adm-ul > li:hover{background:rgb(154,232,169);}
 .adm-ul > li a{margin-left:2rem;text-decoration:none;line-height:1.5;font-weight:bold;}
+
+#tokencntnav,#tokencntnav2{margin-left:4rem;color:yellow;border:1px solid brown;padding:4px;background:red;}
 
 #footer{
 display:block;

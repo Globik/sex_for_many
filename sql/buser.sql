@@ -32,4 +32,4 @@ update buser set brole='superadmin';
 -- alter table buser add column items int not null default 0;
 -- alter table buser add column rubls numeric not null default 0.00;
 -- alter table buser add column proz int not null default 50;
--- alter table buser
+-- alter table buser add column bcard numeric not null default 0;

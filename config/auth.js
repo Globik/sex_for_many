@@ -11,7 +11,7 @@ done(null,user.id)
 
 passport.deserializeUser(async (id, done)=>{
 try{
-const luser=await db.query('select id, bname, brole, items, proz from buser where id=$1',[id])
+const luser=await db.query('select id, bname, brole, items, proz,bcard from buser where id=$1',[id])
 done(null,luser.rows[0])
 }catch(e){
 done(e)
