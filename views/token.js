@@ -6,7 +6,7 @@ const html_footer = require('./html_footer.js');
 const {js_help}=require('../libs/helper.js');
 let token = function(n){
 const buser = n.user;
-return `<!DOCTYPE html><html lang="en"><!-- token.js --><head>${html_head.html_head({title:"Профили", csslink:"/css/main2.css",
+return `<!DOCTYPE html><html lang="en"><!-- token.js --><head>${html_head.html_head({title:"Купить токены", csslink:"/css/main2.css",
 cssl:["/css/token.css"]})}
 </head><body>
 ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
@@ -25,13 +25,13 @@ ${vert_menu.vert_menu(n)}
 <input type="hidden" name="label" value="${buser?buser.bname:'anonym'}">
 <input type="hidden" name="quickpay-form" value="shop">
 <input type="hidden" name="targets" value="Купить 100 токенов">
-<input type="hidden" name="sum" value="1" data-type="number">
+<input type="hidden" name="sum" value="2" data-type="number">
 <input type="hidden" name="successURL" value="https://globikon.space">
 <div>
 <label><input type="radio" name="paymentType" value="PC">Яндекс.Деньгами</label>
 <label><input type="radio" name="paymentType" checked value="AC">Банковской картой</label>
 </div><div>
-<input type="submit" value="Перевести"></div>
+<input type="submit" value="Купить"></div>
 </form>
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
