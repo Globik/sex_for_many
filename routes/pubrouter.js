@@ -756,7 +756,7 @@ console.log('HASH IS GUET')
 //on_token_order(bname varchar(16),tok int, tsum numeric, wsum numeric, order_id int)
 if(test_notification == 'true'){}else{
 try{
-await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,withdraw_amount/1,amount,widthdraw_amount, operation_id])	
+await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,66,amount,666, operation_id])	
 }catch(e){console.log(e)}
 }
 }else{
@@ -780,6 +780,11 @@ ctx.body = "OK";
   operation_id: 'test-notification',
   currency: '643',
   label: ''
+
+//production mode
+* is label?:  Globi
+card-incoming&653682507379002304&1.96&643&2020-09-17T18:28:27Z&&false&1nL*********JGSJDWMNFep4&Globi
+
 
  */ 
  
