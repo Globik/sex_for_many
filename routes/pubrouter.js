@@ -761,6 +761,7 @@ await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,withdraw_amount/1,
 }
 }else{
 console.log('HASH DOES NOT MATCH!!!')	
+ctx.throw(400, "No gut");
 }
 ctx.body = "OK";	
 })
