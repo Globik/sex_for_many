@@ -16,7 +16,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 ${vert_menu.vert_menu(n)}
 <div id="right">
 <h3>Купить токены</h3>
-<h4>100 токенов.</h4>
+<h4>100 токенов = 100 рублей.</h4>
 <!-- https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage -->
 <form method="POST" name="yandexform" action="https://money.yandex.ru/quickpay/confirm.xml">
 <input type="hidden" name="receiver" value="4100115502427578">
@@ -25,7 +25,7 @@ ${vert_menu.vert_menu(n)}
 <input type="hidden" name="label" value="${buser?buser.bname:'anonym'}">
 <input type="hidden" name="quickpay-form" value="shop">
 <input type="hidden" name="targets" value="Купить 100 токенов">
-<input type="hidden" name="sum" value="100" data-type="number">
+<input type="hidden" name="sum" value="1" data-type="number">
 <input type="hidden" name="successURL" value="https://globikon.space">
 <div>
 <label><input type="radio" name="paymentType" value="PC">Яндекс.Деньгами</label>

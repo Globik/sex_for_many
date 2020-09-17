@@ -85,3 +85,13 @@ git --version (2.17.1)
 sudo apt-get install sendmail (5,229kB)
 
 ```
+
+```
+sudo vi /etc/environment
+i
+blablabla
+Ctrl+C (2 times)
+:wq (or with no change=> :q!)
+
+```
+restart vds
