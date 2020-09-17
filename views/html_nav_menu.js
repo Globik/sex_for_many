@@ -22,7 +22,7 @@ ${n.user?`<li><a href="/webrtc/${n.user.id}"><div class="muka"><span>Мой ви
 <!-- <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a> -->
 <li><a href="/blog"><div class="muka"><span>Блог</span></div></a>
 <!-- <li><a href="/videos"><div class="muka"><span>Видео</span></div></a> -->
-<li><a href="/tokens"><div class="muka"><span>Купить токены</span>${n.user?`<span id="tokencntnav">${n.user.items}</span>`:''}</div></a>
+${n.user?`<li><a href="/tokens"><div class="muka"><span>Купить токены</span><span id="tokencntnav">${n.user.items}</span></div></a>`:''}
 ${n.user?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
 '<li><a href="/login"><div class="muka"><span>Войти</span></div></a>'}
 <!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
