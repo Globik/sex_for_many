@@ -19,5 +19,5 @@ values(on_token_order.bname, on_token_order.tok, on_token_order.order_id, on_tok
 update buser set items=items+on_token_order.tok where buser.bname=on_token_order.bname;
 end;
 $$;
--- select on_token_order('Globi', 100, 98, 100, 653682507379002304);
+-- select on_token_order('Globi', 100, 98, 100, '653707199659002312'::bigint);
 -- await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,66,amount,666, operation_id])	

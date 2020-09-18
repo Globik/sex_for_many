@@ -756,7 +756,8 @@ console.log('HASH IS GUET')
 //on_token_order(bname varchar(16),tok int, tsum numeric, wsum numeric, order_id int)
 if(test_notification == 'true'){}else{
 try{
-await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,66,amount,666, operation_id])	
+	console.log('withdraw_amount: ',withdraw_amount)
+await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,100,amount::numeric,666, operation_id::bigint])	
 }catch(e){console.log(e)}
 }
 }else{
@@ -784,6 +785,35 @@ ctx.body = "OK";
 //production mode
 * is label?:  Globi
 card-incoming&653682507379002304&1.96&643&2020-09-17T18:28:27Z&&false&1nL*********JGSJDWMNFep4&Globi
+====================
+* ctx.request.body:  {
+  notification_type: 'card-incoming',
+  zip: '',
+  bill_id: '',
+  amount: '1.96',
+  firstname: '',
+  codepro: 'false',
+  withdraw_amount: '2.00',
+  city: '',
+  unaccepted: 'false',
+  label: 'Globi',
+  building: '',
+  lastname: '',
+  datetime: '2020-09-18T01:19:59Z',
+  suite: '',
+  sender: '',
+  phone: '',
+  sha1_hash: '831c638cac1d53202061df87a76f1d6df6efa16c',
+  street: '',
+  flat: '',
+  fathersname: '',
+  operation_label: '26f61ed7-0011-5000-a000-1a9387be4ed9',
+  operation_id: '653707199659002312',
+  currency: '643',
+  email: ''
+}
+is label?:  Globi
+card-incoming&653707199659002312&1.96&643&2020-09-18T01:19:59Z&&false&1n***************NFep4&Globi
 
 
  */ 
