@@ -757,7 +757,7 @@ console.log('HASH IS GUET')
 if(test_notification == 'true'){}else{
 try{
 	console.log('withdraw_amount: ',withdraw_amount)
-await db.query('select on_token_order($1,$2,$3,$4,$5)',[label,100,amount::numeric,666, operation_id::bigint])	
+await db.query('select on_token_order($1,$2,$3::numeric,$4,$5::bigint)',[label,100,amount,666, operation_id])	
 }catch(e){console.log(e)}
 }
 }else{
@@ -819,6 +819,17 @@ card-incoming&653707199659002312&1.96&643&2020-09-18T01:19:59Z&&false&1n********
  */ 
  
 pub.get('/tokens', async ctx=>{
+	/*
+	let db=ctx.db;
+	let withdraw_amount='10';
+	let operation_id='653707199659002312';
+	let label='Globi';
+	let amount='1.96';
+	try{
+	console.log('withdraw_amount: ',withdraw_amount)
+await db.query('select on_token_order($1,$2,$3::numeric,$4,$5::bigint)',[label,100,amount,666, operation_id])	
+}catch(e){console.log(e)}
+*/ 
 ctx.body = await ctx.render('token',{})
 })
 
