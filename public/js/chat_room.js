@@ -987,7 +987,7 @@ v.className="owner";
 	v.className="notowner"
 	}
 btnStart.disabled=false;
-}
+
 
 //profile
 //pc.onremovestream=null;
