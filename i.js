@@ -10,7 +10,6 @@ var a=[
 "-f","./sql/obi.sql",
 "-f","./sql/prim_adr.sql",
 "-f","./sql/reklama.sql",
-"-f","./sql/video.sql",
 "-f","./sql/vroom.sql",
 "-f","./sql/reset.sql",
 "-f","./sql/token_order.sql",

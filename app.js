@@ -256,12 +256,6 @@ console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 async function on_run(){
-
-/*
-pool.query("delete from room",[], function(err,res){
-if(err)console.log(err);	
-});
-*/ 
 pool.query("select*from prim_adr where type=true",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows);
@@ -494,6 +488,14 @@ who_online(d5);
 })
 }
 }
+send_to_client=1;
+}else if(l.type=="tokentransfer"){
+console.log('kuku2!: ',l);	
+try{
+	//on_token_transfer(tom varchar(16),fro varchar(16), amt int)
+await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
+broadcast_room(ws, l)
+}catch(e){console.log('db er: ',e)}
 send_to_client=1;
 }else if(l.type=="on_vair"){
 console.log("ON VAIR: ");

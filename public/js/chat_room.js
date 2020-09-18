@@ -19,6 +19,7 @@ var ONVAIR = false;
 var is_vstream_started=false;
 var is_first_time=false;
 var is_dopPanel = false;
+var token_flag=true;
 var dopPanel=gid("dopPanel");
 //var mediaSource=new MediaSource();
 //mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
@@ -85,9 +86,28 @@ function fake_src(){return fakesrc.value;}
 //alert(fake());
 
 function give_token(){
+	if(!buser()){
 window.location.href="#vorlogery";
 var dikStr=gid("vorlogincontainer").innerHTML=gid("loginStr").value;
-
+}else{
+var nu=Number(tokencntnav.textContent);
+if(nu==0){
+window.location.href="/tokens";	
+}else{
+if(nu > 0){
+	if(token_flag){
+	token_flag=false;
+	var d={};
+	d.type='tokentransfer';
+	d.id=modelId.value;
+	d.modelname=modelName.value;
+	d.from=myusername;
+	d.amount=1;
+	wsend(d);	
+	}
+}	
+}	
+}
 }
 
 
@@ -206,6 +226,24 @@ insert_message(obj7);
 }else if(ad.type=="count"){
 	chatcnt.textContent=ad.user_count;
 	if(fake())chatcnt.textContent=Math.floor(Math.random()*(100-10+1))+10;
+}else if(ad.type=="tokentransfer"){
+	//amount,from
+tokencc.textContent=Number(tokencc.textContent)+ad.amount;	
+if(owner()){
+//if(!fake()){
+	rublescnt.textContent=(Number(tokencc.textContent)*Number(modelProzent.value))/100;
+	tokencntnav.textContent=Number(tokencntnav.textContent)+ad.amount;
+//}
+}
+if(buser()){
+//if(!fake()){
+if(!owner()){
+tokencntnav.textContent=Number(tokencntnav.textContent)-ad.amount;
+token_flag=true;
+}
+//}	
+}	
+insert_message({from:ad.from,msg:"шлет "+ad.amount+" токен.",tz:new Date()});
 }else if(ad.type=="owner_in"){
 	//ad.tz=new Date();
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.',tz:new Date()});
@@ -984,8 +1022,8 @@ console.log('pc: ',pc);
 if(owner()){
 v.className="owner";
 }else{
-	v.className="notowner"
-	}
+v.className="notowner"
+}
 btnStart.disabled=false;
 
 
@@ -1009,53 +1047,6 @@ v.className="owner";
 btnStart.disabled=false;
 }
 
-//profile
-function get_profile(){
-	//alert(modelName.value);
-	if(!modelName.value)return;
-//vax("post", "/api/get_p", {name:modelName.value}, on_get_profile, on_get_profile_error, null,false);
-}
-/*
-setTimeout(function(){
-	console.log("time");
-	get_profile()},1)
-*/
-function on_get_profile(l){
-//alert(1);
-	console.log(l);
-	//id | bname | age |   msg    | ava | isava 
-	if(l.info=="ok"){
-		//clientName.textContent=l.params.bname;
-		//clientCity.textContent=l.params.city;
-		//clientOrientation.textContent=l.params.bi;
-		//clientAge.textContent=l.params.age;
-		//clientMsg.textContent=l.params.msg;
-		//clientViews.textContent=l.params.vs;
-		//var d=document.createElement('img');
-		//d.height="150";
-		//alert(l.params.ava);
-		if(l.params.ava){
-		//d.src=l.params.ava;
-			}else{
-				//d.src='/images/default.jpg';
-				}
-				//clientFoto.appendChild(d);
-	}
-}
-
-//setTimeout(function(){set_vs()},3000);
-
-function set_vs(){
-/*
-if(owner())return;
-var d34={};
-d34.name=modelName.value;
-vax("post", "/api/set_views", d34, on_set_vs, on_get_profile_error, null,false);
-*/
-}
-//function on_set_vs(l){console.log(l);}
-
-//function on_get_profile_error(l){console.error(l);}
 
 function save_bankcard(el){
 if(!bankcardinput.value){alert('Заполни поле');return;}

@@ -757,12 +757,12 @@ console.log('HASH IS GUET')
 if(test_notification == 'true'){}else{
 try{
 	console.log('withdraw_amount: ',withdraw_amount)
-await db.query('select on_token_order($1,$2,$3::numeric,$4,$5::bigint)',[label,100,amount,666, operation_id])	
+await db.query('select on_token_order($1,$2,$3::numeric,$4::numeric,$5::bigint)',[label,100,amount,withdraw_amount, operation_id])	
 }catch(e){console.log(e)}
 }
 }else{
 console.log('HASH DOES NOT MATCH!!!')	
-//ctx.throw(400, "No gut");
+ctx.throw(400, "No gut");
 }
 ctx.body = "OK";	
 })
