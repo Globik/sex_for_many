@@ -7,3 +7,4 @@ ost int not null, -- how much ostalos token'
 cr_at TIMESTAMP NOT NULL default now()::timestamp,
 cn int not null -- card number
 );
+grant all privileges

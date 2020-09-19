@@ -95,4 +95,43 @@ Ctrl+C (2 times)
 
 ```
 restart vds
-sudo -u postgres createdb globi
+ssh root@91.217.80.183
+--sudo -u postgres createdb globi
+psql postgres
+create database globi ENCODING 'UTF-8' LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';
+===============
+
+```
+
+ sudo pg_dropcluster --stop 10  main
+ sudo pg_createcluster --locale ru_RU.UTF-8 --start 10 main
+
+sudo -u postgres psql postgres
+\list
+create user globi;
+create role root;
+\q
+
+sudo -u postgres psql postgres
+alter role root with login;
+\q
+
+
+sudo -u postgres psql postgres
+
+
+create database globi;
+\q
+psql globi
+\q
+sudo -u postgres psql postgres
+alter user globi with password 'globi';
+grant all privileges  on database globi to globi;
+\q
+sudo -u postgres psql globi
+grant all privileges on all tables in schema public to globi;
+
+```
+
+
+
