@@ -130,6 +130,8 @@ grant all privileges  on database globi to globi;
 \q
 sudo -u postgres psql globi
 grant all privileges on all tables in schema public to globi;
+grant all privileges on all sequences in schema public to globi;
+grant all privileges on all functions in schema public to globi;
 
 ```
 

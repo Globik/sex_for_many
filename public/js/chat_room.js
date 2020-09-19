@@ -233,12 +233,14 @@ if(owner()){
 //if(!fake()){
 	rublescnt.textContent=(Number(tokencc.textContent)*Number(modelProzent.value))/100;
 	tokencntnav.textContent=Number(tokencntnav.textContent)+ad.amount;
+	tokencntnav2.textContent=Number(tokencntnav2.textContent)+ad.amount;
 //}
 }
 if(buser()){
 //if(!fake()){
 if(!owner()){
 tokencntnav.textContent=Number(tokencntnav.textContent)-ad.amount;
+tokencntnav2.textContent=Number(tokencntnav2.textContent)-ad.amount;
 token_flag=true;
 }
 //}	

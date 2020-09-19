@@ -580,6 +580,7 @@ border-color:silver;
 .rega{color:rgb(2,106,203);}
 .rega:hover{}
 .regabutton:hover{background:silver;}
+.regabutton{padding:50px;}
 
 @keyframes puls{
 from{background:green;}
