@@ -95,3 +95,4 @@ Ctrl+C (2 times)
 
 ```
 restart vds
+sudo -u postgres createdb globi
