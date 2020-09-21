@@ -9,6 +9,7 @@ const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
 const uploader=require('huge-uploader-nodejs')
 const adm=new Router();
+const GMAIL="globalikslivov@gmail.com";
 
 adm.get('/home/dashboard', authed, async ctx=>{
 	ctx.body=await ctx.render('admin_dashboard',{});
@@ -204,6 +205,40 @@ adm.post('/api/set_xirsys', auth, async ctx=>{
 	ctx.body={xir:ctx.state.xirsys}
 	})
 	
+	/* PAYOUTS */
+	
+adm.get('/payout', authed, async ctx=>{
+let db=ctx.db;
+let payout;
+try{
+let a=await db.query('select * from buser where items > 2000 and bcard > 0');	
+if(a.rows)payout=a.rows;
+}catch(e){console.log(e);}
+ctx.body=await ctx.render('payout',{payout:payout});	
+})
+adm.post("/api/payout_money",auth,async ctx=>{
+let {amount,bcard,bname,email}=ctx.request.body;
+console.log(ctx.request.body)
+if(!amount || !bname || !email){ctx.throw(400,"No data");}
+let db=ctx.db;
+try{
+//await db.query('insert into token_payout(tom,suma) values($1,$2::numeric)',[bname,amount]);
+//await db.query('update buser set items=0 where bname=$1',[bname]);
+await db.query('select on_token_payout($1,$2::numeric)', [bname,amount]);
+let t=ctx.transporter;
+	t.sendMail({
+		from: GMAIL,
+		to: email,
+		subject:'Выплата',
+		text: `Вам выплата ${amount} рублей от Globikon`
+		}
+	,(err,info)=>{
+		console.log(info)
+		console.log(err);
+		}) 	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK"}	
+})
 	/* REKLAMA */
 	
 adm.get('/home/reklama', authed, async ctx=>{

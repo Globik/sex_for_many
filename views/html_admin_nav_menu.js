@@ -13,6 +13,7 @@ var html_admin_nav_menu=n=>{
 <li><a href="/home/write-post">Написать в блог</a></li>
 <li><a href="/home/videofiles">Видеофайлы</a></li>
 <li><a href="/home/fakevideo">Fakevideos</a></li>
+<li><a href="/payout">Выплатить</a></li>
 </ul>
 
 <!--

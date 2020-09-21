@@ -16,6 +16,7 @@ const access=util.promisify(fs.access);
 const rmdir=util.promisify(fs.rmdir);
 const lstat=util.promisify(fs.lstat);
 //const uuid=require('uuid/v4');
+const GMAIL="globalikslivov@gmail.com";
 const {is_reklama}=require('../config/app.json');
 const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
 const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
@@ -227,7 +228,7 @@ let ms=`We have sent a password reset email to your email address: <a href="mail
 let m=`Мы послали письмо на ваш адрес: <a href="mailto:${email}">${email}</a><br>Если не пришло, пожалуйста, загляните в спам.`
 	let t=ctx.transporter;
 	t.sendMail({
-		from: process.env.GMAIL,
+		from: GMAIL,
 		to: email,
 		subject:'Смена пароля',
 		text: FORGET_PWD({page_url: ctx.origin, token: r.rows[0].request_password_reset}),
@@ -819,18 +820,26 @@ card-incoming&653707199659002312&1.96&643&2020-09-18T01:19:59Z&&false&1n********
  */ 
  
 pub.get('/tokens', async ctx=>{
-	/*
-	let db=ctx.db;
-	let withdraw_amount='10';
-	let operation_id='653707199659002312';
-	let label='Globi';
-	let amount='1.96';
-	try{
-	console.log('withdraw_amount: ',withdraw_amount)
-await db.query('select on_token_order($1,$2,$3::numeric,$4,$5::bigint)',[label,100,amount,666, operation_id])	
-}catch(e){console.log(e)}
-*/ 
+
 ctx.body = await ctx.render('token',{})
+})
+
+/* USERPAY */
+
+pub.get("/userpay/:name",authed,async ctx=>{
+	console.log('ctx.params: ', ctx.params);
+	let db=ctx.db;
+	let payout;
+	try{
+		let a=await db.query('select*from token_payout where tom=$1', [ctx.params.name]);
+		//console.log('a.rows: ',a.rows);
+		if(a.rows.length){payout=a.rows;}else{
+ctx.body=await ctx.render('room_err',
+{mess:"Или юзера такого нет или выплат еще не производили. Потерпи, когда 1000 рублей наберется!! Cовет: заглядывайте в спам в своем почтовом ящике"});
+		return;
+		}
+		}catch(e){console.log(e);}
+	ctx.body=await ctx.render('userpay',{payout:payout});
 })
 
 /* PROFILE */

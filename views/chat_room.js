@@ -34,7 +34,7 @@ ${vert_menu.vert_menu(n)}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
-<div>У вас <span id="rublescnt">${(model.items*model.proz)/100}</span> рублей. <a href="/payout/${model.bname}">Посмотреть выплаты.</a></div>
+<div>У вас <span id="rublescnt">${(model.items*model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div>
 <h5>Прежде чем начать (необязательно)</h5>
 <div id="btc-container" class="requis">
 <label id="bInput">Введите свой ${n.is_test_btc?'test':''} <b>биткоин адрес</b> для донатов (<a href="/basa">где взять?</a>):</label><br>
