@@ -23,7 +23,7 @@ ${vert_menu.vert_menu(n)}
 <div id="right">
 <div id="inlineFoto"></div>
 <article>${n.result?get_post(n.result):''}</article>
-${n.result && n.result.auth=='Globi'?`<div class="afterpost"><div id="fotoleft"><img id="avautor" src="/images/ich.jpg"/></div><div id="afterfoto"><b>Гафаров Алик (<a href="https://vk.com/id98506638">https://vk.com/id98506638</a>)</b> - веб-разработчик, технический исследователь, экпериментатор, идейный вдохновитель и создатель <strong>Globikon</strong> - cервиса видеостримов. Программирует на node.js и javascript. Открыт к сотрудничеству.</div></div>`:''}
+${n.result && n.result.auth=='Globi'?`<div class="afterpost"><div id="fotoleft"><img id="avautor" src="/images/ich.jpg"/></div><div id="afterfoto"><b>Гафаров Алик (<a href="https://vk.com/id98506638">https://vk.com/id98506638</a>)</b> - веб-разработчик, специалист в области webRTC и потокового видеовещания, технический исследователь, экпериментатор, идейный вдохновитель и создатель <strong>Globikon</strong> - cервиса видеостримов. Программирует на node.js и javascript. Открыт к сотрудничеству.</div></div>`:''}
 ${buser && buser.brole=="superadmin"?`<div class="afterpost"><button onclick='edit_article(this)'>Редактировать</button>
 <form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
 <input type='submit' value='Загрузить картинку'></form></div>`:""}<br>
