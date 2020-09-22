@@ -71,7 +71,7 @@ ${n.m?n.m.msg:''}
 <ul id="ulKomnata">
 <li><strong>стримить видео</strong>
 <li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>.
-<li>100 токенов = 100 рублей. 
+<li>1 токен = 1 рубль. 
 <li><strong>70%</strong> от заработанного вам. <strong>30%</strong> сервису.
 <li>C биткоинов все 100% ваши.
 </ul>
@@ -79,7 +79,7 @@ ${n.m?n.m.msg:''}
 <p>
 Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Начать стрим!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Перейти к видеотрансляции</a></button>`}</p></article>
+<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Хочу стримить!</a></button>`}</p></article>
 <hr>
 <section id="onlineVideo">
 <header id="onlineVideoHeader">Живое видео</header>

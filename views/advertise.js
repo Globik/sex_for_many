@@ -23,7 +23,8 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 ${n.art?n.art.art:'Пусто.'}
 </article>
 ${buser&&buser.brole=='superadmin'?get_redact():''}
-<section id="reklamaPodval"><div><b>Второстепенный баннер.</b></div>
+<div><b>Баннер в подвале.</b></div>
+<section id="reklamaPodval">
 <div class="f"><a class="a" href="#"><img class="img" src="/reklama/b3.jpg"/></a></div></section>
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
