@@ -14,3 +14,9 @@ button, input{
 font-weight:bold;
 }
 article{margin-bottom:10px;}
+p{line-height:1.7;}
+.afterpost{margin-top:50px;ackground:red;}
+#avautor{height:150px;}
+#fotoleft,#afterfoto{display:inline-block;}
+#fotoleft{ackground:yellow;width:160px;}
+#afterfoto{ackground:green;vertical-align:top;width: calc(100% - 160px);font-size:16px;line-height:1.5;}

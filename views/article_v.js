@@ -23,9 +23,10 @@ ${vert_menu.vert_menu(n)}
 <div id="right">
 <div id="inlineFoto"></div>
 <article>${n.result?get_post(n.result):''}</article>
-${buser && buser.brole=="superadmin"?`<button onclick='edit_article(this)'>Редактировать</button>
+${n.result && n.result.auth=='Globi'?`<div class="afterpost"><div id="fotoleft"><img id="avautor" src="/images/ich.jpg"/></div><div id="afterfoto"><b>Гафаров Алик (<a href="https://vk.com/id98506638">https://vk.com/id98506638</a>)</b> - веб-разработчик, технический исследователь, экпериментатор, идейный вдохновитель и создатель <strong>Globikon</strong> - cервиса видеостримов. Программирует на node.js и javascript. Открыт к сотрудничеству.</div></div>`:''}
+${buser && buser.brole=="superadmin"?`<div class="afterpost"><button onclick='edit_article(this)'>Редактировать</button>
 <form name='formw' method='post' action='/api/save_foto_blog'><input name='filew' type='file'>
-<input type='submit' value='Загрузить картинку'></form>`:""}<br>
+<input type='submit' value='Загрузить картинку'></form></div>`:""}<br>
 <div id="txtContainer"><textarea id="rText"></textarea>
 <textarea id="rMeta">${n.result && n.result.descr?n.result.descr:''}</textarea>
 <br><button onclick="save_das(this);">Сохранить</button>
@@ -41,12 +42,10 @@ ${buser && buser.brole=="superadmin"?'<script src="/js/article_v.js"></script>':
 
 module.exports={article_v};
 function get_post(n){
-	let s='';
-	
-		s+=`<h1 id="articleHeader" data-id="${n.id}" contenteditable="false">${n.title}</h1><span class="d-author">${n.auth}</span>, 
-		<span class="d-date">${moment(n.cr_at).format('YYYY-DD-MM')}</span><div id="articleView">${n.body}</div>`
-
-		return s;
+let s='';
+s+=`<h1 id="articleHeader" data-id="${n.id}" contenteditable="false">${n.title}</h1><span class="d-author">${n.auth}</span>, 
+<span class="d-date">${moment(n.cr_at).format('YYYY-DD-MM')}</span><div id="articleView">${n.body}</div>`
+return s;
 	}
 function get_meta(n){
 let s='';
