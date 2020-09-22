@@ -51,6 +51,7 @@ function get_meta(n){
 let s='';
 s+=`${n.descr?`<meta name="description" content="${n.descr}">`:''}
 <meta property="og:title" content="${n.title}">
+<meta property="og:image" content="https://globikon.space/images/home.jpg" />
 ${n.descr?`<meta property="og:description" content="${n.descr}">`:''}
 <meta itemprop="name" content="${n.title}">`;
 return s;	
