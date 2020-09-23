@@ -69,17 +69,23 @@ data-owner="${owner_str}" data-notowner="${notowner_str}">
 <video id="localVideo" muted autoplay></video>
 </div>
 <div id="under-video">
-${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
-<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
-</div>
-
-<div id="under-video2">
-
 <div id="privatcontainer" class="">
 <div id="privatpanel"><span onclick="on_span();">приватчат</span></div>
 <div id="privatchat"></div>
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
+${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? model.padrtest:model.padr}">
+<img id="btnDonate" src="/images/bitcoin-button.png-bitcoin-button.png"></a>`:''}
+</div>
+
+<div id="under-video2">
+<!--
+<div id="privatcontainer" class="">
+<div id="privatpanel"><span onclick="on_span();">приватчат</span></div>
+<div id="privatchat"></div>
+<input id="privatinput" type="text" placeholder="Приват сообщение">
+</div>
+-->
 <button id="dopPanelbtn" id="btnDopPanel" class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>

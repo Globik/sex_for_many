@@ -440,7 +440,7 @@ return pc;
 function on_channel_state_change(){
 var readyState = dc.readyState;
 console.log('send channel state is: ', readyState);
-if(!readyState)return;
+//if(!readyState)return;
 if(readyState=="open"){
 	on_display(false);
 	}else{
@@ -461,8 +461,8 @@ console.log('data channel: ', event.data);
 
 var div=document.createElement("div");
 try{
-	msg_came();
-	var a=JSON.parse(event.data);
+msg_came();
+var a=JSON.parse(event.data);
 div.innerHTML='<b>'+a.from+':</b> '+ a.msg;
 }catch(e){return;}
 privatchat.appendChild(div);
@@ -479,12 +479,12 @@ dc.send(JSON.stringify(obj));
 }
 
 function on_display(bool){
+	console.log('bool: ',bool);
 	if(!bool){
 		privatcontainer.classList.add("ondisplay");
 		}else{
 			privatcontainer.classList.remove("spanout");
 			privatcontainer.classList.remove("ondisplay");
-			
 			privatpanel.classList.remove('msg-in');
 			}
 	}
@@ -492,14 +492,13 @@ function on_display(bool){
 var pflag=false;
 
 function on_span(){
-	//alert('spanout');
-	if(!pflag){
-	console.log(pflag);	
-	privatcontainer.classList.add("spanout");
-	privatpanel.classList.remove("msg-in");
-	pflag=true;
+if(!pflag){
+console.log(pflag);	
+privatcontainer.classList.add("spanout");
+privatpanel.classList.remove("msg-in");
+pflag=true;
 }else{
-	console.log(pflag);
+console.log(pflag);
 privatcontainer.classList.remove("spanout");
 pflag=false;	
 }
@@ -932,32 +931,32 @@ v.className="connecting";
 }
 
 async function handle_offer(sdp, target){
-	
+	/*
 	try{
 	pc=createPeer();
 	await pc.setRemoteDescription(sdp);
 	//var Bstream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
 	var su= await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-	//localVideo.srcObject=su;
+	localVideo.srcObject=su;
 	console.log(1)
 	su.getTracks().forEach(function(t){pc.addTrack(t,su)})
 	console.log(2);
 await pc.setLocalDescription(await pc.createAnswer());
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 }catch(e){console.error(e);}
-
+*/
 
 	
 		console.log('in handle offfer: ',sdp);
-		//var r=confirm("Видеозвонок от "+target+". Принять звонок?");
-		/*
+		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
+		
 		if(!r){
 			wsend({type:"reject_call",target:target,from:myusername});
 			stopVideo();
 			return;
-			}*/
+			}
 			//if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
-			/*
+			
 pc=createPeer();
 
 pc.setRemoteDescription(sdp).then(function(){
@@ -980,8 +979,6 @@ wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":tar
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
 })
-*/
-
 }
 
 
