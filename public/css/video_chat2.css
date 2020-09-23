@@ -256,7 +256,7 @@ height:8%;}
 #qrcodeContainer{border:1px solid black;display:inline-block;padding:10px;margin-top:2px;}
 
 #privatcontainer{
-background:rgba(0,0,5,0.2);
+background:rgba(0,0,0,0.0);
 color: white;
 display:none;
 position:absolute;
