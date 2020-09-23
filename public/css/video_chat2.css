@@ -270,7 +270,7 @@ transition: height 0.2s linear;
 }
 #privatcontainer.ondisplay{
 display:block;
-height:35px;
+height:32px;
 }
 #privatcontainer.ondisplay.spanout{
 height:400px;	
