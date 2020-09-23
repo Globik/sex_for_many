@@ -83,11 +83,11 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <button id="dopPanelbtn" id="btnDopPanel" class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>
-<button class="btn-start" onclick="popa();">звук</button><button class="btn-start">Приват</button>`}
+<button class="btn-start" onclick="popa();">звук</button><button class="btn-start" id="btnStart" onclick="do_start(this);">Приват</button>`}
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 
-${n.owner?`<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox"/><span class="galka"></span></label>
+${n.owner?`<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>
 <button id="btnStart" class="btn-start" onclick="snapshot();">сделать снимок</button>`:''}
 <!-- mute / unmute the sound -->
 </div>
@@ -108,7 +108,8 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 </section>
 
 </section>
- <div style="clear:both;"></div>  
+ <div style="clear:both;"></div> 
+ ${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''} 
 <!--
 <h4>Профиль</h4>
 <div id="clientFoto"></div>

@@ -513,7 +513,7 @@ l.type="out_vair";
 who_online(l);	
 }
 send_to_client=1;
-}else if(l.type="out_vair"){
+}else if(l.type=="out_vair"){
 //d.is_first=l.is_first;
 //d.is_active=l.is_active;
 //d.vsrc=l.vsrc;

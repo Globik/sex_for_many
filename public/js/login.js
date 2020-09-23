@@ -104,13 +104,14 @@ gid("sessRed2").textContent=l.message;
 gid("submitkuku").disabled=true;
 window.location.href="#.";
 in_rem_hash();
+
 setTimeout(function(){
 if(window.location.pathname=="/signup"){
-window.location.href="/";	
+window.location.href="/webrtc/"+l.user_id;	
 }else{
 location.reload();
 }
-},4000);
+},1000);
 }
 }catch(e){alert(e)}
 }

@@ -20,6 +20,7 @@ var is_vstream_started=false;
 var is_first_time=false;
 var is_dopPanel = false;
 var token_flag=true;
+var do_starti=false;
 var dopPanel=gid("dopPanel");
 //var mediaSource=new MediaSource();
 //mediaSource.addEventListener('sourceopen',handleSourceOpen,false);
@@ -305,12 +306,13 @@ if(owner()){
 	note({content:'Извините,\tвы не можете звонить себе.',type:'error',time:5});
 return;	
 }
+do_srarti=true;
 el.disabled=true;
 pc=createPeer();
 go_webrtc();
 }
 
- function go_webrtc(el){	
+function go_webrtc(el){	
 //audio:{echoCancellation:{exact:true}}
 navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(function(stream){
 
@@ -409,14 +411,14 @@ try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("Xirsys ice serv
 var bona=(xirTarget.value?[liushka]:null);
 var donat=(bona?{"iceServers":bona}:null);
 //const dona={iceServers:[bona]};
-//const dona={iceServers: suona};
+const dona={iceServers: suona};
 //const dona=bona;
 console.warn("ICE SERVERS: ", donat);
 
 //createPeer();
 function createPeer(){
 	//alert('peer');
-pc=new RTCPeerConnection(donat);
+pc=new RTCPeerConnection(dona);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;
@@ -438,6 +440,7 @@ return pc;
 function on_channel_state_change(){
 var readyState = dc.readyState;
 console.log('send channel state is: ', readyState);
+if(!readyState)return;
 if(readyState=="open"){
 	on_display(false);
 	}else{
@@ -875,6 +878,7 @@ wsend(d);
 }	
 }
 function handle_candidate(cand){
+	//console.log('pc in candidate: ',pc);
 if(pc)pc.addIceCandidate(cand)	
 }
 function on_ice_connection_state_change(){
@@ -899,7 +903,7 @@ v.className="start";
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
 v.className="start";
-}else{}	
+}else if(this.iceConnectionState=="failed"){}else{}	
 }
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
 }
@@ -917,7 +921,7 @@ if(this.connectionState=="disconnected"){
 //pc.close();
 stopVideo();
 }else if(this.connectionState=="failed"){
-	stopVideo();
+	//stopVideo();
 }else if(this.connectionState=="connecting"){
 setTimeout(function(){
 	//stopVideo();
@@ -927,38 +931,39 @@ v.className="connecting";
 }
 }
 
-//async 
-function handle_offer(sdp, target){
-	/*
+async function handle_offer(sdp, target){
+	
 	try{
 	pc=createPeer();
 	await pc.setRemoteDescription(sdp);
 	//var Bstream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
 	var su= await navigator.mediaDevices.getUserMedia({video:true, audio:true});
-	localVideo.srcObject=su;
+	//localVideo.srcObject=su;
 	console.log(1)
 	su.getTracks().forEach(function(t){pc.addTrack(t,su)})
 	console.log(2);
 await pc.setLocalDescription(await pc.createAnswer());
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
 }catch(e){console.error(e);}
-*/
+
 
 	
-		console.log('in han off: ',sdp);
-		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
-		
+		console.log('in handle offfer: ',sdp);
+		//var r=confirm("Видеозвонок от "+target+". Принять звонок?");
+		/*
 		if(!r){
 			wsend({type:"reject_call",target:target,from:myusername});
 			stopVideo();
 			return;
-			}
-			if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
+			}*/
+			//if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
+			/*
 pc=createPeer();
 
- pc.setRemoteDescription(sdp).then(function(){
+pc.setRemoteDescription(sdp).then(function(){
 
 return navigator.mediaDevices.getUserMedia({video:true,audio:true})}).then(function(stream){
+	console.log('stream:',stream);
 localVideo.srcObject=stream;
 
 stream.getTracks().forEach(function(track){pc.addTrack(track, stream)})
@@ -975,14 +980,13 @@ wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":tar
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
 })
-
+*/
 
 }
 
 
 function handle_answer(sdp){
 console.log("answer came");
-
 pc.setRemoteDescription(sdp);	
 }
 
@@ -994,7 +998,7 @@ note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',tim
 }
 
 function stopVideo(){
-	console.log('stop video');
+console.log('stop video');
 if(remoteVideo.srcObject){
 remoteVideo.srcObject.getTracks().forEach(function(track){track.stop();})
 }
@@ -1006,6 +1010,7 @@ if(!pc){console.log('no pc');return;}
 clearPeer();
 }
 function clearPeer(){
+	//alert('cleerPeer');
 console.log('pc: ',pc.signalingState);
 pc.close();
 pc.onicecandidate=null;
@@ -1019,19 +1024,19 @@ pc.onnegotiationneeded = null;
 pc.signalingstatechange = null;
 pc.onconnectionstatechange=null;
 pc.on_track=null;
-pc=null;
+
 console.log('pc: ',pc);
-if(owner()){
-v.className="owner";
-}else{
-v.className="notowner"
-}
+//if(owner()){
+//v.className="owner";
+//}else{
+//v.className="notowner"
+//}
 btnStart.disabled=false;
 
 
 //profile
 //pc.onremovestream=null;
-
+//??
 pc.oniceconnectionstatechange = null;
 pc.onicegatheringstatechange = null;
 pc.onicecandidaterror = null;

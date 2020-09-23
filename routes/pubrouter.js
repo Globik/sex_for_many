@@ -172,7 +172,7 @@ ctx.throw(409,err.message)
 if(!user){
 ctx.body={success:false, message:info.message,code:info.code,bcode:info.bcode}
 }else{
-ctx.body={success:true, message:info.message,redirect:/*ctx.session.dorthin ||*/ '/'}
+ctx.body={success:true, message:info.message,username:info.username,user_id:info.user_id,redirect:/*ctx.session.dorthin ||*/ '/'}
 return ctx.login(user)
 }
 }else{
@@ -471,7 +471,7 @@ pub.post('/api/savebtcaddress', auth, async ctx=>{
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
 if(ctx.state.is_test_btc){
 let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
-if(!vali){ctx.throw(400,"Неправилььный тест биткоин адрес!");}
+if(!vali){ctx.throw(400,"Неправильный тест биткоин адрес!");}
 }else{
 let valir=walletValidator.validate(btc_client,'bitcoin');
 if(!valir){ctx.throw(400,"Неправильный биткоин адрес!");}	

@@ -39,19 +39,25 @@ USNAME=pars.username;
 //alert('du');
 vax(tar.method, tar.action, pars, on_suc, on_fail, null,false);
 if_cont(submit,'no','waiting');
+alert(2);
 
+uu,pppppp,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 
 }
+lppppppppppppppppppppppppp
 function on_suc(e){
 //alert(miss(e));
 if(e.success==false){notif_er(e)}else{notif(e);}}
 function on_fail(e){console.error(e);notif_err(e)}
-function notif(e){	
+function notif(e){
+	alert(1)	
 outresult.style.display="block";
-tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт!</h3>'+e.message+'<br><br>Если вас не перенаправит через 10 сек на <a href="/">главную страницу</a>, то вы можете сделать это сами.<br><br></p>');
+tohtml(outresult, '<p class="green"><h3>Спасибо, что создали аккаунт!</h3>'+e.message+'<br><br>Если вас не перенаправит через 1 сек на <a href="/">главную страницу</a>, то вы можете сделать это сами.<br><br></p>');
 removeForm();
-setTimeout(function(){window.location.href=e.redirect;},10000);
+console.log(e);
+alert(e.user_id)
+//setTimeout(function(){window.location.href="/webrtc/"+1;},1);
 }
 
 

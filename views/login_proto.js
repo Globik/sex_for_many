@@ -2,7 +2,7 @@ const login_proto=n=>{
 return html`
 <section id="loginSection" class="tabactive">
 <form id="formLogin" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
-<header>Вход</header>
+Вход.&nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup">Регистрация</a>&nbsp;&nbsp;&nbsp;&nbsp;
 <span id="sessRed"></span><br>
 <label for="nameId"><strong>Ник</strong> </label>
 <div class="inwrapDiv">

@@ -43,7 +43,7 @@ ${buser && buser.brole=="superadmin"?'<script src="/js/article_v.js"></script>':
 module.exports={article_v};
 function get_post(n){
 let s='';
-s+=`<h1 id="articleHeader" data-id="${n.id}" contenteditable="false">${n.title}</h1><span class="d-author">${n.auth}</span>, 
+s+=`<h1 id="articleHeader" data-id="${n.id}" contenteditable="false">${n.title}</h1><span class="d-author"><b>${n.auth}</b></span>, 
 <span class="d-date">${moment(n.cr_at).format('YYYY-DD-MM')}</span><div id="articleView">${n.body}</div>`
 return s;
 	}
