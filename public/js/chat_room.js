@@ -858,7 +858,7 @@ if(ONVAIR)plad();
 
 if(fake()){
 remoteVideo.src='/vid/'+fakesrc.value;
-remoteVideo.play();
+//remoteVideo.play();
 remoteVideo.muted=true;
 remoteVideo.loop="loop";
 v.className="";
@@ -1105,8 +1105,8 @@ console.log('pc: ',pc);
 if(owner()){
 v.className="owner";
 }else{
-	v.className="notowner"
-	}
+v.className="notowner"
+}
 btnStart.disabled=false;
 }
 
@@ -1130,6 +1130,6 @@ note({content:l,type:"error",time:5});
 }
 
 
-localVideo.onerror=function(e){console.error('err: ',e);}
-remoteVideo.onerror=function(e){console.error('err: ', e);}
+localVideo.onerror=function(e){console.error('err: ',e);alert('localvideo '+e);}
+remoteVideo.onerror=function(e){console.error('err: ', e);alert('remotevideo err: '+e);}
 
