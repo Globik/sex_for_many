@@ -644,12 +644,15 @@ recordedBlobs=[];
 var opti={mimeType:'video/webm;codecs=vp9'};
 if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 	console.error(opti.mimeType + ' is not supported');
+	webrtc.innerHTML+=opti.mimeType+' is not supported<br>';
 	opti={mimeType:'video/webm;codecs=vp8'};
 	if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 		console.error(opti.mimeType+' is not supported');
+		webrtc.innerHTML+=opti.mimeType+' is not supported<br>';
 		opti={mimeType:'video/webm'};
 		if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 			console.error(opti.mimeType+' is not supported');
+			webrtc.innerHTML+=opti.mimeType+' is not supported<br>';
 			opti={mimeType:''};
 			}
 		}
@@ -659,6 +662,7 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 		//is_vstream_started=true;
 		}catch(e){
 			console.error('mediarecorder err: ', e);
+			alert('mediarecorder error: '+e);
 			is_vstream_started=false;
 			is_first_time=false;
 			vStreamStart.textContent="Стоп стрим";
@@ -1001,7 +1005,8 @@ v.className="connecting";
 
 
 
-async function handle_offer(sdp, target){
+//async
+ function handle_offer(sdp, target){
 	/*
 	try{
 	pc=createPeer();
