@@ -361,6 +361,7 @@ if(!owner()){
 localVideo.srcObject=stream;
 localVideo.play();
 localVideo.volume = 0;
+pc=createPeer();
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 pc.createOffer().then(function(offer){
 return pc.setLocalDescription(offer)}).then(function(){
@@ -822,12 +823,25 @@ try{
 console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
-remoteVideo.play();	
+//remoteVideo.play();	
 
 
 
 }catch(er){console.log('err: ', er);}
 }
+
+localVideo.onloadedmetadata=function(e){
+	console.log('on local video loaded video data');
+	if(owner()){
+		webcamStart.className="active";
+		is_webcam = true;
+		vStreamStart.disabled=false;
+	}
+	}
+	remoteVideo.onloadedmetadata=function(e){
+		console.log('on remote video loaded video data');
+		remoteVideo.play();
+		}
 remoteVideo.onplaying=function(){
 is_playing=true;
 console.log("it's playing");	
@@ -1110,14 +1124,7 @@ el.className="";
 note({content:l,type:"error",time:5});	
 }
 
-localVideo.onloadedmetadata=function(e){
-	console.log('on local video loaded video data');
-	if(owner()){
-		webcamStart.className="active";
-		is_webcam = true;
-		vStreamStart.disabled=false;
-	}
-	}
+
 localVideo.onerror=function(e){console.error('err: ',e);}
 remoteVideo.onerror=function(e){console.error('err: ', e);}
-remoteVideo.onloadedmetadata=function(e){console.log('on remote video loaded video data');}
+
