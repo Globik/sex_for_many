@@ -13,7 +13,7 @@ const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Сервис видеостримов.", meta:get_meta(n.meta),
+<head>${html_head.html_head({title:"Вебкам сайт.", meta:get_meta(n.meta),
 csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}

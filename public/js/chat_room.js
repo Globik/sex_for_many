@@ -266,9 +266,12 @@ handle_offer(ad.offer,ad.from);
 handle_answer(ad.answer);	
 }else if(ad.type=="candidate"){
 handle_candidate(ad.candidate);	
-}else if(ad.type=="reject_call"){
-note({content:ad.from+' отклонил звонок.', type:'error',time:5});
-stopVideo();
+}else if(ad.type=="privat_wanted"){
+if(owner()){privat_wanted(ad.from,ad.amount);}
+}else if(ad.type=="reject_privat"){
+if(!owner()){note({content:ad.from+' отклонил звонок.', type:'error',time:5});}
+}else if(ad.type=="accept_privat"){
+handle_accept_privat();	
 }else if(ad.type=="spanWhosOn"){
 if(spanWhosOn)spanWhosOn.textContent=ad.cnt;
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
@@ -301,16 +304,53 @@ sock.send(JSON.stringify(obj));
 }
 
 // WEBRTC STUFF
-function do_start(el){
-if(owner()){
-	note({content:'Извините,\tвы не можете звонить себе.',type:'error',time:5});
-return;	
+function begin_privat(el){
+	//alert(1);
+if(owner()){return;}
+//do_srarti=true;
+//el.disabled=true;
+wsend({type:"privat_wanted",target:modelName.value,from:myusername,amount:Number(tokencntnav.textContent)})
+//pc=createPeer();
+//go_webrtc();
 }
-do_srarti=true;
-el.disabled=true;
-pc=createPeer();
+
+function privat_wanted(from, amount){
+console.log('is_webcam: ',is_webcam);
+var r=confirm("Видеозвонок от "+from+". Принять звонок? "+amount);
+if(!r){
+wsend({type:"reject_privat",target:target,from:myusername});
+}else{
+stoping_recording();
+//stopVideo();
+is_webcam=false;
+wsend({type:"accept_privat",target:from, from:myusername});	
+}
+/*
+if(is_webcam){
+stoping_recording();
+stopVideo();
+is_webcam=false;	
+}
+*/ 
+}
+
+function handle_accept_privat(){
+if(!owner()){
+console.log('is_webcam: ',is_webcam);
+//stopVideo();
+is_webcam=false;
+//remoteVideo.stop();
+//remoteVideo.end();
+vsrc=[];	
 go_webrtc();
 }
+if(owner()){
+//stoping_recording();
+//stopVideo();
+//is_webcam=false;
+}	
+}
+//go_webrtc();
 
 function go_webrtc(el){	
 //audio:{echoCancellation:{exact:true}}
@@ -549,6 +589,7 @@ vStreamStart.disabled=true;
 }
 
 function start_stream(el){
+
 if(el.textContent=="Старт стрим"){
 	//alert(1);
 	//wsend({type:});
@@ -561,22 +602,35 @@ el.textContent="Стоп стрим";
 v.className="";
 webcamStart.className="";
 webcamStart.disabled=true;
+
 }else{
+
 stopRecording();
 is_vstream_started=false;
 webcamStart.disabled=false;
 webcamStart.className="active";
+
 el.className="";
-
-//wsend({type:"out_vair",
-//is_first_time=false;
 el.textContent="Старт стрим";
-//wsend({type:"out_vair",);
-if(owner()){v.className="owner";}else{}	
 
-//localVideo.srcObject.getTracks().forEach(function(track){track.stop();})
+if(owner()){
+v.className="owner";
+}else{}	
 }	
 }
+
+function stoping_recording(){
+stopRecording();
+is_vstream_started=false;
+webcamStart.disabled=false;
+webcamStart.className="active";
+vStreamStart.className="";
+vStreamStart.textContent="Старт стрим";
+if(owner()){
+v.className="owner";
+}else{}
+}
+
 var kik=0;
 var dik=0;
 var tinterval;
@@ -714,6 +768,7 @@ console.error(l);
 }
 
 function stopRecording(){
+if(!mediaRecorder)return;
 figa_timer=true;
 if(mediaRecorder.state !="inactive")
 mediaRecorder.stop();
@@ -930,6 +985,8 @@ v.className="connecting";
 }
 }
 
+
+
 async function handle_offer(sdp, target){
 	/*
 	try{
@@ -946,35 +1003,19 @@ wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":tar
 }catch(e){console.error(e);}
 */
 
-	
-		console.log('in handle offfer: ',sdp);
-		var r=confirm("Видеозвонок от "+target+". Принять звонок?");
-		
-		if(!r){
-			wsend({type:"reject_call",target:target,from:myusername});
-			stopVideo();
-			return;
-			}
-			//if(pc){wsend({type:"reject_call",target:target,from:myusername});return;}
-			
 pc=createPeer();
-
 pc.setRemoteDescription(sdp).then(function(){
-
 return navigator.mediaDevices.getUserMedia({video:true,audio:true})}).then(function(stream){
-	console.log('stream:',stream);
+console.log('stream:',stream);
 localVideo.srcObject=stream;
-
+is_webcam=true;
 stream.getTracks().forEach(function(track){pc.addTrack(track, stream)})
-
 }).then(function(){
-	return pc.createAnswer();
+return pc.createAnswer();
 }).then(function(answer){
 return pc.setLocalDescription(answer);	
 }).then(function(){
 wsend({type:"answer","answer":pc.localDescription,"from":myusername,"target":target});
-
-
 }).catch(function(e){
 console.log(e);
 webrtc.innerHTML+=e+'<br>';		
@@ -989,7 +1030,6 @@ pc.setRemoteDescription(sdp);
 
 function stop_failure(obj){
 //for non owner?
-
 stopVideo();	
 note({content:'Извините,\t'+obj.who+'\tоффлайн.',type:'error',time:5});
 }

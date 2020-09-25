@@ -358,7 +358,7 @@ return;
 }
 }
 //not found, offline?
-if(msg.type=="offer")wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
+if(msg.type=="privat_wanted")wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
 }
 
 function get_user_count(url){
