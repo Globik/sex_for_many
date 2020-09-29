@@ -129,7 +129,7 @@ ctx.body=await ctx.render('signup',{errmsg: m});
 delete ctx.session.bmessage;
 })
 async function oni(us,txt){
-	
+	if(process.env.DEVELOPMENT !="yes"){
 let vurl = "https://onesignal.com/api/v1/notifications";
 let data = {
 		app_id:onesignal_app_id,
@@ -144,6 +144,7 @@ console.log("r: ", r.data);
 console.log("err: ", e);
 }	
 }
+}
 
 pub.post('/signup', (ctx,next)=>{
 if(ctx.isAuthenticated()){
@@ -156,9 +157,9 @@ return passport.authenticate('local-signup',async (err,user,info,status)=>{
 console.log(err,user,info,status)
 
 if(user){
-if(process.env.DEVELOPMENT !="yes"){	
+//if(process.env.DEVELOPMENT !="yes"){	
 oni(info.username,"just signed up.");
-	}
+//	}
 }
 
 
@@ -969,9 +970,9 @@ pub.get('/obi', reklama, async ctx=>{
 	var res2=await db.query('select*from obi order by id desc');	
 	res=res2.rows;
 	}catch(e){console.log(e);}
-	if(process.env.DEVELOPMENT !="yes"){	
+	//if(process.env.DEVELOPMENT !="yes"){	
 oni('obi ',"here.");
-	}
+	//}
 ctx.body=await ctx.render('obi',{obis:res});	
 })
 
@@ -986,9 +987,9 @@ try{
 a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id',[nick,msg,d]);
 console.log('a: ', a.rows);	
 
-if(process.env.DEVELOPMENT !="yes"){
+//if(process.env.DEVELOPMENT !="yes"){
 oni(nick,"saved objavlenie");
-}
+//}
 
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
@@ -1020,7 +1021,7 @@ pub.post("/api/fetch_obi_content", async ctx=>{
 let db=ctx.db;
 let r;
 try{
-r=await db.query('select*from obi limit 1');
+r=await db.query('select*from obi order by id desc limit 1');
 r=r.rows[0];	
 }catch(e){
 ctx.throw(400, e);	
@@ -1035,6 +1036,7 @@ pub.get("/home/advertise", async ctx=>{
 	try{let a=await db.query("select*from ads where sub='ads'");
 		if(a.rows && a.rows.length){art=a.rows[0];}
 		}catch(e){console.log(e);}
+		oni("advertise","here");
 	ctx.body=await ctx.render('advertise',{art:art});
 	})
 
@@ -1046,9 +1048,9 @@ pub.get("/basa", async ctx=>{
 	try{let a = await db.query("select*from ads where sub='basa'");
 		if(a.rows && a.rows.length){art = a.rows[0];console.log('art: ', art)}
 		}catch(e){console.log(e);}
-		if(process.env.DEVELOPMENT !="yes"){	
+		//if(process.env.DEVELOPMENT !="yes"){	
 oni('basa ',"here.");
-	} 
+	//} 
 	ctx.body=await ctx.render('basa',{art:art});
 	})
 
@@ -1062,9 +1064,9 @@ try{
 	}catch(e){
 	console.log(e);
 	}	
-	if(process.env.DEVELOPMENT !="yes"){	
+	//if(process.env.DEVELOPMENT !="yes"){	
 oni('privacy ',"just here.");
-	}
+	//}
 	ctx.body=await ctx.render('privacy',{result: a});
 })
 
@@ -1080,9 +1082,9 @@ pub.get("/blog", reklama, pagination, async ctx=>{
 		}catch(e){console.log(e);}
 		
 		console.log("B: ", ctx.locals);
-		if(process.env.DEVELOPMENT !="yes"){	
+		//if(process.env.DEVELOPMENT !="yes"){	
 oni('blog ',"just here.");
-	}
+	//}
 	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
 	
@@ -1110,9 +1112,9 @@ pub.get("/ru/:slug", reklama, async ctx=>{
 	try{
 		 result=await db.query('select*from blog where slug=$1', [ctx.params.slug]);
 		}catch(e){console.log(e);}
-		if(process.env.DEVELOPMENT !="yes"){	
+		//if(process.env.DEVELOPMENT !="yes"){	
 oni('an article ',"just here.");
-	}
+	//}
 		ctx.body=await ctx.render('article_v',{result:result.rows[0]})
 	})
 

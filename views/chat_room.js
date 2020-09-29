@@ -150,13 +150,22 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 
 
 
-<a href="#" class="overlay" id="insImg"></a>
+<a href="#" class="overlay" id="insImg" onclick="in_rem_hash();"></a>
 <div id="setImg" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
 <div id="pizda1">
 <label for="forImg">Введите адрес картинки.</label><br><br>
 <input id="forImg" type="text" placeholder="адрес фото"/>
 <br><br><br><button onclick="send_ws_img();">Отправить</button>
+</div>
+</div>
+<a href="#" class="overlay" id="privatIncoming" onclick="in_rem_hash();"></a>
+<div id="setPrivat" class="popi">
+<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();privat_no();"></a></div>
+<div id="pizda2">
+<div><span id="privatspan"></span><br><br><br>
+<br><br><br><button onclick="privat_yes();">Принять</button>&nbsp;&nbsp;&nbsp;<button onclick="privat_no();">Отклонить</button>
+</div>
 </div>
 </div>
 

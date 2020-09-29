@@ -334,6 +334,10 @@ is_webcam=false;
 */ 
 }
 
+function privat_alert(){
+window.location.href="#privatIncoming";	
+}
+//privat_alert();
 function handle_accept_privat(){
 if(!owner()){
 console.log('is_webcam: ',is_webcam);
