@@ -9,8 +9,9 @@ const html_head=require('./html_head'),
    
    const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
-const owner_str = "В любой момент может поступить видеозвонок. Будьте готовы.";
-const notowner_str = "Вы можете позвонить юзеру. Нажмите на кнопку 'видеозвонок'";
+const owner_str = "Чтобы начать стрим, нажмите на 'веб камера', затем на 'старт стрим'. Чтобы закончить стрим, нажмите на 'стоп стрим'.";
+const notowner_str = "Загружаем видео...";
+const streaminterupt_str="Конец стрима";
 //const owner_online_str_en="Press start"
 //const you_ban="You are banned.";
 //const us_ban="This user is banned.";
@@ -64,7 +65,7 @@ ffmpeg -i natasha.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus nata
 
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
-data-owner="${owner_str}" data-notowner="${notowner_str}">
+data-owner="${owner_str}" data-notowner="${notowner_str}" data-streaminterupt="${streaminterupt_str}">
 <video id="remoteVideo" muted autoplay></video>
 <video id="localVideo" muted autoplay></video>
 </div>
@@ -159,15 +160,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <br><br><br><button onclick="send_ws_img();">Отправить</button>
 </div>
 </div>
-<a href="#" class="overlay" id="privatIncoming" onclick="in_rem_hash();"></a>
-<div id="setPrivat" class="popi">
-<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();privat_no();"></a></div>
-<div id="pizda2">
-<div><span id="privatspan"></span><br><br><br>
-<br><br><br><button onclick="privat_yes();">Принять</button>&nbsp;&nbsp;&nbsp;<button onclick="privat_no();">Отклонить</button>
-</div>
-</div>
-</div>
+
 
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>

@@ -156,10 +156,8 @@ return ctx.redirect('/')
 return passport.authenticate('local-signup',async (err,user,info,status)=>{
 console.log(err,user,info,status)
 
-if(user){
-//if(process.env.DEVELOPMENT !="yes"){	
+if(user){	
 oni(info.username,"just signed up.");
-//	}
 }
 
 
@@ -970,9 +968,7 @@ pub.get('/obi', reklama, async ctx=>{
 	var res2=await db.query('select*from obi order by id desc');	
 	res=res2.rows;
 	}catch(e){console.log(e);}
-	//if(process.env.DEVELOPMENT !="yes"){	
 oni('obi ',"here.");
-	//}
 ctx.body=await ctx.render('obi',{obis:res});	
 })
 
@@ -986,10 +982,7 @@ if(zakrep)d=6;
 try{
 a=await db.query('insert into obi(bnick,msg, isg) values($1,$2,$3) returning id',[nick,msg,d]);
 console.log('a: ', a.rows);	
-
-//if(process.env.DEVELOPMENT !="yes"){
-oni(nick,"saved objavlenie");
-//}
+oni(nick,"just saved advert");
 
 }catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", nick: nick, msg: msg,id:a.rows[0].id};	
@@ -1048,9 +1041,7 @@ pub.get("/basa", async ctx=>{
 	try{let a = await db.query("select*from ads where sub='basa'");
 		if(a.rows && a.rows.length){art = a.rows[0];console.log('art: ', art)}
 		}catch(e){console.log(e);}
-		//if(process.env.DEVELOPMENT !="yes"){	
 oni('basa ',"here.");
-	//} 
 	ctx.body=await ctx.render('basa',{art:art});
 	})
 
@@ -1064,9 +1055,7 @@ try{
 	}catch(e){
 	console.log(e);
 	}	
-	//if(process.env.DEVELOPMENT !="yes"){	
 oni('privacy ',"just here.");
-	//}
 	ctx.body=await ctx.render('privacy',{result: a});
 })
 
@@ -1082,9 +1071,9 @@ pub.get("/blog", reklama, pagination, async ctx=>{
 		}catch(e){console.log(e);}
 		
 		console.log("B: ", ctx.locals);
-		//if(process.env.DEVELOPMENT !="yes"){	
+	
 oni('blog ',"just here.");
-	//}
+	
 	ctx.body=await ctx.render('blogs',{locals:ctx.locals,posts:posts});
 	})
 	
@@ -1112,9 +1101,8 @@ pub.get("/ru/:slug", reklama, async ctx=>{
 	try{
 		 result=await db.query('select*from blog where slug=$1', [ctx.params.slug]);
 		}catch(e){console.log(e);}
-		//if(process.env.DEVELOPMENT !="yes"){	
-oni('an article ',"just here.");
-	//}
+oni('an article '+ctx.params.slug," just viewed.");
+
 		ctx.body=await ctx.render('article_v',{result:result.rows[0]})
 	})
 

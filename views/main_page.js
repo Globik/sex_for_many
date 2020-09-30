@@ -71,9 +71,6 @@ ${n.m?n.m.msg:''}
 <ul id="ulKomnata">
 <li><strong>стримить видео</strong>
 <li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>.
-<li>1 токен = 1 рубль. 
-<li><strong>70%</strong> от заработанного вам. <strong>30%</strong> сервису.
-<li>C биткоинов все 100% ваши.
 </ul>
 </p>
 <p>

@@ -116,6 +116,9 @@ content: attr(data-owner);
 #video-wrapper.notowner::after{
 content: attr(data-notowner);
 }
+#video-wrapper.streaminterupt::after{
+content: attr(data-streaminterupt);
+}
 /*
 #video-wrapper.owner-online::after{
 content: attr(data-ownerOnline);	
