@@ -308,15 +308,27 @@ sock.send(JSON.stringify(obj));
 }
 
 // WEBRTC STUFF
-function begin_privat(el){
-if(owner()){return;}
-//if
-wsend({type:"privat_wanted",target:modelName.value,from:myusername,amount:Number(tokencntnav.textContent)})
-}
+var tokencntnav=gid("tokencntnav");
 
+function begin_privat(){
+var ti;
+if(owner()){return;}
+if(!buser()){return;}
+if(tokencntnav){
+	//alert(tokencntnav.textContent);
+ var t=Number(tokencntnav.textContent);
+ //t=(t?t:0); tokencntnav
+ti=t;
+}
+//alert(ti);
+wsend({type:"privat_wanted",target:modelName.value,from:myusername,amount:ti})
+}
+var sifilis;
 function privat_wanted(from, amount){
+	//alert(1)
 console.log('is_webcam: ',is_webcam);
-var r=confirm("Запрос на приват от "+from+". Токенов "+amount+". Принять?");
+sifilis=from;
+/*var r=confirm("Запрос на приват от "+from+". Токенов "+amount+". Принять?");
 if(!r){
 wsend({type:"reject_privat",target:target,from:myusername});
 }else{
@@ -325,9 +337,27 @@ stopVideo();
 is_webcam=false;
 wsend({type:"accept_privat",target:from, from:myusername});	
 }
+*/
+//alert(amount)
+window.location.href="#privatid";
+privatdialog.setAttribute('data-target',from);
+privatdialog.textContent="Запрос на приват от "+from+". Токенов "+amount+". Принять?"
 
+//wsend({type:"accept_privat",target:from, from:myusername});	
 }
 
+function gno(el){
+window.location.href="#.";
+in_rem_hash();
+var fl=privatdialog.getAttribute('data-target');
+wsend({type:"reject_privat",target:fl, from:myusername});
+}
+function gyes(el){
+window.location.href="#.";
+in_rem_hash();
+var fl=privatdialog.getAttribute('data-target');
+wsend({type:"accept_privat",target:fl, from:myusername, gratis:ifGratis.checked});	
+}
 
 function handle_accept_privat(){
 if(!owner()){

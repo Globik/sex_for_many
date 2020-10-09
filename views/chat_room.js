@@ -161,6 +161,18 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 </div>
 </div>
 
+<a href="#" class="overlay" id="privatid" onclick="in_rem_hash();gno();"></a>
+<div id="privat2" class="popi">
+<div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();gno()"></a></div>
+<div id="pizda2">
+<div id="privatdialog" data-target=""></div>
+<div>
+<label class="label-galka">&nbsp;<span>Позволить бесплатно</span><input id="ifGratis" type="checkbox"/><span class="galka"></span></label>
+</div>
+<div class="vrite"><button onclick="gno(this)">no</button>&nbsp;&nbsp;<button onclick="gyes(this);">yes</button>
+</div></div>
+</div>
+
 
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>

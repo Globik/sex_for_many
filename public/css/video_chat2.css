@@ -251,7 +251,9 @@ height:8%;}
 #btcGoal{padding-left:0.8rem;}
 
 #setImg{width:30%;}/* top r bott left */
-#pizda1,{margin-top:20px;width:100%;}
+#pizda1,#pizda2{margin-top:50px;width:100%;}
+#pizda2 div{margin-top:20px;margin-bottom:20px;}
+#pizda2 .vrite{text-align:right;}
 #pizda1 #forImg{color:green;height:40px;width:100%;font-size:14px;}
 
 #profileUl{list-style:none;margin:0;padding:0;}
