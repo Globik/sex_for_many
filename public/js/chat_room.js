@@ -727,7 +727,7 @@ console.warn('mediaRecorder started ');
 }
 function save_video_file(){
 	//alert('dik:'+dik);
-var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:mediaRecorder.mimeType});
+var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:'video/webm'});
 console.warn('mimeType: ',mediaRecorder.mimeType);
 webrtc.innerHTML+=' mimeType: '+mediaRecorder.mimeType+'<br>';
 //const superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
