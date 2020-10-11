@@ -376,8 +376,8 @@ if(owner()){
 //go_webrtc();
 
 function go_webrtc(el){	
-//audio:{echoCancellation:{exact:true}}
-navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(function(stream){
+var constraints={audio: {echoCancellation: {exact: true}},video: {width: 1280, height: 720}};
+navigator.mediaDevices.getUserMedia(constraints).then(function(stream){
 
 if(!owner()){
 
@@ -681,7 +681,8 @@ if(!MediaRecorder.isTypeSupported(opti.mimeType)){
 		}
 	}
 	try{
-		mediaRecorder=new MediaRecorder(window.stream,opti);
+		var vopti={mimeType:'video/webm'}
+		mediaRecorder=new MediaRecorder(window.stream,vopti);
 		//is_vstream_started=true;
 		}catch(e){
 			console.error('mediarecorder err: ', e);
@@ -727,6 +728,10 @@ console.warn('mediaRecorder started ');
 function save_video_file(){
 	//alert('dik:'+dik);
 var file=new File(recordedBlobs, modelName.value+'_'+dik+'.webm',{type:mediaRecorder.mimeType});
+console.warn('mimeType: ',mediaRecorder.mimeType);
+webrtc.innerHTML+=' mimeType: '+mediaRecorder.mimeType+'<br>';
+//const superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
+//var file=new File(superBuffer,modelName.value+'_'+dik+'.webm',{type:'video/webm'})
 var form_data=new FormData();
 form_data.append('vn',file.name);
 form_data.append('v',file);
