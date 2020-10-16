@@ -256,6 +256,12 @@ console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 async function on_run(){
+	/*
+pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
+	if(e){console.log('mi err: ',e.detail); return;}
+	console.log('result minus: ',result.rows[0].on_token_transfer);
+	console.log('result plus: ',result.rows[1].on_token_transfer);
+	}) */
 pool.query("select*from prim_adr where type=true",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows);
