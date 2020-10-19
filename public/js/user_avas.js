@@ -1,15 +1,17 @@
 var tel=89634623542;
-//88124254435
+
 function outi(s){
 	outi.innerHTML+=s+'<br>';
 	}
-//5060/7060/30060
-var socket=new JsSIP.WebSocketInterface('wss://pbx4.new-tel.net');
+//name gru5@yandex.ru
+//sip acc 21201603073020
+//vG7fKPxy 65988.voice.plusofon.ru
+var socket=new JsSIP.WebSocketInterface('wss://65988.voice.plusofon.ru');
 //var socket=new JsSIP.WebSocketInterface('wss://sip.new-tel.net');
 var config={
 	sockets:[socket],
-	uri:'sip:1007396_100@new-tel.net:7060',
-	password:'dcGsBJpw'
+	uri:'sip:21201603073020@plusofon.ru',
+	password:'vG7fKPxy'
 	};
 var ua=new JsSIP.UA(config);
 function begin_was(){
