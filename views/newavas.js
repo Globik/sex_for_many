@@ -9,7 +9,7 @@ return `<!DOCTYPE html><html lang="en"><!-- newavas.js --><head>${html_head.html
 cssl:["/css/newavas.css"]})}
 </head><body>
 ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Проверить аватарки</h3>
@@ -17,8 +17,14 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <ul>
 ${n.result?get_avas(n.result):'Нет новых аватарок.'}
 </ul>
+<div><button onclick="begin_was();">begin_was</button></div>
+<h5>Local video:</h5>
+<div><video id="localVideo"></video></div>
+<h5>Remote video:</h5>
+<div><video id="remoteVideo"></video></div>
+<output id="out"></output>
 </main>
-${js_help(["/js/user_avas.js"])}
+${js_help(["/js/jssip.min.js","/js/user_avas.js"])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
 module.exports={newavas};
