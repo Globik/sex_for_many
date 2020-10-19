@@ -4,16 +4,18 @@ function outi(s){
 	outi.innerHTML+=s+'<br>';
 	}
 //5060/7060/30060
-var socket=new JsSIP.WebSocketInterface('ws://pbx4.new-tel.net');
+var socket=new JsSIP.WebSocketInterface('wss://pbx4.new-tel.net');
+//var socket=new JsSIP.WebSocketInterface('wss://sip.new-tel.net');
 var config={
 	sockets:[socket],
-	uri:'sip:1007396_100@new-tel.net',
+	uri:'sip:1007396_100@new-tel.net:7060',
 	password:'dcGsBJpw'
 	};
 var ua=new JsSIP.UA(config);
 function begin_was(){
 ua.start();
 }
+ua.on('error',function(e){console.error(e);})
 ua.on('connected',function(e){outi('connected.');});
 ua.on('disconnected',function(e){outi('disconnected.');});
 ua.on('newMessage',function(e){outi('newMessage.');});
