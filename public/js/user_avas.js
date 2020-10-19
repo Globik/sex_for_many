@@ -6,18 +6,21 @@ function outi(s){
 //name gru5@yandex.ru
 //sip acc 21201603073020
 //vG7fKPxy 65988.voice.plusofon.ru
-var socket=new JsSIP.WebSocketInterface('wss://65988.voice.plusofon.ru');
-//var socket=new JsSIP.WebSocketInterface('wss://sip.new-tel.net');
+//var socket=new JsSIP.WebSocketInterface('wss://65988.voice.plusofon.ru');
+var socket=new JsSIP.WebSocketInterface('wss://sip.jssip.net');
+//socon('connected',function(){console.warn('connected');})
+//socket.via_transport='tcp';
+//socket.connect();
 var config={
 	sockets:[socket],
-	uri:'sip:21201603073020@plusofon.ru',
-	password:'vG7fKPxy'
+	uri:'sip:alik_yjybni@tryit.jssip.net',
+	password:'null'
 	};
 var ua=new JsSIP.UA(config);
 function begin_was(){
 ua.start();
 }
-ua.on('error',function(e){console.error(e);})
+//socket.on('error',function(e){console.error(e);})
 ua.on('connected',function(e){outi('connected.');});
 ua.on('disconnected',function(e){outi('disconnected.');});
 ua.on('newMessage',function(e){outi('newMessage.');});
