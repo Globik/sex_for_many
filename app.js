@@ -50,6 +50,7 @@ const pgtypes=require('pg').types;
 const render=require('koa-rend');
 const serve=require('koa-static');
 const session=require('koa-generic-session');
+
 const nodemailer=require('nodemailer');
 let transporter=nodemailer.createTransport(
 {
@@ -253,6 +254,9 @@ app.on('error', function(err, ctx){
 console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 });
 
+
+
+
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 async function on_run(){
@@ -315,11 +319,14 @@ if(is_ssl_http){
 	};
 	servak = https.createServer(ssl_options, app.callback()).listen(SPORT);
 	console.log("Must on, port: https://127.0.0.1:", SPORT, " started.");
+	
 }else{
 	servak = app.listen(process.env.PORT || HPORT);
 	console.log("Must on http or localhost, port: ", HPORT, " started.");
 }
 const wss=new WebSocket.Server({server:servak});
+
+
 
 /* HELPERS FOR WS */
 /*
