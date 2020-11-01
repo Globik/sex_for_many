@@ -609,7 +609,16 @@ ctx.body={info:r.rows[0], table: s}
 
 /* fake video */
 adm.get("/home/fakevideo", authed,async ctx=>{
-ctx.body=await ctx.render('fakevideo',{});	
+let db=ctx.db;
+let r,e;
+try{
+let a=await db.query(`select*from vroom where typ='fake'`);
+r=a.rows;	
+console.log('r: ', r);
+}catch(e){
+e=e;	
+}
+ctx.body=await ctx.render('fakevideo',{videos:r, err:e});	
 })
 
 const tmp="./public/uploads/tmp";
@@ -710,6 +719,25 @@ adm.post("/fake_poster",auth, bodyParser({multipart:true,formidable:{uploadDir:'
 		}catch(e){ctx.throw(400,e)}
 	ctx.body={info: "ok"}
 })
+adm.post("/api/del_fake_video",auth,async ctx=>{
+let {src,p,us_id,nick}=ctx.request.body;
+if(!src || !p || !us_id || !nick)ctX.throw(400,"no data provided");
+let db=ctx.db;
+try{
+await unlink(process.env.HOME + '/sex_for_many/public/vid/' + src);
+}catch(e){ctx.throw(400,e);}
+try{
+await unlink(process.env.HOME + '/sex_for_many/public/vid/' + p);
+}catch(e){ctx.throw(400,e);}
+try{
+await db.query('delete from vroom where us_id=$1',[us_id]);	
+}catch(e){ctx.throw(400,e);}
+
+try{
+await db.query('delete from buser where bname=$1',[nick]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK - deleted!",id:us_id};	
+});
 /*
 adm.post('/api/save_foto_blog', auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
  async ctx=>{

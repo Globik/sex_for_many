@@ -39,8 +39,24 @@ ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n)
 <input type="text" id="roomdescr">&nbsp;&nbsp;<button onclick="save_room_descr(this);">save</button>
 </div>
 </div>
+<hr>
+<h3>Videos</h3>
+${n.videos&&n.videos.length>0?get_videos(n.videos):'<b>no fake videos sofar</b>'}
+${n.err?`<b>${n.err}</b>`:''}
 <script src="/js/index.js"></script>
 <script src="/js/fakevideo.js"></script>
 <div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 module.exports={fakevideo}
+
+function get_videos(n){
+let s='';
+n.forEach(function(el,i){
+s+=`<hr><div data-id="${el.us_id}"><h6>${el.nick}</h6><p><span data-pid="${el.us_id}" contenteditable="true">${el.descr}</span></p>
+<button onclick="save_fake_descr(this);">save</button>
+<p>${el.src}</p><div class="divimg"><img src="/vid/${el.p}"></div>
+<div><button data-vid="${el.us_id}" data-src="${el.src}" data-p="${el.p}" data-nick="${el.nick}" onclick="del_fake_video(this);">delete</button></div>
+</div>`;	
+})
+return s;	
+}

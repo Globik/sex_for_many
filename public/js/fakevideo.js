@@ -94,3 +94,26 @@ function on_save_roomdescr_error(l,ev){
 alert(l);
 ev.className="";	
 }
+
+
+function save_fake_descr(el){}
+function del_fake_video(el){
+	
+let d={};
+d.p=el.getAttribute('data-p');
+d.us_id=el.getAttribute('data-vid');
+d.src=el.getAttribute('data-src');
+d.nick=el.getAttribute('data-nick');
+vax("post","/api/del_fake_video", d, on_del_fakevideo, on_del_fakevideo_err, el, false);
+el.className="puls";
+}
+function on_del_fakevideo(l,ev){
+note({content:l.info,type:"info",time:5});
+let a=document.querySelector('[data-id="'+l.id+'"]');
+if(a){a.remove();}
+ev.className="";	
+}
+function on_del_fakevideo_err(l,ev){
+note({content:l,type:"error",time:5});
+ev.className="";	
+}

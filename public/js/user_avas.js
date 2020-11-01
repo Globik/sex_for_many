@@ -6,7 +6,11 @@ function outi(s){
 //name gru5@yandex.ru
 //sip acc 21201603073020
 //vG7fKPxy 65988.voice.plusofon.ru
-var socket=new JsSIP.WebSocketInterface('wss://65988.voice.plusofon.ru:5060');
+//var socket=new JsSIP.WebSocketInterface('wss://65988.voice.plusofon.ru');
+var socket=new WebSocket('ws://sip.zadarma.com');
+socket.onopen=function(){console.log('open');}
+socket.onclose=function(){console.log('close');}
+socket.onerror=function(e){console.error('err: ',e)}
 //ssh root@91.217.80.183
 //var socket=new JsSIP.WebSocketInterface('wss://sip.plusofon.ru');
 //socket.origin='https://websocket.org';
@@ -18,7 +22,7 @@ var config={
 	uri:'21201603073020@65988.voice.plusofon.ru:5060',
 	password:'vG7fKPxy',register:false,registrar_server:'sip:registrar.plusofon.ru'
 	};
-var ua=new JsSIP.UA(config);
+/*var ua=new JsSIP.UA(config);
 function begin_was(){
 ua.start();
 }
@@ -38,7 +42,7 @@ outi('<b>request: </b>'+req);
 ua.on('registered',function(e){outi('registred.');})
 ua.on('unregistered',function(e){outi('unregistred.');})
 ua.on('registrationFailed',function(e){outi('reqistrationFailed.');});
-
+*/
 
 
 
