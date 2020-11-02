@@ -7,6 +7,7 @@ const vert_menu=require('./vert_menu.js');
 const doska=require('./doska');
 const {people} = require('./people');
 const {get_banner, get_banner_podval}=require('./reklama_s');
+const {check_age}=require('../config/app.json');
 
 const main_page=function(n){
 const {lusers}=n;
@@ -19,6 +20,7 @@ csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${buser && buser.brole=='superadmin'? html_admin_nav_menu.html_admin_nav_menu(n):''}
+${check_age?`
 <script>
 function check_age(){
 if(is_local_storage()){
@@ -59,6 +61,7 @@ localStorage.setItem('age',1);
 }
 }
 </script>
+`:''}
 ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
 
 <main id="pagewrap">

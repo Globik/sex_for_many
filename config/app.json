@@ -26,5 +26,6 @@
 	  "description":"База знаний Globikon."
 	 }
 },
-"warnig":""
+"warnig":"",
+"check_age":false
 }

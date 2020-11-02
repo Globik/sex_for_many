@@ -1,4 +1,5 @@
 //html_nav_menu.js
+const {check_age}=require('../config/app.json');
 const html_nav_menu=n=>{
 return `<!-- html_nav_menu.js -->
 <a href="/" id="aSite"><strong id="strongSite">${n.site}</strong></a>
@@ -33,12 +34,20 @@ ${n.user?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйт�
 <div class="wrap-close"><a href="#." class="close"></a></div>
 <div id="inbox"></div>
 </output>
+${check_age?`
 <a href="#.+" class="overlay" id="message_box2"></a>
 <output id="out_box2" class="popi">
 <!-- <div class="wrap-close"><a href="#." class="close"></a></div> -->
 <div id="inbox2">Вам исполнилось 18 лет?</div>
 <button class="yesno" onclick="say_no();">нет</button><button class="yesno" onclick="say_yes();">да</button>
 </output>
+<dialog  id="dialogConfirm2">
+<div id="inbox32">Вам исполнилось 18 лет?</div>
+<form id="dialogForm2" method="dialog" style="display:nne;">
+<button type="submit" value="false">нет</button><button type="submit" value="true">да</button>
+</form>
+</dialog>
+`:''}
 <dialog  id="dialogConfirm">
 <div id="inbox3"></div>
 <form id="dialogForm" method="dialog" style="display:nne;">
@@ -46,12 +55,7 @@ ${n.user?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйт�
 <button type="submit" value="true">yes</button><button type="submit" value="false">no</button>
 </form>
 </dialog>
-<dialog  id="dialogConfirm2">
-<div id="inbox32">Вам исполнилось 18 лет?</div>
-<form id="dialogForm2" method="dialog" style="display:nne;">
-<button type="submit" value="false">нет</button><button type="submit" value="true">да</button>
-</form>
-</dialog>
+
 <output class="alert" id="alert_id">
 <div id="inbox2"></div>
 </output>
