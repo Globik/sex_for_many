@@ -82,7 +82,7 @@ ${n.m?n.m.msg:''}
 <p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Хочу стримить!</a></button>`}</p></article>
 <hr>
 <section id="onlineVideo">
-<header id="onlineVideoHeader">Живое видео</header>
+<header id="onlineVideoHeader">Чат-комнаты</header>
 <section id="videoContainer">
 ${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) : 
 `<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
