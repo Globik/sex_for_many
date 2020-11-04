@@ -19,6 +19,10 @@ visibility:visible;
 
 .red{color:red;} .green{color:green;}
 
+#avacontainer{width:100px;}
+#avacontainer img{width:100%;}
+label[for="avfile"],label[for="roomdescr"]{font-size:0.7rem;}
+
 #media-wrapper{
 ackground:brown;
 width:100%;
@@ -329,8 +333,8 @@ button[disabled=true]{background:grey;border-color:grey;}
 
 #roomdescr{width:100%;height:30px;}
 #bankcardinput{height:43px;}
-label[for="bankcardinput"],label[for="roomdescr"]{font-size:14px;}
-.requis{margin-top:10px;}
+label[for="bankcardinput"],label[for="roomdescr"]{font-size:0.7rem;}
+.requis{margin-top:10px;margin-bottom:10px;}
 
 @media screen and (min-width: 1900px) {
 h2{margin-left:6px;}

@@ -423,10 +423,10 @@ let a,result,videos,videos2;
 let owner=false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
+sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
 on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
@@ -919,7 +919,8 @@ let s_name;
 //let s_name='/profile/'+zfile.name;
 let db=ctx.db;
 let isava=(photo?1:0);
-let s='insert into profile(bname,age,msg,ava,isava,city,bi) values($1,$2,$3,$4,$5,$6,$7) on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5,city=$6,bi=$7'
+let s=`insert into profile(bname,age,msg,ava,isava,city,bi) values($1,$2,$3,$4,$5,$6,$7) 
+on conflict(bname) do update set age=$2,msg=$3,ava=$4,isava=$5,city=$6,bi=$7`
 try{
 if(zfile && zfile.name){
  s_name='/profile/'+zfile.name;
@@ -947,6 +948,52 @@ await db.query(s,[fname,age,txt_msg,s_name,isava,city,gay]);
 
 ctx.body={info:"Профиль сохранен!"};	
 })
+
+pub.post("/api/save_ava",auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+ async ctx=>{
+let {fname}=ctx.request.body.fields;
+if(!fname)ctx.throw(400,"no data");
+let {zfile}=ctx.request.body.files;
+let s_name;
+let db=ctx.db;
+let s=`update buser set ava=$1 where bname=$2`;
+try{
+if(zfile && zfile.name){
+ s_name='/profile/'+zfile.name;
+//let result=await db.query();
+try{
+let result=await db.query('select ava from buser where bname=$1',[fname] );
+
+console.log('result:',result.rows);
+if(result.rows && result.rows.length==1){
+try{
+await unlink('./public'+result.rows[0].ava)
+}catch(e){}
+}
+}catch(e){
+console.log(e);	
+}
+await insert_foto(zfile.path,'./public/'+ s_name)
+}else{
+try{
+await unlink(zfile.path);	
+}catch(e){}	
+}
+await db.query(s, [ s_name, fname ]);	
+}catch(e){ctx.throw(400, e);}
+ctx.body={info:"OK - аватарка сохранена!",path:s_name}
+})
+
+pub.post("/api/save_status", auth,async ctx=>{
+let {status,bname}=ctx.request.body;
+if(!status || !bname)ctx.throw(400,"no data");
+let db=ctx.db;
+try{
+await db.query('update buser set stat=$1 where bname=$2',[status, bname]);	
+}catch(e){ctx.throw(400, e);}
+ctx.body={info:"OK - статус сохранен!"}	
+})
+
 pub.post("/api/del_ava", auth, async ctx=>{
 let {fname,src}=ctx.request.body;
 if(!fname)ctx.throw(400, "Нет имени");

@@ -15,7 +15,9 @@ model boolean not null default false, -- а модель ли? одобрено 
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban, fake 
 crat TIMESTAMP NOT NULL default now()::timestamp, -- created at
 ll TIMESTAMP  NOT NULL default now()::timestamp, -- last logined
-bcard numeric not null default 0
+bcard numeric not null default 0,
+ava text,
+stat text
 );
 
 -- grant all privileges on table buser to suka;
@@ -36,3 +38,5 @@ insert into buser(pwd,bname, email,brole) values('1234','natasha','natasha@yande
 -- alter table buser add column proz int not null default 50;
 -- alter table buser add column bcard numeric not null default 0;
 -- alter table buser add constraint positivcheck check (items >= 0);
+-- alter table buser add column ava text;
+-- alter table buser add column stat text;

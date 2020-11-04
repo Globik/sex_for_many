@@ -36,7 +36,24 @@ ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
 <div>У вас <span id="rublescnt">${(model.items*model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div>
+
+
 <h5>Прежде чем начать (необязательно)</h5>
+
+<div>
+<div class="requis"><div id="avacontainer"><img id="imgavatar" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}"></div>
+<div class="requis">
+<form name="avaprofi" action="/api/save_ava" method="post">
+<label for="avfile">Ваш аватар:</label><br>
+<input id="avfile" type="file" name="zfile" accept="image/*" onchange="thumb(this.files);" required>
+<input type="hidden" name="fname" value="${model?model.bname:''}">
+</div>
+<div class="requis"><input type="submit" value="загрузить"></div></form></div>
+<div><div class="requis"><label for="roomdescr">Статус:</label><br>
+<input type="text" id="roomdescr" maxlength="200" placeholder="200 знаков" value="${model&&model.stat?model.stat:''}"></div>
+<div><button data-bname="${model?model.bname:''}" onclick="save_status(this);">сохранить</button></div></div>
+</div>
+
 <div id="btc-container" class="requis">
 <label id="bInput">Введите свой ${n.is_test_btc?'test':''} <b>биткоин адрес</b> для донатов (<a href="/basa">где взять?</a>):</label><br>
 <input id="btcInput" class="btc-input" type="text" 
@@ -47,8 +64,8 @@ class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<but
 </div>
 <div class="requis"><label for="bankcardinput">Введите номер вашей <b>банковской карты</b>. Для перечисления заработанных денег.</label>
 <br><input id="bankcardinput" type="number" value="${buser.bcard !=0?buser.bcard:''}">&nbsp;<button onclick="save_bankcard(this);">сохранить</button></div>
-<div class="requis"><label for="roomdescr">Добавьте описание стрима(200 знаков):</label>
-<br><input type="text" id="roomdescr" maxlength="200" placeholder="Название видеострима"></div></div>`:''}
+<!-- <div class="requis"><label for="roomdescr">Добавьте описание стрима(200 знаков):</label>
+<br><input type="text" id="roomdescr" maxlength="200" placeholder="Название видеострима"></div></div> -->`:''}
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>

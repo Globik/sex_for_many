@@ -141,6 +141,39 @@ del_after(bInput,"span");
 btnSaveAdr.disabled=false;	
 }
 
+function thumb(el){}
+var profile_form=document.forms.avaprofi;
+	profile_form.addEventListener('submit', on_submit_ava, false);
+function on_submit_ava(ev){
+ev.preventDefault();
+var dich=new FormData(profile_form);
+vax(ev.target.method, ev.target.action, dich, on_profile_saved, on_profile_err, ev.target, true);
+ev.target.className="puls";	
+}
+
+function on_profile_saved(l,ev){
+console.log(l);
+ev.className="";
+note({content: l.info, type:"info", time: 5});
+imgavatar.src=l.path;
+}
+function on_profile_err(l,ev){ev.className="";note({content: l, type:"error", time: 5});}
+function save_status(el){
+if(!roomdescr.value){note({content:"Заполните статус", type:"error",time:5});return;}
+var d={};
+d.bname=el.getAttribute('data-bname');
+d.status=roomdescr.value;
+vax("post", "/api/save_status", d, on_save_status, on_save_status_err, el, false);
+el.className="puls";
+}
+function on_save_status(l,el){
+note({content:l.info,type:"info",time:5});
+el.className="";	
+}
+function on_save_status_err(l,el){
+note({content:l,type:"error",time:5});
+el.className="";	
+}
 function open_socket(){
 if(sock){console.log("already in connection");return;}
 
