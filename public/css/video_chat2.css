@@ -335,6 +335,8 @@ button[disabled=true]{background:grey;border-color:grey;}
 #bankcardinput{height:43px;}
 label[for="bankcardinput"],label[for="roomdescr"]{font-size:0.7rem;}
 .requis{margin-top:10px;margin-bottom:10px;}
+#modelava{width:200px;}
+.fakebtn-start{padding:12px;}
 
 @media screen and (min-width: 1900px) {
 h2{margin-left:6px;}

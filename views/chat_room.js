@@ -31,7 +31,9 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
-<h2>Комната ${model?model.bname:'Анон'}</h2>${n.descr?`<p>${n.descr}</p>`:''}
+<h2>Комната ${model?model.bname:'Анон'}</h2>
+${!n.owner?`<img id="modelava" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
+${!n.owner?`<p>${model.stat}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
@@ -71,7 +73,7 @@ ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
 <span><b>Послать биткоины на адрес:</b></span>
 <span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
 <!-- <video src="/vid/sveta.webm" style="border:2px solid red;" autoplay></video>
-ffmpeg -i natasha.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus natasha.webm -->
+ffmpeg -i mickey.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus mickey.webm -->
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
