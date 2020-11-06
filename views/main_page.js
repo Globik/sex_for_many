@@ -142,12 +142,12 @@ n.forEach(function(el,i){
 s+=`<div data-roomidi="${el.us_id}" class="vroomers" itemscop itemtype="http://schema.org/VideoObject">
 <a href="/webrtc/${el.us_id}" itemprop="url">
 <header itemprop="name">${el.nick}</header></a>
-<p itemprop="description">${el.descr?(el.descr).substring(0,52):"I'm online :)"}</p>
+<p itemprop="description">${el.stat?(el.stat).substring(0,52):"I'm online :)"}</p>
 <meta itemprop="duration" content="PT6M58S">
 <meta itemprop="isFamilyFriendly" content="false">
 <span itemprop="uploadDate">2020-06-05T00:00:00</span><br>
 <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-<img itemprop="contentUrl" class="videovroomers" src="${el.typ=='fake'?'/vid/'+el.p:el.p}" data-vidi="${el.us_id}">
+<img itemprop="contentUrl" class="videovroomers" src="${el.typ=='fake'?'/vid/'+el.p:(el.p?el.p:(el.ava?el.ava:'/images/unnamed.jpg'))}" data-vidi="${el.us_id}">
 <meta itemprop="width" content="250">
 <meta itemprop="height" content="120"></span>
 <header class="untervideo"><span class="timecl" data-min_time="${el.us_id}">${el.typ=='fake'?get_min():get_mini(el.crat).t}</span>&nbsp;<span class="timecl" data-min_str="${el.us_id}">${el.typ=='fake'?'мин':get_mini(el.crat).s}</span>,&nbsp;

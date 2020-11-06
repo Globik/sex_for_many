@@ -485,6 +485,24 @@ who_online(d4);
 }
 });
 */
+console.log("L: ",l);
+l.type="new_room";
+l.room_name=l.roomname;
+l.room_id=blin_id;
+l.v=1;
+//who_online(l);
+try{
+await pool.query('insert into vroom(us_id,nick) values($1,$2) on conflict(nick) do nothing',[blin_id,l.room_name]);
+//who_online(l);
+}catch(e){console.log('db.error inserting vroom: ',e)}
+try{
+let q=await pool.query('select ava,stat from buser where bname=$1',[l.room_name]);
+if(q.rows&&q.rows.length){
+l.src=q.rows[0].ava;
+l.descr=q.rows[0].stat;
+who_online(l);	
+}
+}catch(e){console.log(e);}
 }else{
 if(ws.url !=="/gesamt"){
 pool.query('update vroom set v=v+1 where nick=$1 returning us_id,v,crat',[l.roomname],function(er,r){
@@ -566,7 +584,7 @@ insert_message(l.msg,ws.nick,ws.url.substring(1));
 });
 //ws.on('error', function(er){console.log("websock err: ", err);})
 
-ws.on('close', function(){
+ws.on('close', async function(){
 console.log("websocket closed");
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 if(ws.owner){
@@ -581,12 +599,16 @@ insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
 	if(ws.on_vair){
 //{"type":"out_vair","is_first":"false","is_active":"false","vsrc":"/video/Globi/Globi_9.webm","room_id":"1","room_name":"Globi"}
 
-	who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)})
-pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
-	if(er)console.log(er);
+//	who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)})
+//pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
+	//if(er)console.log(er);
 	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
-	});
+	//});
 		}
+		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)});
+		try{
+await pool.query('delete from vroom where nick=$1',[ws.roomname]);
+			}catch(e){console.log(e);}
 //});
 }else{
 if(ws.url !== "/gesamt"){

@@ -48,10 +48,22 @@ bresult=bus.rows;
 let bus1=await db.query(d);
 if(bus1.rows.length>0){
 new_users=bus1.rows;
-} */
-let a=await db.query('select*from vroom',[]);
+}
+* 
+* 
+* us_id int not null,
+nick varchar(16) unique not null references buser(bname),
+src text, -- video src
+p text, -- video poster
+descr text, -- video stream description
+crat TIMESTAMP  NOT NULL default now()::timestamp, -- created at
+typ varchar(6) not null default 'activ', -- activ, fake,
+v int no
+*  */
+let a=await db.query('select vroom.us_id,vroom.nick,vroom.src,vroom.p,vroom.crat,vroom.typ,vroom.v,buser.ava,buser.stat from vroom left join buser on vroom.nick=buser.bname',[]);
 if(a.rows.length>0){
 videoUsers=a.rows;	
+
 }
 /*
 let bb=await db.query('select*from video limit 5');

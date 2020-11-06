@@ -59,6 +59,28 @@ console.log('h: ',h)
 onlineSection.style.height=h;
 console.log(h+ch);
 */ 
+
+var s6=gid("zagln2");
+if(s6)s6.remove();
+
+console.log('ajson: ',ajson);
+var dimi=document.createElement("div");
+
+dimi.setAttribute('data-roomidi',ajson.room_id);
+dimi.className="vroomers";
+dimi.innerHTML='<a href="/webrtc/'+ajson.room_id+'"><header>'+ajson.room_name+'</header></a><p itemprop="description">'+(ajson.descr?(ajson.descr).substring(0,52):"I\'m online : )")+'</p>';
+dimi.innerHTML+='<a href="/webtc/'+ajson.room_id+'"><img class="videovroomers"  src="'+(ajson.src?ajson.src:'/images/unnamed.jpg')+'"'+' data-vidi="'+ajson.room_id+'">';
+dimi.innerHTML+='<header class="untervideo"><span class="timecl" data-min_time="'+ajson.room_id+'">'+(ajson.min_time?ajson.min_time:'')+'</span>&nbsp;<span class="timecl" data-min_str="'+ajson.room_id+'">'+(ajson.min_str?ajson.min_str:'')+'</span>'+(ajson.minstr?',':'')+'&nbsp;<span class="timecl" data-v_str="'+ajson.room_id+'">'+ajson.v+'</span>&nbsp;<span class="timecl">зрителей</span></header>';
+videoContainer.appendChild(dimi);
+
+
+
+
+
+
+
+
+
 }else if(ajson.type=="out_room"){
 /*
 var seli=document.querySelector('[data-roomid="'+ajson.roomid+'"]');
