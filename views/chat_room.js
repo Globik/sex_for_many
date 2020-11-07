@@ -10,7 +10,9 @@ const html_head=require('./html_head'),
    const {people} = require('./people');
 const {js_help}=require('../libs/helper.js');
 const owner_str = "Чтобы начать стрим, нажмите на 'веб камера', затем на 'старт стрим'. Чтобы закончить стрим, нажмите на 'стоп стрим'.";
-const notowner_str = "Загружаем видео...";
+const webcamowner_str="Чтобы начать стрим, нажмите на на 'старт стрим'. Чтобы закончить стрим, нажмите на 'стоп стрим'.";
+const notowner_str = "Привет! Вы можете запросить у меня приват : ) Жми 'Приват'!";
+
 const streaminterupt_str="Конец стрима";
 //const owner_online_str_en="Press start"
 //const you_ban="You are banned.";
@@ -84,7 +86,8 @@ ffmpeg -i mickey.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus micke
 
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
-data-owner="${owner_str}" data-notowner="${notowner_str}" data-streaminterupt="${streaminterupt_str}">
+data-owner="${owner_str}" data-notowner="${notowner_str}" data-streaminterupt="${streaminterupt_str}" data-connecting="Connecting..."
+ data-webcamowner="${webcamowner_str}">
 <video id="remoteVideo" muted autoplay></video>
 <video id="localVideo" muted autoplay></video>
 </div>
@@ -107,9 +110,9 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 </div>
 -->
 <button id="dopPanelbtn" id="btnDopPanel" class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
-${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Веб камера</button>
-<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:`<button class="btn-start" onclick="give_token();">Дать на чай</button>
-${model&&model.brole=='fake'?'<button class="btn-start" onclick="popa();">звук</button>':''}<button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
+${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Вкл. веб камеру</button>
+<button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:
+`<button class="btn-start" onclick="give_token();">Дать на чай</button><button class="btn-start" onclick="popa();">звук</button><button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 

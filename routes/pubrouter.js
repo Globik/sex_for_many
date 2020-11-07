@@ -592,13 +592,21 @@ function s_video(user_name){
 return new Promise(function(res,rej){
 
 let sh=shortid.generate();
-let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",process.env.HOME+"/sex_for_many/public/vid/"+user_name+"_"+sh+".webm"];
+let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",
+process.env.HOME+"/sex_for_many/public/vid/"+user_name+"_"+sh+".webm"];
+
+//let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",
+//process.env.HOME+"/sex_for_many/public/video/"+user_name+".webm"];
+
 console.log('du: ',du);
 const ls=spawn('ffmpeg',du);
 ls.stderr.on('data',data=>{console.log(data.toString());})
 ls.stdout.on('data',data=>{console.log(data.toString());})
 ls.on('close',(code)=>{console.log('child process closed with code: ',code);
-	if(code==0){res(user_name+'_'+sh+'.webm')}else{rej("error");}
+	if(code==0){
+		//res(user_name+'_'+sh+'.webm')
+		res(user_name+'.webm');
+		}else{rej("error");}
 	})
 ls.on('exit',(code)=>{console.log('child process exit: ', code);})
 })	
@@ -608,6 +616,7 @@ function jopa(arr,us_name){
 	return new Promise(function(res,rej){
 var stream=fs.createWriteStream(process.env.HOME+"/sex_for_many/public/video/"+us_name+"/myfile.txt");
 stream.once('open',(fd)=>{
+	//stream.write("file '"+process.env.HOME+"/sex_for_many/public/video/"+us_name+"/"+us_name+"_1.webm'\n");
 	arr.forEach(function(el,i){
 	stream.write("file '"+process.env.HOME+"/sex_for_many/public"+el+"'\n")	
 	})
@@ -616,6 +625,12 @@ stream.once('open',(fd)=>{
 	})
 stream.on('close',function(){console.log("closeeeeeeeee");res(us_name)})
 })
+}
+
+function roga(file,us_name){
+return new Promise(function(res,rej){
+	
+})	
 }
 
 const removeDir=async(dir)=>{
@@ -669,13 +684,26 @@ await mkdir('./public/video/'+room_name);
 }catch(e){console.log('err in mkdir: ',e)}	
 		} 
 try{
+	console.log('v.path: ',v.path);
+	console.log('s_s: ',s_s);
 await insert_foto(v.path, s_s);
+
+/*
+if(is_first=="false" && is_active=="true"){
+let popa=await jopa(['/video/'+room_name+'/'+v.name],room_name)
+console.log('popa: ',popa);
+let dad=await s_video(room_name);
+console.log('dad: ',dad);
+}*/
+
 if(is_first=="true"){
 //await db.query('insert into vroom(us_id,nick,vsrc) values($1,$2,$3) on conflict do nothing',[room_id,room_name, v_src]);
+//await insert_foto(v.path, './public/video/'+room_name+'.webm');
+
 }
 console.log('IS ACTIVE??: ',is_active)
 if(is_active=="false"){
-await db.query('delete from vroom where nick=$1',[room_name]);
+//await db.query('delete from vroom where nick=$1',[room_name]);
 console.log("REMOVING THE FILE DIRECTORY, ", room_name);
 if(is_record=="true"){
 	console.log("recordArr: ",recordArr);

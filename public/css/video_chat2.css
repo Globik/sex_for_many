@@ -117,12 +117,14 @@ cotent:"";
 #video-wrapper.owner::after{
 content: attr(data-owner);
 }
+#video-wrapper.webcamowner::after{content: attr(data-webcamowner);}
 #video-wrapper.notowner::after{
 content: attr(data-notowner);
 }
 #video-wrapper.streaminterupt::after{
 content: attr(data-streaminterupt);
 }
+#video-wrapper.connecting::after{content: attr(data-connecting);}
 /*
 #video-wrapper.owner-online::after{
 content: attr(data-ownerOnline);	

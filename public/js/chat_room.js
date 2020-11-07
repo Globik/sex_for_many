@@ -143,7 +143,7 @@ btnSaveAdr.disabled=false;
 
 function thumb(el){}
 var profile_form=document.forms.avaprofi;
-	profile_form.addEventListener('submit', on_submit_ava, false);
+	if(profile_form)profile_form.addEventListener('submit', on_submit_ava, false);
 function on_submit_ava(ev){
 ev.preventDefault();
 var dich=new FormData(profile_form);
@@ -259,6 +259,9 @@ obj7.tz=new Date();
 insert_message(obj7);
 }else if(ad.type=="count"){
 	chatcnt.textContent=ad.user_count;
+	if(ad.on_vair){
+	if(!owner()){v.className="connecting";	}
+	}else{}
 	if(fake())chatcnt.textContent=Math.floor(Math.random()*(100-10+1))+10;
 }else if(ad.type=="tokentransfer"){
 	//amount,from
@@ -314,7 +317,11 @@ if(ad.is_first=="true"){
 ONVAIR=true;
 //alert(9);
 
-if(!owner()){localVideo.style.display="none";v.className="";}
+if(!owner()){
+localVideo.style.display="none";
+v.className="connecting";
+	//alert(33);
+	}
 }
 if(ad.is_active =="false"){
 ONVAIR=false;	
@@ -328,6 +335,9 @@ if(!owner()){
 }else if(ad.type=="out_vair"){
 ONVAIR=false;vsrc=[];
 //console.log('VSRC: ',vsrc);
+if(owner()){
+if(is_webcam){v.className="webcamowner";}	
+}else{v.className="streaminterupt";}
 }else{
 console.log('unknown type: '+ad.type);	
 }
@@ -416,7 +426,7 @@ if(!owner()){
 
 localVideo.srcObject=stream;
 localVideo.play();
-localVideo.volume = 0;
+localVideo.volume = 1;
 pc=createPeer();
 stream.getTracks().forEach(function(track){pc.addTrack(track,stream)})
 pc.createOffer().then(function(offer){
@@ -637,11 +647,14 @@ function start_webCamera(el){
 	console.log('is_webcam: ',is_webcam);
 if(!is_webcam){
 go_webrtc(el);	
+el.textContent="Выкл. веб камеру";
 }else{
 el.className = "";
+el.textContent="Вкл. веб камеру";
 is_webcam = false;
 cancel_video(el);
 vStreamStart.disabled=true;
+v.className="owner";
 }
 }
 
@@ -733,7 +746,8 @@ webcamStart.disabled=false;
 			
 			mediaRecorder.onstart=function(){
 				console.warn("On start");
-				console.log('vsrc: ',vsrc)
+				console.log('vsrc: ',vsrc);
+				v.className="connecting";
 				dik++;
 				}
 			mediaRecorder.onerror=function(){console.error('error');}
@@ -888,6 +902,7 @@ try{
 console.log('N: ',n)
 current_playing=n;
 remoteVideo.src=n;
+remoteVideo.muted=true;
 //remoteVideo.play();	
 
 
@@ -906,14 +921,42 @@ localVideo.onloadedmetadata=function(e){
 	remoteVideo.onloadedmetadata=function(e){
 		console.log('on remote video loaded video data');
 		remoteVideo.play();
+		if(!owner()){
+			//alert('Idea for remVideo muted false');
+			//remoteVideo.muted=false;
+			//popa();
 		}
+		}
+		//remoteVideo.onloaded=function(e){alert('loaded!');}
 remoteVideo.onplaying=function(){
 is_playing=true;
-console.log("it's playing");	
+console.log("it's playing");
+console.log('ONVAIR: ',ONVAIR);
+v.className="";	
+if(!owner()){
+	//popa();
+	//remoteVideo.muted=false;
+	//v.className="";
+	}
 }
 remoteVideo.onended=function(){
 console.log('remote video ended');
 is_playing=false;
+//remoteVideo.muted=true;
+console.log('is_vstream_started: ',is_vstream_started);
+console.log('is_webcam: ',is_webcam);
+if(is_vstream_started){v.className="connecting";}else{
+if(owner()){
+if(is_webcam){
+v.className="webcamowner";	
+}else{
+v.className="owner";
+}
+}else{
+	console.log('ONVAIR: ',ONVAIR);
+if(ONVAIR){v.className="connecting";}else{v.className="streaminterupt";}	
+}
+}
 if(ONVAIR)plad();
 }
 
