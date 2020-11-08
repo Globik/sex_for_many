@@ -378,15 +378,17 @@ if(msg.type=="privat_wanted")wsend(ws,{type:"no_target", who:msg.target,ontype:m
 function get_user_count(url){
 let user_count=0;
 let on_vair=false;
+let online=false;
 for(var el of wss.clients){
 if(el.url==url){
 console.log(el.url,url);
 user_count++;
 if(el.on_vair){on_vair=el.on_vair;}
+if(el.owner){online=el.owner;}
 console.log('el.ON_VAIR: ',el.on_vair);
 }
 }
-return {user_count,on_vair};	
+return {user_count,on_vair,online};	
 }
 function send_to_url(msg, url){
 console.log('send to url():',url)
@@ -447,7 +449,7 @@ console.log("hi from server");
 send_history(ws,req.url.substring(1))
 let siska=get_user_count(ws.url);
 wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
-broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair});
+broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online});
 }else{}
 
 ws.isAlive=true;
@@ -469,6 +471,7 @@ ws.owner=l.owner;
 ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
 var blin_id=ws.url.substring(1);
+console.log('blin_id: ',blin_id,ws.url)
 if(l.owner){
 broadcast_room(ws, {type: "owner_in",nick:ws.nick});
 insert_message('вошел в чат.',l.name,blin_id);
@@ -537,7 +540,7 @@ send_to_client=1;
 console.log("ON VAIR: ");
 if(l.is_first=='true'){
 	try{
-		await pool.query(`update vroom set typ='all' where nick=$1`,[l.room_name]);
+		await pool.query(`update vroom set typ='all', p=$1 where nick=$2`,[l.src,l.room_name]);
 		}catch(e){console.log(e);}
 ws.on_vair=true;
 who_online(l);

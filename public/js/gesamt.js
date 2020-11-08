@@ -159,6 +159,10 @@ videoContainer.appendChild(dimi);
 */ 
 var baba=document.querySelector('[data-roomidi="'+ajson.room_id+'"]');
 if(baba){
+var ss=document.createElement("div");
+ss.setAttribute('data-indicator',ajson.room_id);
+ss.className="indicator red";
+baba.appendChild(ss);
 var baba2=document.querySelector('[data-vidi="'+ajson.room_id+'"]');
 if(baba2){
 baba2.src=ajson.src;	
@@ -194,6 +198,8 @@ gid('videoContainer').appendChild(s8);
 }}catch(e){console.log(e)} 
 }else if(ajson.type=="out_vair2"){
 var we2=document.querySelector('[data-roomidi="'+ajson.room_id+'"]');
+var we3=document.querySelector('[data-indicator="'+ajson.room_id+'"]');
+if(we3){we3.remove();}
 var baba4=document.querySelector('[data-vidi="'+ajson.room_id+'"]');
 if(baba4){
 baba4.src=(ajson.src?ajson.src:"/images/unnamed.jpg");	

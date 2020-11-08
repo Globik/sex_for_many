@@ -14,6 +14,7 @@ align-items:stretch;
 #left nav ul a{text-decoration:none;color:inherit;}
 #sat{margin-left:40px;}
 */
+
 h2{text-align:center;}
 .ahero{
 color:purple;/*rgb(233,76,129);*/
@@ -77,8 +78,20 @@ margin-bottom:20px;
 background:rgb(202,230,233);
 padding:1em;
 }
-
-.vroomers{margin:10px;padding:10px;background:rgba(255,255,255,0.4);}
+@keyframes puls{
+from{background:pink;}
+to{background:red;}
+}
+.vroomers{margin:10px;padding:10px;background:rgba(255,255,255,0.4);position:relative;}
+.indicator{width:10px;height:10px;position:absolute;right:15px;top:15px;border-radius:5px;}
+.indicator.red{
+background:red;
+animation-name: puls;
+animation-duration:1s;
+animation-direction: alternate;
+animation-iteration-count:infinite;
+}
+.indicator.green{background:green;}
 .timecl{font-size:0.7rem;}
 .onlineVideo{
 

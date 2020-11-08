@@ -125,6 +125,7 @@ content: attr(data-notowner);
 content: attr(data-streaminterupt);
 }
 #video-wrapper.connecting::after{content: attr(data-connecting);}
+#video-wrapper.offline::after{content:"Offline";}
 /*
 #video-wrapper.owner-online::after{
 content: attr(data-ownerOnline);	

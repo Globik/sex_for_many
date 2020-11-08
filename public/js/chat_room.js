@@ -262,6 +262,9 @@ insert_message(obj7);
 	if(ad.on_vair){
 	if(!owner()){v.className="connecting";	}
 	}else{}
+	if(!ad.online){
+		if(!owner()){v.className="offline";}
+		}else{if(!owner()){v.className="notowner";}}
 	if(fake())chatcnt.textContent=Math.floor(Math.random()*(100-10+1))+10;
 }else if(ad.type=="tokentransfer"){
 	//amount,from
@@ -286,8 +289,10 @@ insert_message({from:ad.from,msg:"шлет "+ad.amount+" токен.",tz:new Dat
 }else if(ad.type=="owner_in"){
 	//ad.tz=new Date();
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;вошел в чат.',tz:new Date()});
+	if(!owner()){v.className="notowner";}
 }else if(ad.type=="owner_out"){
 	//ad.tz=new Date();
+	if(!owner()){v.className="offline";}
 	insert_notice({msg:'<b>'+ad.nick+'</b>&nbsp;покинул чат.',tz:new Date()});
 }else if(ad.type=="history"){
 	ad.d.forEach(function(el,i){

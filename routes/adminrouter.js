@@ -700,7 +700,7 @@ if(!username)ctx.throw(400,"no username!");
 console.log('roomdescr: ', roomdescr);
 let db=ctx.db;
 try{
-await db.query('update vroom set descr=$1 where nick=$2',[roomdescr, username]);
+await db.query('update buser set stat=$1 where bname=$2',[roomdescr, username]);
 }catch(e){}
 ctx.body={info:"ok, saved room description"};	
 })
