@@ -333,17 +333,16 @@ ctx.body={info: "OK, deleted!"}
 
 pub.get("/home/users", async ctx=>{
 let db=ctx.db;
-let result;
-let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
+let result;let err;
+//let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
+let s='select id,ava,bname,crat,ll,items,email from buser';
 try{
 	result = await db.query(s);
 	}catch(e){
 	console.log(e);
+	err=e;
 	}
-	if(process.env.DEVELOPMENT !="yes"){	
-oni('users',"here.");
-	}
-	ctx.body=await ctx.render("users",{result:result.rows});
+	ctx.body=await ctx.render("users",{result:result.rows,err:err});
 })
 
 pub.post("/api/fetch_all_suchen", async ctx=>{
@@ -1022,6 +1021,16 @@ await unlink(zfile.path);
 await db.query(s, [ s_name, fname ]);	
 }catch(e){ctx.throw(400, e);}
 ctx.body={info:"OK - аватарка сохранена!",path:s_name}
+})
+
+pub.post("/api/foto_error", async ctx=>{
+let {avid}=ctx.request.body;
+	if(!avid)ctx.throw(400,"no avid");
+	let db=ctx.db;
+	try{
+		await db.query("update buser set ava='' where id=$1",[avid]); 
+		}catch(e){ctx.throw(400,e);}
+ctx.body={info: "ok, foto deleted"}	
 })
 
 pub.post("/api/save_status", auth,async ctx=>{

@@ -156,8 +156,20 @@ console.log(l);
 ev.className="";
 note({content: l.info, type:"info", time: 5});
 imgavatar.src=l.path;
+wsend({type:"new_ava",name:myusername, avasrc:l.path,id:modelId.value});
 }
 function on_profile_err(l,ev){ev.className="";note({content: l, type:"error", time: 5});}
+
+function foto_error(el){
+var avid=el.getAttribute('data-avid');
+if(!avid)return;
+var d={};
+d.avid=avid;
+vax("post", "/api/foto_error", d, on_foto_error, on_foto_error_err, el, false);
+}
+function on_foto_error(l,ev){}
+function on_foto_error_err(l,ev){}
+
 function save_status(el){
 if(!roomdescr.value){note({content:"Заполните статус", type:"error",time:5});return;}
 var d={};

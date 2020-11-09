@@ -42,14 +42,14 @@ module.exports={users};
 function get_users(n){
 let s='<section id="usersection">';
 n.forEach(function(el, i){
-s+=`<div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}">
+s+=`<hr>${i+1}) <div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}"><div>created: ${el.crat}</div>
 <div class="newuserleft"><img class="newuserfoto" src="${el.ava?el.ava:'/images/default.jpg'}"/></div>
 <div class="newuserrite">
-<div><a href="/webrtc/${el.id}">${el.bname}</a>, ${el.age?el.age:18} лет</div>
-${el.bi?`<div>${el.bi}</div>`:''}
-${el.city?`<div>${el.city}</div>`:''}
-${el.msg?`<div>${el.msg}</div>`:''}
-</div></div>`;
+<div><a href="/webrtc/${el.id}">${el.bname}</a>
+<div>${el.email}</div>
+<div>last login: ${el.ll}</div>
+<div>items: ${el.items}</div>
+</div></div><hr>`;
 	})
 	s+='</section><br><br><button onclick="get_more_users(this);">Показать еще</button>';
 	return s;

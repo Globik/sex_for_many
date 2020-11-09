@@ -34,7 +34,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 ${vert_menu.vert_menu(n)}
 <div id="right">
 <h2>Комната ${model?model.bname:'Анон'}</h2>
-${!n.owner?`<img id="modelava" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
+${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
 ${!n.owner?`<p>${model.stat}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
@@ -45,7 +45,7 @@ ${n.owner?
 <h5>Прежде чем начать (необязательно)</h5>
 
 <div>
-<div class="requis"><div id="avacontainer"><img id="imgavatar" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}"></div>
+<div class="requis"><div id="avacontainer"><img id="imgavatar" data-avid="${model.id}" onerror="foto_error(this);" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}"></div>
 <div class="requis">
 <form name="avaprofi" action="/api/save_ava" method="post">
 <label for="avfile">Ваш аватар:</label><br>

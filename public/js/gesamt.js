@@ -69,7 +69,7 @@ var dimi=document.createElement("div");
 dimi.setAttribute('data-roomidi',ajson.room_id);
 dimi.className="vroomers";
 dimi.innerHTML='<a href="/webrtc/'+ajson.room_id+'"><header>'+ajson.room_name+'</header></a><p itemprop="description">'+(ajson.descr?(ajson.descr).substring(0,52):"I\'m online : )")+'</p>';
-dimi.innerHTML+='<a href="/webtc/'+ajson.room_id+'"><img class="videovroomers"  src="'+(ajson.src?ajson.src:'/images/unnamed.jpg')+'"'+' data-vidi="'+ajson.room_id+'">';
+dimi.innerHTML+='<a href="/webtc/'+ajson.room_id+'"><img class="videovroomers" data-avid="'+ajson.room_id+'" onerror="foto_error(this);"  src="'+(ajson.src?ajson.src:'/images/unnamed.jpg')+'"'+' data-vidi="'+ajson.room_id+'">';
 dimi.innerHTML+='<header class="untervideo"><span class="timecl" data-min_time="'+ajson.room_id+'">'+(ajson.min_time?ajson.min_time:'')+'</span>&nbsp;<span class="timecl" data-min_str="'+ajson.room_id+'">'+(ajson.min_str?ajson.min_str:'')+'</span>'+(ajson.minstr?',':'')+'&nbsp;<span class="timecl" data-v_str="'+ajson.room_id+'">'+ajson.v+'</span>&nbsp;<span class="timecl">зрителей</span></header>';
 videoContainer.appendChild(dimi);
 
@@ -204,6 +204,11 @@ var baba4=document.querySelector('[data-vidi="'+ajson.room_id+'"]');
 if(baba4){
 baba4.src=(ajson.src?ajson.src:"/images/unnamed.jpg");	
 }
+}else if(ajson.type=="new_ava"){
+var baba5=document.querySelector('[data-vidi="'+ajson.id+'"]');
+if(baba5){
+baba5.src=ajson.avasrc;
+}
 }else{console.log("unknown type: ", ajson.type);}
 }
 
@@ -218,3 +223,13 @@ function on_video_views(l){
 console.log(l);	
 }
 function on_video_views_error(l){console.error(l);}
+
+function foto_error(el){
+var avid=el.getAttribute('data-avid');
+if(!avid)return;
+var d={};
+d.avid=avid;
+vax("post", "/api/foto_error", d, on_foto_error, on_foto_error_err, el, false);
+}
+function on_foto_error(l,ev){}
+function on_foto_error_err(l,ev){}

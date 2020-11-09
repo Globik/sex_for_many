@@ -148,7 +148,7 @@ ${el.typ=='activ'?'':`<div data-indicator="${el.us_id}" class="indicator${el.typ
 <meta itemprop="isFamilyFriendly" content="false">
 <span itemprop="uploadDate">2020-06-05T00:00:00</span><br>
 <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-<img itemprop="contentUrl" class="videovroomers" src="${el.typ=='fake'?'/vid/'+el.p:(el.p?el.p:(el.ava?el.ava:'/images/unnamed.jpg'))}" data-vidi="${el.us_id}">
+<img itemprop="contentUrl" class="videovroomers" data-avid="${el.us_id}" onerror="foto_error(this);" src="${el.typ=='fake'?'/vid/'+el.p:(el.p?el.p:(el.ava?el.ava:'/images/unnamed.jpg'))}" data-vidi="${el.us_id}">
 <meta itemprop="width" content="250">
 <meta itemprop="height" content="120"></span>
 <header class="untervideo"><span class="timecl" data-min_time="${el.us_id}">${el.typ=='fake'?get_min():get_mini(el.crat).t}</span>&nbsp;<span class="timecl" data-min_str="${el.us_id}">${el.typ=='fake'?'мин':get_mini(el.crat).s}</span>,&nbsp;
