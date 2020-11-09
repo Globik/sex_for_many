@@ -35,7 +35,7 @@ ${vert_menu.vert_menu(n)}
 <div id="right">
 <h2>Комната ${model?model.bname:'Анон'}</h2>
 ${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
-${!n.owner?`<p>${model.stat}</p>`:''}
+${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
