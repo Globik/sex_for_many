@@ -584,7 +584,7 @@ send_to_client=1;
 
 
 
-}else if(l.type="new_ava"){
+}else if(l.type=="new_ava"){
 who_online(l);
 send_to_client=1;	
 }else if(l.type=="candidate"){
