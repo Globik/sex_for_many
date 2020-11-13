@@ -542,7 +542,7 @@ console.warn("ICE SERVERS: ", donat);
 //createPeer();
 function createPeer(){
 	//alert('peer');
-pc=new RTCPeerConnection(dona);
+pc=new RTCPeerConnection(donat);
 pc.onicecandidate = on_ice_candidate;
 pc.oniceconnectionstatechange = on_ice_connection_state_change;
 pc.onicegatheringstatechange = on_ice_gathering_state_change;

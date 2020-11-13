@@ -202,6 +202,9 @@ ctx.state.btc_percent=btc_percent;
 	let {xir}=ctx.request.body;
 	xirsys=xir;
 	ctx.state.xirsys=xirsys;
+	try{
+	await pool.query(`update prim_adr set xir=$1`,[JSON.stringify(xirsys)])
+}catch(e){console.log(e);}
 	}else{}
 
 }
@@ -265,6 +268,14 @@ pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
 	console.log('result minus: ',result.rows[0].on_token_transfer);
 	console.log('result plus: ',result.rows[1].on_token_transfer);
 	}) */
+	try{
+	//	xirsys=await pool.query(`select xir from prim_adr`)
+	let a = await pool.query('select xir from prim_adr');
+	if(a&&a.rows.length){
+		
+xirsys=a.rows[0].xir;		}
+console.log("DAAAAAAAAAAAA",a.rows);
+	}catch(e){console.log(e);}
 pool.query("select*from prim_adr where type=true",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows);
