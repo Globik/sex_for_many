@@ -188,9 +188,10 @@ ctx.body=await ctx.render('xirsys',{});
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
 let v;
-let vurl="https://Globi:"+process.env.XIRSYS_SECRET+"@global.xirsys.net/_turn/alikon";
+let vsec=867f06f6-1065-11ea-a46b-0242ac110003
+let vurl="https://Globi:"+vsec+"@global.xirsys.net/_turn/alikon";
 	 try{
-let bod=await axios.put(vurl,{format:"urls"});
+let bod = await axios.put(vurl,{format:"urls"});
 v=bod.data.v.iceServers;
 console.log('status: ', bod.data.status);
 console.log('statusText: ', bod.data.statusText); 
