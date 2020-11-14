@@ -188,7 +188,7 @@ ctx.body=await ctx.render('xirsys',{});
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
 let v;
-let vsec=867f06f6-1065-11ea-a46b-0242ac110003
+let vsec='867f06f6-1065-11ea-a46b-0242ac110003';
 let vurl="https://Globi:"+vsec+"@global.xirsys.net/_turn/alikon";
 	 try{
 let bod = await axios.put(vurl,{format:"urls"});
