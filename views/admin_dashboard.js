@@ -36,7 +36,7 @@ hallo ${buser.bname}<br>
 real BTC
 1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy
 -->
-<!-- tBTC mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE -->
+<!-- tBTC mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE     mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE -->
 <input id="test_btc_address" type="text" maxlength="35" spellcheck="false" autocomplete="off" 
 value="${n.test_btc_address?n.test_btc_address:''}" placeholder="your test btc address">
 <button id="saveTestBtcBtn" ${n.test_btc_address?'disabled':''}>save</button><button onclick="reset_test_btc_adr();">reset</button>
@@ -53,6 +53,11 @@ value="${n.btc_address?n.btc_address:''}">
 <li><a href="/home/profile">Профили</a>
 <li><a href="/home/newavas">Проверить аватары</a>
 </ul>
+<div>
+<!--   -->
+<input id="suka12" type="text" placeholder="your btc address" value="1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy">
+<button onclick='d_suka(this);'>save btc address</button>
+</div>
 </div></main>
 ${js_help(["/js/adm_btc_pay.js"])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;

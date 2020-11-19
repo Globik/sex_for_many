@@ -142,7 +142,7 @@ var test_btc_address;
 var btc_address;
 var btc_percent;
 var btc_pay=false;
-var is_test_btc=true;
+var is_test_btc=false;
 var xirsys;
 //var banner;
 
@@ -185,15 +185,22 @@ is_test_btc=true;
 ctx.state.is_test_btc=is_test_btc;	
 }
 }else if(ctx.path=="/home/profile/set_btc_adr"){
-console.log("body: ",ctx.request.body);
-let {test}=ctx.request.body;
-if(test){
+console.log("BBBBBBBBBBBBBBBBBody: ",ctx.request.body);
+//let {test}=ctx.request.body;
+//if(test){
 test_btc_address=ctx.request.body.test_btc_adr;
 ctx.state.test_btc_address=test_btc_address;
-}else{
-btc_address = ctx.request.body.test_btc_adr;
-ctx.state.btc_address=btc_address;	
-}
+try{
+//await pool.query("update prim_adr set tadr=$1",[test_btc_address])	
+}catch(e){}
+//}else{
+btc_address = ctx.request.body.btc_adr;
+console.log('btc_address: ',btc_address);
+ctx.state.btc_address=btc_address;
+try{
+//await pool.query("update prim_adr set adr=$1",[btc_address])	
+}catch(e){}	
+//}
 btc_percent=ctx.request.body.percent;
 ctx.state.btc_percent=btc_percent;
 
@@ -269,19 +276,19 @@ pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
 	console.log('result plus: ',result.rows[1].on_token_transfer);
 	}) */
 	try{
-	//	xirsys=await pool.query(`select xir from prim_adr`)
+	
 	let a = await pool.query('select xir from prim_adr');
 	if(a&&a.rows.length){
 		
 xirsys=a.rows[0].xir;		}
 console.log("DAAAAAAAAAAAA",a.rows);
 	}catch(e){console.log(e);}
-pool.query("select*from prim_adr where type=true",[], 
+pool.query("select tadr from prim_adr",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows);
-if(res && res.rows.length)test_btc_address=res.rows[0].adr;
+if(res && res.rows.length)test_btc_address=res.rows[0].tadr;
 });
-pool.query("select*from prim_adr where type=false",[], 
+pool.query("select adr from prim_adr",[], 
 function(err,res){if(err)console.log(err);
 //console.log("RESPONES ", res.rows[0].adr);
 if(res && res.rows.length)btc_address=res.rows[0].adr;

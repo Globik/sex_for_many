@@ -33,24 +33,35 @@ let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
 
 if(!vali){ctx.throw(400,"Not a valid testnet bitcoin address!");}
 try{
-await db.query("delete from prim_adr where type=true");
-await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, true]);
-await db.query("delete from cladr");
+//await db.query("delete from prim_adr where type=true");
+//await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, true]);
+//await db.query("delete from cladr");
 }catch(e){ctx.throw(400, e);}
 ctx.body={info:"ok",test_btc_adr, percent, test}	
 } else{
-if(!test_btc_adr)ctx.throw(400,"No bitcoin address provided!")
+if(!test_btc_adr)ctx.throw(400,"No test bitcoin address provided!")
 let vali=walletValidator.validate(test_btc_adr,'bitcoin');
 
 if(!vali){ctx.throw(400,"Not a valid bitcoin address!");}
 try{
-await db.query("delete from prim_adr where type=false");
-await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, false]);
-await db.query("delete from cladr");
+//await db.query("delete from prim_adr where type=false");
+//await db.query("insert into prim_adr(adr, type) values($1, $2)",[test_btc_adr, false]);//await db.query("delete from cladr");
 }catch(e){ctx.throw(400, e);}
 
 ctx.body={info:"ok",test_btc_adr, percent, test}	
 }
+})
+
+adm.post("/home/profile/btc_adr",auth,async ctx=>{
+let {btc_adr}=ctx.request.body;
+if(!btc_adr)ctx.throw(400,"no btc address provided!");
+let vali=walletValidator.validate(btc_adr,'bitcoin');
+if(!vali){ctx.throw(400,"Not a valid bitcoin address!");}
+let db=ctx.db;
+try{
+await db.query('update prim_adr set adr=$1',[btc_adr]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK,saved btc address"}	
 })
 
 adm.post("/home/profile/set_btc_adr", auth, async ctx=>{

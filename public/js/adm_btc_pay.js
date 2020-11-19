@@ -1,3 +1,20 @@
+
+
+function d_suka(el){
+if(suka12.value){
+let data={};
+//data.test=false;
+data.btc_adr=suka12.value;
+vax("post", "/home/profile/btc_adr", data, on_suka12, onerror, null, false);	
+el.className="puls";	
+}else{alert("no btc address")}	
+}
+
+function on_suka12(el){
+	alert(el.info);
+	el.className="";
+}
+
 function is_btc_enabled(el){
 let data={};
 data.hi="hi";
@@ -113,7 +130,7 @@ let span=crel("span","\tMust be integer and less than 50","red");
 insert_after(span, lproz, "span");
 return;	
 }
-if(btcPayInput.checked){shell(el, "Disable payment system? You should.", disablePayment_event);return;}
+//if(btcPayInput.checked){shell(el, "Disable payment system? You should.", disablePayment_event);return;}
 let data={};
 data.test_btc_adr = btc_address.value;
 //alert(btc_address.value);

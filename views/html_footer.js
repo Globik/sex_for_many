@@ -8,7 +8,7 @@ return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">С�
 <section id="footReklama"><a href="/home/advertise">Реклама на сайте</a></section><section>
 <ul id="basaUl"><li><a href="/basa">База знаний.</a></ul></section>
 <section id="socseti"><header><b>Мы в соцсетях</b></header>
-<a href="https://vk.com/club196544064"><img src="/images/vk.png"></a>
+<a href="https://vk.com/public20025816"><img src="/images/vk.png"></a>
 <a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
 </section>
 <section><span>&#9400; 2020 - </span><span>${a.getFullYear()}г.</span></section>
@@ -19,6 +19,7 @@ return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">С�
 <div><span id="vhod" onclick="get_login(this);" class="">вход</span> | <span id="vout" onclick="get_registr(this);">регистрация</span></div>
 <div id="vorlogincontainer"></div>
 </output>
+
 <script src="/js/login.js"></script><!-- html_footer.js -->
 `;
 }
