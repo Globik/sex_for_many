@@ -64,6 +64,23 @@ await db.query('update prim_adr set adr=$1',[btc_adr]);
 ctx.body={info:"OK,saved btc address"}	
 })
 
+adm.post("/home/profile/test_btc_adr",auth,async ctx=>{
+let {test_btc_adr}=ctx.request.body;
+if(!test_btc_adr)ctx.throw(400,"no btc address provided!");
+let vali=walletValidator.validate(test_btc_adr,'bitcoin','testnet');
+if(!vali){ctx.throw(400,"Not a valid test bitcoin address!");}
+let db=ctx.db;
+try{
+await db.query('update prim_adr set tadr=$1',[test_btc_adr]);	
+}catch(e){ctx.throw(400,e);}
+ctx.body={info:"OK, saved test btc address"}	
+})
+
+adm.post("/home/profile/SET_BTC_ADDRESS",auth,async ctx=>{
+console.log("HERE request body ",ctx.request.body);
+ctx.body={test_btc_address:ctx.test_btc_address,btc_address:ctx.btc_address}
+});
+
 adm.post("/home/profile/set_btc_adr", auth, async ctx=>{
 console.log("HERE request body ",ctx.request.body);
 let test = ctx.request.body.test;

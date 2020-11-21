@@ -159,6 +159,8 @@ ctx.state.is_test_btc = is_test_btc;
 
 ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
+ctx.test_btc_address = test_btc_address;
+ctx.btc_address = btc_address;
 ctx.state.btc_percent = btc_percent;
 ctx.state.xirsys=xirsys;
 
@@ -205,6 +207,13 @@ btc_percent=ctx.request.body.percent;
 ctx.state.btc_percent=btc_percent;
 
 
+}else if(ctx.path=="/home/profile/SET_BTC_ADDRESS"){
+	console.log("CTX>REQUEST>BODY: ", ctx.request.body);
+test_btc_address=ctx.request.body.test_btc_address;
+ctx.test_btc_address=test_btc_address;	
+btc_address = ctx.request.body.btc_address;
+console.log('btc_address++: ',btc_address);
+ctx.btc_address=btc_address;
 }else if(ctx.path=='/api/set_xirsys'){
 	let {xir}=ctx.request.body;
 	xirsys=xir;

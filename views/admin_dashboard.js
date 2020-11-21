@@ -9,7 +9,7 @@ const {js_help}=require('../libs/helper.js');
 let admin_dashboard = n=> {
 const buser=n.user;
 return `<!DOCTYPE html><!-- admin_dashboard.js -->
-<html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css"})}
+<html lang="en"><head>${html_head.html_head({title:"Dashboard", csslink:"/css/main2.css",cssl:["/css/admin_dashboard.css"]})}
 <style>
 .is_test_btc{background:lightgreen;}
 .red{color:red;}
@@ -49,14 +49,15 @@ value="${n.btc_address?n.btc_address:''}">
 </div>
 <br><label id="lproz">your procent:</label><br><input id="btc_procent" value="${n.btc_percent?n.btc_percent:10}" placeholder="10" type="text">%
 <hr>
-<ul>
-<li><a href="/home/profile">Профили</a>
-<li><a href="/home/newavas">Проверить аватары</a>
-</ul>
-<div>
-<!--   -->
-<input id="suka12" type="text" placeholder="your btc address" value="1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy">
+<div><!-- 1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy -->
+<input id="suka12" type="text" placeholder="your btc address" value="${n.btc_address?n.btc_address:''}">
 <button onclick='d_suka(this);'>save btc address</button>
+</div>
+<div>
+<!-- mqwRsYbYjU19m3SP89dREEBkoNUAetf1FK -->
+<input id="suka13" type="text" maxlength="35" spellcheck="false" autocomplete="off" 
+value="${n.test_btc_address?n.test_btc_address:''}" placeholder="your test btc address">
+<button onclick='d_suka2(this);'>save test btc address</button>
 </div>
 </div></main>
 ${js_help(["/js/adm_btc_pay.js"])}

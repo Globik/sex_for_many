@@ -3,17 +3,42 @@
 function d_suka(el){
 if(suka12.value){
 let data={};
-//data.test=false;
 data.btc_adr=suka12.value;
-vax("post", "/home/profile/btc_adr", data, on_suka12, onerror, null, false);	
+vax("post", "/home/profile/btc_adr", data, on_suka12, onerror, el, false);	
 el.className="puls";	
 }else{alert("no btc address")}	
 }
 
-function on_suka12(el){
-	alert(el.info);
+function on_suka12(l,el){
+	note({content:l.info,type:"info", time:5});
 	el.className="";
+	SET_BTC();
 }
+
+function d_suka2(el){
+if(suka13.value){
+let data={};
+data.test_btc_adr=suka13.value;
+vax("post", "/home/profile/test_btc_adr", data, on_suka13, onerror, el, false);	
+el.className="puls";
+}else{alert('no test btc address!');}	
+}
+function SET_BTC(){
+let d={};
+d.test_btc_address=suka13.value;
+d.btc_address=suka12.value;
+vax("post", "/home/profile/SET_BTC_ADDRESS", d, on_SET_BTC, onerror, null, false);		
+}
+function on_suka13(l,el){
+	note({content:l.info,type:"info", time:5});
+	el.className="";
+	SET_BTC();
+}
+
+function on_SET_BTC(l){
+note({content:"OK, btc addresses are settled!\n"+l.btc_address+"\n"+l.test_btc_address,type:"info",time:5});	
+}
+
 
 function is_btc_enabled(el){
 let data={};
