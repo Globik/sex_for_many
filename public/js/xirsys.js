@@ -40,6 +40,7 @@ xir.className="stable";
 		ev.className="";
 		alert(l);
 		}
+		
 function get_subscribe(){
   var OneSignal = window.OneSignal || [];
   OneSignal.push(function() {

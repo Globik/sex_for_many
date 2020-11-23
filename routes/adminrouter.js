@@ -20,6 +20,10 @@ ctx.body={info:"ok", btc_pay:ctx.state.btc_pay}
 })
 adm.post("/home/profile/btc_test", auth, async ctx=>{
 console.log(ctx.request.body);
+let db=ctx.db;
+try{
+await db.query('update prim_adr set type=$1',[ctx.state.is_test_btc]);	
+}catch(e){ctx.throw(400,e);}
 ctx.body={info:"ok", is_test_btc:ctx.state.is_test_btc};	
 })
 

@@ -149,20 +149,21 @@ var xirsys;
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
-ctx.state.site="globikon";
-ctx.db=pool;
-ctx.transporter=transporter;
-ctx.state.meta=meta;
-ctx.state.warnig=warnig;
-ctx.state.btc_pay= btc_pay;
+ctx.state.site = "globikon";
+ctx.db = pool;
+ctx.transporter = transporter;
+ctx.state.meta = meta;
+ctx.state.warnig = warnig;
+ctx.state.btc_pay = btc_pay;
 ctx.state.is_test_btc = is_test_btc;
+ctx.is_test_btc = is_test_btc;
 
 ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
 ctx.test_btc_address = test_btc_address;
 ctx.btc_address = btc_address;
 ctx.state.btc_percent = btc_percent;
-ctx.state.xirsys=xirsys;
+ctx.state.xirsys = xirsys;
 
 if(ctx.request.header["user-agent"]){
 	ctx.session.ua=ctx.request.header["user-agent"];
@@ -182,9 +183,11 @@ ctx.state.btc_pay=btc_pay;
 if(is_test_btc){
 is_test_btc=false;	
 ctx.state.is_test_btc=is_test_btc;
+ctx.is_test_btc=is_test_btc;
 }else{
 is_test_btc=true;
 ctx.state.is_test_btc=is_test_btc;	
+ctx.is_test_btc=is_test_btc;
 }
 }else if(ctx.path=="/home/profile/set_btc_adr"){
 console.log("BBBBBBBBBBBBBBBBBody: ",ctx.request.body);
@@ -284,24 +287,22 @@ pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
 	console.log('result minus: ',result.rows[0].on_token_transfer);
 	console.log('result plus: ',result.rows[1].on_token_transfer);
 	}) */
-	try{
 	
-	let a = await pool.query('select xir from prim_adr');
-	if(a&&a.rows.length){
-		
-xirsys=a.rows[0].xir;		}
-console.log("DAAAAAAAAAAAA",a.rows);
-	}catch(e){console.log(e);}
-pool.query("select tadr from prim_adr",[], 
-function(err,res){if(err)console.log(err);
-//console.log("RESPONES ", res.rows);
-if(res && res.rows.length)test_btc_address=res.rows[0].tadr;
-});
-pool.query("select adr from prim_adr",[], 
-function(err,res){if(err)console.log(err);
-//console.log("RESPONES ", res.rows[0].adr);
-if(res && res.rows.length)btc_address=res.rows[0].adr;
-});
+try{
+let a=await pool.query('select * from prim_adr');
+if(a&&a.rows.length){
+	xirsys=a.rows[0].xir;
+	console.log('xirsys: ',xirsys);
+	test_btc_address=a.rows[0].tadr;
+	console.log('test_btc_address: ',test_btc_address);
+	btc_address=a.rows[0].adr;
+	console.log('btc_address: ',btc_address);
+	is_test_btc=a.rows[0].type;
+	console.log('is_test_btc: ',is_test_btc);
+}	
+}catch(e){console.log('prim_adr err: ',e);}
+	
+
 //activ or all or priv
 pool.query("delete from vroom where not typ='fake'",[],function(err,res){
 if(err)console.log(err);	
