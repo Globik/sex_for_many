@@ -268,7 +268,7 @@ var obj7={};
 obj7.from="Анон";
 obj7.msg=" шлет "+ad.btc_amt+" сатоши";
 obj7.tz=new Date();
-insert_message(obj7);
+if(ad.btc_amt > 0){insert_message(obj7);}
 }else if(ad.type=="count"){
 	chatcnt.textContent=ad.user_count;
 	if(ad.on_vair){

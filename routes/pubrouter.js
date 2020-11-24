@@ -434,11 +434,11 @@ let a,result,videos,videos2;
 let owner=false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, cladr.btc_all, cladr.inv from buser left join cladr 
-on buser.bname=cladr.nick where buser.id=$1`;
+sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, 
+cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, cladr.btc_all, cladr.inv from buser left join cladr 
-on buser.bname=cladr.nick where buser.id=$1`;
+sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, 
+cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
 result=await db.query(sis,[ctx.params.buser_id]);
@@ -517,13 +517,27 @@ console.log("db query: ", si);
 }catch(e){console.log("db error: ", e);ctx.throw(400, e)}
 }catch(e){ctx.throw(400, e.message);}
 
-ctx.body={status:"ok", data:"tested", bod:bod}
+ctx.body={status:"ok", data:"tested"}
 }else{
+console.log("ctx.state.btc_address: ",ctx.state.btc_address);
+console.log("btc_client: ",btc_client);
+
+/*
+data.forwarding_address_primary="1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy";//must be mine
+data.forwarding_address_secondary="1PJsmJzFgkAVWwqPvcEHvYELcCcvsFgACo";//must be client's one
+data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
+*/
+
+
+
 
 data.forwarding_address_primary=ctx.state.btc_address;//must be mine
 data.forwarding_address_secondary=btc_client;//must be client's one
 data.forwarding_address_primary_share=ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
+console.log("cb_link: ",data.callback_link);
+console.log("base_url_smart_btc: ",base_url_smart_btc);
+console.log("ctx.state.btc_percent: ",ctx.state.btc_percent);
 
 try{
 bod = await axios.post(base_url_smart_btc, data)
@@ -543,9 +557,11 @@ bod.data.payment_code
 console.log("db query: ", si1);
  
 }catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
-}catch(e){ctx.throw(400, e.message);}
+}catch(e){console.log(e,'/|',e.message);
+	ctx.throw(400, e.message);
+	}
 
-ctx.body={status:"ok", data:"real btc", bod:bod}
+ctx.body={status:"ok", data:"real btc"}
 	
 }
 });

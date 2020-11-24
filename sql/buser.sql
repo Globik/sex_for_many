@@ -23,9 +23,9 @@ stat text
 -- grant all privileges on table buser to suka;
 insert into buser(pwd,bname, email) values('1234','Globi','gru5@yandex.ru');
 update buser set brole='superadmin';
-insert into buser(pwd,bname, email,brole) values('1234','marina','marina@yandex.ru','fake');
-insert into buser(pwd,bname, email,brole) values('1234','sveta','sveta@yandex.ru','fake');
-insert into buser(pwd,bname, email,brole) values('1234','natasha','natasha@yandex.ru','fake');
+--insert into buser(pwd,bname, email,brole) values('1234','marina','marina@yandex.ru','fake');
+--insert into buser(pwd,bname, email,brole) values('1234','sveta','sveta@yandex.ru','fake');
+--insert into buser(pwd,bname, email,brole) values('1234','natasha','natasha@yandex.ru','fake');
 -- dob date check(dob < now() - interval '18 years') not null);
 -- select age('1973-09-25'::date); select age(dob) from buser; select date_part('year', age(dob)) from buser;
 -- date_part('year',interval '45 years 11 mons 27 days'); 45

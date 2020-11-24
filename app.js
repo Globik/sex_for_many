@@ -162,7 +162,7 @@ ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
 ctx.test_btc_address = test_btc_address;
 ctx.btc_address = btc_address;
-ctx.state.btc_percent = btc_percent;
+ctx.state.btc_percent = "10%";
 ctx.state.xirsys = xirsys;
 
 if(ctx.request.header["user-agent"]){
@@ -367,6 +367,7 @@ if(el.url == ws.url)el.send(JSON.stringify(obj));
 }
 */
 function insert_message(msg,nick,us_id){
+	console.log("MSG: ",msg,nick,us_id);
 	pool.query('insert into chat(msg, us_id, nick) values($1,$2,$3)',[msg,us_id,nick],function(er,r){
 	if(er)console.log(er);	
 	})
@@ -447,6 +448,16 @@ console.log('msg notify: ',msg);
 msg.data.type="on_btc";
 broadcast_satoshi(msg.data);
 });
+
+function broadcast_satoshi(obj){
+	console.log('obj: ',obj);
+wss.clients.forEach(function each(client){
+if(client.roomname == obj.nick){
+wsend(client,obj);
+if(obj.btc_amt > 0){insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.substring(1));}
+}
+})
+}
 function broadcasti(obj){
 wss.clients.forEach(function(client){
 wsend(client, obj);
@@ -693,8 +704,8 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 }
 
 
-
-function broadcast_satoshi(obj){
+/*
+function broadcast_satoshi(wss, obj){
 wss.clients.forEach(function each(client){
 if(client.roomname == obj.nick){
 wsend(client,obj);
@@ -702,6 +713,7 @@ insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.s
 }
 })
 }
+*/ 
 function wsend(ws, obj){
 console.log("hallo wsend()")
 let a;

@@ -36,6 +36,7 @@ console.log(' statusText: ', d.statusText);
 }).catch(function(er){console.log('err: ',er)})
 */
 const base_url_smart_tbtc="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution";
+const base_url_smart_btc='https://api.bitaps.com/btc/v1/create/payment/address/distribution'
 const cb_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
 /*
 const data={}
@@ -45,6 +46,14 @@ data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
 data.callback_link=cb_link;
 axios.post(base_url_smart_tbtc,data).then(function(d){console.log("data: ",d.data)}).catch(function(er){console.log('err: ',er)})
 */
+const data={}
+data.forwarding_address_primary="1H2k4KVqXba7a7dZwXmhS8rr1soAEdi1Xy";//must be mine
+data.forwarding_address_secondary="1PJsmJzFgkAVWwqPvcEHvYELcCcvsFgACo";//must be client's one
+data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
+data.callback_link=cb_link;
+axios.post(base_url_smart_btc,data).then(function(d){console.log("data: ",d.data)}).catch(function(er){console.log('err: ',er)})
+
+/*
 const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
 const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
 const burl = "https://onesignal.com/api/v1/notifications";
@@ -62,6 +71,7 @@ let opt={
 		 };
 axios.post(burl, {app_id:onesignal_app_id,contents:{en: 'info.username'+" just signed up."},included_segments:["Subscribed Users"]},
 {headers:{"Authorization": "Basic "+onesignal_app_key}}).then(function(d){console.log('data: ',d.data)}).catch(function(er){console.log('er: ',e)})
+*/
 /*
 var map=new Map();
 const n=100;
