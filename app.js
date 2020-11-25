@@ -373,9 +373,9 @@ function insert_message(msg,nick,us_id){
 	})
 }
 function send_history(ws,room_id){
-pool.query('select*from chat where us_id=$1',[room_id],function(er,r){
+pool.query('select*from chat where us_id=$1 order by tz',[room_id],function(er,r){
 if(er)console.log(er);
-if(r.rows && r.rows.length>0){
+if(r.rows && r.rows.length > 0){
 wsend(ws, {type:"history",d:r.rows})
 }
 })	
@@ -704,16 +704,7 @@ broadcast_room(ws, {type: "count",user_count:siska.user_count});
 }
 
 
-/*
-function broadcast_satoshi(wss, obj){
-wss.clients.forEach(function each(client){
-if(client.roomname == obj.nick){
-wsend(client,obj);
-insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.substring(1));
-}
-})
-}
-*/ 
+
 function wsend(ws, obj){
 console.log("hallo wsend()")
 let a;

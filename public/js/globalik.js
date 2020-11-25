@@ -204,14 +204,17 @@ var html_sA={
 		return (''+str).replace(er_sA,function(m){return html_sA[m];});
 		}
 var g_data=function(d){
-var c=new Date(d)|| new Date();
+var c=new Date(d) || new Date();
 var e_g=c.getFullYear();
-var f_g=c.getMonth();
+var f_g=c.getMonth()+1;
 var g_g=c.getDate();
 var h_g=c.getHours();
 var i_g=c.getMinutes();
 return e_g+'-'+f_g+'-'+g_g+' '+h_g+':'+i_g;
 }
+
+//var fg='2020-11-25T14:11:43.281Z';
+//alert(fg+'\n'+g_data(fg));
 
 function mach_click(el){
 var cid=el.getAttribute('data-cid');
