@@ -8,6 +8,6 @@ tadr varchar(60) not null, -- test address
 						xir jsonb);
 insert into prim_adr(adr,tadr,type,xir) values('ww','dd',false,'{"f":1}');
 -- alter table prim_adr add column tadr varchar(60);
--- alter table prim_adr add column xir jsonb
+-- alter table prim_adr add column xir jsonb;
 
 -- update prim_adr set xir='{"fig":12,"serv":[{"mama":"dat","papat":"net"}]}';
