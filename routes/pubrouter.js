@@ -18,8 +18,8 @@ const lstat=util.promisify(fs.lstat);
 //const uuid=require('uuid/v4');
 const GMAIL="globalikslivov@gmail.com";
 const {is_reklama}=require('../config/app.json');
-const onesignal_app_key = "MGFmMmZlOTgtOTAyMi00NWE2LThhMTYtNWMwYmNlYTRlYzUw";
-const onesignal_app_id = "b989ab63-af54-4afc-b68d-0ab78133540c";
+const onesignal_app_key = "NjQ5NWU0MjYtNDZjNS00MTA3LTkxODYtZWM5MzI1ODNiNDUy";
+const onesignal_app_id = "ebc1d04b-30f9-4168-b7e7-f5b9c6780e40";
 const walletValidator=require('wallet-address-validator');//0.2.4
 const {RateLimiterMemory}=require('rate-limiter-flexible');
 const gr = "\x1b[32m", rs = "\x1b[0m";

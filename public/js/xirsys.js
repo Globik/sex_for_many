@@ -45,7 +45,7 @@ function get_subscribe(){
   var OneSignal = window.OneSignal || [];
   OneSignal.push(function() {
     OneSignal.init({
-      appId: "b989ab63-af54-4afc-b68d-0ab78133540c",
+      appId: "ebc1d04b-30f9-4168-b7e7-f5b9c6780e40",
     });
     OneSignal.setExternalUserId("1");
   });
