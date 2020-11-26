@@ -10,7 +10,7 @@ cssl:["/css/users.css"]})}
 
 </head><body>
 ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
-<nav class="back">${html_nav_menu.html_nav_menu({buser})}</nav>
+<nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">
 <h3>Пользователи</h3>
