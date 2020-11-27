@@ -60,7 +60,7 @@ var poster_form=document.forms.posterform;
 	//alert('give me an user name!');
 	//return;	
 	}
-	d.append("nick",/*username.textContent*/"vanya");	
+	d.append("nick",/*username.textContent*/"vas");	
 	vax("post", "/fake_poster", d, on_submit, on_submit_err, ev.target, true);
 	ev.target.className="puls";
 }catch(e){alert(e)}
