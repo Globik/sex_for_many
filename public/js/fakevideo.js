@@ -57,10 +57,10 @@ var poster_form=document.forms.posterform;
 	try{
 	var d=new FormData(poster_form);
 	if(!username.textContent){
-	//alert('give me an user name!');
-	//return;	
+	alert('give me an user name!');
+	return;	
 	}
-	d.append("nick",/*username.textContent*/"vas");	
+	d.append("nick",username.textContent);	
 	vax("post", "/fake_poster", d, on_submit, on_submit_err, ev.target, true);
 	ev.target.className="puls";
 }catch(e){alert(e)}
