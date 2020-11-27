@@ -335,7 +335,7 @@ pub.get("/home/users", async ctx=>{
 let db=ctx.db;
 let result;let err;
 //let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
-let s='select id,ava,bname,crat,ll,items,email from buser';
+let s='select id,ava,bname,crat,ll,items,email from buser order by crat';
 try{
 	result = await db.query(s);
 	}catch(e){

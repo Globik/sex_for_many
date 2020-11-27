@@ -52,8 +52,7 @@ module.exports={fakevideo}
 function get_videos(n){
 let s='';
 n.forEach(function(el,i){
-s+=`<hr><div data-id="${el.us_id}"><h6>${el.nick}</h6><p><span data-pid="${el.us_id}" contenteditable="true">${el.descr}</span></p>
-<button onclick="save_fake_descr(this);">save</button>
+s+=`<hr><div data-id="${el.us_id}"><h6>${el.nick}</h6>
 <p>${el.src}</p><div class="divimg"><img src="/vid/${el.p}"></div>
 <div><button data-vid="${el.us_id}" data-src="${el.src}" data-p="${el.p}" data-nick="${el.nick}" onclick="del_fake_video(this);">delete</button></div>
 </div>`;	
