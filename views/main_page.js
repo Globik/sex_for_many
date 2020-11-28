@@ -122,7 +122,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <script>
 
 var cnv = document.getElementById('canvasi');
-if(!cnv)return;
+if(cnv){
 var c = cnv.getContext('2d');
 //c.fillStyle='rgb(200,0,0)';
 //c.fillRect(0,0,440,200);
@@ -290,24 +290,7 @@ c.fillRect(x2-1.5,y2-1.5,3,3);
 c.restore();
 }
 
-//button.innerHTML='Stop';
-/*
-function stop(el){
-if(b) {
-b=0;
-el.innerHTML='Play';
-var hui=document.getElementById('out3').getAttribute('data-num');
-hui++;
-fb.update({name:"Pupkin",town:hui});
-
 }
-else{
-b=1;
- requestAnimationFrame(render);
-el.innerHTML='Stop';
-}
-}
-*/
 </script>
 
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
