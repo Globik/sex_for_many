@@ -102,7 +102,7 @@ span[itemprop="uploadDate"]{font-size:0;color:rgba(0,0,0,0);}
 p[itemprop="description"]{margin:0;ine-height:1;font-size:0.6em;}
 
 @media screen and (max-width: 750px) {
-canvas#canvasi{width:99%;}
+canvas#canvasi{display:none;}
 .videodiv{width:100%;}
 .videodiv video{width:100%;}
 }

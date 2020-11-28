@@ -122,6 +122,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <script>
 
 var cnv = document.getElementById('canvasi');
+if(!cnv)return;
 var c = cnv.getContext('2d');
 //c.fillStyle='rgb(200,0,0)';
 //c.fillRect(0,0,440,200);
