@@ -9,7 +9,7 @@ const {get_banner, get_banner_podval}=require('./reklama_s');
 const obi = function(n){
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
-<head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах',meta:get_meta(n.meta),
+<head>${html_head.html_head({title:'Доска объявлений о сексе, знакомствах, тусовках, встречах. Санкт-Петербург.',meta:get_meta(n.meta),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/obi.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
