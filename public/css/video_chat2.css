@@ -259,7 +259,8 @@ height:8%;}
 
 #setImg{width:30%;}/* top r bott left */
 #pizda1,#pizda2{margin-top:50px;width:100%;}
-#pizda2 div{margin-top:20px;margin-bottom:20px;}
+#privat2{width:99%;}
+#pizda2 div{margin-top:20px;margin-bottom:20px;width:99%;}
 #pizda2 .vrite{text-align:right;}
 #pizda1 #forImg{color:green;height:40px;width:100%;font-size:14px;}
 

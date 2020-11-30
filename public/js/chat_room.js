@@ -322,7 +322,8 @@ handle_candidate(ad.candidate);
 }else if(ad.type=="privat_wanted"){
 if(owner()){privat_wanted(ad.from,ad.amount);}
 }else if(ad.type=="reject_privat"){
-if(!owner()){note({content:ad.from+' отклонил звонок.', type:'error',time:5});}
+	var s_str="Пожалуйста, (до)купите токенов для платного приват-чата.";
+if(!owner()){note({content:ad.from+' отклонил звонок.\n'+(!ad.gratis?s_str:''), type:'info',time:5});}
 }else if(ad.type=="accept_privat"){
 handle_accept_privat();	
 }else if(ad.type=="spanWhosOn"){
@@ -371,9 +372,9 @@ sock.send(JSON.stringify(obj));
 var tokencntnav=gid("tokencntnav");
 
 function begin_privat(){
-var ti;
+var ti=0;
 if(owner()){return;}
-if(!buser()){return;}
+//if(!buser()){return;}
 if(tokencntnav){
 	//alert(tokencntnav.textContent);
  var t=Number(tokencntnav.textContent);
@@ -401,7 +402,7 @@ wsend({type:"accept_privat",target:from, from:myusername});
 //alert(amount)
 window.location.href="#privatid";
 privatdialog.setAttribute('data-target',from);
-privatdialog.textContent="Запрос на приват от "+from+". Токенов "+amount+". Принять?"
+privatdialog.textContent="Запрос на приват от "+from+". Токенов "+amount+". \nПриват-шоу максимум на "+amount+" минут. \nПринять?"
 
 //wsend({type:"accept_privat",target:from, from:myusername});	
 }
@@ -410,7 +411,7 @@ function gno(el){
 window.location.href="#.";
 in_rem_hash();
 var fl=privatdialog.getAttribute('data-target');
-wsend({type:"reject_privat",target:fl, from:myusername});
+wsend({type:"reject_privat",target:fl, from:myusername,gratis:ifGratis.checked});
 }
 function gyes(el){
 window.location.href="#.";

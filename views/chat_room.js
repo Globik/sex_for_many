@@ -189,9 +189,9 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 <div id="pizda2">
 <div id="privatdialog" data-target=""></div>
 <div>
-<label class="label-galka">&nbsp;<span>Позволить бесплатно</span><input id="ifGratis" type="checkbox"/><span class="galka"></span></label>
+<label class="label-galka">&nbsp;<span>Позволить клиенту бесплатное шоу</span><input id="ifGratis" type="checkbox"/><span class="galka"></span></label>
 </div>
-<div class="vrite"><button onclick="gno(this)">no</button>&nbsp;&nbsp;<button onclick="gyes(this);">yes</button>
+<div class="vrite"><button onclick="gno(this)">нет</button>&nbsp;&nbsp;<button onclick="gyes(this);">да</button>
 </div></div>
 </div>
 
