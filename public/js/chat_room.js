@@ -534,8 +534,9 @@ var suona=[{urls: [
 var liushka;
 try{liushka=JSON.parse(xirTarget.value);}catch(e){console.error("Xirsys ice servers not available");}
 var bona=(xirTarget.value?[liushka]:null);
-//var donat=(bona?{"iceServers":bona}:null);
-var donat=null;
+var donat=(bona?{"iceServers":bona}:null);
+console.warn("donat: ",donat);
+//var donat=null;
 //const dona={iceServers:[bona]};
 const dona={iceServers: suona};
 //const dona=bona;
