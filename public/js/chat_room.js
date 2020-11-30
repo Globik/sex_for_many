@@ -315,6 +315,7 @@ insert_message({from:ad.from,msg:"шлет "+ad.amount+" токен.",tz:new Dat
 // who(target),ontype(offer)
 stop_failure(ad);//for non owner
 }else if(ad.type=="offer"){
+	FROM_SUKA=ad.from;
 handle_offer(ad.offer,ad.from);	
 }else if(ad.type=="answer"){
 handle_answer(ad.answer);	
@@ -1085,6 +1086,7 @@ console.log('ice connection state: ',this.iceConnectionState);
 //disconnected failed connected completed
 //TODO if 'checking' very long - mark as failed in owner space
 if(this.iceConnectionState=="disconnected"){
+	// do stuff!!!
 underVideo.className="";
 stopVideo();
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
@@ -1098,7 +1100,7 @@ stopVideo();
 //btnStart.textContent='start';
 //}
 }else if(this.iceConnectionState=="connected"){
-v.className="start";
+v.className="start";//DO STUFF!!!
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
 v.className="start";
@@ -1127,7 +1129,9 @@ setTimeout(function(){
 //stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
 },10000);
 v.className="connecting";
-}
+}else if(this.connectionState=="connected"){
+	// do stuff!!! here tokens per minute
+	}
 }
 
 
