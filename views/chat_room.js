@@ -138,7 +138,6 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 
 </section>
  <div style="clear:both;"></div> 
- ${n.is_test_btc?model.cadrtest !==null?model.cadrtest:'':model.cadr !==null?model.cadr:''} 
 <!--
 <h4>Профиль</h4>
 <div id="clientFoto"></div>
