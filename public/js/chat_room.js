@@ -55,6 +55,7 @@ var loc1=location.hostname+':'+location.port;
 var loc2=location.hostname;
 var loc3=loc1 || loc2;
 var new_uri;
+var FROM_SUKA;
 
 if(window.location.protocol==="https:"){
 new_uri='wss:';
@@ -389,6 +390,7 @@ function privat_wanted(from, amount){
 	//alert(1)
 console.log('is_webcam: ',is_webcam);
 sifilis=from;
+FROM_SUKA=from;
 /*var r=confirm("Запрос на приват от "+from+". Токенов "+amount+". Принять?");
 if(!r){
 wsend({type:"reject_privat",target:target,from:myusername});
@@ -1070,7 +1072,7 @@ d.candidate=event.candidate;
 console.log('myusername: ',myusername);
 console.log('modelName.value: ',modelName.value);
 d.from=myusername;
-d.target=modelName.value;
+d.target=(owner()?FROM_SUKA:modelName.value);
 wsend(d);	
 }	
 }
