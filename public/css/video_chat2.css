@@ -328,10 +328,11 @@ width:100.6%;
 display:block;
 }
 #webcamStart{margin-right:3px;}
-#dopPanelbtn,#webcamStart,#vStreamStart{margin-top:8px;}
+#dopPanelbtn,#webcamStart,#vStreamStart,#stopPrivat{margin-top:8px;}
+#stopPrivat{margin-left:4px;}
 #webcamStart.active{background:orange;}
 button[disabled=true]{background:grey;border-color:grey;}
-#vStreamStart[disabled]{background:grey;border-color:grey;}
+#vStreamStart[disabled],#stopPrivat[disabled]{background:grey;border-color:grey;color:rgb(128,150,128);}
 
 #vStreamStart.active{background:orange;}
 

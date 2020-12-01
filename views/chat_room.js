@@ -112,7 +112,10 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <button id="dopPanelbtn" id="btnDopPanel" class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
 ${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Вкл. веб камеру</button>
 <button id="vStreamStart" disabled onclick="start_stream(this);">Старт стрим</button>`:
-`<button class="btn-start" onclick="give_token();">Дать на чай</button><button class="btn-start" onclick="popa();">звук</button><button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
+`<button class="btn-start" onclick="give_token();">Дать на чай</button>
+<button class="btn-start" onclick="popa();">звук</button>
+<button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
+<button id="stopPrivat" onclick="stop_privat(this);" disabled>stop privat</button>
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 

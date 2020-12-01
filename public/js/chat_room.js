@@ -56,6 +56,7 @@ var loc2=location.hostname;
 var loc3=loc1 || loc2;
 var new_uri;
 var FROM_SUKA;
+var IS_PRIVAT=false;
 
 if(window.location.protocol==="https:"){
 new_uri='wss:';
@@ -325,7 +326,9 @@ handle_candidate(ad.candidate);
 if(owner()){privat_wanted(ad.from,ad.amount);}
 }else if(ad.type=="reject_privat"){
 	var s_str="Пожалуйста, (до)купите токенов для платного приват-чата.";
-if(!owner()){note({content:ad.from+' отклонил звонок.\n'+(!ad.gratis?s_str:''), type:'info',time:5});}
+if(!owner()){
+note({content:ad.from+' отклонил звонок.\n'(ad.grund?ad.grund:'')+(!ad.gratis?s_str:''), type:'info',time:10});
+}
 }else if(ad.type=="accept_privat"){
 handle_accept_privat();	
 }else if(ad.type=="spanWhosOn"){
@@ -373,9 +376,13 @@ sock.send(JSON.stringify(obj));
 // WEBRTC STUFF
 var tokencntnav=gid("tokencntnav");
 
-function begin_privat(){
+function begin_privat(el){
 var ti=0;
 if(owner()){return;}
+if(IS_PRIVAT){
+note({content:"Already in privat!",type:"info",time:5});
+return;
+}
 //if(!buser()){return;}
 if(tokencntnav){
 	//alert(tokencntnav.textContent);
@@ -384,10 +391,14 @@ if(tokencntnav){
 ti=t;
 }
 //alert(ti);
-wsend({type:"privat_wanted",target:modelName.value,from:myusername,amount:ti})
+wsend({type:"privat_wanted",target:modelName.value, from:myusername, amount:ti})
 }
 var sifilis;
 function privat_wanted(from, amount){
+if(IS_PRIVAT){
+wsend({type:"reject_privat",target:from, from:myusername, grund:"Already in privat!"});
+return;
+}
 	//alert(1)
 console.log('is_webcam: ',is_webcam);
 sifilis=from;
@@ -438,6 +449,14 @@ if(owner()){
 }	
 }
 //go_webrtc();
+
+function stop_privat(el){
+	if(IS_PRIVATE){
+	stopVideo();
+	IS_PRIVATE=false;
+	el.disabled=true;
+}
+}
 
 function go_webrtc(el){	
 var constraints={audio: {echoCancellation: {exact: true}},video: {width: 1280, height: 720}};
@@ -1087,6 +1106,8 @@ console.log('ice connection state: ',this.iceConnectionState);
 //TODO if 'checking' very long - mark as failed in owner space
 if(this.iceConnectionState=="disconnected"){
 	// do stuff!!!
+stopPrivat.disabled=true;
+IS_PRIVAT=false;
 underVideo.className="";
 stopVideo();
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
@@ -1095,16 +1116,24 @@ if(owner()){
 v.className="";
 stopVideo();
 }
-
+stopPrivat.disabled=true;
+IS_PRIVAT=false;
 //if(!is_owner()){
 //btnStart.textContent='start';
 //}
 }else if(this.iceConnectionState=="connected"){
 v.className="start";//DO STUFF!!!
+//if(owner()){
+	stopPrivat.disabled=false;
+	IS_PRIVAT=true;
+//	}
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
 v.className="start";
-}else if(this.iceConnectionState=="failed"){}else{}	
+}else if(this.iceConnectionState=="failed"){
+stopPrivat.disabled=true;
+IS_PRIVAT=false;	
+}else{}	
 }
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
 }
@@ -1118,19 +1147,18 @@ function signaling_state_change(){console.log('signaling state: ',this.signaling
 function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
-//stop_stream();
-//pc.close();
+stopPrivat.disabled=true;
+IS_PRIVAT=false;
 stopVideo();
 }else if(this.connectionState=="failed"){
-	//stopVideo();
+stopPrivat.disabled=true;
+IS_PRIVAT=false;
 }else if(this.connectionState=="connecting"){
-setTimeout(function(){
-	//stopVideo();
-//stop_stream();pc.close();pc=null;pubId=0;btnStart.textContent="start";
-},10000);
 v.className="connecting";
 }else if(this.connectionState=="connected"){
 	// do stuff!!! here tokens per minute
+		stopPrivat.disabled=false;
+		IS_PRIVAT=true;
 	}
 }
 
