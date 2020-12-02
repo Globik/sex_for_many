@@ -56,6 +56,8 @@ var loc2=location.hostname;
 var loc3=loc1 || loc2;
 var new_uri;
 var FROM_SUKA;
+var IS_GRATIS=true;
+var NOT_GRATIS_TIMER;
 var IS_PRIVAT=false;
 
 if(window.location.protocol==="https:"){
@@ -327,6 +329,7 @@ if(owner()){privat_wanted(ad.from,ad.amount);}
 }else if(ad.type=="reject_privat"){
 	var s_str="Пожалуйста, (до)купите токенов для платного приват-чата.";
 if(!owner()){
+	IS_GRATIS=ad.gratis;
 note({content:ad.from+' отклонил звонок.\n'(ad.grund?ad.grund:'')+(!ad.gratis?s_str:''), type:'info',time:10});
 }
 }else if(ad.type=="accept_privat"){
@@ -455,6 +458,10 @@ function stop_privat(el){
 	stopVideo();
 	IS_PRIVATE=false;
 	el.disabled=true;
+	IS_GRATIS=true;
+	if(!owner()){
+		if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+		}
 }
 }
 
@@ -1110,6 +1117,10 @@ stopPrivat.disabled=true;
 IS_PRIVAT=false;
 underVideo.className="";
 stopVideo();
+note({content:"Приват закончился!",type:"info",time:5});
+if(!owner()){
+	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+}
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
 if(owner()){
@@ -1118,6 +1129,10 @@ stopVideo();
 }
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
+note({content:"Приват закончился!",type:"info",time:5});
+if(!owner()){
+	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+}
 //if(!is_owner()){
 //btnStart.textContent='start';
 //}
@@ -1126,6 +1141,15 @@ v.className="start";//DO STUFF!!!
 //if(owner()){
 	stopPrivat.disabled=false;
 	IS_PRIVAT=true;
+	note({content:"Приват начался",type:"info",time:5})
+	if(!owner()){
+	if(!NOT_GRATIS_TIMER){
+	NOT_GRATIS_TIMER=setTimeout(function g_tim(){
+		note({content:"timer!",type:"info",time:5})
+		setTimeout(g_tim,10000);
+		},10000);
+	}
+}
 //	}
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
@@ -1133,6 +1157,9 @@ v.className="start";
 }else if(this.iceConnectionState=="failed"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;	
+if(!owner()){
+	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+}
 }else{}	
 }
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
@@ -1150,6 +1177,7 @@ if(this.connectionState=="disconnected"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
 stopVideo();
+note({content:"Приват закончился!",type:"info",time:5});
 }else if(this.connectionState=="failed"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
@@ -1159,6 +1187,7 @@ v.className="connecting";
 	// do stuff!!! here tokens per minute
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
+		note({content:"Приват начался!",type:"info",time:5});
 	}
 }
 
