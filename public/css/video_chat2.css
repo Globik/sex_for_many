@@ -373,6 +373,7 @@ border:1px solid transparent;
 #under-video2{text-align:left;}
 #btnFoto,#vasja{font-size:0.7em;margin-bottom:0.3em;}
 label[for="ifRecord"]{color:red;vertical-align:0.09em;}
+#chat-container{olor:red;margin-top:100px;padding-top:100px;display:block;position:relative;}
 #stopPrivat,#btnStart,#teeTip,#vStreamStart{width:90%;margin-left:5%;margin-top:10px;margin-bottom:20px;}
 }
 
