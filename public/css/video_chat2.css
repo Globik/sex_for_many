@@ -379,7 +379,7 @@ label[for="ifRecord"]{color:red;vertical-align:0.09em;}
 
 
 @media screen and (max-width: 320px){
-#chat-container{olor:red;margin-top:150px;padding-top:150px;display:block;position:relative;}
+#chat-container{olor:red;margin-top:160px;padding-top:160px;display:block;position:relative;}
 #stopPrivat,#btnStart,#teeTip,#vStreamStart{width:90%;margin-left:5%;margin-top:10px;margin-bottom:20px;}
 #chatPanel{line-height:1.7;}
 
