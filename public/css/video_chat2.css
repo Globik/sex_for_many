@@ -357,6 +357,7 @@ display:block;
 height: 500px;
 border:1px solid transparent;
 }
+#chat-container{position:relative;height:auto;}
 #video-container{width:100%;}
 #chat-container{width:100%;}
 #btcadr{font-size:0.7em;}
@@ -376,14 +377,15 @@ label[for="ifRecord"]{color:red;vertical-align:0.09em;}
 
 
 @media screen and (max-width: 320px){
-#chat-container{olor:red;margin-top:60px;}
+#chat-container{olor:red;margin-top:100px;padding-top:100px;display:block;position:relative;}
+#stopPrivat,#btnStart,#teeTip,#vStreamStart{width:90%;margin-left:5%;margin-top:10px;margin-bottom:20px;}
 #chatPanel{line-height:1.7;}
 
 #video-wrapper{height:87%;}
 #remoteVideo{}
 	#video-wrapper::after{font-size:1em;padding-top:3em;}
 	
-	.btn-start,#webcamStart,#vStreamStart{color:inherit;font-size:0.8em;margin-top:1em;margin-left:0.2em;}
+	.btn-start,#webcamStart,#vStreamStart{color:inherit;font-size:0.8em;margin-top:1em;margin-left:5%;}
 	#dopPanel{height:auto;}
 	#chatTxt{width:100%;}
 	.btc-input[type=text]{width:99%;font-size:0.8em;}
@@ -396,6 +398,6 @@ label[for="ifRecord"]{color:red;vertical-align:0.09em;}
 	.videodiv{width:100%;}
 	.videodiv video{width:100%;}
 	#under-chat2{height:auto;}
-	#under-video2{text-align:left;}
+	#under-video2{text-align:left; height:auto;}
 	#btnFoto,#vasja{font-size:0.7em;margin-bottom:0.3em;}
 }
