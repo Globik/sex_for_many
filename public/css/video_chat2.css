@@ -373,11 +373,12 @@ border:1px solid transparent;
 #under-video2{text-align:left;}
 #btnFoto,#vasja{font-size:0.7em;margin-bottom:0.3em;}
 label[for="ifRecord"]{color:red;vertical-align:0.09em;}
+#stopPrivat,#btnStart,#teeTip,#vStreamStart{width:90%;margin-left:5%;margin-top:10px;margin-bottom:20px;}
 }
 
 
 @media screen and (max-width: 320px){
-#chat-container{olor:red;margin-top:100px;padding-top:100px;display:block;position:relative;}
+#chat-container{olor:red;margin-top:110px;padding-top:110px;display:block;position:relative;}
 #stopPrivat,#btnStart,#teeTip,#vStreamStart{width:90%;margin-left:5%;margin-top:10px;margin-bottom:20px;}
 #chatPanel{line-height:1.7;}
 
