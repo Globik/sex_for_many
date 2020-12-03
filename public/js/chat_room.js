@@ -454,7 +454,7 @@ if(owner()){
 //go_webrtc();
 
 function stop_privat(el){
-	if(IS_PRIVATE){
+	if(IS_PRIVAT){
 	stopVideo();
 	IS_PRIVATE=false;
 	el.disabled=true;
