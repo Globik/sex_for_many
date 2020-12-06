@@ -1278,6 +1278,7 @@ localVideo.srcObject=null;
 }
 
 if(!pc){console.log('no pc');return;}
+clearTimeout(NOT_GRATIS_TIMER);
 clearPeer();
 }
 function clearPeer(){
