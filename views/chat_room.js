@@ -152,7 +152,7 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
 <li> <br><b>Просмотров: </b><span id="clientViews"></span> -->
-${n.owner?'':'<br><div id="qrcodeContainer"><header>Биткоин адрес:</header><div id="qrcode"></div></div>'}
+${n.owner?'':`<br><header>Биткоин адрес для донатов ${model.bname}</header><div id="qrcodeContainer"><div id="qrcode"></div></div>`}
 <!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>
 <hr>

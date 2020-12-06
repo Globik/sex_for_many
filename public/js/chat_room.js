@@ -459,12 +459,17 @@ function stop_privat(el){
 	IS_PRIVATE=false;
 	el.disabled=true;
 	IS_GRATIS=true;
-	if(!owner()){
+	//if(!owner())
+	{
 		if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 		}
-}
-}
+//}
+}}
 
+
+
+
+	
 function go_webrtc(el){	
 var constraints={audio: {echoCancellation: {exact: true}},video: {width: 1280, height: 720}};
 navigator.mediaDevices.getUserMedia(constraints).then(function(stream){
@@ -1133,24 +1138,15 @@ note({content:"Приват закончился!",type:"info",time:5});
 if(!owner()){
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 }
-//if(!is_owner()){
-//btnStart.textContent='start';
-//}
+
 }else if(this.iceConnectionState=="connected"){
 v.className="start";//DO STUFF!!!
 //if(owner()){
 	stopPrivat.disabled=false;
 	IS_PRIVAT=true;
 	note({content:"Приват начался",type:"info",time:5})
-	if(!owner()){
-	if(!NOT_GRATIS_TIMER){
-	NOT_GRATIS_TIMER=setTimeout(function g_tim(){
-		note({content:"timer!",type:"info",time:5})
-		setTimeout(g_tim,10000);
-		},10000);
-	}
-}
-//	}
+	gavno();
+//}
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
 v.className="start";
@@ -1162,6 +1158,27 @@ if(!owner()){
 }
 }else{}	
 }
+
+
+
+
+var absuka=0;
+function gavno(){
+console.log('gavno()')
+note({content:"token away",type:"info",time:5})
+if(!owner()){
+	NOT_GRATIS_TIMER=setTimeout(function(){
+		absuka+=1;
+		console.log('absuka: ',absuka);
+		//if(!NOT_GRATIS_TIMER) 
+		NOT_GRATIS_TIMER=setTimeout(gavno,10000)
+		//if(absuka==10){
+			//clearTimeout(NOT_GRATIS_TIMER);
+			//}
+		},10000)
+	}
+	}
+	//gavno();
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
 }
 function on_ice_candidate_error(err){console.error('ice candidate err: ', err);}
@@ -1188,6 +1205,7 @@ v.className="connecting";
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
 		note({content:"Приват начался!",type:"info",time:5});
+		gavno();
 	}
 }
 

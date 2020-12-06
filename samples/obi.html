@@ -104,5 +104,18 @@ var fi=el.getAttribute('maxlength');
 var fi2=el.value.length;
 fspan.textContent=Number(fi)-fi2;
 }
+var absuka=0;
+function gavno(){
+	console.log('gavno()')
+	var wt=setTimeout(function(){
+		absuka+=1;
+		console.log('absuka: ',absuka);
+		wt=setTimeout(gavno,2000)
+		if(absuka==10){
+			clearTimeout(wt);
+			}
+		},1000)
+	}
+	gavno();
 </script>
 </body></html>
