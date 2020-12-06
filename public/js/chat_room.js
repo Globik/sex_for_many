@@ -1209,7 +1209,7 @@ v.className="connecting";
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
 		note({content:"Приват начался!",type:"info",time:5});
-		//gavno();
+		gavno();
 	}
 }
 
