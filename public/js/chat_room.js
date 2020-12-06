@@ -1276,13 +1276,15 @@ localVideo.srcObject.getTracks().forEach(function(track){track.stop();
 	})
 localVideo.srcObject=null;
 }
+clearTimeout(NOT_GRATIS_TIMER);
 
 if(!pc){console.log('no pc');return;}
-clearTimeout(NOT_GRATIS_TIMER);
+
 clearPeer();
 }
 function clearPeer(){
 	//alert('cleerPeer');
+	clearTimeout(NOT_GRATIS_TIMER);
 console.log('pc: ',pc.signalingState);
 pc.close();
 pc.onicecandidate=null;
