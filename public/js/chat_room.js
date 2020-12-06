@@ -1149,7 +1149,7 @@ v.className="start";//DO STUFF!!!
 	stopPrivat.disabled=false;
 	IS_PRIVAT=true;
 	note({content:"Приват начался",type:"info",time:5})
-	gavno();
+	//gavno();
 //}
 }else if(this.iceConnectionState=="completed"){
 //onlineDetector.className="puls";// any need?
@@ -1209,7 +1209,7 @@ v.className="connecting";
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
 		note({content:"Приват начался!",type:"info",time:5});
-		gavno();
+		//gavno();
 	}
 }
 
