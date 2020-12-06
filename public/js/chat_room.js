@@ -1276,6 +1276,8 @@ localVideo.srcObject.getTracks().forEach(function(track){track.stop();
 	})
 localVideo.srcObject=null;
 }
+console.log("For timer IS_PRIVAT: ", IS_PRIVAT)
+IS_PRIVAT=false;
 clearTimeout(NOT_GRATIS_TIMER);
 
 if(!pc){console.log('no pc');return;}
