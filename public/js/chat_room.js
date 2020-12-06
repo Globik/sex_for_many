@@ -454,17 +454,21 @@ if(owner()){
 //go_webrtc();
 
 function stop_privat(el){
-	if(IS_PRIVAT){
+	console.warn("IS_PRIVAT:", IS_PRIVAT);
+	//if(IS_PRIVAT){
+		
 	stopVideo();
 	IS_PRIVATE=false;
 	el.disabled=true;
-	IS_GRATIS=true;
+	
 	//if(!owner())
-	{
-		if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
-		}
+	//{
+if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+		//}
 //}
-}}
+IS_GRATIS=true;
+//}
+}
 
 
 
