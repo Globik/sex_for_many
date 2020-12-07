@@ -1192,6 +1192,7 @@ function on_ice_candidate_error(err){console.error('ice candidate err: ', err);}
 	}
 	
 function signaling_state_change(){console.log('signaling state: ',this.signalingState);}
+
 function on_connection_state_change(){
 console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
