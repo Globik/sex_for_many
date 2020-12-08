@@ -329,11 +329,11 @@ if(owner()){privat_wanted(ad.from,ad.amount);}
 }else if(ad.type=="reject_privat"){
 	var s_str="Пожалуйста, (до)купите токенов для платного приват-чата.";
 if(!owner()){
-	IS_GRATIS=ad.gratis;
+IS_GRATIS=ad.gratis;
 note({content:ad.from+' отклонил звонок.\n'(ad.grund?ad.grund:'')+(!ad.gratis?s_str:''), type:'info',time:10});
 }
 }else if(ad.type=="accept_privat"){
-handle_accept_privat();	
+handle_accept_privat(ad);	
 }else if(ad.type=="spanWhosOn"){
 if(spanWhosOn)spanWhosOn.textContent=ad.cnt;
 vax("post", "/api/onesignal_count", {cnt: ad.cnt, desc:"chat room"}, function(){}, function(){}, null, false);
@@ -437,13 +437,14 @@ var fl=privatdialog.getAttribute('data-target');
 wsend({type:"accept_privat",target:fl, from:myusername, gratis:ifGratis.checked});	
 }
 
-function handle_accept_privat(){
+function handle_accept_privat(n){
 if(!owner()){
 console.log('is_webcam: ',is_webcam);
 stopVideo();
 is_webcam=false;
 vsrc=[];	
 go_webrtc();
+IS_GRATIS=n.gratis;
 }
 if(owner()){
 //stoping_recording();
@@ -460,6 +461,7 @@ function stop_privat(el){
 	stopVideo();
 	IS_PRIVATE=false;
 	el.disabled=true;
+	
 	
 	//if(!owner())
 	//{
@@ -1128,6 +1130,7 @@ underVideo.className="";
 stopVideo();
 note({content:"Приват закончился!",type:"info",time:5});
 if(!owner()){
+	IS_GRATIS=true;
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 }
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
@@ -1138,6 +1141,7 @@ stopVideo();
 }
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
+IS_GRATIS=true;
 note({content:"Приват закончился!",type:"info",time:5});
 if(!owner()){
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
@@ -1148,6 +1152,7 @@ v.className="start";//DO STUFF!!!
 //if(owner()){
 	stopPrivat.disabled=false;
 	IS_PRIVAT=true;
+	//IS_GRATIS=true;
 	note({content:"Приват начался",type:"info",time:5})
 	//gavno();
 //}
@@ -1156,9 +1161,11 @@ v.className="start";//DO STUFF!!!
 v.className="start";
 }else if(this.iceConnectionState=="failed"){
 stopPrivat.disabled=true;
-IS_PRIVAT=false;	
+IS_PRIVAT=false;
+IS_GRATIS=true;	
 if(!owner()){
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+	
 }
 }else{}	
 }
@@ -1174,11 +1181,9 @@ if(!owner()){
 	NOT_GRATIS_TIMER=setTimeout(function(){
 		absuka+=1;
 		console.log('absuka: ',absuka);
-		//if(!NOT_GRATIS_TIMER) 
+		
 		NOT_GRATIS_TIMER=setTimeout(gavno,10000)
-		//if(absuka==10){
-			//clearTimeout(NOT_GRATIS_TIMER);
-			//}
+		
 		},10000)
 	}
 	}
@@ -1198,11 +1203,13 @@ console.log('connection state: ', this.connectionState);
 if(this.connectionState=="disconnected"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
+IS_GRATIS=true;
 stopVideo();
 note({content:"Приват закончился!",type:"info",time:5});
 }else if(this.connectionState=="failed"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
+IS_GRATIS=true;
 }else if(this.connectionState=="connecting"){
 v.className="connecting";
 }else if(this.connectionState=="connected"){
@@ -1210,7 +1217,8 @@ v.className="connecting";
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
 		note({content:"Приват начался!",type:"info",time:5});
-		gavno();
+		console.log("IS_GRATIS: ",IS_GRATIS);
+		if(!IS_GRATIS){gavno();}
 	}
 }
 
