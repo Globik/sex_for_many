@@ -281,12 +281,13 @@ console.log('APP ERROR: ', err.message, 'ctx.url : ', ctx.url);
 pg_store.setup().then(on_run).catch(function(err){console.log("err setup pg_store", err.name,'\n',err);});
 
 async function on_run(){
-	/*
-pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
+	
+/* pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
 	if(e){console.log('mi err: ',e.detail); return;}
+	console.log('result: ',result.rows);
 	console.log('result minus: ',result.rows[0].on_token_transfer);
 	console.log('result plus: ',result.rows[1].on_token_transfer);
-	}) */
+	}) */ 
 	
 try{
 let a=await pool.query('select * from prim_adr');
@@ -570,8 +571,21 @@ send_to_client=1;
 console.log('kuku2!: ',l);	
 try{
 	//on_token_transfer(tom varchar(16),fro varchar(16), amt int)
-await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
-broadcast_room(ws, l)
+//await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
+//broadcast_room(ws, l);
+let li=await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
+if(li.rows){
+	l.minus=li.rows[0].on_token_transfer;
+	l.plus=li.rows[1].on_token_transfer;
+	broadcast_room(ws, l);
+	
+	}
+/*
+pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
+	if(e){console.log('mi err: ',e.detail); return;}
+	console.log('result minus: ',result.rows[0].on_token_transfer);
+	console.log('result plus: ',result.rows[1].on_token_transfer);
+	}) */
 }catch(e){console.log('db er: ',e)}
 send_to_client=1;
 }else if(l.type=="on_vair"){
