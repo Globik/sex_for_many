@@ -574,7 +574,7 @@ try{
 //await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
 //broadcast_room(ws, l);
 let li=await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
-if(li.rows){
+if(li.rows&&li.rows.length){
 	l.minus=li.rows[0].on_token_transfer;
 	l.plus=li.rows[1].on_token_transfer;
 	broadcast_room(ws, l);

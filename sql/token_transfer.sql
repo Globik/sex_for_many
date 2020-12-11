@@ -1,5 +1,5 @@
 -- \i /home/globik/sex_for_many/sql/token_transfer.sql
--- 
+-- ssh root@91.217.80.183
 
  DROP FUNCTION if exists on_token_transfer(character varying,character varying,integer);
 create or replace function on_token_transfer(tom varchar(16),fro varchar(16), amt int) returns setof int

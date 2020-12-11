@@ -134,8 +134,7 @@ ${n.owner?`<label class="label-galka"><span>Сохранить видео</span>
 <textarea id="chatTxt"  class="chat-txt" type="text" placeholder="ваше сообщение" maxlength="200"></textarea>
 </div>
 <div id="under-chat2">
-<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">вставить фото</button>
-<button id="vasja" onclick="send_up(this);">отправить</button>
+<button id="btnFoto" onclick="insert_img();" title="вставить фотографию">вставить фото</button><button id="vasja" onclick="send_up(this);">отправить</button>
 </div>
 
 </section>

@@ -295,8 +295,10 @@ if(owner()){
 if(buser()){
 //if(!fake()){
 if(!owner()){
-tokencntnav.textContent=Number(tokencntnav.textContent)-ad.amount;
-tokencntnav2.textContent=Number(tokencntnav2.textContent)-ad.amount;
+//tokencntnav.textContent=Number(tokencntnav.textContent)-ad.amount;
+//tokencntnav2.textContent=Number(tokencntnav2.textContent)-ad.amount;
+tokencntnav.textContent=ad.minus;
+tokencntnav2.textContent=ad.plus;
 token_flag=true;
 }
 //}	
@@ -1144,7 +1146,9 @@ IS_PRIVAT=false;
 IS_GRATIS=true;
 note({content:"Приват закончился!",type:"info",time:5});
 if(!owner()){
+if(buser()){
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+}
 }
 
 }else if(this.iceConnectionState=="connected"){
@@ -1178,6 +1182,9 @@ function gavno(){
 console.log('gavno()')
 note({content:"token away",type:"info",time:5})
 if(!owner()){
+	if(buser()){
+	
+	//note({content:"token away",type:"info",time:5})
 	NOT_GRATIS_TIMER=setTimeout(function(){
 		absuka+=1;
 		console.log('absuka: ',absuka);
@@ -1186,6 +1193,7 @@ if(!owner()){
 		
 		},10000)
 	}
+}
 	}
 	//gavno();
 function on_ice_gathering_state_change(){console.log("ice gathering: ",this.iceGatheringState);
