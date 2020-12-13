@@ -72,8 +72,8 @@ class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<but
 <br><input type="text" id="roomdescr" maxlength="200" placeholder="Название видеострима"></div></div> -->`:''}
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
-<span><b>Послать биткоины на адрес:</b></span>
-<span style="">${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</span></div>`:''}
+<span>Донаты для ${model?model.bname:'Анон'} на биткоин адрес :</span>
+<span><b>${n.is_test_btc && model ? model.padrtest:model?model.padr:''}</b></span></div>`:''}
 <!-- <video src="/vid/sveta.webm" style="border:2px solid red;" autoplay></video>
 ffmpeg -i vanya.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus vanya.webm -->
 <section id="media-wrapper">
@@ -87,7 +87,7 @@ ffmpeg -i vanya.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus vanya.
 
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
 data-owner="${owner_str}" data-notowner="${notowner_str}" data-streaminterupt="${streaminterupt_str}" data-connecting="Connecting..."
- data-webcamowner="${webcamowner_str}">
+ data-webcamowner="${webcamowner_str}" data-privat="Приват | Privat">
 <video id="remoteVideo" muted autoplay></video>
 <video id="localVideo" muted autoplay></video>
 </div>
@@ -109,18 +109,19 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
 -->
-<button id="dopPanelbtn"  class="fakebtn-start" title="Настройки" onclick="dopPanel_out(this);">||</button>
-${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);">Вкл. веб камеру</button>
-<button id="vStreamStart" class="btn-start" disabled onclick="start_stream(this);">Старт стрим</button>`:
+<button id="dopPanelbtn" title="Панель | Panel" onclick="dopPanel_out(this);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 9v-4l8 7-8 7v-4h-8v-6h8zm-2 10v-.083c-1.178.685-2.542 1.083-4 1.083-4.411 0-8-3.589-8-8s3.589-8 8-8c1.458 0 2.822.398 4 1.083v-2.245c-1.226-.536-2.577-.838-4-.838-5.522 0-10 4.477-10 10s4.478 10 10 10c1.423 0 2.774-.302 4-.838v-2.162z" fill="currentColor" fill-rule="nonzero"/></svg>
+</button>${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);" title="webcamera">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.613 18.581m9.387-9.581c0 2.209-1.791 4-4 4s-4-1.791-4-4 1.791-4 4-4 4 1.791 4 4zm-2 0c0-1.103-.896-2-2-2s-2 .897-2 2 .896 2 2 2 2-.897 2-2zm-9 0c0 3.86 3.141 7 7 7s7-3.14 7-7-3.141-7-7-7-7 3.14-7 7zm16 0c0 4.97-4.029 9-9 9s-9-4.03-9-9 4.029-9 9-9 9 4.03 9 9zm-.404 12.501c1.007 1.142-.014 2.679-1.448 2.481-1.795-.245-3.236-1.702-7.147-1.702-3.91 0-5.352 1.458-7.146 1.702-1.436.198-2.456-1.34-1.449-2.481l2.898-3.289c.559.388 1.156.725 1.79.994l-2.025 2.298c1.295-.524 3.065-1.225 5.933-1.225s4.638.7 5.933 1.224l-2.025-2.298c.634-.27 1.231-.606 1.79-.994l2.896 3.29z" fill="currentColor" fill-rule="nonzero"/></svg>
+</button><button id="vStreamStart" class="btn-start" disabled onclick="start_stream(this);">Старт стрим</button>`:
 
-`<button class="btn-start" onclick="popa();">звук</button><button class="btn-start" id="teeTip"  onclick="give_token();">Дать на чай</button>
-
-<button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
+`<button id="soundBtn" onclick="popa(this);">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 1.269l-18.455 22.731-1.545-1.269 3.841-4.731h-1.827v-10h4.986v6.091l2.014-2.463v-3.628l5.365-2.981 4.076-5.019 1.545 1.269zm-10.986 15.926v.805l8.986 5v-16.873l-8.986 11.068z"/></svg>
+</button><button class="btn-start" id="teeTip"  onclick="give_token();">Дать на чай</button><button class="btn-start" id="btnStart" onclick="begin_privat(this);">Приват</button>`}
 <button id="stopPrivat" class="btn-start" onclick="stop_privat(this);" disabled>stop privat</button>
 <!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
 <div id="dopPanel">
 
-${n.owner?`<label class="label-galka"><span>Сохранить видео</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>
+${n.owner?`<label class="label-galka" id="sochrVideo"><span>Сохранить видео</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>
 <button id="btnStart" class="btn-start" onclick="snapshot();">сделать снимок</button>`:''}
 <!-- mute / unmute the sound -->
 </div>

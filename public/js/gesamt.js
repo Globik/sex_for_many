@@ -204,7 +204,17 @@ var baba4=document.querySelector('[data-vidi="'+ajson.room_id+'"]');
 if(baba4){
 baba4.src=(ajson.src?ajson.src:"/images/unnamed.jpg");	
 }
-}else if(ajson.type=="new_ava"){
+}else if(ajson.type=="privat"){
+var baba6=document.querySelector('[data-roomidi="'+ajson.id+'"]');
+if(baba6){
+var ss2=document.createElement("div");
+ss2.setAttribute('data-indicator',ajson.id);
+ss2.className="indicator green";
+baba6.appendChild(ss2);
+	}else if(ajson.type=="unprivat"){
+var we5=document.querySelector('[data-indicator="'+ajson.id+'"]');
+if(we5){we5.remove();}
+		}else if(ajson.type=="new_ava"){
 var baba5=document.querySelector('[data-vidi="'+ajson.id+'"]');
 if(baba5){
 baba5.src=ajson.avasrc;

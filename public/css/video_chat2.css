@@ -126,6 +126,8 @@ content: attr(data-streaminterupt);
 }
 #video-wrapper.connecting::after{content: attr(data-connecting);}
 #video-wrapper.offline::after{content:"Offline";}
+
+#video-wrapper.privat::after{content: attr(data-privat);}
 /*
 #video-wrapper.owner-online::after{
 content: attr(data-ownerOnline);	
@@ -334,9 +336,11 @@ width:100.6%;
 #dopPanel.dopPanel_out{
 display:block;
 }
-#webcamStart{margin-right:3px;}
-#dopPanelbtn,#webcamStart,#vStreamStart,#stopPrivat{margin-top:5px;}
-#stopPrivat{margin-left:4px;}
+
+
+#dopPanelbtn,#webcamStart,#soundBtn{margin-top:4px;margin-left:2px;margin-right:4px;color:red;}
+#vStreamStart,#stopPrivat,#teeTip,#btnStart{vertical-align:0.1rem;}
+
 #webcamStart.active{background:orange;}
 button[disabled=true]{background:grey;border-color:grey;}
 #vStreamStart[disabled],#stopPrivat[disabled]{background:grey;border-color:grey;color:rgb(128,150,128);}
@@ -355,6 +359,7 @@ h2{margin-left:6px;}
 }
 
 @media screen and (max-width: 751px){
+#sochrVideo{margin-left:4.9%;}
 #chatPanel{line-height:1.7;}
 #media-wrapper{height:auto;display:block;border:1px solid rgba(0,4,4,0.5);ackground:red;} 
 #mediaPanel{height:52px;}
@@ -374,7 +379,8 @@ border:1px solid transparent;
 #setImg{width:98%;}
 .videodiv{width:100%;}
 .videodiv video{width:100%;}
-.btn-start,#webcamStart,#vStreamStart{color:inherit;font-size:0.8em;margin-top:0.4em;margin-left:0.2em;}
+#dopPanelbtn,#webcamStart{margin-left:5%;}
+
 #dopPanel{height:auto;}
 #under-chat{height:55px;}
 #under-chat2{height:69px;argin-top:20px;argin-right:5px;padding-right:5px;ackground:red;}

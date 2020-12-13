@@ -408,16 +408,18 @@ function get_user_count(url){
 let user_count=0;
 let on_vair=false;
 let online=false;
+let privat=false;
 for(var el of wss.clients){
 if(el.url==url){
 console.log(el.url,url);
 user_count++;
 if(el.on_vair){on_vair=el.on_vair;}
 if(el.owner){online=el.owner;}
+if(el.privat){privat=el.privat;}
 console.log('el.ON_VAIR: ',el.on_vair);
 }
 }
-return {user_count,on_vair,online};	
+return {user_count,on_vair,online,privat};	
 }
 function send_to_url(msg, url){
 console.log('send to url():',url)
@@ -481,6 +483,7 @@ broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 //console.log("clients: ", wss.clients.size);
 ws.owner=false;//if an owner 
 ws.on_vair=false;
+ws.privat=false;
 ws.url=req.url;// url = us_id = room_id
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
@@ -488,7 +491,7 @@ console.log("hi from server");
 send_history(ws,req.url.substring(1))
 let siska=get_user_count(ws.url);
 wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
-broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online});
+broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online,privat:siska.privat});
 }else{}
 
 ws.isAlive=true;
@@ -596,14 +599,9 @@ if(l.is_first=='true'){
 		}catch(e){console.log(e);}
 ws.on_vair=true;
 who_online(l);
-/*
-try{
-await pool.query('insert into vroom(us_id,nick,p,descr) values($1,$2,$3,$4) on conflict do nothing',[l.room_id,l.room_name,l.src,l.descr]);
-}catch(e){console.log('db.error inserting vroom: ',e)} */
 }
 
 broadcast_room(ws, l);
-//who_online(l);
 if(l.is_active=='false'){
 	
 	try{
@@ -622,20 +620,23 @@ who_online(l);
 }
 send_to_client=1;
 }else if(l.type=="out_vair"){
-//d.is_first=l.is_first;
-//d.is_active=l.is_active;
-//d.vsrc=l.vsrc;
-//d.room_id=l.room_id;
-//d.room_name=l.room_name;
-	
-	
 ws.on_vair=false;
 broadcast_room(ws,l);
-//who_online(l);
 send_to_client=1;
-
-
-
+}else if(l.type=="privat"){
+	try{
+		await pool.query(`update vroom set typ='priv' where nick=$1`,[l.modelname]);
+		broadcast_room(ws,l);
+		who_online(l);
+		}catch(e){console.log('err in privat: ',e);}
+send_to_client=1;	
+}else if(l.type=="unprivat"){
+	try{
+		await pool.query(`update vroom set typ='activ' where nick=$1`,[l.modelname]);
+		broadcast_room(ws,l);
+		who_online(l);
+		}catch(e){console.log('err in unprivat: ',e);}
+send_to_client=1;	
 }else if(l.type=="new_ava"){
 who_online(l);
 send_to_client=1;	

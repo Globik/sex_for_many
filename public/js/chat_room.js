@@ -59,7 +59,8 @@ var FROM_SUKA;
 var IS_GRATIS=true;
 var NOT_GRATIS_TIMER;
 var IS_PRIVAT=false;
-
+var dynamic_str='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 18h-7v-12h7v12zm2-12v12l11 6v-24l-11 6z"/></svg>';
+var undynamic_str='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 1.269l-18.455 22.731-1.545-1.269 3.841-4.731h-1.827v-10h4.986v6.091l2.014-2.463v-3.628l5.365-2.981 4.076-5.019 1.545 1.269zm-10.986 15.926v.805l8.986 5v-16.873l-8.986 11.068z"/></svg>';
 if(window.location.protocol==="https:"){
 new_uri='wss:';
 }else{
@@ -280,17 +281,41 @@ if(ad.btc_amt > 0){insert_message(obj7);}
 	}else{}
 	if(!ad.online){
 		if(!owner()){v.className="offline";}
-		}else{if(!owner()){v.className="notowner";}}
+		}else{
+		if(!owner()){
+				if(!IS_PRIVAT){
+					v.className="notowner";
+					}
+				if(ad.privat){v.className="privat";}
+				}
+			}
 	if(fake())chatcnt.textContent=Math.floor(Math.random()*(100-10+1))+10;
-}else if(ad.type=="tokentransfer"){
+}else if(ad.type=="privat"){
+	if(!owner()){
+		if(!IS_PRIVAT){
+		v.className="privat";
+	}
+		}
+	}else if(ad.type=="unprivat"){
+	if(!owner()){
+		v.className="notowner";
+		}
+		if(owner()){
+			v.className="webcamowner";
+			}
+	}else if(ad.type=="tokentransfer"){
 	//amount,from
-tokencc.textContent=Number(tokencc.textContent)+ad.amount;	
+//tokencc.textContent=Number(tokencc.textContent)+ad.amount;
+tokencc.textContent=ad.plus;	
 if(owner()){
 //if(!fake()){
 	rublescnt.textContent=(Number(tokencc.textContent)*Number(modelProzent.value))/100;
-	tokencntnav.textContent=Number(tokencntnav.textContent)+ad.amount;
-	tokencntnav2.textContent=Number(tokencntnav2.textContent)+ad.amount;
+	//tokencntnav.textContent=Number(tokencntnav.textContent)+ad.amount;
+	//tokencntnav2.textContent=Number(tokencntnav2.textContent)+ad.amount;
+	tokencntnav.textContent=ad.plus;
+	tokencntnav2.textContent=ad.plus;
 //}
+
 }
 if(buser()){
 //if(!fake()){
@@ -485,6 +510,7 @@ navigator.mediaDevices.getUserMedia(constraints).then(function(stream){
 if(!owner()){
 
 localVideo.srcObject=stream;
+
 localVideo.play();
 localVideo.volume = 1;
 pc=createPeer();
@@ -709,10 +735,10 @@ function start_webCamera(el){
 	console.log('is_webcam: ',is_webcam);
 if(!is_webcam){
 go_webrtc(el);	
-el.textContent="Выкл. веб камеру";
+//el.textContent="Выкл. веб камеру";
 }else{
 el.className = "";
-el.textContent="Вкл. веб камеру";
+//el.textContent="Вкл. веб камеру";
 is_webcam = false;
 cancel_video(el);
 vStreamStart.disabled=true;
@@ -1032,8 +1058,17 @@ v.className="";
 tokencc.textContent=24;
 conversation();
 }
-function popa(){
+var popa_flag=false;
+function popa(el){
+	if(!popa_flag){
+		popa_flag=true;
+		el.innerHTML=dynamic_str;
 remoteVideo.muted=false;	
+}else{
+popa_flag=false;
+el.innerHTML=undynamic_str;
+remoteVideo.muted=true;	
+}
 }
 
 
@@ -1137,10 +1172,10 @@ if(!owner()){
 }
 //if(is_owner()){v.className="";}else{v.className="owner-offline";v.poster="";}
 }else if(this.iceConnectionState=="closed"){
-if(owner()){
-v.className="";
-stopVideo();
-}
+//if(owner()){
+//v.className="";
+//stopVideo();
+//}
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
 IS_GRATIS=true;
@@ -1150,6 +1185,30 @@ if(buser()){
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 }
 }
+
+
+//stopPrivat.disabled=true;
+//IS_PRIVAT=false;
+//IS_GRATIS=true;
+stopVideo();
+//note({content:"Приват закончился!",type:"info",time:5});
+if(owner()){
+let d={};
+d.type='unprivat';
+d.id=modelId.value;
+d.modelname=modelName.value;
+d.from=myusername;
+wsend(d);
+v.className="webcamowner";
+}else{
+v.className="notowner";	
+}
+
+
+
+
+
+
 
 }else if(this.iceConnectionState=="connected"){
 v.className="start";//DO STUFF!!!
@@ -1180,18 +1239,21 @@ if(!owner()){
 var absuka=0;
 function gavno(){
 console.log('gavno()')
-note({content:"token away",type:"info",time:5})
 if(!owner()){
 	if(buser()){
-	
-	//note({content:"token away",type:"info",time:5})
+	note({content:"a minute gone and token away",type:"info",time:5})
 	NOT_GRATIS_TIMER=setTimeout(function(){
 		absuka+=1;
 		console.log('absuka: ',absuka);
-		
-		NOT_GRATIS_TIMER=setTimeout(gavno,10000)
-		
-		},10000)
+	var d={};
+	d.type='tokentransfer';
+	d.id=modelId.value;
+	d.modelname=modelName.value;
+	d.from=myusername;
+	d.amount=1;
+	wsend(d);
+	NOT_GRATIS_TIMER=setTimeout(gavno,10000)
+	},10000)
 	}
 }
 	}
@@ -1214,6 +1276,24 @@ IS_PRIVAT=false;
 IS_GRATIS=true;
 stopVideo();
 note({content:"Приват закончился!",type:"info",time:5});
+if(owner()){
+let d={};
+d.type='unprivat';
+d.id=modelId.value;
+d.modelname=modelName.value;
+d.from=myusername;
+wsend(d);
+v.className="webcamowner";
+}else{
+v.className="notowner";	
+}
+
+if(!owner()){
+if(buser()){
+	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
+}
+}
+
 }else if(this.connectionState=="failed"){
 stopPrivat.disabled=true;
 IS_PRIVAT=false;
@@ -1224,9 +1304,22 @@ v.className="connecting";
 	// do stuff!!! here tokens per minute
 		stopPrivat.disabled=false;
 		IS_PRIVAT=true;
+		v.className="";
 		note({content:"Приват начался!",type:"info",time:5});
 		console.log("IS_GRATIS: ",IS_GRATIS);
+		if(!owner()){
+		if(!IS_PRIVAT){}	
+		}
 		if(!IS_GRATIS){gavno();}
+		if(owner()){
+		let d={};
+		d.type='privat';
+	    d.id=modelId.value;
+	    d.modelname=modelName.value;
+	    d.from=myusername;
+	    wsend(d);
+	}
+		
 	}
 }
 
