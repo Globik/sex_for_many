@@ -211,6 +211,7 @@ var ss2=document.createElement("div");
 ss2.setAttribute('data-indicator',ajson.id);
 ss2.className="indicator green";
 baba6.appendChild(ss2);
+}
 	}else if(ajson.type=="unprivat"){
 var we5=document.querySelector('[data-indicator="'+ajson.id+'"]');
 if(we5){we5.remove();}
