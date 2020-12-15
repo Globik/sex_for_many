@@ -353,9 +353,19 @@ if(is_ssl_http){
 	servak = app.listen(process.env.PORT || HPORT);
 	console.log("Must on http or localhost, port: ", HPORT, " started.");
 }
-const wss=new WebSocket.Server({server:servak});
-
-
+const wss=new WebSocket.Server({server:servak,verifyClient:(info,cb)=>{
+	console.log('info.origin: ',info.origin);
+if(process.env.DEVELOPMENT==="yes"){cb(true);return;}else{
+if(info.origin==='http://localhost:5000'){cb(true);return;}
+cb(false);
+	}
+	}});
+/*
+const wss=new WebSocket.Server({server:servak,verifyClient:(info,cb)=>{
+	console.log('info: ',info.origin)
+if(info.origin==='http://localhost:5000'){cb(true);return;}
+cb(false)}
+//})
 
 /* HELPERS FOR WS */
 /*
