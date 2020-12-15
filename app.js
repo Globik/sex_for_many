@@ -480,9 +480,11 @@ if(ws.isAlive===false)return ws.terminate();
 ws.isAlive=false;
 ws.ping(noop);	
 })	
-},50000)
+},30000)
 function heartbeat(){this.isAlive=true;}
-
+wss.on('close',function close(){
+	clearInterval(interval);
+	})
 wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
