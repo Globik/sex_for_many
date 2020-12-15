@@ -4,6 +4,7 @@
 //ctrl+alt+T
 // ssh root@91.217.80.183 (globikon.space)
 const proc = process.env.DEVELOPMENT;
+const ORIGINAL="https://globikon.space";
 //console.log('proc: ', proc);
 var HPORT = 80;
 var SPORT = 443;
@@ -356,16 +357,11 @@ if(is_ssl_http){
 const wss=new WebSocket.Server({server:servak,verifyClient:(info,cb)=>{
 	console.log('info.origin: ',info.origin);
 if(process.env.DEVELOPMENT==="yes"){cb(true);return;}else{
-if(info.origin==='http://localhost:5000'){cb(true);return;}
+if(info.origin===ORIGINAL){cb(true);return;}
 cb(false);
 	}
 	}});
-/*
-const wss=new WebSocket.Server({server:servak,verifyClient:(info,cb)=>{
-	console.log('info: ',info.origin)
-if(info.origin==='http://localhost:5000'){cb(true);return;}
-cb(false)}
-//})
+
 
 /* HELPERS FOR WS */
 /*
