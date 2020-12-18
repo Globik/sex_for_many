@@ -389,13 +389,13 @@ wsend(ws, {type:"history",d:r.rows})
 }
 function broadcast_room(ws, obj){
 wss.clients.forEach(function(el){
-if(el.url == ws.url)wsend(el,obj);	
+if(el.urli == ws.urli)wsend(el,obj);	
 })	
 }
 //todo reinvestigate who online
 function who_online(obj){
 for(var el of wss.clients){
-if(el.url == "/gesamt")wsend(el,obj)
+if(el.urli == "/gesamt")wsend(el,obj)
 }
 }
 
@@ -416,8 +416,8 @@ let on_vair=false;
 let online=false;
 let privat=false;
 for(var el of wss.clients){
-if(el.url==url){
-console.log(el.url,url);
+if(el.urli==url){
+console.log(el.urli,url);
 user_count++;
 if(el.on_vair){on_vair=el.on_vair;}
 if(el.owner){online=el.owner;}
@@ -431,7 +431,7 @@ function send_to_url(msg, url){
 console.log('send to url():',url)
 var cnt = get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){
-if(el.url == url){
+if(el.urli == url){
 if(el.readyState===WebSocket.OPEN){
 try{
 msg.user_count=cnt.user_count;
@@ -492,12 +492,14 @@ broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 ws.owner=false;//if an owner 
 ws.on_vair=false;
 ws.privat=false;
-ws.url=req.url;// url = us_id = room_id
+//ws.url=req.url;// url = us_id = room_id
+ws.urli=req.url;
+console.log("WS URL: ", ws.urli,req.url);
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
 console.log("hi from server");
 send_history(ws,req.url.substring(1))
-let siska=get_user_count(ws.url);
+let siska=get_user_count(ws.urli);
 wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
 broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online,privat:siska.privat});
 }else{}
@@ -512,7 +514,7 @@ let l;
 try{
 l=JSON.parse(msg);	
 }catch(e){return;}
-
+try{
 if(l.type=="msg"){
 }else if(l.type=="username"){
 console.log(l);
@@ -520,38 +522,22 @@ console.log(l);
 ws.owner=l.owner;
 ws.nick=l.name;
 ws.roomname=l.roomname;//for satoshi
-var blin_id=ws.url.substring(1);
-console.log('blin_id: ',blin_id,ws.url)
+console.log('blin_id: ',ws.urli)
+var blin_id=ws.urli.substring(1);
+//console.log('blin_id: ',blin_id,ws.url)
 if(l.owner){
 broadcast_room(ws, {type: "owner_in",nick:ws.nick});
 insert_message('вошел в чат.',l.name,blin_id);
 
 console.log('blin_id: ',blin_id);
-/*
-pool.query('insert into room(us_id,nick) values($1,$2) on conflict(nick) do nothing returning *',[blin_id, l.roomname],
-function(er,r){if(er)console.log(er);
-if(r.rows && r.rows.length){
-let s3='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname where room.nick=$1;';
-pool.query(s3,[l.name],function(er,r){
-if(er)console.log(er);
-if(r.rows && r.rows.length){
-let d4=r.rows[0];
-d4.type="new_room";
-who_online(d4);
-}	
-})
-}
-});
-*/
+
 console.log("L: ",l);
 l.type="new_room";
 l.room_name=l.roomname;
 l.room_id=blin_id;
 l.v=1;
-//who_online(l);
 try{
 await pool.query('insert into vroom(us_id,nick) values($1,$2) on conflict(nick) do nothing',[blin_id,l.room_name]);
-//who_online(l);
 }catch(e){console.log('db.error inserting vroom: ',e)}
 try{
 let q=await pool.query('select ava,stat from buser where bname=$1',[l.room_name]);
@@ -562,7 +548,7 @@ who_online(l);
 }
 }catch(e){console.log(e);}
 }else{
-if(ws.url !=="/gesamt"){
+if(ws.urli !=="/gesamt"){
 pool.query('update vroom set v=v+1 where nick=$1 returning us_id,v,crat',[l.roomname],function(er,r){
 if(er)console.log(er);
 if(r.rows && r.rows.length){
@@ -666,10 +652,11 @@ console.log('send to one: ',l.type);
 send_to_one(ws,l.target,l);	
 }else{
 broadcast_room(ws, l);
-console.log('l.msg: ',l, ' ',ws.url.substring(1));
-insert_message(l.msg,ws.nick,ws.url.substring(1));
+console.log('l.msg: ',l, ' ',ws.urli.substring(1));
+insert_message(l.msg,ws.nick,ws.urli.substring(1));
 }
 }
+}catch(e){console.log("ERR IN WEBSOCK MSG: ",e);}
 });
 //ws.on('error', function(er){console.log("websock err: ", err);})
 
@@ -678,12 +665,12 @@ console.log("websocket closed");
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 if(ws.owner){
 broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
-insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
+insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
 //pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
 //if(er)console.log(er)
 	let d6={};
 	d6.type="out_room";
-	d6.roomid=ws.url.substring(1);
+	d6.roomid=ws.urli.substring(1);
 	//who_online(d6);
 	if(ws.on_vair){
 //{"type":"out_vair","is_first":"false","is_active":"false","vsrc":"/video/Globi/Globi_9.webm","room_id":"1","room_name":"Globi"}
@@ -694,14 +681,14 @@ insert_message('покинул чат.',ws.roomname,ws.url.substring(1));
 	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 	//});
 		}
-		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)});
+		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.urli.substring(1)});
 		broadcast_room(ws,{type:"out_vair",piska:"piska"});
 		try{
 await pool.query('delete from vroom where nick=$1',[ws.roomname]);
 			}catch(e){console.log(e);}
 //});
 }else{
-if(ws.url !== "/gesamt"){
+if(ws.urli !== "/gesamt"){
 pool.query('update vroom set v=v-1 where nick=$1 returning us_id,v,crat',[ws.roomname],function(er,r){
 if(er)console.log(er);
 if(r.rows && r.rows.length){
@@ -717,7 +704,7 @@ who_online(d9);
 
 }
 }
-if(ws.url=="/gesamt")return;
+if(ws.urli=="/gesamt")return;
 let siska=get_user_count(ws.url);
 broadcast_room(ws, {type: "count",user_count:siska.user_count});
 })
