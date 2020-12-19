@@ -6,8 +6,9 @@ adr varchar(40) not null,
 tadr varchar(60) not null, -- test address 
 						type boolean ,-- btc test true, else false
 						xir jsonb);
-insert into prim_adr(adr,tadr,type,xir) values('ww','dd',false,'{"f":1}');
+insert into prim_adr(adr,tadr,type,xir,gmailpass) values('ww','dd',false,'{"f":1}','123');
 -- alter table prim_adr add column tadr varchar(60);
 -- alter table prim_adr add column xir jsonb;
+-- alter table prim_adr add column gmailpass varchar(60);
 
 -- update prim_adr set xir='{"fig":12,"serv":[{"mama":"dat","papat":"net"}]}';

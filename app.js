@@ -9,6 +9,8 @@ const ORIGINAL="https://globikon.space";
 var HPORT = 80;
 var SPORT = 443;
 var is_ssl_http = true;
+const GMAIL='globalikslivov@gmail.com';
+var GMAILPASS;
 var DB_URL= 'postgress://globi:globi@127.0.0.1:5432/globi';// for globikon
 if(proc=="yes"){
  HPORT = 3000;
@@ -52,11 +54,12 @@ const serve=require('koa-static');
 const session=require('koa-generic-session');
 
 const nodemailer=require('nodemailer');
+/*
 let transporter=nodemailer.createTransport(
 {
 	
 service:'gmail',
-auth:{user: /*process.env.GMAIL*/'globalikslivov@gmail.com',pass: /*process.env.GMAILPASS*/'bischnodoo'}
+auth:{user: GMAIL,pass: GMAILPASS}
 
 
 
@@ -65,6 +68,7 @@ auth:{user: /*process.env.GMAIL*/'globalikslivov@gmail.com',pass: /*process.env.
 //	path:'/usr/sbin/sendmail'
 	} 
 )
+*/ 
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
 const {meta, warnig}=require('./config/app.json');
@@ -140,6 +144,9 @@ await rmdir(dir);
 console.log(e);	
 }	
 }
+
+
+var transporter;
 
 var test_btc_address;
 var btc_address;
@@ -303,6 +310,17 @@ if(a&&a.rows.length){
 	console.log('btc_address: ',btc_address);
 	is_test_btc=a.rows[0].type;
 	console.log('is_test_btc: ',is_test_btc);
+	GMAILPASS=a.rows[0].gmailpass;
+	console.log("GMAIL: ",GMAILPASS);
+	transporter = nodemailer.createTransport(
+{
+service:'gmail',
+auth:{user: GMAIL,pass: GMAILPASS}
+//	sendmail:true,
+//newline: 'unix',
+//	path:'/usr/sbin/sendmail'
+	} 
+)
 }	
 }catch(e){console.log('prim_adr err: ',e);}
 	
