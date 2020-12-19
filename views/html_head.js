@@ -6,7 +6,7 @@ return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 ${n.meta ? n.meta : ''}
-<meta name="yandex-verification" content="9e3bf4fc65c416e9" />
+<meta name="yandex-verification" content="8610a37c1b416ffb" />
 <link rel="shortcut icon" type="image/ico" href="${process.env.DEVELOPMENT=='yes'?'/images/w4.png':'https://globikon.space/images/w4.png'}"> 
 ${n.csslink ? `<link href="${n.csslink}" rel="stylesheet">` :''}
 ${n.csslink2 ? `<link href="${n.csslink2}" rel="stylesheet">` : ''}
