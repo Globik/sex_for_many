@@ -446,11 +446,11 @@ a=result.rows[0];
 if(a&&a.brole=='fake'){
 videos2=await db.query('select*from vroom where nick=$1',[a.bname]);
 videos=videos2.rows[0];
-descr=videos2.rows[0].descr;
+//descr=videos2.rows[0].descr;
 console.log('videos: ',videos);
 }else{
 let de=await db.query('select descr from vroom where nick=$1',[a.bname]);
-if(de&&de.rows.length)descr=de.rows[0].descr;
+//if(de&&de.rows.length)descr=de.rows[0].descr;
 }
 }catch(e){
 console.log('db error: ',e);

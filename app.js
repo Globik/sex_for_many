@@ -684,7 +684,8 @@ insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
 		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.urli.substring(1)});
 		broadcast_room(ws,{type:"out_vair",piska:"piska"});
 		try{
-await pool.query('delete from vroom where nick=$1',[ws.roomname]);
+await pool.query(`delete from vroom where nick=$1 and not typ='fake'`,[ws.roomname]);
+//delete from vroom where not typ='fake'
 			}catch(e){console.log(e);}
 //});
 }else{

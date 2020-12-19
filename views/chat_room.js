@@ -45,17 +45,26 @@ ${n.owner?
 <h5>Прежде чем начать (необязательно)</h5>
 
 <div>
-<div class="requis"><div id="avacontainer"><img id="imgavatar" data-avid="${model.id}" onerror="foto_error(this);" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}"></div>
+<div class="requis">
+<div id="avacontainer">
+<img id="imgavatar" data-avid="${model.id}" onerror="foto_error(this);" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}">
+</div>
+</div>
 <div class="requis">
 <form name="avaprofi" action="/api/save_ava" method="post">
 <label for="avfile">Ваш аватар:</label><br>
 <input id="avfile" type="file" name="zfile" accept="image/*" onchange="thumb(this.files);" required>
 <input type="hidden" name="fname" value="${model?model.bname:''}">
 </div>
-<div class="requis"><input type="submit" value="загрузить"></div></form></div>
-<div><div class="requis"><label for="roomdescr">Статус:</label><br>
-<input type="text" id="roomdescr" maxlength="200" placeholder="200 знаков" value="${model&&model.stat?model.stat:''}"></div>
-<div><button data-bname="${model?model.bname:''}" onclick="save_status(this);">сохранить</button></div></div>
+<div class="requis"><input type="submit" value="загрузить"></div>
+</form>
+
+<div>
+<div class="requis"><label for="roomdescr">Статус:</label><br>
+<input type="text" id="roomdescr" maxlength="200" placeholder="200 знаков" value="${model&&model.stat?model.stat:''}">
+</div>
+<div><button data-bname="${model?model.bname:''}" onclick="save_status(this);">сохранить</button></div>
+</div>
 </div>
 
 <div id="btc-container" class="requis">
