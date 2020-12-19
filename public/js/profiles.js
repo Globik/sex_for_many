@@ -58,3 +58,17 @@ if(l.table=="buser"){
 	video.textContent=l.info.pg_size_pretty;
 }else{}	
 }
+
+function send_mail(el){
+	vax("post", "/send_mail", {}, on_send_mail, on_send_mail_err, el, false);
+	el.className="puls";
+	}
+	
+	function on_send_mail(l,ev){
+		ev.className="";
+		note({content:l.info,type:"info",time:5});
+		}
+	function on_send_mail_err(l,ev){
+		note({conntent:l,type:"error",time:5});
+		ev.className="";
+		}

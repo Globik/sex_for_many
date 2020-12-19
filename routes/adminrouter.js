@@ -542,6 +542,24 @@ try{
 ctx.body={res:res.rows}
 })			
 			
+			/* SEND MAIL TEST */
+adm.post("/send_mail", auth, async ctx=>{
+	let t=ctx.transporter;
+	t.sendMail({
+		from: "gru5@yandex.ru",
+		to: "gru5@yandex.ru",
+		subject:'TEST FROM GLOBIKON',
+		text: "Hallo mailbox from Globikon!!!",
+		html: "<h1>Hallo Globikon!</h1>"
+	},(err,info)=>{
+		console.log('info  mail: ',info)
+		if(err){
+		console.log(err);
+		ctx.throw(400,err);
+	}
+		}) 
+	ctx.body={info:"ok, email sent\n"}
+	});
 			/* USERS */
 			/*
 adm.get("/home/users", authed, async ctx=>{

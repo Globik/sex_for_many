@@ -39,6 +39,10 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <input type="text" name="name" placeholder="name"><input type="text" name="family" placeholder="fammily"><input type="submit" value="send">
 </form>
 <hr>
+<h1>Mail test</h1>
+<h4>gru5@yandex.ru</h4>
+<button onclick="send_mail(this);">send mail</button>
+<hr>
 </div></main>
 ${js_help(['/js/profiles.js'])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
