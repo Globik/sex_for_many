@@ -546,7 +546,7 @@ ctx.body={res:res.rows}
 adm.post("/send_mail", auth, async ctx=>{
 	let t=ctx.transporter;
 	t.sendMail({
-		from: "gru5@yandex.ru",
+		from: "",
 		to: "gru5@yandex.ru",
 		subject:'TEST FROM GLOBIKON',
 		text: "Hallo mailbox from Globikon!!!",
