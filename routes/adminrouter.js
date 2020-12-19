@@ -555,7 +555,7 @@ adm.post("/send_mail", auth, async ctx=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
-		ctx.throw(400,err);
+		//ctx.throw(400,err);
 	}
 		}) 
 	ctx.body={info:"ok, email sent\n"}

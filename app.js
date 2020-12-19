@@ -54,14 +54,16 @@ const session=require('koa-generic-session');
 const nodemailer=require('nodemailer');
 let transporter=nodemailer.createTransport(
 {
-	/*
+	
 service:'gmail',
-auth:{user: process.env.GMAIL,pass: process.env.GMAILPASS}}
-*/
+auth:{user: /*process.env.GMAIL*/'globalikslivov@gmail.com',pass: /*process.env.GMAILPASS*/'bischnodoo'}
 
-	sendmail:true,
-newline: 'unix',
-	path:'/usr/sbin/sendmail'} 
+
+
+//	sendmail:true,
+//newline: 'unix',
+//	path:'/usr/sbin/sendmail'
+	} 
 )
 const pubrouter=require('./routes/pubrouter.js');
 const adminrouter=require('./routes/adminrouter.js');
@@ -686,6 +688,10 @@ insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
 		try{
 await pool.query(`delete from vroom where nick=$1 and not typ='fake'`,[ws.roomname]);
 //delete from vroom where not typ='fake'
+// 23 | mickey | mickey.webm | mickey.jpg | 2020-12-19 13:16:02.642671 | fake |1 | 
+//ssh root@91.217.80.183
+// insert into vroom(us_id,nick,src,p,v) values(60,'mickey','mickey.webm','mickey.jpg',1);
+
 			}catch(e){console.log(e);}
 //});
 }else{
