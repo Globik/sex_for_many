@@ -15,6 +15,7 @@ const mkdir=util.promisify(fs.mkdir);
 const access=util.promisify(fs.access);
 const rmdir=util.promisify(fs.rmdir);
 const lstat=util.promisify(fs.lstat);
+const {WELCOME}=require('../config/mail.js');
 //const uuid=require('uuid/v4');
 const GMAIL="globalikslivov@gmail.com";
 const {is_reklama}=require('../config/app.json');
