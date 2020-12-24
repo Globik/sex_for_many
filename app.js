@@ -301,10 +301,10 @@ if(a&&a.rows.length){
 	transporter = nodemailer.createTransport(
 {
 service:'gmail',
-//auth:{user: GMAIL,pass: GMAILPASS}
-sendmail:true,
-newline: 'unix',
-path:'/usr/sbin/sendmail'
+auth:{user: GMAIL,pass: GMAILPASS}
+//sendmail:true,
+//newline: 'unix',
+//path:'/usr/sbin/sendmail'
 	} 
 )
 }	
