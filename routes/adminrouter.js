@@ -552,7 +552,7 @@ adm.post("/send_mail", auth, async ctx=>{
 		from: "",
 		to: "gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
-		text: WELCOME({nick:"Globi",id:1}).html ,
+		//text: WELCOME({nick:"Globi",id:1}).html ,
 		html: WELCOME({nick:"Globi",id:1}).text
 	},(err,info)=>{
 		console.log('info  mail: ',info)
