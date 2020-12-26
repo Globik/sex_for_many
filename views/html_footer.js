@@ -5,7 +5,7 @@ const html_footer=n=>{let a=new Date();
 return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">Сайт предназначен для лиц старше 18 лет.
 Вход в чат означает Ваше согласие с <a href="/home/privacy">правилами - terms of use</a>. Если вам менее 18 лет, 
 Вы обязаны покинуть этот сайт.</span></section>
-<section id="footReklama"><a href="/home/advertise">Реклама на сайте. Advertising</a></section><section>
+<section id="footReklama"><a href="/home/advertise">Реклама на сайте | Advertising</a></section><section>
 <ul id="basaUl"><li><a href="/basa">FAQ</a></ul></section>
 <section id="socseti"><header><b>Мы в соцсетях. Follow us</b></header>
 <a href="https://vk.com/public201149312"><img src="/images/vk.png"></a>
@@ -16,7 +16,7 @@ return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">С�
 <a href="#" class="overlay" id="vorlogery"></a>
 <output id="vorlogin" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
-<div><span id="vhod" onclick="get_login(this);" class="">вход</span> | <span id="vout" onclick="get_registr(this);">регистрация</span></div>
+<div><span id="vhod" onclick="get_login(this);" class="">вход | log in</span> | <span id="vout" onclick="get_registr(this);">регистрация | sign up</span></div>
 <div id="vorlogincontainer"></div>
 </output>
 
