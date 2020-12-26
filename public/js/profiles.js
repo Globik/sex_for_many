@@ -72,3 +72,6 @@ function send_mail(el){
 		note({conntent:l,type:"error",time:5});
 		ev.className="";
 		}
+
+
+

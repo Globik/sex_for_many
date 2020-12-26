@@ -49,6 +49,8 @@ s+=`<hr>${i+1}) <div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}">
 <div>${el.email}</div>
 <div>last login: ${el.ll}</div>
 <div>items: ${el.items}</div>
+<div><button data-id="${el.id}" data-nick="${el.bname}" data-email="${el.email}"
+ onclick="send_welcome_mail(this);">welcome on board</button></div>
 </div></div><hr>`;
 	})
 	s+='</section><br><br><button onclick="get_more_users(this);">Показать еще</button>';

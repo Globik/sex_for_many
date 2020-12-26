@@ -548,7 +548,7 @@ ctx.body={res:res.rows}
 adm.post("/send_mail", auth, async ctx=>{
 	
 	let t=ctx.transporter;
-	/*
+
 	t.sendMail({
 		from: "",
 		to: "globalikslivov@gmail.com",//"gru5@yandex.ru",
@@ -559,35 +559,33 @@ adm.post("/send_mail", auth, async ctx=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
-		//console.log("WELCOME.html: ", WELCOME.html);
 	}
 		}) 
-		*/
-		let db=ctx.db;
-		let abba=[];
-		try{
-			let ad=await db.query(`select * from buser`);
-			
-		ad.rows.forEach(function(el,i){
-			console.log('mail: ',el.email);
-		t.sendMail({
+		
+		
+	ctx.body={info:"ok, email sent\n"}
+	});
+	
+	adm.post("/send_welcome", auth, async ctx=>{
+		let {id, nick, email}=ctx.request.body;
+		if(!id || !nick || !email)ctx.throw(400, "no id or nick or email!");
+		console.log("id: ",id,"nick: ",nick,"email: ",email);
+		let t=ctx.transporter;
+
+	t.sendMail({
 		from: "",
-		to: el.email,
+		to: email,
 		subject:'Welcome to the GLOBIKON!',
-		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
-		html:WELCOME({nick:el.bname,id:el.id}).html
+		html:WELCOME({nick:nick,id:id}).html
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
-		//console.log("WELCOME.html: ", WELCOME.html);
 	}
 		}) 
-			})
-			
-			}catch(e){console.log(e);} 
-	ctx.body={info:"ok, email sent\n"}
-	});
+		
+		ctx.body={info:"ok, email sent\n"}
+		})
 			/* USERS */
 			/*
 adm.get("/home/users", authed, async ctx=>{

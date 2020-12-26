@@ -122,3 +122,21 @@ function on_update_query_error(l,el){
 el.className="";
 note({content:l,type:"error",time:5});	
 }
+
+function send_welcome_mail(el){
+	let d={};
+	d.email=el.getAttribute('data-email');
+	d.id=el.getAttribute('data-id');
+	d.nick=el.getAttribute('data-nick');
+	vax("post", "/send_welcome", d, on_send_welcome, on_send_welcome_err, el, false);
+	el.className="puls";
+	}
+	
+	function on_send_welcome(l,ev){
+		ev.className="";
+		note({content:l.info,type:"info",time:5});
+		}
+	function on_send_welcome_err(l,ev){
+		note({conntent:l,type:"error",time:5});
+		ev.className="";
+		}
