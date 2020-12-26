@@ -548,9 +548,10 @@ ctx.body={res:res.rows}
 adm.post("/send_mail", auth, async ctx=>{
 	
 	let t=ctx.transporter;
+	/*
 	t.sendMail({
 		from: "",
-		to: "ag1@yandex.ru",//"gru5@yandex.ru",
+		to: "globalikslivov@gmail.com",//"gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
 		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
 		html:WELCOME({nick:"Globi",id:1}).html
@@ -561,6 +562,30 @@ adm.post("/send_mail", auth, async ctx=>{
 		//console.log("WELCOME.html: ", WELCOME.html);
 	}
 		}) 
+		*/
+		let db=ctx.db;
+		let abba=[];
+		try{
+			let ad=await db.query(`select * from buser`);
+			
+		ad.rows.forEach(function(el,i){
+			console.log('mail: ',el.email);
+		t.sendMail({
+		from: "",
+		to: el.email,
+		subject:'Welcome to the GLOBIKON!',
+		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
+		html:WELCOME({nick:el.bname,id:el.id}).html
+	},(err,info)=>{
+		console.log('info  mail: ',info)
+		if(err){
+		console.log(err);
+		//console.log("WELCOME.html: ", WELCOME.html);
+	}
+		}) 
+			})
+			
+			}catch(e){console.log(e);} 
 	ctx.body={info:"ok, email sent\n"}
 	});
 			/* USERS */
