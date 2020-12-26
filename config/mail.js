@@ -6,7 +6,7 @@ const WELCOME=function(n){
 		 Cuz the payouts are only in bitcoins.<br><br>
 		 If you're a viewer and wanna give tokens to streamers you can easy buy the tokens by bitcoins 
 		 <a href="https://globikon.space/tokens"> here</a>.<br><br>
-		 We have <a href="https://globikon.space/basa">FAQ</a> (Frequently Asked Questions).<br><br>Enjoi!<br><br></p>
+		 We have <a href="https://globikon.space/basa">FAQ</a> (Frequently Asked Questions).<br><br>Enjoy!<br><br></p>
 		 <h1>Здравствуйте, ${n.nick},</h1><p>Благодарим за регистрацию в Globikon.<br><br> Теперь у вас есть своя личная 
 		 <a href="https://globikon.space/webrtc/${n.id}">видеочат-комната</a>.<br><br>
 		 Если Вы стример и желаете получать не только выплаты, но и донаты в биткоинах, то
@@ -16,7 +16,7 @@ const WELCOME=function(n){
 		  Если Вы зритель и желаете давать стримерам токены, то Вы можете легко и просто купить токены 
 		  <a href="https://globikon.space/tokens"> здесь</a>.<br><br>
 		  Ответы на разные вопросы у нас есть в разделе <a href="https://globikon.space/basa">FAQ</a><br><br>
-		  Приятного времяпрепровождения на П.!</p>`,
+		  Приятного времяпрепровождения на Globikon!</p>`,
 		text:`Hey ${n.nick}, thanks for joining Globikon! Now you'v got your own videochat-room.`}
 }
 //console.log("FUCK: ", WELCOME({nick:"Globi",id:1}).html);

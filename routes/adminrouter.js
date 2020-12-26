@@ -552,8 +552,8 @@ adm.post("/send_mail", auth, async ctx=>{
 		from: "",
 		to: "gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
-		//text: WELCOME({nick:"Globi",id:1}).html ,
-		html: WELCOME({nick:"Globi",id:1}).text
+		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
+		html:WELCOME({nick:"Globi",id:1}).html
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
