@@ -5,9 +5,9 @@ return `<!-- html_nav_menu.js -->
 <a href="/" id="aSite"><strong id="strongSite">${n.site}</strong></a>
 <label class="label-login">${n.user?'<a href="/logout">выход | log out</a>':'<a href="/login">вход | log in</a>'}</label>
 <ul id="menu">
-<li><a href="/"><div class="mnav">Стримы Streams</div></a>
-<li><a href="/blog"><div class="mnav">Блог Blog</div></a>
-<li><a href="/obi"><div title="Message board" class="mnav">Доска объявлений</div></a>
+<li><a href="/"><div class="mnav">Стримы | Streams</div></a>
+<li><a href="/blog"><div class="mnav">Блог | Blog</div></a>
+
 </ul>
 <label id="lb-menu-all" class="lb-menu-all" onclick="dowas1();">
  <div class="spinner diagonal part-1"></div>
