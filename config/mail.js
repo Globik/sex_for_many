@@ -19,4 +19,5 @@ const WELCOME=function(n){
 		  Приятного времяпрепровождения на П.!</p>`,
 		text:`Hey ${n.nick}, thanks for joining Globikon! Now you'v got your own videochat-room.`}
 }
+//console.log("FUCK: ", WELCOME({nick:"Globi",id:1}).html);
 module.exports={WELCOME}

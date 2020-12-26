@@ -542,21 +542,23 @@ try{
 }catch(e){ctx.throw(400, e);}	
 ctx.body={res:res.rows}
 })			
-			
+		
+		console.log("WELCOME.html: ", WELCOME.html);	
 			/* SEND MAIL TEST */
 adm.post("/send_mail", auth, async ctx=>{
+	
 	let t=ctx.transporter;
 	t.sendMail({
 		from: "",
 		to: "gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
-		text: WELCOME.html ,
-		html: WELCOME.text
+		text: WELCOME({nick:"Globi",id:1}).html ,
+		html: WELCOME({nick:"Globi",id:1}).text
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
-		
+		//console.log("WELCOME.html: ", WELCOME.html);
 	}
 		}) 
 	ctx.body={info:"ok, email sent\n"}
