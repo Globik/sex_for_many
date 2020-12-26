@@ -8,6 +8,7 @@ const axios=require('axios').default;
 const readdir=util.promisify(fs.readdir);
 const unlink=util.promisify(fs.unlink);
 const uploader=require('huge-uploader-nodejs')
+const {WELCOME}=require('../config/mail.js');
 const adm=new Router();
 const GMAIL="globalikslivov@gmail.com";
 
@@ -548,14 +549,14 @@ adm.post("/send_mail", auth, async ctx=>{
 	t.sendMail({
 		from: "",
 		to: "gru5@yandex.ru",
-		subject:'TEST FROM GLOBIKON',
-		text: "Hallo mailbox from Globikon!!!",
-		html: "<h1>Hallo Globikon!</h1>"
+		subject:'Welcome to the GLOBIKON!',
+		text: WELCOME.html ,
+		html: WELCOME.text
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
-		//ctx.throw(400,err);
+		
 	}
 		}) 
 	ctx.body={info:"ok, email sent\n"}
