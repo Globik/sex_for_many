@@ -550,7 +550,7 @@ adm.post("/send_mail", auth, async ctx=>{
 	let t=ctx.transporter;
 	t.sendMail({
 		from: "",
-		to: "gru5@yandex.ru",
+		to: "ag1@yandex.ru",//"gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
 		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
 		html:WELCOME({nick:"Globi",id:1}).html

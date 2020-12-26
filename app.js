@@ -2,7 +2,7 @@
 // heroku pg:psql --app frozen-atoll-47887
 // sudo mkdir /var/run/pgsql
 //ctrl+alt+T
-// ssh root@91.217.80.183 (globikon.space)
+// ssh root@91.217.80.183 (globikon.space) vds1974028.my-ihor.ru
 const proc = process.env.DEVELOPMENT;
 const ORIGINAL="https://globikon.space";
 //console.log('proc: ', proc);
