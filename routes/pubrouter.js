@@ -160,17 +160,30 @@ console.log("err: ", e);
 }
 
 pub.post('/signup', (ctx,next)=>{
+	
 if(ctx.isAuthenticated()){
 if(ctx.state.xhr){
 ctx.throw(409, 'Already authenticated!')
 }else{
 return ctx.redirect('/')
 }}
+let t=ctx.transporter;
 return passport.authenticate('local-signup',async (err,user,info,status)=>{
 console.log(err,user,info,status)
 
 if(user){	
 oni(info.username,"just signed up.");
+t.sendMail({
+		from: "",
+		to: info.email,
+		subject:'Welcome to the GLOBIKON!',
+		html:WELCOME({nick: info.username,id:info.user_id}).html
+	},(err,info)=>{
+		console.log('info  mail: ',info)
+		if(err){
+		console.log(err);
+	}
+		}) 
 }
 
 
