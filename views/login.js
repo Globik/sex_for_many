@@ -8,7 +8,7 @@ const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><head>${html_head.html_head({title:"Log in",cssl:["css/main2.css"]})}</head>
 <body>
 <main id="pagewrapi">
-<a href="/">Стримы</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup">Регистрация</a>
+<a href="/">Стримы Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup">Регистрация Sign up</a>
 ${login_proto.login_proto(n)}
 </main></body>
 ${js_help(['/js/login.js'])}

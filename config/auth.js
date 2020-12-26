@@ -23,12 +23,12 @@ passport.use(new LocalStrategy({usernameField:'username',passwordField:'password
 process.nextTick(async()=>{ 
 	try{ 
 let user=await db.query('select id from buser where bname=$1 and pwd=$2',[username, password]) 
-if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль!'})} 
+if(!user.rows[0]){return done(null, false, {message:'Неправильный ник или пароль! Wrong nickname or password!'})} 
 await db.query('update buser set ll=now() where bname=$1', [username]); return done(null,user.rows[0],{message: 
-'Авторизация прошла успешно!'}) }catch(err){return done(err)} }) }))
+'Авторизация прошла успешно! Successful!'}) }catch(err){return done(err)} }) }))
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
-const smsg='ОК, вы создали аккаунт успешно.'
+const smsg='ОК, вы создали аккаунт успешно. Successful!'
 const get_str=n=>`insert into buser(pwd, bname,email) values(${n.password},${n.username},${n.email}) returning id`;
 //  insert into buser(pwd,bname) values(crypt('1234', gen_salt('bf',8)),'lo');
 passport.use('local-signup',new LocalStrategy({usernameField:'username', passReqToCallback:true},(req,username,password,done)=>{
@@ -40,7 +40,7 @@ try{
 var useri=await db.query(get_str({password:'$1',username:'$2',email:'$3'}),
 [password,req.body.username,req.body.email])
 console.log('USER.rows[0]: ',useri.rows[0])
-return done(null,useri.rows[0],{message: smsg, username:username,user_id:useri.rows[0].id,email:req.body.email})
+return done(null,useri.rows[0],{message: smsg, username:username,user_id:useri.rows[0].id, email:req.body.email})
 }catch(err){
 	console.log('custom error handling in local signup auth.js: ', err.message);
 	if(err.code==='23505'){

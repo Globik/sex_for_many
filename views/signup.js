@@ -53,7 +53,7 @@ ${html_head.html_head({title:"sign up",cssl:["/css/main2.css"]})}
 <body>
 
 <main id="pagewrap">
-<a href="/">Стримы</a>&nbsp;&nbsp;&nbsp;<a href="/login">Войти</a>
+<a href="/">Стримы Home</a>&nbsp;&nbsp;&nbsp;<a href="/login">Войти Log in</a>
 ${signup_proto.signup_proto({})}
 ${js_help(['/js/login.js'])}
 </main></body></html>`;

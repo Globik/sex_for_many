@@ -2,13 +2,13 @@ const login_proto=n=>{
 return html`
 <section id="loginSection" class="tabactive">
 <form id="formLogin" name="mform" action="/login" method="post" onsubmit="go_login(this);return false;">
-Вход.&nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup">Регистрация</a>&nbsp;&nbsp;&nbsp;&nbsp;
+Вход. Login.&nbsp;&nbsp;&nbsp;&nbsp;<a href="/signup">Регистрация Sign up</a>&nbsp;&nbsp;&nbsp;&nbsp;
 <span id="sessRed"></span><br>
-<label for="nameId"><strong>Ник</strong> </label>
+<label for="nameId"><strong>Ник. Nickname.</strong> </label>
 <div class="inwrapDiv">
 <input id="nameId" type="text" name="username" placeholder="your name" value="" required  autocomplete="off"/>
 </div>
-<label for="parolId"><strong>Пароль</strong></label>
+<label for="parolId"><strong>Пароль. Password.</strong></label>
 <div class="inwrapDiv">
 <input id="parolId" type="password" name="password" placeholder="Password" value="" required />
 </div>
