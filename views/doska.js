@@ -1,9 +1,8 @@
 const doska=n=>{
 	return `
-<section id="doska"><header><strong>Доска объявлений</strong></header><h3>Message board</h3>
+<section id="doska"><header><strong>Доска объявлений</strong></header>
 <div id="obiContent"></div>
 <a id="doskaA" href="/obi">Читать все объявления</a>  <a id="doskaB" href="/obi#obiContainer">Подать объявление</a><br>
-<a id="doskaC" href="/obi">Read all messages</a>  <a id="doskaD" href="/obi#obiContainer">Write a message</a>
 </section>
 <script>
 var obiContent=gid("obiContent");

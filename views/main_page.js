@@ -69,21 +69,21 @@ ${vert_menu.vert_menu(n)}
 <div id="right">
 <canvas id="canvasi" width="600" height="200" style="margin:0 auto;"ontouchmove="grob(event)" onmousemove="dropBomb(event)"></canvas>
 ${n.m?n.m.msg:''}
-<div id="privet">${buser?`Hello <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость! Hello guest!'}</div>
-<article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1><h2>Welcome to the Globikon webcam site!</h2>
+<div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
+<article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
 <p>После простой регистрации вы сможете:
 <ul id="ulKomnata">
-<li><strong>стримить видео</strong> | <strong>stream a video</strong>
-<li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong> | <strong>Donations in tokens or in bitcoins</strong>.
+<li><strong>стримить видео</strong>
+<li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>.
 </ul>
 </p>
 <p>
 Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером! Wanna be a streamer!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Хочу стримить! Wanna stream a video!</a></button>`}</p></article>
+<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Хочу стримить!</a></button>`}</p></article>
 <hr>
 <section id="onlineVideo">
-<header id="onlineVideoHeader">Чат-комнаты Chat-rooms</header>
+<header id="onlineVideoHeader">Чат-комнаты</header>
 <section id="videoContainer">
 ${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) : 
 `<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
