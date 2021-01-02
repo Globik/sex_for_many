@@ -78,7 +78,7 @@ function get_posts(n){
 n.posts.forEach(function(el,i){
 s+=`<div class="articles-container"><h3>${el.title}</h3><span class="d-author">${el.auth}</span>,
  <span class="d-date">${moment(el.cr_at).format('YYYY-DD-MM')}</span>
-	<article>${el.body.substring(0,100)}</article>
+	<article>${el.body.substring(0,500)}</article>
 	<div><a href="/ru/${el.slug}">Читать</a></div>
 	${n.user&&n.user.brole=="superadmin"?`<br><br><br><button data-bid="${el.id}" onclick="rem(this);">delete</button>`:''}</div>`;
 	})	
