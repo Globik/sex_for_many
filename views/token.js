@@ -15,7 +15,7 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
-<h3>Купить токены</h3>
+<h1>Купить токены рублями</h1>
 <h4>100 токенов = 100 рублей.</h4>
 <!-- https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage -->
 <form method="POST" name="yandexform" action="https://money.yandex.ru/quickpay/confirm.xml">
@@ -28,10 +28,17 @@ ${vert_menu.vert_menu(n)}
 <input type="hidden" name="sum" value="2" data-type="number">
 <input type="hidden" name="successURL" value="https://globikon.space">
 <div>
-<label><input type="radio" name="paymentType" value="PC">Яндекс.Деньгами</label>
-<label><input type="radio" name="paymentType" checked value="AC">Банковской картой</label>
+<div><label class="cntlb"><b>Яндекс.Деньгами</b><input type="radio" name="paymentType" value="PC"><span class="mark"></span></label></div>
+<div><label class="cntlb"><b>Банковской картой</b><input type="radio" name="paymentType" checked value="AC"><span class="mark"></span></label></div>
 </div><div>
 <input type="submit" value="Купить"></div>
+</form>
+<hr><h1>Купить токены биткоинами</h1>
+<form name="fbtc" method="post" action="/api/get_bitaps_invoice">
+<div><label class="cntlb"><b>10 токенов = 0.008 BTC</b><input type="radio" name="sbtc" checked value="10"><span class="mark"></span></label></div>
+<div><label class="cntlb"><b>20 токенов = 0.016 BTC</b><input type="radio" name="sbtc" value="20"><span class="mark"></span></label></div>
+<div><label class="cntlb"><b>50 токенов = 0.04 BTC</b><input type="radio" name="sbtc" value="50"><span class="mark"></span></label></div>
+<div><input type="submit" value="Купить"></div>
 </form>
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
