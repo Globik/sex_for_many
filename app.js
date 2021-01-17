@@ -303,11 +303,11 @@ if(a&&a.rows.length){
 	console.log("GMAIL: ",GMAILPASS);
 	transporter = nodemailer.createTransport(
 {
-service:'gmail',
-auth:{user: GMAIL,pass: GMAILPASS}
-//sendmail:true,
-//newline: 'unix',
-//path:'/usr/sbin/sendmail'
+//service:'gmail',
+//auth:{user: GMAIL,pass: GMAILPASS}
+sendmail:true,
+newline: 'unix',
+path:'/usr/sbin/sendmail'
 	} 
 )
 }	

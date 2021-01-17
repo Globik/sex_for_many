@@ -568,13 +568,13 @@ adm.post("/send_mail", auth, async ctx=>{
 	
 	adm.post("/send_welcome", auth, async ctx=>{
 		let {id, nick, email}=ctx.request.body;
-		if(!id || !nick || !email)ctx.throw(400, "no id or nick or email!");
+		//if(!id || !nick || !email)ctx.throw(400, "no id or nick or email!");
 		console.log("id: ",id,"nick: ",nick,"email: ",email);
 		let t=ctx.transporter;
 
 	t.sendMail({
-		from: "",
-		to: email,
+		from: "root@globikon.space",
+		to: /*email*/"gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
 		html:WELCOME({nick:nick,id:id}).html
 	},(err,info)=>{
