@@ -548,7 +548,19 @@ ctx.body={res:res.rows}
 adm.post("/send_mail", auth, async ctx=>{
 	
 	let t=ctx.transporter;
-
+	
+	
+	
+	t.sendMail({
+		from: 'root@globikon.space',
+		to: 'gru5@yandex.ru',
+		subject:'message subject',
+		text: 'bla bla show'
+	},(err,info)=>{
+		console.log(info)
+		console.log(err);
+		})
+/*
 	t.sendMail({
 		from: "root@globikon.space",
 		to: "gru5@yandex.ru",
@@ -561,7 +573,7 @@ adm.post("/send_mail", auth, async ctx=>{
 		console.log(err);
 	}
 		}) 
-		
+		*/
 		
 	ctx.body={info:"ok, email sent\n"}
 	});

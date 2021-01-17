@@ -76,7 +76,7 @@ let transporter=nodemailer.createTransport({
 			) 
 			
 			transporter.sendMail({
-		from: '',
+		from: 'root@globikon.space',
 		to: 'gru5@yandex.ru',
 		subject:'message subject',
 		text: 'bla bla show'
