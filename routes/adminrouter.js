@@ -550,11 +550,11 @@ adm.post("/send_mail", auth, async ctx=>{
 	let t=ctx.transporter;
 
 	t.sendMail({
-		from: "",
-		to: "globalikslivov@gmail.com",//"gru5@yandex.ru",
+		from: "root@globikon.space",
+		to: "gru5@yandex.ru",
 		subject:'Welcome to the GLOBIKON!',
 		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
-		html:WELCOME({nick:"Globi",id:1}).html
+		html:WELCOME({nick:"Globi",id:1})
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
