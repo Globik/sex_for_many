@@ -546,16 +546,17 @@ ctx.body={res:res.rows}
 		console.log("WELCOME.html: ", WELCOME.html);	
 			/* SEND MAIL TEST */
 adm.post("/send_mail", auth, async ctx=>{
-	
+	let {mail}=ctx.request.body;
+	console.log("MAIL :",mail); 
 	let t=ctx.transporter;
 	
 	
 	
 	t.sendMail({
 		from: 'root@globikon.space',
-		to: 'gru5@yandex.ru',
-		subject:'message subject',
-		text: 'bla bla show'
+		to: mail,
+		subject:'Hello world',
+		text: 'bla bla show. HIUHUHUHUHUHUHUHuhuhuh jjjijijji iiinin sdjdidid sjsjsnsjnsj sjnjsnjsnsj njnjsnjnjnjn nnjnjnjn.'
 	},(err,info)=>{
 		console.log(info)
 		console.log(err);

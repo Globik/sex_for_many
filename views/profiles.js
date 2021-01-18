@@ -41,6 +41,7 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 <hr>
 <h1>Mail test</h1>
 <h4>gru5@yandex.ru</h4>
+<div><input type="text" id="email_test" placeholder="email"></div>
 <button onclick="send_mail(this);">send mail</button>
 <hr>
 </div></main>

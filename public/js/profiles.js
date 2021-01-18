@@ -60,7 +60,9 @@ if(l.table=="buser"){
 }
 
 function send_mail(el){
-	vax("post", "/send_mail", {}, on_send_mail, on_send_mail_err, el, false);
+	let d={};
+	d.mail=(gid("email_test").value?gid('email_test').value:'gru5@yandex.ru')
+	vax("post", "/send_mail", d, on_send_mail, on_send_mail_err, el, false);
 	el.className="puls";
 	}
 	
