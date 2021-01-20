@@ -543,7 +543,7 @@ try{
 ctx.body={res:res.rows}
 })			
 		
-		console.log("WELCOME.html: ", WELCOME.html);	
+		//console.log("WELCOME.html: ", WELCOME.html);	
 			/* SEND MAIL TEST */
 adm.post("/send_mail", auth, async ctx=>{
 	let {mail}=ctx.request.body;
@@ -551,7 +551,7 @@ adm.post("/send_mail", auth, async ctx=>{
 	let t=ctx.transporter;
 	
 	
-	
+	/*
 	t.sendMail({
 		from: 'root@globikon.space',
 		to: mail,
@@ -561,20 +561,22 @@ adm.post("/send_mail", auth, async ctx=>{
 		console.log(info)
 		console.log(err);
 		})
-/*
+		* 
+		*/ 
+
 	t.sendMail({
 		from: "root@globikon.space",
-		to: "gru5@yandex.ru",
+		to: mail,
 		subject:'Welcome to the GLOBIKON!',
-		//text: "hallo alik",//WELCOME({nick:"Globi",id:1}).text ,
-		html:WELCOME({nick:"Globi",id:1})
+		text: WELCOME({nick:"Globi",id:1}).text ,
+		html:WELCOME({nick:"Globi",id:1}).html
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
 		console.log(err);
 	}
 		}) 
-		*/
+		
 		
 	ctx.body={info:"ok, email sent\n"}
 	});
