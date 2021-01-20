@@ -565,7 +565,7 @@ adm.post("/send_mail", auth, async ctx=>{
 		*/ 
 
 	t.sendMail({
-		from: "root@globikon.space",
+		from: "",
 		to: mail,
 		subject:'Welcome to the GLOBIKON!',
 		text: WELCOME({nick:"Globi",id:1}).text ,
