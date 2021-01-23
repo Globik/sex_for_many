@@ -567,9 +567,9 @@ adm.post("/send_mail", auth, async ctx=>{
 	t.sendMail({
 		from: "",
 		to: mail,
-		subject:'Welcome to the GLOBIKON!',
-		text: WELCOME({nick:"Globi",id:1}).text ,
-		html:WELCOME({nick:"Globi",id:1}).html
+		subject:'helo there!',
+		text:"I love you",// WELCOME({nick:"Globi",id:1}).text ,
+		html:"<b>I love you</b>"//WELCOME({nick:"Globi",id:1}).html
 	},(err,info)=>{
 		console.log('info  mail: ',info)
 		if(err){
