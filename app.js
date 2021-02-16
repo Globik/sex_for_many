@@ -667,7 +667,7 @@ insert_message(l.msg,ws.nick,ws.urli.substring(1));
 }
 }catch(e){console.log("ERR IN WEBSOCK MSG: ",e);}
 });
-//ws.on('error', function(er){console.log("websock err: ", err);})
+
 
 ws.on('close', async function(){
 console.log("websocket closed");

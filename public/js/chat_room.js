@@ -223,9 +223,10 @@ function send_up(el){
 if(!chatTxt.value)return;
 let d={};
 d.type = "msg";
-d.msg = escape_html(chatTxt.value);
+d.msg = chatTxt.value;
 d.roomname = modelName.value;
-d.from = myusername;// yourNick.value;
+d.from = myUsername;// yourNick.value;
+console.log(d)
 wsend(d);	
 if(el)el.className="puls";
 chatTxt.value="";
