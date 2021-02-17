@@ -892,6 +892,13 @@ pub.get('/tokens', async ctx=>{
 ctx.body = await ctx.render('token',{})
 })
 
+pub.post("/api/get_bitaps_invoice_2", auth, async ctx=>{
+	let { user_id, bname, btc} = ctx.request.body;
+	if(!user_id || !bname || !btc) ctx.throw(400, "no data provided!");
+	//console.log("body: ", ctx.request.body);
+ctx.body={siska: "OK"};
+})
+
 /* USERPAY */
 
 pub.get("/userpay/:name",authed,async ctx=>{

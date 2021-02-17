@@ -34,13 +34,16 @@ ${vert_menu.vert_menu(n)}
 <input type="submit" value="Купить"></div>
 </form>
 <hr><h1>Купить токены биткоинами</h1>
-<form name="fbtc" method="post" action="/api/get_bitaps_invoice">
+<form name="fbtc" method="post" action="/api/get_bitaps_invoice_2">
 <div><label class="cntlb"><b>10 токенов = 0.008 BTC</b><input type="radio" name="sbtc" checked value="10"><span class="mark"></span></label></div>
 <div><label class="cntlb"><b>20 токенов = 0.016 BTC</b><input type="radio" name="sbtc" value="20"><span class="mark"></span></label></div>
 <div><label class="cntlb"><b>50 токенов = 0.04 BTC</b><input type="radio" name="sbtc" value="50"><span class="mark"></span></label></div>
+<input type="hidden"  name="user_id" value="${buser.id}">
+<input type="hidden" name="bname" value="${buser.bname}">
 <div><input type="submit" value="Купить"></div>
 </form>
 </div></main>
+<script src="/js/token.js"></script>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
 module.exports={token};
