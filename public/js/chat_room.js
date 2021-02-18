@@ -170,7 +170,8 @@ var avid=el.getAttribute('data-avid');
 if(!avid)return;
 var d={};
 d.avid=avid;
-vax("post", "/api/foto_error", d, on_foto_error, on_foto_error_err, el, false);
+d.src=el.src;
+//vax("post", "/api/foto_error", d, on_foto_error, on_foto_error_err, el, false);
 }
 function on_foto_error(l,ev){}
 function on_foto_error_err(l,ev){}
