@@ -896,7 +896,7 @@ pub.post("/api/get_bitaps_invoice_2", auth, async ctx=>{
 	let { user_id, bname, btc} = ctx.request.body;
 	if(!user_id || !bname || !btc) ctx.throw(400, "no data provided!");
 	//console.log("body: ", ctx.request.body);
-ctx.body={siska: "OK"};
+ctx.body={info: "OK"};
 })
 
 /* USERPAY */

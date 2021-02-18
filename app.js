@@ -756,3 +756,15 @@ console.log('Unhandled Rejection at: Promise', p, 'reason: ', reason);
 });	
 // sudo mkdir /var/run/pgsql
 //grant all privileges on table x to suka
+
+/* cat /etc/hosts
+127.0.0.1 localhost localhost 
+91.217.80.183 globikon.space mail
+ # The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ * 
+ * 
+ * 
+ */
