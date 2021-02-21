@@ -1,1 +1,8 @@
 form div{margin-top:10px;margin-bottom:10px;}
+#BTCAddressPop{backgrund: red;width:100%;}
+#BTCAddressPop div{margin-top: 15px;margin-bottom:15px;}
+#btcadrspan{background: blue;}
+#btcamount,#tokamount{border: 1px solid yellow;padding: 9px;}
+#BTCAddressContainer h3{background: lightblue; margin-bottom:1px;}
+#q8888888888rcode{display:inline-block; width: 128px; height: 128px;}
+#BTCAddressContainer{font-size:0.8rem;}

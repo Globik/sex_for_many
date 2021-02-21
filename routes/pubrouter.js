@@ -891,13 +891,64 @@ pub.get('/tokens', async ctx=>{
 
 ctx.body = await ctx.render('token',{})
 })
-
+// https://developer.bitaps.com/forwarding
 pub.post("/api/get_bitaps_invoice_2", auth, async ctx=>{
 	let { user_id, bname, btc} = ctx.request.body;
 	if(!user_id || !bname || !btc) ctx.throw(400, "no data provided!");
-	//console.log("body: ", ctx.request.body);
-ctx.body={info: "OK"};
+	if(!ctx.state.test_btc_address || !ctx.state.btc_address) ctx.throw(400, "No test btc address or btc address provided!");
+	console.log("ctx.request.body: ", ctx.request.body);
+	const testnet_url = "https://api.bitaps.com/btc/testnet/v1/create/payment/address";
+	const mainnet_url = "https://api.bitaps.com/btc/v1/create/payment/address";
+	let forwarding_address = (ctx.state.is_test_btc ? ctx.state.test_btc_address : ctx.state.btc_address);//must be mine
+	console.log("forwarding_address: ", forwarding_address);
+	let callback_link = ctx.origin + '/api/bitaps_callback/' + user_id;
+	let confirmations = 3;
+	let db = ctx.db;
+	let body, result;
+	let data = {};
+	data.forwarding_address = forwarding_address;
+	data.callback_link = callback_link;
+	data.confirmations = confirmations;
+	
+	try{
+		//get_address(usid int, st int, zeit text)
+		let r = await db.query(`select * from get_address($1, 0, '150')`, [ user_id ]);
+		if(r.rows.length) result = r.rows[0].adr
+		}catch(e){ ctx.throw(400, e); }
+	
+	if(!result){
+	try{
+		body = await axios.post((ctx.state.is_test_btc ? testnet_url : mainnet_url), data);
+		console.log('body.data: ', body.data);
+		var {invoice, payment_code, address} = body.data;
+		if(!invoice || !payment_code || !address) ctx.throw(400, "No invoice provided!");
+		}catch(e){ctx.throw(400,e);}
+//insert into bitaps_tmp(bname,us_id,inv,pc,adr) values('Globi',1,'inv','3344fr5','qwwe44');--name,id,invoice,payment code, address
+try{
+let a = await db.query(`insert into bitaps_tmp(bname, us_id, inv, pc, adr) values($1, $2, $3, $4, $5) returning adr`,
+																				[ bname, user_id, invoice, payment_code, address ])
+if(a.rows.length) result = a.rows[0].adr;																				
+}catch(e){ ctx.throw(400, e); }
+}
+ctx.body = { info: "OK", address: result, bname, btc };
 })
+
+/*
+ body.data:  { 
+  invoice: 'invPDHmi4Jp64PdDcjiWCGAN9JYWBbJnWw5zhpjmHFUo4hKMiVyVA',
+  payment_code: 'PMTvzmoLU5zPnE1LnFQKnMe9nnk9ZTFvRfqbHsxJgtyJmyBZqa6BK',
+  address: '2MwHCRBLcohdNR7Xxw8Qgws6mEMi8K9oYyF',
+  domain: '',
+  domain_hash: 'b472a266d0bd89c13706a4132ccfb16f7c3b9fcb',
+  confirmations: 3,
+  callback_link: 'http://:3000/api/bitaps_callback',
+  forwarding_address: 'mqwRsYbYjU19m3SP89dREEBkoNUAetf1FK',
+  currency: 'tBTC' 
+  }
+
+ */ 
+
+
 
 /* USERPAY */
 

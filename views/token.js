@@ -42,7 +42,23 @@ ${vert_menu.vert_menu(n)}
 <input type="hidden" name="bname" value="${buser.bname}">
 <div><input type="submit" value="Купить"></div>
 </form>
-</div></main>
+</div>
+<div id="qrcode"></div>
+<a href="#" class="overlay" id="setBTCAddress" onclick="in_rem_hash();"></a>
+<div id="BTCAddressPop" class="popi">
+ <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div> 
+<div id="BTCAddressContainer"><h3>BTC Address</h3>
+<div>Произведите платеж <span id="btcamount"></span> BTC за <span id="tokamount"></span> токенов по этому адресу:</div>
+<div><span id="btcadrspan"></span></div>
+<div><span id="btchref"></span></div>
+<!-- <div id="qrcode"></div> -->
+<div>Пожалуйста, не покидайте страницу в течении 10 минут и дождитесь первого подтверждения платежа.</div>
+<div><a id="hrefHome" href="/">Или вернуться на главную</a></div>
+<div>Не стоит переводить биткоинов меньше чем 0.0008 BTC. В противном случае сумма будет считаться пожертвованием.</div>
+</div>
+</div>
+</main>
+<script src="/js/qrcode.min.js"></script>
 <script src="/js/token.js"></script>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
