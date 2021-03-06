@@ -902,7 +902,7 @@ pub.post("/api/get_bitaps_invoice_2", auth, async ctx=>{
 	let forwarding_address = (ctx.state.is_test_btc ? ctx.state.test_btc_address : ctx.state.btc_address);//must be mine
 	console.log("forwarding_address: ", forwarding_address);
 	let callback_link = ctx.origin + '/api/bitaps_callback/' + user_id;
-	let confirmations = 3;
+	let confirmations = 1;
 	let db = ctx.db;
 	let body, result;
 	let data = {};
@@ -947,7 +947,20 @@ ctx.body = { info: "OK", address: result, bname, btc };
   }
 
  */ 
-
+pub.post('/api/bitaps_callback/:userid', async ctx=>{
+let {invoice, code, address, amount} = ctx.request.body;
+console.log('ctx.request.body: ', ctx.request.body);
+if(!invoice || !code || !address)ctx.throw(404,"no data");
+let us_id = Number(ctx.params.userid);
+console.log('us_id: ', us_id);
+let db = ctx.db;
+try{
+await db.query('select bitaps_cb($1,$2,$3)', [ us_id, code, Number(amount) ])	
+	}catch(e){
+		console.log(e);
+		}
+ctx.body = invoice;	
+});
 
 
 /* USERPAY */

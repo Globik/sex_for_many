@@ -67,7 +67,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
-<canvas id="canvasi" width="600" height="200" style="margin:0 auto;"ontouchmove="grob(event)" onmousemove="dropBomb(event)"></canvas>
+
 ${n.m?n.m.msg:''}
 <div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
 <article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
@@ -119,7 +119,7 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 </div></main>
 <input type="hidden" id="buserli" value="${buser?buser.id:0}">
 <script src="/js/gesamt.js"></script>
-<script>
+<!-- <script>
 
 var cnv = document.getElementById('canvasi');
 if(cnv){
@@ -291,7 +291,7 @@ c.restore();
 }
 
 }
-</script>
+</script> -->
 
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
 

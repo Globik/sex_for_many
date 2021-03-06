@@ -466,7 +466,23 @@ console.log('msg notify: ',msg);
 msg.data.type="on_btc";
 broadcast_satoshi(msg.data);
 });
-
+//perform pg_notify('token_buy', json_build_object('us_id', bitaps_cb.usid,'items', ptokens,'amt', bitaps_cb.amt)::text);
+ps.addChannel('token_buy', function(msg){
+console.log('token buy: ', msg);
+//if(msg.data){
+	msg.type = "token_buy";
+	broadcast_tokens(msg);
+//}
+})
+function broadcast_tokens(obj){
+	console.log('broadcast_tokens');
+	wss.clients.forEach(function each(client){
+		console.log('client.urli: ', client.urli, 'obj.us_id: ', obj.us_id);
+if(client.urli == `/${obj.us_id}`){
+wsend(client,obj);
+}
+})
+}
 function broadcast_satoshi(obj){
 	console.log('obj: ',obj);
 wss.clients.forEach(function each(client){

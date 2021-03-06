@@ -38,12 +38,12 @@ ${vert_menu.vert_menu(n)}
 <div><label class="cntlb"><b>10 токенов = 0.008 BTC</b><input type="radio" name="sbtc" checked value="10"><span class="mark"></span></label></div>
 <div><label class="cntlb"><b>20 токенов = 0.016 BTC</b><input type="radio" name="sbtc" value="20"><span class="mark"></span></label></div>
 <div><label class="cntlb"><b>50 токенов = 0.04 BTC</b><input type="radio" name="sbtc" value="50"><span class="mark"></span></label></div>
-<input type="hidden"  name="user_id" value="${buser.id}">
+<input type="hidden" id="BUSERID" name="user_id" value="${buser.id}">
 <input type="hidden" name="bname" value="${buser.bname}">
 <div><input type="submit" value="Купить"></div>
 </form>
 </div>
-<div id="qrcode"></div>
+${buser && buser.brole == 'superadmin' ? `<div><button data-usid="${buser.id}" onclick="test_tok(this);">test cb</button></div>`:''}
 <a href="#" class="overlay" id="setBTCAddress" onclick="in_rem_hash();"></a>
 <div id="BTCAddressPop" class="popi">
  <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div> 
@@ -51,7 +51,7 @@ ${vert_menu.vert_menu(n)}
 <div>Произведите платеж <span id="btcamount"></span> BTC за <span id="tokamount"></span> токенов по этому адресу:</div>
 <div><span id="btcadrspan"></span></div>
 <div><span id="btchref"></span></div>
-<!-- <div id="qrcode"></div> -->
+<div id="qrcode"></div>
 <div>Пожалуйста, не покидайте страницу в течении 10 минут и дождитесь первого подтверждения платежа.</div>
 <div><a id="hrefHome" href="/">Или вернуться на главную</a></div>
 <div>Не стоит переводить биткоинов меньше чем 0.0008 BTC. В противном случае сумма будет считаться пожертвованием.</div>

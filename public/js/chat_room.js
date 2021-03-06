@@ -213,6 +213,7 @@ console.log("Websocket closed");
 chatcnt.textContent=0;
 }
 }
+
 function sendi(ev){
 if(ev.key==="Enter"){
 send_up();
