@@ -436,7 +436,34 @@ console.log('el.ON_VAIR: ',el.on_vair);
 }
 return {user_count,on_vair,online,privat};	
 }
-function send_to_url(msg, url){
+function send_to_url(msg, urcallback detected -> ctx.request.body:  {
+  event: 'unconfirmed',
+  payout_tx_hash: '',
+  payout_tx_outs: '[]',
+  payout_miner_fee: '',
+  payout_service_fee: '',
+  address: '2N58mhuzQM59qUBd46CPtjUkQTMpPyoE7SS',
+  tx_hash: '7c2ac5748f1b7ade7f72b45ef8200d3cfd43dd4dffad526968c7b9344cbe5dac',
+  tx_out: '0',
+  code: 'PMTuYGySdhbpwpF2B64JHWAnhGStvUjnB6BGb5izekN8ta5CiQaLv',
+  invoice: 'invPV4UQgejSVTrAtzK2AsX8FBWNtTvDn9DNmrVbMLU898s8ifzqp',
+  confirmations: '0',
+  received_amount: '0',
+  pending_received_amount: '0',
+  pending_received_tx: '0',
+  received_tx: '0',
+  amount: '865000',
+  currency: 'tBTC',
+  BTCUSD_HITBTC: '60160.99',
+  BTCUSD_BITTREX: '60190.07',
+  BTCUSD_BITFINEX: '60188.17',
+  BTCUSD_BITSTAMP: '60187.48',
+  BTCUSD_COINBASEPRO: '60171.07',
+  BTCUSD_KRAKEN: '60158.0',
+  BTCUSD_GEMINI: '60200.0',
+  BTCUSD_AVERAGE: '60171.94'
+}
+l){
 console.log('send to url():',url)
 var cnt = get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){

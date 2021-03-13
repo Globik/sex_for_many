@@ -47,7 +47,7 @@ ${buser && buser.brole == 'superadmin' ? `<div><button data-usid="${buser.id}" o
 <a href="#" class="overlay" id="setBTCAddress" onclick="in_rem_hash();"></a>
 <div id="BTCAddressPop" class="popi">
  <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div> 
-<div id="BTCAddressContainer"><h3>BTC Address</h3>
+<div id="BTCAddressContainer"><h3 id="erfolgBTC">BTC Address</h3>
 <div>Произведите платеж <span id="btcamount"></span> BTC за <span id="tokamount"></span> токенов по этому адресу:</div>
 <div><span id="btcadrspan"></span></div>
 <div><span id="btchref"></span></div>

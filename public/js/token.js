@@ -60,7 +60,7 @@ new_uri='wss:';
 }else{
 new_uri='ws:';
 }
-open_socket();
+//open_socket();
 function open_socket(){
 if(socket){console.log("already in connection");return;}
 
@@ -91,7 +91,13 @@ try{
 	}
 	if(g.type == "token_buy"){
 		console.log("g: ", g);
-		note({content: "Транзакция прошла успешно! У вас " + g.items + " токенов за " + g.amt + " сатошей", type:"info", time:10});
+		var l_str = "Транзакция прошла успешно! У вас " + g.items + " токенов за " + g.amt + " сатошей";
+		note({content: l_str, type:"info", time:10});
+	erfolgBTC.textContent = l_str;
+	erfolgBTC.className = "green";
+		setTimeout(function(){
+			window.location.href = "/";
+			}, 2000);
 		}	
 }
 
@@ -105,7 +111,8 @@ console.log(d.usid);
 d.code = "bugygtfg";
 d.amount = 80000;
 d.invoice = "hgcfdr";
-d.address = "jyfrd";	
+d.address = "jyfrd";
+d.test = 1;	
 //alert(d.usid);
 vax("post", "/api/bitaps_callback/"+d.usid, d, on_test_tok, on_test_tok_err, el, false);
 }

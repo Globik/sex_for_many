@@ -961,7 +961,53 @@ await db.query('select bitaps_cb($1,$2,$3)', [ us_id, code, Number(amount) ])
 		}
 ctx.body = invoice;	
 });
+/*
+  invoice: 'invNYot1MsDd8wPAquMTWmCTrACRy4uhHEEcfRAEVdL3pcF3yuaNQ',
+  confirmations: '0',
+  received_amount: '0',
+  pending_received_amount: '0',
+  pending_received_tx: '0',
+  received_tx: '0',
+  amount: '856000', // 0.00856BTC
+  currency: 'tBTC',
+  BTCUSD_HITBTC: '60264.92',
+  BTCUSD_BITTREX: '60261.81',
+  BTCUSD_BITFINEX: '60272.0',
+  BTCUSD_BITSTAMP: '60294.66',
+  BTCUSD_COINBASEPRO: '60229.31',
+  BTCUSD_KRAKEN: '60219.4',
+  BTCUSD_GEMINI: '60269.37',
+  BTCUSD_AVERAGE: '60256.84'
+  ===
+  callback detected -> ctx.request.body:  {
+  event: 'unconfirmed',
+  payout_tx_hash: '',
+  payout_tx_outs: '[]',
+  payout_miner_fee: '',
+  payout_service_fee: '',
+  address: '2N58mhuzQM59qUBd46CPtjUkQTMpPyoE7SS',
+  tx_hash: '7c2ac5748f1b7ade7f72b45ef8200d3cfd43dd4dffad526968c7b9344cbe5dac',
+  tx_out: '0',
+  code: 'PMTuYGySdhbpwpF2B64JHWAnhGStvUjnB6BGb5izekN8ta5CiQaLv',
+  invoice: 'invPV4UQgejSVTrAtzK2AsX8FBWNtTvDn9DNmrVbMLU898s8ifzqp',
+  confirmations: '0',
+  received_amount: '0',
+  pending_received_amount: '0',
+  pending_received_tx: '0',
+  received_tx: '0',
+  amount: '865000',
+  currency: 'tBTC',
+  BTCUSD_HITBTC: '60160.99',
+  BTCUSD_BITTREX: '60190.07',
+  BTCUSD_BITFINEX: '60188.17',
+  BTCUSD_BITSTAMP: '60187.48',
+  BTCUSD_COINBASEPRO: '60171.07',
+  BTCUSD_KRAKEN: '60158.0',
+  BTCUSD_GEMINI: '60200.0',
+  BTCUSD_AVERAGE: '60171.94'
+}
 
+ */ 
 
 /* USERPAY */
 
