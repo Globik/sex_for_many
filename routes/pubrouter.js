@@ -33,23 +33,24 @@ const pub=new Router();
 
 pub.get('/', reklama, async ctx=>{
 //let bresult;
-//let new_users;
+let new_users;
 let db=ctx.db;
 let videoUsers;
 //let videos;
 try{
 //let s='select us_id,nick,v,age,ava,isava from room left join profile on room.nick=profile.bname;';
-//let d=`select buser.id, buser.bname, profile.age, profile.msg, 
-//profile.ava,profile.bi,profile.city from buser left join profile on buser.bname=profile.bname order by id desc limit 5`;
+let d=`select id, bname, ava, stat from buser order by id desc limit 5`;
 /*let bus=await db.query(s);
 
 if(bus.rows.length>0){
 bresult=bus.rows;
 }
-let bus1=await db.query(d);
-if(bus1.rows.length>0){
-new_users=bus1.rows;
+*/ 
+let bus1 = await db.query(d);
+if(bus1.rows.length > 0){
+new_users = bus1.rows;
 }
+/*
 * 
 * 
 * us_id int not null,
@@ -61,9 +62,9 @@ crat TIMESTAMP  NOT NULL default now()::timestamp, -- created at
 typ varchar(6) not null default 'activ', -- activ, fake,
 v int no
 *  */
-let a=await db.query('select vroom.us_id,vroom.nick,vroom.src,vroom.p,vroom.crat,vroom.typ,vroom.v,buser.ava,buser.stat from vroom left join buser on vroom.nick=buser.bname',[]);
-if(a.rows.length>0){
-videoUsers=a.rows;	
+let a = await db.query('select vroom.us_id,vroom.nick,vroom.src,vroom.p,vroom.crat,vroom.typ,vroom.v,buser.ava,buser.stat from vroom left join buser on vroom.nick=buser.bname',[]);
+if(a.rows.length > 0){
+videoUsers = a.rows;	
 
 }
 /*
@@ -75,7 +76,7 @@ videos=bb.rows;
 //ctx.session.dorthin=this.path;
 //if(ctx.session.bmessage){m=ctx.session.bmessage;}
 //ctx.body=await ctx.render('main_page',{lusers:bresult, new_users:new_users,videoUsers:videoUsers,videos:videos});
-ctx.body=await ctx.render('main_page',{videoUsers:videoUsers});
+ctx.body = await ctx.render('main_page', {videoUsers:videoUsers, new_users});
 //if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 
