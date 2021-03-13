@@ -949,7 +949,7 @@ ctx.body = { info: "OK", address: result, bname, btc };
  */ 
 pub.post('/api/bitaps_callback/:userid', async ctx=>{
 let {invoice, code, address, amount} = ctx.request.body;
-console.log('ctx.request.body: ', ctx.request.body);
+console.log('callback detected -> ctx.request.body: ', ctx.request.body);
 if(!invoice || !code || !address)ctx.throw(404,"no data");
 let us_id = Number(ctx.params.userid);
 console.log('us_id: ', us_id);
@@ -957,7 +957,7 @@ let db = ctx.db;
 try{
 await db.query('select bitaps_cb($1,$2,$3)', [ us_id, code, Number(amount) ])	
 	}catch(e){
-		console.log(e);
+		console.log('error in db callback: ', e);
 		}
 ctx.body = invoice;	
 });
