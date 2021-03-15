@@ -480,7 +480,7 @@ if(us){
 if(us.id==ctx.params.buser_id){owner=true;}
 }
 
-ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos,descr:descr});
+ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate()});
 });
 //pub.get('/webrtc/:buser_id', async function(ctx){});
 //save btc address
@@ -688,11 +688,11 @@ console.log(e);
 
 pub.post("/api/save_video", auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
 async ctx=>{
-	let {v}=ctx.request.body.files;
-	let {vn,room_id,room_name,is_active,is_first,is_record,recordArr}=ctx.request.body.fields;
+	let {v} = ctx.request.body.files;
+	let {vn, room_id, room_name, is_active, is_first, is_record, recordArr} = ctx.request.body.fields;
 	if(!v || !room_id || !room_name)ctx.throw(400, "No data");
-	let db=ctx.db;
-	var is_rec=false;
+	let db = ctx.db;
+	var is_rec = false;
 	//console.log("pathi: ",path);
 	console.log('path: ',v.path);
 	console.log('name: ', v.name);
@@ -1136,20 +1136,38 @@ await db.query(s,[fname,age,txt_msg,s_name,isava,city,gay]);
 ctx.body={info:"Профиль сохранен!"};	
 })
 
-pub.post("/api/save_ava",auth,bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+const removeFilesInDir = async(dir)=>{
+try{
+const files=await readdir(dir);
+await Promise.all(files.map(async file=>{
+try{
+let p=path.join(dir, file);
+let stat=await lstat(p);
+if(stat.isFile()){
+await unlink(p);	
+}	
+}catch(e){console.log(e)}	
+}))
+console.log('dir:',dir);
+}catch(e){
+console.log(e);	
+}	
+}
+
+pub.post("/api/save_ava", auth, bodyParser({multipart: true, formidable: {uploadDir: './public/images/upload/tmp', keepExtensions: true}}),
  async ctx=>{
-let {fname}=ctx.request.body.fields;
-if(!fname)ctx.throw(400,"no data");
-let {zfile}=ctx.request.body.files;
+let {fname} = ctx.request.body.fields;
+let {canvasImage} = ctx.request.body.files;
+if(!canvasImage || !fname)ctx.throw(400, "no image");
+console.log('canvasImage.path: ',canvasImage.path);
 let s_name;
-let db=ctx.db;
-let s=`update buser set ava=$1 where bname=$2`;
+let db = ctx.db;
+let s = `update buser set ava=$1 where bname=$2`;
 try{
-if(zfile && zfile.name){
- s_name='/profile/'+zfile.name;
-//let result=await db.query();
+
+ s_name = '/profile/' + canvasImage.name;
 try{
-let result=await db.query('select ava from buser where bname=$1',[fname] );
+let result = await db.query('select ava from buser where bname=$1', [ fname ] );
 
 console.log('result:',result.rows);
 if(result.rows && result.rows.length==1){
@@ -1160,15 +1178,22 @@ await unlink('./public'+result.rows[0].ava)
 }catch(e){
 console.log(e);	
 }
-await insert_foto(zfile.path,'./public/'+ s_name)
-}else{
 try{
-await unlink(zfile.path);	
-}catch(e){}	
-}
+	console.log('canvasImage.path ',canvasImage.path);
+await insert_foto(canvasImage.path, './public/' + s_name)
+await removeFilesInDir('./public/images/upload/tmp');
+}catch(e){
+	await unlink(canvasImage.path);	
+ctx.throw(400, e);	
+	}
+//}else{
+//try{
+//await unlink(zfile.path);	
+//}catch(e){}	
+//}
 await db.query(s, [ s_name, fname ]);	
 }catch(e){ctx.throw(400, e);}
-ctx.body={info:"OK - аватарка сохранена!",path:s_name}
+ctx.body = {info: "OK - аватарка сохранена!", path: s_name}
 })
 
 pub.post("/api/foto_error", async ctx=>{

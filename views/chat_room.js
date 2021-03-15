@@ -47,7 +47,7 @@ ${n.owner?
 <div>
 <div class="requis">
 <div id="avacontainer">
-<img id="imgavatar" data-avid="${model.id}" onerror="foto_error(this);" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}">
+<img id="imgavatar" data-avid="${model.id}" onerror="" src="${model&&model.ava?model.ava:'/images/unnamed.jpg'}">
 </div>
 </div>
 <div class="requis">
@@ -169,6 +169,7 @@ ${doska.doska({})}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 <output id="webrtc"></output>
+<input type="hidden" id="randomStr" value="${n.randomStr}">
 <input type="hidden" id="owner" value="${n.owner}">
 <input type="hidden" id="buser" value="${buser?true:false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'Anon'}">

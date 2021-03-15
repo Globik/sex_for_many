@@ -340,6 +340,17 @@ await mkdir('public/uploads/tmp');
 console.log('created directory public/uploads/tmp')
 }catch(e){console.log(e)}	
 }
+
+try{
+let a_1=await access('public/images/upload/tmp',fs.constants.F_OK);
+console.log('images/upload/tmp: ',a_1);	
+}catch(e){
+try{
+await mkdir('public/images/upload/tmp');
+console.log('created directory public/images/upload/tmp')
+}catch(e){console.log(e)}	
+}
+
 try{
 let b=await access('public/vid',fs.constants.F_OK);
 console.log('b: ',b);	

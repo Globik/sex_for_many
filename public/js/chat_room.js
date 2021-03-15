@@ -31,6 +31,7 @@ var vsrc = [];
 var is_playing=false;
 var current_playing=null;
 var the_time;
+var ava_file;
 
 var spanWhosOn = gid("spanWhosOn");
 var sock;
@@ -145,28 +146,83 @@ btcInput.value="";
 del_after(bInput,"span");
 btnSaveAdr.disabled=false;	
 }
+function get_natural(){
+var im = document.getElementById("imgavatar");
+console.log(im);
+//alert(im.naturalWidth);
+//alert(im);
+if(!im)return;
+return {w: im.naturalWidth, h: im.naturalHeight};
+}
+function datauri_toblob(s){
+var binary = atob(s.split(',')[1]);
+var a_r = [];
+//alert(s);
+//alert(binary.length);
+for(var i = 0; i < binary.length; i++){
+	a_r.push(binary.charCodeAt(i));
+	}
+	return new Blob([new Uint8Array(a_r)], {type: 'image/jpeg'});	
+	}
+function thumb(ev){
+while(avacontainer.firstChild){avacontainer.removeChild(avacontainer.firstChild);}
+var imgA = document.createElement('img');
+var cnvA = document.createElement('canvas');
+var ctxA = cnvA.getContext('2d');
+imgA.src = window.URL.createObjectURL(ev[0]);
+//alert(imgA.naturalWidth+' '+ev[0].size);//1709094
+imgA.id = "imgavatar";
+//imgA.height = 200;
+avacontainer.appendChild(imgA);
+imgA.onload = function(){
+	window.URL.revokeObjectURL(imgA.src);
+	//alert(get_natural().w);
+	
+var l = get_natural();
+console.log(l);
+if(l)
+var wi = (l.w > 1000 ? l.w/4: l.w);
+var hi = (l.w > 1000 ? l.h/4: l.h);
+cnvA.width = wi;
+cnvA.height = hi;
+//alert(wi+' '+hi);
+ctxA.drawImage(imgA, 0, 0, wi, hi);
+//document.body.appendChild(cnvA);
+//var ava_str=new Image();
+var ava_str = cnvA.toDataURL('image/jpeg', 0.5);//cnvA.toDataURL('image/jpeg', 1.0);
+//alert(ava_str);
+ava_file = datauri_toblob(ava_str);
+	}}
 
-function thumb(el){}
-var profile_form=document.forms.avaprofi;
+
+var profile_form = document.forms.avaprofi;
 	if(profile_form)profile_form.addEventListener('submit', on_submit_ava, false);
 function on_submit_ava(ev){
 ev.preventDefault();
-var dich=new FormData(profile_form);
+var dich = new FormData(profile_form);
+
+if(ava_file){
+	console.log(ava_file);
+	var fileA = new File([ava_file], modelName.value+'_' + randomStr.value + '.jpg', {type:'image/jpeg'});
+	console.log(ava_file);
+	//var fileA = new File(ava_file);
+dich.append("canvasImage", fileA);
+}
 vax(ev.target.method, ev.target.action, dich, on_profile_saved, on_profile_err, ev.target, true);
-ev.target.className="puls";	
+ev.target.className = "puls";	
 }
 
-function on_profile_saved(l,ev){
+function on_profile_saved(l, ev){
 console.log(l);
-ev.className="";
+ev.className = "";
 note({content: l.info, type:"info", time: 5});
-imgavatar.src=l.path;
-wsend({type:"new_ava",name:myusername, avasrc:l.path,id:modelId.value});
+imgavatar.src = l.path;
+wsend({type:"new_ava", name:myusername, avasrc:l.path, id:modelId.value});
 }
-function on_profile_err(l,ev){ev.className="";note({content: l, type:"error", time: 5});}
+function on_profile_err(l,ev){ev.className = "";note({content: l, type:"error", time: 5});}
 
 function foto_error(el){
-var avid=el.getAttribute('data-avid');
+var avid = el.getAttribute('data-avid');
 if(!avid)return;
 var d={};
 d.avid=avid;
