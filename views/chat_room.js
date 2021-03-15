@@ -75,9 +75,9 @@ maxlength="35" spellcheck="false" autocomplete="off" placeholder="your ${n.is_te
 <button ${(model.cadrtest !==null && model.cadr !==null) ?'disabled':''} id="btnSaveAdr" 
 class="btn-saveL" onclick="saveBTC(this);">сохранить</button>&nbsp;<button class="btn-saveL" onclick="reset_btc();">редактировать</button>
 </div>
-<div class="requis"><label for="bankcardinput">Введите номер вашей <b>банковской карты</b>. Для перечисления заработанных денег.</label>
-<br><input id="bankcardinput" type="number" value="${buser.bcard !=0?buser.bcard:''}">&nbsp;<button onclick="save_bankcard(this);">сохранить</button></div>
-<!-- <div class="requis"><label for="roomdescr">Добавьте описание стрима(200 знаков):</label>
+<!-- <div class="requis"><label for="bankcardinput">Введите номер вашей <b>банковской карты</b>. Для перечисления заработанных денег.</label>
+<br><input id="bankcardinput" type="number" value="{buser.bcard !=0?buser.bcard:''}">&nbsp;<button onclick="save_bankcard(this);">сохранить</button></div>
+ <div class="requis"><label for="roomdescr">Добавьте описание стрима(200 знаков):</label>
 <br><input type="text" id="roomdescr" maxlength="200" placeholder="Название видеострима"></div></div> -->`:''}
 
 ${n.owner?'':model.padrtest || model.padr?`<div id="btcInfo" style="">
@@ -161,7 +161,7 @@ ${n.owner?`<label class="label-galka" id="sochrVideo"><span>Сохранить �
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
 <li> <br><b>Просмотров: </b><span id="clientViews"></span> -->
-${n.owner?'':`<br><header>Биткоин адрес для донатов ${model.bname}</header><div id="qrcodeContainer"><div id="qrcode"></div></div>`}
+${n.owner?'':`${model.padrtest || model.padr?`<br><header>Биткоин адрес для донатов ${model.bname}</header><div id="qrcodeContainer"><div id="qrcode"></div></div>`:''}`}
 <!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>
 <hr>

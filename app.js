@@ -50,17 +50,17 @@ const Router=require('koa-router');
 const url=require('url');
 const Pool=require('pg-pool');
 const PgStore=require('./libs/pg-sess.js');
-const PS=require('pg-pubsub');
-const pgtypes=require('pg').types;
-const render=require('koa-rend');
-const serve=require('koa-static');
-const session=require('koa-generic-session');
+const PS = require('pg-pubsub');
+const pgtypes = require('pg').types;
+const render = require('koa-rend');
+const serve = require('koa-static');
+const session = require('koa-generic-session');
 
-const nodemailer=require('nodemailer');
+const nodemailer = require('nodemailer');
 
-const pubrouter=require('./routes/pubrouter.js');
-const adminrouter=require('./routes/adminrouter.js');
-const {meta, warnig}=require('./config/app.json');
+const pubrouter = require('./routes/pubrouter.js');
+const adminrouter = require('./routes/adminrouter.js');
+const {meta, warnig, site_name} = require('./config/app.json');
 
 const dkey='./data/glo_key.pem';
 const dcert='./data/glo_cert.pem';
@@ -68,18 +68,18 @@ const ca='./data/glo_ca.cert';
 
 //const pgn=require('pg').native.Client; // see test/pg.js for LD_LIBRARY_PATH
 pgtypes.setTypeParser(1114, str=>str);
-const pars=url.parse(DB_URL);
-const cauth=pars.auth.split(':');
+const pars = url.parse(DB_URL);
+const cauth = pars.auth.split(':');
 const pg_opts = { user:cauth[0],password:cauth[1],host:pars.hostname,port:pars.port,database:pars.pathname.split('/')[1],
 	ssl:false
 	//Client:pgn
 	};
 const pool = new Pool(pg_opts);
-const pg_store=new PgStore(pool);
-var dop_ssl="";
-if(process.env.DEVELOPMENT==="yes"){
+const pg_store = new PgStore(pool);
+var dop_ssl = "";
+if(process.env.DEVELOPMENT === "yes"){
 	
-}else{dop_ssl="?ssl=true";}
+}else{dop_ssl = "?ssl=true";}
 var ps=new PS(DB_URL);//+dop_ssl);
 
 pool.on('connect', function(client){})
@@ -105,19 +105,19 @@ app.use(passport.session())
 
 function xhr(){
 return async function xhr(ctx,next){
-ctx.state.xhr=(ctx.request.get('X-Requested-With')==='XMLHttpRequest')
+ctx.state.xhr = (ctx.request.get('X-Requested-With') === 'XMLHttpRequest')
 await next()
 }
 }
 app.use(xhr());
 
-const removeDir=async(dir)=>{
+const removeDir = async(dir)=>{
 try{
-const files=await readdir(dir);
+const files = await readdir(dir);
 await Promise.all(files.map(async file=>{
 try{
-let p=path.join(dir,file);
-let stat=await lstat(p);
+let p = path.join(dir,file);
+let stat = await lstat(p);
 if(stat.isDirectory()){
 await removeDir(p);	
 }else{
@@ -126,7 +126,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=='public/video'){}else{
+if(dir == 'public/video'){}else{
 await rmdir(dir);
 }
 }catch(e){
@@ -148,7 +148,7 @@ var xirsys;
 app.use(async (ctx, next)=>{
 console.log("FROM HAUPT MIDDLEWARE =>",ctx.path, ctx.method);
 
-ctx.state.site = "globikon";
+ctx.state.site = site_name;
 ctx.db = pool;
 ctx.transporter = transporter;
 ctx.state.meta = meta;
