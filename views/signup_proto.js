@@ -19,7 +19,12 @@ return html`<!-- signup_proto.js --><section id="signupSection" class="">
 <input type="password" id="password" name="password"
 class="login-pwd" placeholder="Пароль / Password" maxlength="20" autocomplete="new-password"/>
 <label id="lShow" onclick="show_pwd(this);" title="show password">
-<strong id="sShow">показать / show password</strong></label></div>
+<strong id="sShow"><small>показать / show password</small></strong></label></div>
+<div class="inwrap3"><label><strong>Выберите язык / Choose a language</strong></label></div>
+<div class="inwrap"><label class="cntlb"><b>русский</b><input type="radio" name="lang" value="ru"><span class="mark"></span></label></div>
+<div class="inwrap"><label class="cntlb"><b>english</b><input type="radio" name="lang" value="en" checked><span class="mark"></span></label></div>
+<div class="inwrap3"><label><strong>Промокод / Promo code</strong></label></div>
+<div class="inwrap"><input type="number" name="promocode"></div>
 <small id="smally2" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy">условиями - terms of use</a></small>
 <div class="inwrapkuku">
 <input id="submitkuku" type="submit" value="Готово Sign up">
