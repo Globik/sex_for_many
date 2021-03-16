@@ -20,8 +20,8 @@ const streaminterupt_str="Конец стрима";
 const str_langsam_stop="We are sorry, but no more activity is acceptable. Site is closing for a profilactic works in a pair of hours.";
 const str_emergency_stop="Emergency stop all activities on this site. We are sorry";
 const chat_room = n=>{
-const buser=n.user;
-let {model}=n;
+const buser = n.user;
+let {model} = n;
 return `<!DOCTYPE html><html lang="en"><!-- chat_room.js -->
 <head>${html_head.html_head({title:model?model.bname:'-', meta: get_meta(n.meta, model),
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"]})}
@@ -39,11 +39,8 @@ ${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
-<div>У вас <span id="rublescnt">${(model.items*model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div>
-
-
+<!-- <div>У вас <span id="rublescnt">{(model.items*model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div> -->
 <h5>Прежде чем начать (необязательно)</h5>
-
 <div>
 <div class="requis">
 <div id="avacontainer">
@@ -88,12 +85,10 @@ ffmpeg -i vanya.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus vanya.
 <section id="media-wrapper">
 <div id="mediaPanel"><!-- <div id="online-detector" class=""></div> -->
 <!-- &nbsp;&nbsp;<b>viewers:&nbsp;</b><span id="rviewers">0</span>-->
-<div id="tokencount"><span id="tokencc">${model?model.items:0}</span>&nbsp;<span id="tokenspan">токенов</span></div>
-<div id="btccount"><span id="btcc">${model.btc_all?model.btc_all:0}</span>&nbsp;<span id="btcspan">сатоши</span></div>
+<div id="tokencount"><span id="tokencc">${model ? model.items: 0}</span>&nbsp;<span id="tokenspan">токенов</span></div>
+<div id="btccount"><span id="btcc">${model.btc_all ? model.btc_all: 0}</span>&nbsp;<span id="btcspan">сатоши</span></div>
 </div>
 <section id="video-container">
-
-
 <div id="video-wrapper" class="${n.owner?'owner':'notowner'}"
 data-owner="${owner_str}" data-notowner="${notowner_str}" data-streaminterupt="${streaminterupt_str}" data-connecting="Connecting..."
  data-webcamowner="${webcamowner_str}" data-privat="Приват | Privat">

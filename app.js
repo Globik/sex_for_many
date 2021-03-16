@@ -140,8 +140,8 @@ var transporter;
 var test_btc_address;
 var btc_address;
 var btc_percent;
-var btc_pay=false;
-var is_test_btc=false;
+var btc_pay = false;
+var is_test_btc = false;
 var xirsys;
 //var banner;
 
@@ -165,12 +165,12 @@ ctx.state.btc_percent = "10%";
 ctx.state.xirsys = xirsys;
 
 if(ctx.request.header["user-agent"]){
-	ctx.session.ua=ctx.request.header["user-agent"];
-	ctx.session.ref=ctx.request.header["referer"];
+	ctx.session.ua = ctx.request.header["user-agent"];
+	ctx.session.ref = ctx.request.header["referer"];
 	//console.log("REQUEST: ", ctx.request.header);
 	}
 
-if(ctx.isAuthenticated() && ctx.state.user.brole=="superadmin"){
+if(ctx.isAuthenticated() && ctx.state.user.brole == "superadmin"){
 if(ctx.path=="/home/profile/enable_btc"){
 console.log("occured /home/profile/enable_btc");
 if(!btc_pay){

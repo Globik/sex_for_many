@@ -442,45 +442,45 @@ ctx.body={result:result.rows}
 
 pub.get('/webrtc/:buser_id', reklama, async function(ctx){
 	if(!Number(ctx.params.buser_id))return;
-let us=ctx.state.user;
-let db=ctx.db;
+let us = ctx.state.user;
+let db = ctx.db;
 console.log("USER: ",us);
 let a,result,videos,videos2;
-let owner=false;
+let owner = false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis=`select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, 
+sis = `select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis=`select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, 
+sis = `select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
-result=await db.query(sis,[ctx.params.buser_id]);
+result = await db.query(sis,[ctx.params.buser_id]);
 a=result.rows[0];
-if(a&&a.brole=='fake'){
-videos2=await db.query('select*from vroom where nick=$1',[a.bname]);
-videos=videos2.rows[0];
-//descr=videos2.rows[0].descr;
+if(a&&a.brole == 'fake'){
+videos2 = await db.query('select*from vroom where nick=$1',[a.bname]);
+videos = videos2.rows[0];
+
 console.log('videos: ',videos);
 }else{
-let de=await db.query('select descr from vroom where nick=$1',[a.bname]);
-//if(de&&de.rows.length)descr=de.rows[0].descr;
+let de = await db.query('select descr from vroom where nick=$1',[a.bname]);
+
 }
 }catch(e){
 console.log('db error: ',e);
-ctx.body=await ctx.render('room_err',{mess:"Нет такого пользователя."});
+ctx.body = await ctx.render('room_err',{mess:"Нет такого пользователя."});
 return;
 }
-if(result.rows.length==0){
-ctx.body=await ctx.render('room_err',{mess:"No such user undefined"});
+if(result.rows.length == 0){
+ctx.body = await ctx.render('room_err',{mess:"No such user undefined"});
 return;
 }
 if(us){
-if(us.id==ctx.params.buser_id){owner=true;}
+if(us.id == ctx.params.buser_id){owner=true;}
 }
 
-ctx.body= await ctx.render('chat_room',{model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate()});
+ctx.body = await ctx.render('chat_room', {model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate()});
 });
 //pub.get('/webrtc/:buser_id', async function(ctx){});
 //save btc address
@@ -491,36 +491,36 @@ const cb_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
 
 
 pub.post('/api/savebtcaddress', auth, async ctx=>{
-	console.log('body: ',ctx.request.body);
-	let {btc_client, is_testnet, username}=ctx.request.body;
+	console.log('body: ', ctx.request.body);
+	let { btc_client, is_testnet, username } = ctx.request.body;
 	if(!btc_client || !username){ctx.throw(400, "No data provided! No username ,no btc client addr!");}
 if(ctx.state.is_test_btc){
-let vali=walletValidator.validate(btc_client,'bitcoin','testnet');
+let vali = walletValidator.validate(btc_client,'bitcoin','testnet');
 if(!vali){ctx.throw(400,"Неправильный тест биткоин адрес!");}
 }else{
-let valir=walletValidator.validate(btc_client,'bitcoin');
+let valir = walletValidator.validate(btc_client,'bitcoin');
 if(!valir){ctx.throw(400,"Неправильный биткоин адрес!");}	
 }
 
-let db=ctx.db;
-let bod=undefined;
-let data={};
+let db = ctx.db;
+let bod = undefined;
+let data = {};
 if (ctx.state.is_test_btc){
 
-data.forwarding_address_primary=ctx.state.test_btc_address;//must be mine
-data.forwarding_address_secondary=btc_client;//must be client's one
-data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
-data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
+data.forwarding_address_primary = ctx.state.test_btc_address;//must be mine
+data.forwarding_address_secondary = btc_client;//must be client's one
+data.forwarding_address_primary_share = "10%";//ctx.state.btc_percent;
+data.callback_link = ctx.origin + '/api/test_cb_smartc';//cb_link;
 
 try{
-bod=await axios.post(base_url_smart_tbtc,data)
+bod = await axios.post(base_url_smart_tbtc,data)
 console.log('bod: ', bod.data);
 
 try{
-let sql_create_smarti1=`insert into cladr(nick, cadrtest, padrtest, inv, pc) 
+let sql_create_smarti1 = `insert into cladr(nick, cadrtest, padrtest, inv, pc) 
 values($1,$2,$3,$4,$5) on conflict(nick) do update set cadrtest=$2,padrtest=$3,inv=$4,pc=$5`;
 
-let si=await db.query(sql_create_smarti1,[
+let si = await db.query(sql_create_smarti1,[
 username, 
 bod.data.forwarding_address_secondary, //cadrtest
 bod.data.address, //padrtest
@@ -532,7 +532,7 @@ console.log("db query: ", si);
 }catch(e){console.log("db error: ", e);ctx.throw(400, e)}
 }catch(e){ctx.throw(400, e.message);}
 
-ctx.body={status:"ok", data:"tested"}
+ctx.body = { status:"ok", data:"tested" }
 }else{
 console.log("ctx.state.btc_address: ",ctx.state.btc_address);
 console.log("btc_client: ",btc_client);
@@ -546,23 +546,23 @@ data.forwarding_address_primary_share="10%";//ctx.state.btc_percent;
 
 
 
-data.forwarding_address_primary=ctx.state.btc_address;//must be mine
-data.forwarding_address_secondary=btc_client;//must be client's one
-data.forwarding_address_primary_share=ctx.state.btc_percent;
+data.forwarding_address_primary = ctx.state.btc_address;//must be mine
+data.forwarding_address_secondary = btc_client;//must be client's one
+data.forwarding_address_primary_share = ctx.state.btc_percent;
 data.callback_link=ctx.origin+'/api/test_cb_smartc';//cb_link;
-console.log("cb_link: ",data.callback_link);
-console.log("base_url_smart_btc: ",base_url_smart_btc);
-console.log("ctx.state.btc_percent: ",ctx.state.btc_percent);
+console.log("cb_link: ", data.callback_link);
+console.log("base_url_smart_btc: ", base_url_smart_btc);
+console.log("ctx.state.btc_percent: ", ctx.state.btc_percent);
 
 try{
 bod = await axios.post(base_url_smart_btc, data)
 console.log('bod: ', bod.data);
 
 try{
-let sql_create_smarti=`insert into cladr(nick, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)
+let sql_create_smarti = `insert into cladr(nick, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)
  on conflict(nick) do update set cadr=$2,padr=$3,inv=$4,pc=$5`;
 
-let si1=await db.query(sql_create_smarti,[
+let si1 = await db.query(sql_create_smarti,[
 username, 
 bod.data.forwarding_address_secondary, //cadr
 bod.data.address, 
@@ -576,7 +576,7 @@ console.log("db query: ", si1);
 	ctx.throw(400, e.message);
 	}
 
-ctx.body={status:"ok", data:"real btc"}
+ctx.body = { status:"ok", data:"real btc" }
 	
 }
 });
@@ -593,6 +593,7 @@ update cladr set btc_amt=40 where inv='34d';
 
 
 pub.post("/api/test_cb_smartc", async ctx=>{
+	//any need? todo: remove it
 	console.log("it looks like callback came from bitaps\n",ctx.request.body);
 	let {received_amount, invoice, code,amount,address}=ctx.request.body;
 	let db=ctx.db;
@@ -602,7 +603,7 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	ctx.body=invoice;
 })
 
-// bankcard
+// bankcard any need? todo: remove it
 
 pub.post("/api/set_bankcard", auth, async ctx=>{
 let {bankcard, userid}=ctx.request.body;
@@ -621,39 +622,38 @@ ctx.body={info:"OK"};
 function s_video(user_name){
 return new Promise(function(res,rej){
 
-let sh=shortid.generate();
-let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",
-process.env.HOME+"/sex_for_many/public/vid/"+user_name+"_"+sh+".webm"];
+let sh = shortid.generate();
+let du = ["-f", "concat", "-safe", "0", "-i", process.env.HOME + "/sex_for_many/public/video/" + user_name + "/myfile.txt", "-y", "-c", "copy",
+process.env.HOME + "/sex_for_many/public/vid/" + user_name + "_" + sh + ".webm"];
 
 //let du=["-f","concat","-safe","0","-i",process.env.HOME+"/sex_for_many/public/video/"+user_name+"/myfile.txt","-y","-c","copy",
 //process.env.HOME+"/sex_for_many/public/video/"+user_name+".webm"];
 
 console.log('du: ',du);
-const ls=spawn('ffmpeg',du);
-ls.stderr.on('data',data=>{console.log(data.toString());})
-ls.stdout.on('data',data=>{console.log(data.toString());})
-ls.on('close',(code)=>{console.log('child process closed with code: ',code);
-	if(code==0){
-		//res(user_name+'_'+sh+'.webm')
+const ls=spawn('ffmpeg', du);
+ls.stderr.on('data', data=>{console.log(data.toString());})
+ls.stdout.on('data', data=>{console.log(data.toString());})
+ls.on('close', (code)=>{console.log('child process closed with code: ',code);
+	if(code == 0){
 		res(user_name+'.webm');
 		}else{rej("error");}
 	})
-ls.on('exit',(code)=>{console.log('child process exit: ', code);})
+ls.on('exit', (code)=>{console.log('child process exit: ', code);})
 })	
 } 
 
 function jopa(arr,us_name){
 	return new Promise(function(res,rej){
-var stream=fs.createWriteStream(process.env.HOME+"/sex_for_many/public/video/"+us_name+"/myfile.txt");
+var stream = fs.createWriteStream(process.env.HOME + "/sex_for_many/public/video/" + us_name + "/myfile.txt");
 stream.once('open',(fd)=>{
 	//stream.write("file '"+process.env.HOME+"/sex_for_many/public/video/"+us_name+"/"+us_name+"_1.webm'\n");
 	arr.forEach(function(el,i){
-	stream.write("file '"+process.env.HOME+"/sex_for_many/public"+el+"'\n")	
+	stream.write("file '" + process.env.HOME + "/sex_for_many/public" + el + "'\n")	
 	})
-	stream.on('error',function(e){rej(e)})
+	stream.on('error', function(e){rej(e)})
 	stream.end();
 	})
-stream.on('close',function(){console.log("closeeeeeeeee");res(us_name)})
+stream.on('close', function(){console.log("closeeeeeeeee");res(us_name)})
 })
 }
 
@@ -663,13 +663,13 @@ return new Promise(function(res,rej){
 })	
 }
 
-const removeDir=async(dir)=>{
+const removeDir = async(dir)=>{
 try{
-const files=await readdir(dir);
+const files = await readdir(dir);
 await Promise.all(files.map(async file=>{
 try{
 let p=path.join(dir,file);
-let stat=await lstat(p);
+let stat = await lstat(p);
 if(stat.isDirectory()){
 await removeDir(p);	
 }else{
@@ -678,7 +678,7 @@ await unlink(p);
 }catch(e){console.log(e)}	
 }))
 console.log('dir:',dir);
-if(dir=="public/video/"){}else{
+if(dir == "public/video/"){}else{
 await rmdir(dir);
 }
 }catch(e){
@@ -686,36 +686,34 @@ console.log(e);
 }	
 }
 
-pub.post("/api/save_video", auth, bodyParser({multipart:true,formidable:{uploadDir:'./public/images/upload/tmp',keepExtensions:true}}),
+pub.post("/api/save_video", auth, bodyParser({multipart: true, formidable: {uploadDir: './public/images/upload/tmp', keepExtensions: true}}),
 async ctx=>{
-	let {v} = ctx.request.body.files;
-	let {vn, room_id, room_name, is_active, is_first, is_record, recordArr} = ctx.request.body.fields;
+	let { v } = ctx.request.body.files;
+	let { vn, room_id, room_name, is_active, is_first, is_record, recordArr } = ctx.request.body.fields;
 	if(!v || !room_id || !room_name)ctx.throw(400, "No data");
 	let db = ctx.db;
 	var is_rec = false;
-	//console.log("pathi: ",path);
-	console.log('path: ',v.path);
+	console.log('path: ', v.path);
 	console.log('name: ', v.name);
 	console.log('room_name: ', room_name);//for directory in video
-	console.log('room_id: ',room_id);
-	console.log('is_active: ',is_active);
-	console.log('is_first: ',is_first);
-	let s_s='./public/video/'+room_name+'/'+v.name;
-	let v_src='/video/'+room_name+'/'+v.name;
-	//try{await mkdir('./public/video/'+room_name);}catch(e){console.log('err in mkdir: ',e)}	
+	console.log('room_id: ', room_id);
+	console.log('is_active: ', is_active);
+	console.log('is_first: ', is_first);
+	let s_s = './public/video/' + room_name + '/' + v.name;
+	let v_src = '/video/' + room_name + '/' + v.name;
 	try{
-		let l=await access('./public/video/'+room_name, fs.constants.F_OK);
+		let l = await access('./public/video/' + room_name, fs.constants.F_OK);
 		console.log('if file exists?: ', l);
 		}catch(e){
-console.log('haha: ',e);
+console.log('err in access: ',e);
 
 try{
-await mkdir('./public/video/'+room_name);
+await mkdir('./public/video/' + room_name);
 }catch(e){console.log('err in mkdir: ',e)}	
 		} 
 try{
 	console.log('v.path: ',v.path);
-	console.log('s_s: ',s_s);
+	console.log('s_s: ', s_s);
 await insert_foto(v.path, s_s);
 
 /*
@@ -732,21 +730,21 @@ if(is_first=="true"){
 
 }
 console.log('IS ACTIVE??: ',is_active)
-if(is_active=="false"){
+if(is_active == "false"){
 //await db.query('delete from vroom where nick=$1',[room_name]);
 console.log("REMOVING THE FILE DIRECTORY, ", room_name);
-if(is_record=="true"){
+if(is_record == "true"){
 	console.log("recordArr: ",recordArr);
-	let li=JSON.parse(recordArr);
+	let li = JSON.parse(recordArr);
 	console.log("li : ",li.d);
-	is_rec=is_record;
-	let jo=await jopa(li.d,room_name);
+	is_rec = is_record;
+	let jo = await jopa(li.d,room_name);
 	console.log("JO: ",jo);
-let da=await s_video(room_name);
+let da = await s_video(room_name);
 console.log("DA: ",da)
 await db.query('insert into video(nick,src,usid) values($1,$2,$3)',[room_name,da,room_id]);
 }
-await removeDir('./public/video/'+room_name);
+await removeDir('./public/video/' + room_name);
 }}catch(e){
 		ctx.throw(400,e);
 		}
@@ -778,8 +776,8 @@ unlink(process.env.HOME+'/sex_for_many/public/video/'+name+'/'+eli)
 */
 function insert_foto(path, name){
 return new Promise(function(res,rej){
-var readstr=fs.createReadStream(path);
-var writestr=fs.createWriteStream(name);
+var readstr = fs.createReadStream(path);
+var writestr = fs.createWriteStream(name);
 readstr.pipe(writestr);
 readstr.on('open', function(){console.log('readstr is open');})
 readstr.on('error',function(e){rej(e);})
@@ -792,7 +790,7 @@ rej(e);
 }
 })
 })
-writestr.on('error',function(e){rej(e)})
+writestr.on('error', function(e){rej(e)})
 writestr.on('open', function(){console.log('writestr is open');})
 writestr.on('close',  function(){
 console.log('writestr is close');
