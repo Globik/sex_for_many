@@ -30,8 +30,10 @@ body {height:100%;
 margin:0;padding:0;font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;}
 body.ondialog{overflow:hidden;}
 .orange{background:orange;} .green{background:green;}
-/*
+
 a {color: #026acb;text-decoration: none;outline: none;}
+input[type=number]{height:40px;}
+/*
 a:hover {text-decoration: underline;}
 .p {margin: 0 0 1.2rem; padding: 0;}
 ul, ol {margin: 1rem 0 1.4rem 24px;padding: 0;line-height: 140%;}
@@ -361,19 +363,21 @@ transform:translate(-50%,1vh);
 #abuse_id{min-width:80%;}
 
 /* LOGIN PART */
-
-#vorlogin{width:50%;overflow:auto;}
+#vhod,#vout{cursor:pointer;}
+#vorlogin{width:50%;overflow: auto;}
 #vorlogin a{color:blue;font-weight:bold;text-decoration:none;}
 #vorlogincontainer{margin-top:1.2rem;border:1px solid transparent;}
 .login-section{width:100%;background:lightgreen;padding:2rem;border-radius:2px;}
 #formLogin{}
+#mform2 strong{color:rgb(0,0,5);}
 #formLogin input[type=text],#formLogin input[type=password],
-#mform2 input[type=text],#mform2 input[type=password],#mform2 input[type=email],#mform3 input[type=email]{
+#mform2 input[type=text],#mform2 input[type=email],#mform3 input[type=email]{
 height:40px;width:100%;padding-left:4px;font-size:0.8rem;}
+#mform2 input[type=password]{height:40px;width:100%;padding-left:4px;font-size:0.8rem;}
 .submitDiv{text-align:right;}
 .submitDiv input[type=submit]{margin-right:0;}
 .inpwrapDiv{margin-top:5px;margin-bottom:15px;}
-label strong{color:rgb(72,76,86);}
+label strong{color:rgb(0,0,5);}
 header{color:rgb(72,76,86);}
 #sessRed{color:rgb(72,76,86);}
 .submitWrap{text-align:right;}
@@ -382,9 +386,22 @@ header{color:rgb(72,76,86);}
 .psuka{color:black;}
 #vorlogincontainer section {display:none;}
 
-#vorlogincontainer section.tabactive{display:block;background:lightgreen;}
-#loginSection, #signupSection{padding:20px;}
-/* #pagewrapi #loginSection{width:50%;margin:0 auto;} */
+#vorlogincontainer section.tabactive{display:block;background:lightgreen;width:98%;font-size:0.1em;}
+#loginSection, #signupSection{padding:20px;width:60%;margin:0 auto;}
+
+
+#eye_svg{
+display:block;
+position:absolute;
+color:red;
+width:40px;
+height:40px;
+background-image:url(/images/eye.svg);
+right:0.1em;top:0;
+cursor:pointer;
+}
+
+
 #loginSection strong,#signupSection strong{font-size:0.8rem;}
 .foget{color:black;}
 span.yellow{color:yellow;}
@@ -676,7 +693,7 @@ border:2px solid gray;
 border-radius:50%;
 }
 
-.cntlb input:checked ~ .mark{background-color:/*#2196F3;*/rgba(0,0,0,0.25);}
+.cntlb input:checked ~ .mark{background-color:#2196F3;/*rgba(250,0,0,0.25);*/}
 .mark:after{content:"";
 	position:absolute;display:none;}
 .cntlb input:checked ~ .mark:after{
@@ -741,7 +758,7 @@ height:50px;
 .muka span{
 vertical-align:-25%;
 }
-
+#loginSection, #signupSection{width:98%;}
 #vorlogincontainer section.tabactive{display:block;ackground:red;font-size:0.8rem;}
 #signupSection.tabactive{height:10%;}
 #vorlogin{width:98%;font-size:0.8rem;}

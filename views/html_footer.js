@@ -12,11 +12,11 @@ return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">С�
 <a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
 </section>
 <section><span>&#9400; 2020 - </span><span>${a.getFullYear()}г.</span></section>
-<input type="hidden" id="loginStr" value='${login_proto({})+signup_proto({})+reset_proto({})}'>
+<input type="hidden" id="loginStr" value='${login_proto({}) + signup_proto({}) + reset_proto({})}'>
 <a href="#" class="overlay" id="vorlogery"></a>
 <output id="vorlogin" class="popi">
 <div class="wrap-close"><a href="#." class="close" onclick="in_rem_hash();"></a></div>
-<div><span id="vhod" onclick="get_login(this);" class="">вход | log in</span> | <span id="vout" onclick="get_registr(this);">регистрация | sign up</span></div>
+<div><span id="vhod" onclick="get_login(this);" class="yellow">вход / sign in</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="vout" onclick="get_registr(this);">регистрация / sign up</span></div>
 <div id="vorlogincontainer"></div>
 </output>
 

@@ -624,7 +624,7 @@ return pc;
 
 function on_channel_state_change(){
 var readyState = dc.readyState;
-console.log('send channel state is: ', readyState);\
+console.log('send channel state is: ', readyState);
 if(readyState == "open"){
 	on_display(false);
 	}else{

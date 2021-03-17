@@ -25,8 +25,8 @@ ${n.user?`<li><a href="/webrtc/${n.user.id}"><div class="muka"><span>Мой ви
 <!-- <li><a href="/videos"><div class="muka"><span>Видео</span></div></a> -->
 ${n.user?`<li><a href="/tokens"><div class="muka"><span>Купить токены</span><span id="tokencntnav">${n.user.items}</span></div></a>`:''}
 ${n.user?'<li><a href="/logout" id="login_pop"><div class="muka"><span>Выйти</span></div></a>':
-'<li><a href="/login"><div class="muka"><span>Войти | Log in</span></div></a>'}
-<!-- <li><a href="/signup"><div class="muka"><span>sign up</span></div></a> -->
+'<li><a href="/login"><div class="muka"><span>Войти / Sign in</span></div></a>'}
+${!n.user ? '<li><a href="/signup"><div class="muka"><span>Регистрация / Sign up</span></div></a>':''}
 </ul>
 
 <a href="#." class="overlay" id="message_box"></a>

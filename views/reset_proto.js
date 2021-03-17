@@ -13,7 +13,7 @@ return html`<section id="resetSection" class="">
 <div class="submitWrap">
 <input type="submit" value="OK">
 </div><br><br>
-<div class="underform"><strong>Уже есть аккаунт?</strong> <b onclick="get_login();">    Войти</b></div><hr>
+<div class="underform"><strong>Уже есть аккаунт?</strong> <b onclick="get_login();">    <span style="cursor:pointer;">Войти</span></b></div><hr>
 </form>
 </section>`;
 }
