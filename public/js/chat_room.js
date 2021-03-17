@@ -122,7 +122,7 @@ el.classList.add("puls");
 function on_saved_btc(d,el){
 note({content: "Адрес сохранен!", type: "info", time: 5});
 el.classList.remove("puls")
-el.disabled=true;
+el.disabled = true;
 }
 
 function on_save_btc_error(l, el){

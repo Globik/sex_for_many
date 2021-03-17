@@ -3,7 +3,7 @@ return html`<!-- signup_proto.js --><section id="signupSection">
 <form id="mform2" name="mform2" action="/signup" method="post" onsubmit="go_login2(this);return false;">
 <span id="sessRed2" class=""></span><br>
 <div class="inwrap3">
-<label for="yourNicki"><strong>Твой ник / Your nickname</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
+<label for="yourNicki"><strong>Ваш ник / Your nickname</strong></label>&nbsp;&nbsp;<span id="nameout"></span>
 <div class="inpwrap">
 <input id="yourNicki" type="text" class="login-text" name="username" maxlength="20" placeholder="твой ник / your nickname"  autocomplete="off" required/>
 </div>
@@ -25,11 +25,11 @@ return html`<!-- signup_proto.js --><section id="signupSection">
 <div class="inwrap3"><label><strong>Выберите язык / Choose a language</strong></label></div>
 <div class="inpwrap"><label class="cntlb">&nbsp;&nbsp;<b style="color:black;">русский</b><input type="radio" name="lang" value="ru"><span class="mark"></span></label>
 &nbsp;&nbsp;<label class="cntlb">&nbsp;&nbsp;<b style="color:black;">english</b><input type="radio" name="lang" value="en" checked><span class="mark"></span></label></div>
-<div class="inwrap3"><label><strong>Промокод / Promo code <small>- получи 50 токенов (0.02 BTC) в подарок</small></strong></label></div>
-<div class="inpwrap"><input type="number" name="promocode" maxlength="6" placeholder="Промокод / Promo code"></div>
+<div class="inwrap3"><label><strong>Промокод / Promo code <small>- получите 50 токенов (0.02 BTC) в подарок</small></strong></label></div>
+<div class="inpwrap"><input type="number" name="promocode" max="9999" placeholder="Промокод / Promo code"></div>
 <small id="smally2" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy"><b>условиями - terms of use</b></a></small>
 <div class="inwrapkuku">
-<input id="submitkuku" type="submit" value="Готово / Sign up">
+<input id="submitkuku" type="submit" name="ssubmit" value="Готово / Sign up">
 </div>
 <div class="underform"></div><hr>
 </form>

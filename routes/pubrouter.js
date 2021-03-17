@@ -513,12 +513,12 @@ data.forwarding_address_primary_share = "10%";//ctx.state.btc_percent;
 data.callback_link = ctx.origin + '/api/test_cb_smartc';//cb_link;
 
 try{
-bod = await axios.post(base_url_smart_tbtc,data)
+bod = await axios.post(base_url_smart_tbtc, data)
 console.log('bod: ', bod.data);
 
 try{
 let sql_create_smarti1 = `insert into cladr(nick, cadrtest, padrtest, inv, pc) 
-values($1,$2,$3,$4,$5) on conflict(nick) do update set cadrtest=$2,padrtest=$3,inv=$4,pc=$5`;
+values($1,$2,$3,$4,$5) on conflict(nick) do update set cadrtest=$2, padrtest=$3, inv=$4, pc=$5`;
 
 let si = await db.query(sql_create_smarti1,[
 username, 

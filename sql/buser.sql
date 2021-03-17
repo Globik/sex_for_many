@@ -15,7 +15,8 @@ model boolean not null default false, -- а модель ли? одобрено 
 brole brole_type_enum NOT NULL default 'non', -- superadmin, moder, non, ban, fake 
 crat TIMESTAMP NOT NULL default now()::timestamp, -- created at
 ll TIMESTAMP  NOT NULL default now()::timestamp, -- last logined
-bcard numeric not null default 0,
+lng varchar(2) not null, -- language : en, ru
+promo int not null, -- if user with promocode? 0 - no, 1 - yes
 ava text,
 stat text
 );
@@ -40,3 +41,8 @@ update buser set brole='superadmin';
 -- alter table buser add constraint positivcheck check (items >= 0);
 -- alter table buser add column ava text;
 -- alter table buser add column stat text;
+
+
+-- alter table buser add column lng varchar(2) not null default 'ru';
+-- alter table buser add column promo int not null default 0;
+-- alter table buser drop column bcard;

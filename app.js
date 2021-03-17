@@ -14,7 +14,7 @@ var SPORT = 443;
 var is_ssl_http = true;
 const GMAIL='globalikslivov@gmail.com';
 var GMAILPASS;
-var DB_URL= 'postgress://globi:globi@127.0.0.1:5432/globi';// for globikon
+var DB_URL = 'postgress://globi:globi@127.0.0.1:5432/globi';// for globikon
 if(proc=="yes"){
  HPORT = 3000;
  SPORT = 8000;

@@ -1,8 +1,8 @@
 
-const LocalStrategy=require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 //const FacebookStrategy=require('passport-facebook').Strategy;//zum Teufel
 
-module.exports=(db, passport)=>{
+module.exports = (db, passport)=>{
 
 passport.serializeUser((user,done)=>{
 	//console.log('in serialize USERA: ',user);
@@ -11,7 +11,7 @@ done(null,user.id)
 
 passport.deserializeUser(async (id, done)=>{
 try{
-const luser=await db.query('select id, bname, brole, items, proz,bcard from buser where id=$1',[id])
+const luser = await db.query('select id, bname, brole, items, proz, lng from buser where id=$1', [ id ])
 done(null,luser.rows[0])
 }catch(e){
 done(e)
@@ -29,18 +29,21 @@ await db.query('update buser set ll=now() where bname=$1', [username]); return d
 
 const nicky=email=>{return email.substring(0,email.indexOf("@"))}
 const smsg='ОК, вы создали аккаунт успешно. Successful!'
-const get_str=n=>`insert into buser(pwd, bname,email) values(${n.password},${n.username},${n.email}) returning id`;
+const get_str=n=>`insert into buser(pwd, bname, email, lng, promo, items) values(${n.password}, ${n.username}, ${n.email}, ${n.lang}, ${n.promo}, ${n.items}) returning id`;
 //  insert into buser(pwd,bname) values(crypt('1234', gen_salt('bf',8)),'lo');
 passport.use('local-signup',new LocalStrategy({usernameField:'username', passReqToCallback:true},(req,username,password,done)=>{
 if(!req.body.username){return done(null,false,{message:"missing username",code:'1'})}	
 process.nextTick(async()=>{
 try{
 	console.log(username,password);
+	console.log('req.body: ', req.body);
 	console.log('email? :', req.body.email)
-var useri=await db.query(get_str({password:'$1',username:'$2',email:'$3'}),
-[password,req.body.username,req.body.email])
-console.log('USER.rows[0]: ',useri.rows[0])
-return done(null,useri.rows[0],{message: smsg, username:username,user_id:useri.rows[0].id, email:req.body.email})
+	let is_promo = (req.body.promocode == '9999' ? 1 : 0);
+	let w_items = (is_promo == 1 ? 50 : 0);
+var useri=await db.query(get_str({password:'$1', username:'$2', email:'$3', lang: '$4', promo: '$5', items: '$6'}),
+[ password, req.body.username, req.body.email, req.body.lang, is_promo, w_items ])
+console.log('USER.rows[0]: ', useri.rows[0])
+return done(null,useri.rows[0],{message: smsg, username: username,user_id:useri.rows[0].id, email:req.body.email, items: w_items})
 }catch(err){
 	console.log('custom error handling in local signup auth.js: ', err.message);
 	if(err.code==='23505'){

@@ -1,33 +1,36 @@
-var si=0, sendto=true;
+var si = 0, sendto = true;
 
 function go_login(ev){
+	//login
 	try{
-var data={};
-data.username=ev.username.value;
-data.password=ev.password.value;
-//data.email=ev.email.value;
-vax(ev.method, ev.action, data, on_login, on_login_error, null,false);	
+let data = {};
+data.username = ev.username.value;
+data.password = ev.password.value;
+vax(ev.method, ev.action, data, on_login, on_login_error, ev, false);
+ev.disabled = true;
+ev.lsubmit.className = "puls";	
 }catch(e){alert(e);console.log(e);}
 }
-function on_login(l){
-var sessRed=gid('sessRed');
-if_cont(sessRed,'green','red');
+function on_login(l, ev){
+	ev.lsubmit.className = "";
+var sessRed = gid('sessRed');
+if_cont(sessRed,'green', 'red');
 
-sessRed.innerHTML=l.info;
-window.location.href="#.";
+sessRed.innerHTML = l.info;
+window.location.href = "#.";
 in_rem_hash();
 setTimeout(function(){
-//alert(window.location.pathname);
-if(window.location.pathname=="/login"){
-window.location.href="/";	
+if(window.location.pathname == "/login"){
+window.location.href = "/";	
 }else{
 location.reload();
 }
 },1);
 }
-function on_login_error(l){
-	//alert('suka');
-gid("sessRed").innerHTML=l;
+function on_login_error(l, ev){
+	ev.lsubmit.className = "";
+	ev.disabled = false;
+gid("sessRed").innerHTML =  l;
 }
 
 
@@ -35,89 +38,96 @@ function get_login(el){
 //var el=document.querySelector("section.tabactive");
 //if(!el)return;
 //el.className="";
-var signupSection=gid("signupSection");
-if(!signupSection){window.location.href="/login";return;}
-signupSection.className='';
-signupSection.style.display="none";
-loginSection.style.display="block"
-loginSection.className="tabactive";
-if(el)el.className="yellow";
-vout.className="";
-var a=gid("resetSection");
-	a.style.display="none";
-	a.className="";
+var signupSection = gid("signupSection");
+if(!signupSection){window.location.href = "/login";return;}
+signupSection.className = '';
+signupSection.style.display = "none";
+loginSection.style.display = "block"
+loginSection.className = "tabactive";
+if(el)el.className = "yellow";
+vout.className = "";
+var a = gid("resetSection");
+	a.style.display = "none";
+	a.className = "";
 }
 function get_registr(el){
 //var el=document.querySelector("section.tabactive");
 //alert(el);
 //if(el)el.className="";
-var signupSection=gid("signupSection")	
-loginSection.className='';
-loginSection.style.display="none";
-signupSection.className="tabactive";
-signupSection.style.display="block";
-el.className="yellow";
-vhod.className="";
-var a=gid("resetSection");
-	a.style.display="none";
-	a.className="none";
+var signupSection = gid("signupSection")	
+loginSection.className = '';
+loginSection.style.display = "none";
+signupSection.className = "tabactive";
+signupSection.style.display = "block";
+el.className = "yellow";
+vhod.className = "";
+var a = gid("resetSection");
+	a.style.display = "none";
+	a.className = "none";
 }
 
 function show_pwd(el){
 if(password.value){
-if(password.type=="password"){
-password.type="text";
-}else{password.type="password"}
+if(password.type == "password"){
+password.type = "text";
+}else{password.type = "password"}
 }
 }
 function get_forget(){
-var a=gid("resetSection");
-if(!a){window.location.href="/reset";return;}
-	a.style.display="block";
-	a.className="tabactive";
-loginSection.className='';
-loginSection.style.display="none";
-signupSection.className="";
-signupSection.style.display="none";
+let a = gid("resetSection");
+if(!a){window.location.href = "/reset";return;}
+	a.style.display = "block";
+	a.className = "tabactive";
+loginSection.className = '';
+loginSection.style.display = "none";
+signupSection.className = "";
+signupSection.style.display = "none";
 }
 function go_login2(el){
 //registration
 try{
-var d={};
-d.username=el.username.value;
-d.password=el.password.value;
-d.email=el.email.value;
+let d = {};
+d.username = el.username.value;
+d.password = el.password.value;
+d.email = el.email.value;
+d.lang = el.lang.value;
+d.promocode = el.promocode.value;
 console.log('d: ',d)
-vax(el.method, el.action, d, on_glogin, on_glogin_error, null,false);	
+vax(el.method, el.action, d, on_glogin, on_glogin_error, el,false);	
+el.disabled = true;
+el.ssubmit.className = "puls";
 return false;
 }catch(e){}
 return false;
 }
 
-function on_glogin(l){
+function on_glogin(l, ev){
 try{
+	ev.ssubmit.className = "";
 console.log(l);
 if(!l.success){
-let s=gid("sessRed2").textContent=l.message;
+let s=gid("sessRed2").textContent = l.message;
 }else{
-gid("sessRed2").textContent=l.message;
-gid("submitkuku").disabled=true;
-window.location.href="#.";
+gid("sessRed2").textContent = l.message;
+gid("submitkuku").disabled = true;
+window.location.href = "#.";
 in_rem_hash();
 
 setTimeout(function(){
-if(window.location.pathname=="/signup"){
-window.location.href="/webrtc/"+l.user_id;	
+if(window.location.pathname == "/signup"){
+window.location.href = "/webrtc/" + l.user_id;	
 }else{
 location.reload();
 }
-},1000);
+}, 10000);
 }
 }catch(e){alert(e)}
 }
-function on_glogin_error(l){
-console.log("l")	
-gid("sessRed2").textContent=l.message
+function on_glogin_error(l, ev){
+console.log("l");
+ev.ssubmit.className = "";	
+gid("sessRed2").textContent = l.message;
+ev.disabled = false;
 }
 function do_sub(el){
 //views/reset_proto.js
