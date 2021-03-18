@@ -4,6 +4,7 @@ const html_head=require('./html_head'),
    html_footer = require('./html_footer');
    const moment=require('moment');
    const {get_banner, get_banner_podval}=require('./reklama_s');
+   const {AFTER_REGISTRATION} = require('../config/mail.js');
    const doska=require('./doska');
    const vert_menu=require('./vert_menu.js');
    
@@ -33,6 +34,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
+${n.message && n.message.info == 'promo' ? buser ? buser.lng=='ru' ? AFTER_REGISTRATION({}).ru : AFTER_REGISTRATION({}).en : '' : ''}
 <h2>Комната ${model?model.bname:'Анон'}</h2>
 ${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
 ${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
@@ -62,6 +64,10 @@ ${n.owner?
 </div>
 <div><button data-bname="${model?model.bname:''}" onclick="save_status(this);">сохранить</button></div>
 </div>
+<div class="inwrap3"><label><strong>${n.user.lng=='ru'?'Выберите язык':'Choose a language'}</strong></label></div>
+<div class="inpwrap"><label class="cntlb">&nbsp;&nbsp;<b style="color:black;">русский</b><input onchange="change_language(this);" type="radio" name="lang" value="ru" ${n.user.lng=='ru'?'checked':''}><span class="mark"></span></label>
+&nbsp;&nbsp;<label class="cntlb">&nbsp;&nbsp;<b style="color:black;">english</b><input onchange="change_language(this);" type="radio" value="en" name="lang" ${n.user.lng=='en'?'checked':''}>
+<span class="mark"></span></label></div>
 </div>
 
 <div id="btc-container" class="requis">

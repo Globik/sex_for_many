@@ -1,4 +1,4 @@
-
+const {promo_token} = require('./app.json');
 const LocalStrategy = require('passport-local').Strategy;
 //const FacebookStrategy=require('passport-facebook').Strategy;//zum Teufel
 
@@ -39,7 +39,7 @@ try{
 	console.log('req.body: ', req.body);
 	console.log('email? :', req.body.email)
 	let is_promo = (req.body.promocode == '9999' ? 1 : 0);
-	let w_items = (is_promo == 1 ? 50 : 0);
+	let w_items = (is_promo == 1 ? promo_token : 0);
 var useri=await db.query(get_str({password:'$1', username:'$2', email:'$3', lang: '$4', promo: '$5', items: '$6'}),
 [ password, req.body.username, req.body.email, req.body.lang, is_promo, w_items ])
 console.log('USER.rows[0]: ', useri.rows[0])

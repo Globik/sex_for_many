@@ -57,6 +57,8 @@ min-height:100%;
 width:100%;
 }
 
+#afterRegistration{border: 2px solid green;padding:20px;}
+
 @media screen and (min-width: 1900px) {
  bodyhhhh{font: 1.9em/180% Calibri, Arial, Helvetica, sans-serif;}
  #pagewap{margin-top:8px;in-width:1365px;idth:2%;min-height:100%;}

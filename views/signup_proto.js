@@ -24,7 +24,8 @@ return html`<!-- signup_proto.js --><section id="signupSection">
 </div>
 <div class="inwrap3"><label><strong>Выберите язык / Choose a language</strong></label></div>
 <div class="inpwrap"><label class="cntlb">&nbsp;&nbsp;<b style="color:black;">русский</b><input type="radio" name="lang" value="ru"><span class="mark"></span></label>
-&nbsp;&nbsp;<label class="cntlb">&nbsp;&nbsp;<b style="color:black;">english</b><input type="radio" name="lang" value="en" checked><span class="mark"></span></label></div>
+&nbsp;&nbsp;<label class="cntlb">&nbsp;&nbsp;<b style="color:black;">english</b><input type="radio" name="lang" value="en" checked>
+<span class="mark"></span></label></div>
 <div class="inwrap3"><label><strong>Промокод / Promo code <small>- получите 50 токенов (0.02 BTC) в подарок</small></strong></label></div>
 <div class="inpwrap"><input type="number" name="promocode" max="9999" placeholder="Промокод / Promo code"></div>
 <small id="smally2" class="blue">Регистрируя аккаунт вы соглашаетесь с <a href="/home/privacy"><b>условиями - terms of use</b></a></small>

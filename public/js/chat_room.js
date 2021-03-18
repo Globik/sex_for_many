@@ -214,6 +214,21 @@ function on_foto_error(l,ev){}
 
 function on_foto_error_err(l,ev){}
 
+function change_language(el){
+let d = {};
+d.lang = el.value;
+d.bname = modelName.value;
+vax("post", "/api/save_language", d, on_change_language, on_change_language_err, null, false);
+	}
+
+function on_change_language(l){
+	location.reload();
+	}
+
+function on_change_language_err(l){
+	note({content: l, type: "error", time: 5});
+	}
+
 function save_status(el){
 if(!roomdescr.value){note({content:"Заполните статус", type:"error", time:5});return;}
 var d = {};

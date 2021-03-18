@@ -119,7 +119,7 @@ window.location.href = "/webrtc/" + l.user_id;
 }else{
 location.reload();
 }
-}, 10000);
+}, 1000);
 }
 }catch(e){alert(e)}
 }

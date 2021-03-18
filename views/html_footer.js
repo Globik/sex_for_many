@@ -1,15 +1,16 @@
 const {login_proto}=require('./login_proto');
 const {signup_proto}=require('./signup_proto');
-const {reset_proto}=require('./reset_proto')
+const {reset_proto}=require('./reset_proto');
+const {vk, telega} = require('../config/app.json');
 const html_footer=n=>{let a=new Date();
-return `<!-- html_footer.js --><section id="footSec"><span class="foot-span">Сайт предназначен для лиц старше 18 лет.
+return `<!-- html_footer.js -->${n.user && n.user.lng == 'ru'?`<section id="footSec"><span class="foot-span">Сайт предназначен для лиц старше 18 лет.
 Вход в чат означает Ваше согласие с <a href="/home/privacy">правилами</a>. Если вам менее 18 лет, 
-Вы обязаны покинуть этот сайт.</span></section>
-<section id="footReklama"><a href="/home/advertise">Реклама на сайте | Advertising</a></section><section>
+Вы обязаны покинуть этот сайт.</span></section>`:''}
+<section id="footReklama"><a href="/home/advertise">${n.user && n.user.lng == 'ru'?`Реклама на сайте`:`Реклама на сайте / Advertising`}</a></section><section>
 <ul id="basaUl"><li><a href="/basa">FAQ</a></ul></section>
-<section id="socseti"><header><b>Мы в соцсетях</b></header>
-<a href="https://vk.com/public201149312"><img src="/images/vk.png"></a>
-<a href="https://t.me/gaychel"><img src="/images/telegram-64x64.png"></a>
+<section id="socseti"><header><b>${n.user && n.user.lng == 'ru'?`Мы в соцсетях`:`Мы в соцсетях / Follow us:`}</b></header>
+<a href="${vk}"><img src="/images/vk.png"></a>
+<a href="${telega}"><img src="/images/telegram-64x64.png"></a>
 </section>
 <section><span>&#9400; 2020 - </span><span>${a.getFullYear()}г.</span></section>
 <input type="hidden" id="loginStr" value='${login_proto({}) + signup_proto({}) + reset_proto({})}'>

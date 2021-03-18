@@ -168,8 +168,8 @@ ctx.throw(409, 'Already authenticated!')
 }else{
 return ctx.redirect('/')
 }}
-let t=ctx.transporter;
-return passport.authenticate('local-signup',async (err,user,info,status)=>{
+let t = ctx.transporter;
+return passport.authenticate('local-signup', async (err, user, info, status)=>{
 console.log(err,user,info,status)
 
 if(user){	
@@ -199,6 +199,7 @@ if(!user){
 ctx.body={success:false, message:info.message,code:info.code,bcode:info.bcode}
 }else{
 ctx.body={success:true, message:info.message,username:info.username,user_id:info.user_id,redirect:/*ctx.session.dorthin ||*/ '/'}
+if(info.items > 0)ctx.session.bmessage = {info: "promo"};
 return ctx.login(user)
 }
 }else{
@@ -254,7 +255,7 @@ let ms=`We have sent a password reset email to your email address: <a href="mail
 let m=`Мы послали письмо на ваш адрес: <a href="mailto:${email}">${email}</a><br>Если не пришло, пожалуйста, загляните в спам.`
 	let t=ctx.transporter;
 	t.sendMail({
-		from: GMAIL,
+		from: '',
 		to: email,
 		subject:'Смена пароля',
 		text: FORGET_PWD({page_url: ctx.origin, token: r.rows[0].request_password_reset}),
@@ -445,7 +446,7 @@ pub.get('/webrtc/:buser_id', reklama, async function(ctx){
 let us = ctx.state.user;
 let db = ctx.db;
 console.log("USER: ",us);
-let a,result,videos,videos2;
+let a,result,videos,videos2, message;
 let owner = false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
@@ -479,15 +480,27 @@ return;
 if(us){
 if(us.id == ctx.params.buser_id){owner=true;}
 }
-
-ctx.body = await ctx.render('chat_room', {model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate()});
+if(ctx.session.bmessage){message = ctx.session.bmessage;}
+ctx.body = await ctx.render('chat_room', {model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate(), message});
+if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
-//pub.get('/webrtc/:buser_id', async function(ctx){});
-//save btc address
-//var prim="mod5SqVGMgNJPfS3v6KFKhW8iR7KjexfBE";
+
+
+pub.post("/api/save_language", auth, async ctx=>{
+	let {lang, bname} = ctx.request.body;
+	console.log('body: ', ctx.request.body);
+	if(!lang || !bname)ctx.throw(400, "No data!");
+	let db = ctx.db;
+	try{
+		await db.query(`update buser set lng=$1 where bname=$2`,[lang, bname]);
+		}catch(e){ctx.throw(400, e);}
+ctx.body = {info: "OK"};	
+})
+
 const base_url_smart_tbtc="https://api.bitaps.com/btc/testnet/v1/create/payment/address/distribution";//for test btc smartcontract
 const base_url_smart_btc='https://api.bitaps.com/btc/v1/create/payment/address/distribution'; //for real btc
 const cb_link="https://frozen-atoll-47887.herokuapp.com/api/test_cb_smartc";
+
 
 
 pub.post('/api/savebtcaddress', auth, async ctx=>{
