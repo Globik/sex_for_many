@@ -2,6 +2,7 @@ var v = gid("video-wrapper"),
 is_owner = gid('owner'),
 yourNick = gid("yourNick"),
 is_buser = gid("buser"),
+yourLang = gid("yourLang"),
 isfake = gid("isfake"),
 fakesrc = gid("fakesrc"),
 modelName = gid("modelName"),
@@ -95,7 +96,7 @@ window.location.href = "/tokens";
 if(nu > 0){
 	if(token_flag){
 	token_flag = false;
-	var d = {};
+	let d = {};
 	d.type ='tokentransfer';
 	d.id = modelId.value;
 	d.modelname = modelName.value;
@@ -120,7 +121,8 @@ el.classList.add("puls");
 }
 
 function on_saved_btc(d,el){
-note({content: "Адрес сохранен!", type: "info", time: 5});
+	let s = (yourLang.value == 'ru' ? 'Адрес сохранен!' : 'Address saved!');
+note({content: s, type: "info", time: 5});
 el.classList.remove("puls")
 el.disabled = true;
 }
@@ -230,7 +232,8 @@ function on_change_language_err(l){
 	}
 
 function save_status(el){
-if(!roomdescr.value){note({content:"Заполните статус", type:"error", time:5});return;}
+	let s = (yourLang.value == 'ru' ? "Заполните статус" : "Fill out the status");
+if(!roomdescr.value){note({content: s, type: "error", time: 5});return;}
 var d = {};
 d.bname = el.getAttribute('data-bname');
 d.status = roomdescr.value;
@@ -286,7 +289,7 @@ let d = {};
 d.type = "msg";
 d.msg = chatTxt.value;
 d.roomname = modelName.value;
-d.from = myUsername;// yourNick.value;
+d.from = myusername;// yourNick.value;
 console.log(d)
 wsend(d);	
 if(el)el.className = "puls";
@@ -299,7 +302,7 @@ m.className = "chat-div";
 m.innerHTML = '<span class="chat-user">' + ob.from + ': </span><span class="chat-message">' + ob.msg + '</span>';
 m.innerHTML+= '<div class="g-data">' + g_data(ob.tz) + '</div>';
 chat.appendChild(m);
-chat.scrollTop = chat.clientHeight+chat.scrollHeight;
+chat.scrollTop = chat.clientHeight + chat.scrollHeight;
 }
 
 function insert_notice(ob){
@@ -371,7 +374,8 @@ tokencc.textContent = ad.plus;
 if(owner()){
 	tokencntnav.textContent = ad.plus;
 	tokencntnav2.textContent = ad.plus;
-	note({content: "Поздравляем, у вас " + ad.plus + "токенов!", type: info, time: 5});
+	let s = (yourLang.value == 'ru' ? "Поздравляем, у вас " + ad.plus + "токенов!" : "Congratulations! You got " + ad.plus + "tokens!");
+	note({content: s, type: info, time: 5});
 }
 if(buser()){
 if(!owner()){
@@ -380,13 +384,13 @@ tokencntnav2.textContent = ad.minus;
 token_flag = true;
 }
 }	
-insert_message({from: ad.from, msg: "шлет " + ad.amount + " токен.", tz: new Date()});
+insert_message({from: ad.from, msg: (yourLang.value == 'ru' ? "шлет " : "sends ") + ad.amount + (yourLang.value == 'ru' ? " токен." : "token"), tz: new Date()});
 }else if(ad.type == "owner_in"){
-	insert_notice({msg: '<b>' + ad.nick + '</b>&nbsp;вошел в чат.', tz: new Date()});
+	insert_notice({msg: '<b>' + ad.nick + '</b>&nbsp;' + (yourLang.value == 'ru' ? 'вошел в чат.' : 'entered chat.'), tz: new Date()});
 	if(!owner()){v.className = "notowner";}
 }else if(ad.type == "owner_out"){
 	if(!owner()){v.className = "offline";}
-	insert_notice({msg: '<b>' + ad.nick + '</b>&nbsp;покинул чат.', tz: new Date()});
+	insert_notice({msg: '<b>' + ad.nick + '</b>&nbsp;' + (yourLang.value == 'ru' ? 'покинул чат.' : 'left chat.'), tz: new Date()});
 }else if(ad.type == "history"){
 	ad.d.forEach(function(el, i){
 	insert_message({from: el.nick, msg: el.msg, tz: el.tz});	
@@ -403,10 +407,10 @@ handle_candidate(ad.candidate);
 }else if(ad.type == "privat_wanted"){
 if(owner()){privat_wanted(ad.from, ad.amount);}
 }else if(ad.type == "reject_privat"){
-	var s_str = "Пожалуйста, (до)купите токенов для платного приват-чата.";
+	var s_str =  (yourLang.value == 'ru' ? "Пожалуйста, (до)купите токенов для платного приват-чата." : "Please purchase tokens for privat chat.");
 if(!owner()){
 IS_GRATIS = ad.gratis;
-note({content: ad.from + ' отклонил звонок.\n'(ad.grund ? ad.grund: '') + (!ad.gratis ? s_str: ''), type: 'info', time: 10});
+note({content: ad.from + (yourLang.value == 'ru' ? ' отклонил звонок.\n' : ' rejected call\n') + (ad.grund ? ad.grund: '') + (!ad.gratis ? s_str: ''), type: 'info', time: 10});
 }
 }else if(ad.type == "accept_privat"){
 handle_accept_privat(ad);	
@@ -461,7 +465,8 @@ function begin_privat(el){
 var ti = 0;
 if(owner()){return;}
 if(IS_PRIVAT){
-note({content: "Already in privat!", type: "info", time: 5});
+	let s = (yourLang.value == 'ru' ? 'Уже в привате!' : 'Already in privat!');
+note({content: s, type: "info", time: 5});
 return;
 }
 if(tokencntnav){
@@ -483,7 +488,8 @@ sifilis = from;
 FROM_SUKA = from;
 window.location.href = "#privatid";
 privatdialog.setAttribute('data-target', from);
-privatdialog.textContent = "Запрос на приват от " + from + ". Токенов " + amount + ". \nПриват-шоу максимум на " + amount + " минут. \nПринять?"	
+let s = (yourLang.value == 'ru' ? "Запрос на приват от " + from + ". Токенов " + amount + ". \nПриват-шоу максимум на " + amount + " минут. \nПринять?" : "Privat call from " + from + ". Tokens " + amount + ". \nPrivat show maximum " + amount + " minutes long. \nAccept?");
+privatdialog.textContent = s;	
 }
 
 function gno(el){
@@ -545,7 +551,7 @@ is_video_transfer = true;
 }).catch(function(err){
 console.error(err);
 if(err.name == "NotFoundError"){
-	note({content: "Включите веб-камеру.", type: "error", time: 5});
+note({content: (yourLang.value == "ru" ? "Включите веб-камеру." : "Enable web camera."), type: "error", time: 5});
 }else{note({content: err.name, type: "error", time: 5});}
 if(!owner())btnStart.disabled = false;
 webrtc.innerHTML+= err + '<br>';
@@ -568,7 +574,7 @@ setTimeout(do_slepok, 1000);
 }).catch(function(err){
 console.error(err.name);
 if(err.name == "NotFoundError"){
-note({content: "Включите веб-камеру.", type: "error", time: 5});
+note({content: (yourLang.value == "ru" ? "Включите веб-камеру." : "Enable web camera."), type: "error", time: 5});
 }else{note({content: err.name, type: "error", time: 5});}
 });
 }
@@ -749,13 +755,13 @@ v.className = "owner";
 
 function start_stream(el){
 
-if(el.textContent == "Старт стрим"){
+if(el.textContent == (yourLang.value == "ru" ? "Старт стрим" : "Start stream")){
 startRecording();
 el.className = "active";
 is_vstream_started = true;
 is_first_time = true;
 the_time = new Date().getTime();
-el.textContent = "Стоп стрим";
+el.textContent = (yourLang.value == "ru" ? "Стоп стрим" : "Stop stream");
 v.className = "";
 webcamStart.className = "";
 webcamStart.disabled = true;
@@ -768,7 +774,7 @@ webcamStart.disabled = false;
 webcamStart.className = "active";
 
 el.className = "";
-el.textContent = "Старт стрим";
+el.textContent = (yourLang.value == "ru" ? "Старт стрим" : "Start stream");
 
 if(owner()){
 v.className = "owner";
@@ -782,7 +788,7 @@ is_vstream_started = false;
 webcamStart.disabled = false;
 webcamStart.className = "active";
 vStreamStart.className = "";
-vStreamStart.textContent = "Старт стрим";
+vStreamStart.textContent = (yourLang.value == "ru" ? "Старт стрим" : "Start stream");
 if(owner()){
 v.className = "owner";
 }else{}
@@ -900,7 +906,7 @@ if(min_3 >= 60){
 	min_time = (min_3==0?1:min_3);
 	min_str = 'мин';
 	}
-var d = {};
+let d = {};
 d.type = "on_vair";
 d.is_first = l.is_first;
 d.is_active = l.is_active;
@@ -1052,8 +1058,6 @@ remoteVideo.muted = true;
 }
 }
 
-
-
 function conversation(){
 let ab = ["давай, давай!", "ух ты",  "писька пиздатая", "ну и сиськи", "задница зашибись", "ну и попка", "молодец!","так держать", "ну и ну"];
 let names = ["Nicky", "Sveta", "lettali", "haylix", "xaevynne", "sexyru_couple", "miss_julia", "sasha", "kaileeshy", "wowgirls", "john", "mik","dura"];
@@ -1081,7 +1085,7 @@ function del_video(el){
 let a = el.getAttribute('data-bid');
 let e = el.getAttribute('data-src');
 if(!a || !e)return;
-if(confirm("Удалить видео?")){
+if(confirm((yourLang.value == "ru" ? "Удалить видео?" : "Remove video?"))){
 var d = {};
 d.vid = a;
 d.src = e;
@@ -1166,7 +1170,7 @@ stopPrivat.disabled = true;
 IS_PRIVAT = false;
 underVideo.className = "";
 stopVideo();
-note({content: "Приват закончился!", type: "info", time: 5});
+note({content: (yourLang.value == "ru" ? "Приват закончился!" : "Privat stopped!"), type: "info", time: 5});
 if(!owner()){
 	IS_GRATIS = true;
 	if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
@@ -1186,7 +1190,7 @@ v.className = "webcamowner";
 function BEGIN_PRIVAT(){
 	stopPrivat.disabled = false;
 	IS_PRIVAT = true;
-	note({content: "Приват начался", type: "info", time: 5})
+	note({content: (yourLang.value == "ru" ? "Приват начался" : "Privat just begone"), type: "info", time: 5})
 	}
 
 var absuka = 0;
@@ -1194,7 +1198,7 @@ var absuka = 0;
 function gavno_ticker(){
 if(!owner()){
 	if(buser()){
-	note({content: "a minute gone and token away", type: "info", time: 5})
+	note({content: (yourLang.value == "ru" ? "Минута прошла - токен ушел" : "a minute gone and token away"), type: "info", time: 5})
 	NOT_GRATIS_TIMER = setTimeout(function(){
 		absuka+= 1;
 		console.log('absuka: ', absuka);
@@ -1297,7 +1301,8 @@ pc.setRemoteDescription(sdp);
 function stop_failure(obj){
 //for non owner?
 stopVideo();	
-note({content: 'Извините,\t' + obj.who + '\tоффлайн.', type: 'error', time: 5});
+let s = (yourLang.value == "ru" ? 'Извините,\t' + obj.who + '\tоффлайн.' : 'Sorry,\t' + obj.who + '\toffline.');
+note({content: s, type: 'error', time: 5});
 }
 
 function stopVideo(){
