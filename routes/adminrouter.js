@@ -242,15 +242,15 @@ adm.post('/api/set_xirsys', auth, async ctx=>{
 	/* PAYOUTS */
 	
 adm.get('/payout', authed, async ctx=>{
-let db=ctx.db;
+let db = ctx.db;
 let payout;
 try{
-let a=await db.query('select * from buser where items > 2000 and bcard > 0');	
-if(a.rows)payout=a.rows;
+let a = await db.query('select * from buser where items > 100 and cadr IS NOT NULL');	
+if(a.rows)payout = a.rows;
 }catch(e){console.log(e);}
-ctx.body=await ctx.render('payout',{payout:payout});	
+ctx.body = await ctx.render('payout', {payout:payout});	
 })
-adm.post("/api/payout_money",auth,async ctx=>{
+adm.post("/api/payout_money", auth, async ctx=>{
 let {amount,bcard,bname,email}=ctx.request.body;
 console.log(ctx.request.body)
 if(!amount || !bname || !email){ctx.throw(400,"No data");}

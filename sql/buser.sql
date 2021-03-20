@@ -18,7 +18,8 @@ ll TIMESTAMP  NOT NULL default now()::timestamp, -- last logined
 lng varchar(2) not null, -- language : en, ru
 promo int not null, -- if user with promocode? 0 - no, 1 - yes
 ava text,
-stat text
+stat text,
+cadr varchar(40) -- client btc address
 );
 
 -- grant all privileges on table buser to suka;
@@ -46,3 +47,5 @@ update buser set brole='superadmin';
 -- alter table buser add column lng varchar(2) not null default 'ru';
 -- alter table buser add column promo int not null default 0;
 -- alter table buser drop column bcard;
+
+-- alter table  buser add column cadr varchar(40);

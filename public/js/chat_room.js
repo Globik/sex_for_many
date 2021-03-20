@@ -135,7 +135,7 @@ insert_after(span, bInput,"span");
 
 function reset_btc(){
 btcInput.value = "";
-del_after(bInput,"span");
+del_after(bInput, "span");
 btnSaveAdr.disabled = false;	
 }
 

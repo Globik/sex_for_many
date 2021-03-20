@@ -574,7 +574,7 @@ console.log('bod: ', bod.data);
 try{
 let sql_create_smarti = `insert into cladr(nick, cadr, padr, inv, pc) values($1,$2,$3,$4,$5)
  on conflict(nick) do update set cadr=$2,padr=$3,inv=$4,pc=$5`;
-
+let btc_adr = 'update buser set cadr=$1 where bname=$2';
 let si1 = await db.query(sql_create_smarti,[
 username, 
 bod.data.forwarding_address_secondary, //cadr
@@ -582,7 +582,9 @@ bod.data.address,
 bod.data.invoice,
 bod.data.payment_code
 ]);
+
 console.log("db query: ", si1);
+await db.query(btc_adr, [bod.data.forwarding_address_secondary, username]);
  
 }catch(e){console.log("db error: ", e);ctx.throw(400,"db error")}
 }catch(e){console.log(e,'/|',e.message);
@@ -614,19 +616,6 @@ pub.post("/api/test_cb_smartc", async ctx=>{
 	await db.query('update cladr set btc_amt=$1, btc_all=$2 where inv=$3',[amount,received_amount,invoice]);	
 	}catch(e){console.log('db err: ',e);ctx.throw(404,e);}
 	ctx.body=invoice;
-})
-
-// bankcard any need? todo: remove it
-
-pub.post("/api/set_bankcard", auth, async ctx=>{
-let {bankcard, userid}=ctx.request.body;
-if(!bankcard)ctx.throw(400,"No bankcard number!");
-if(!userid)ctx.throw(400,"No userid!");
-let db=ctx.db;
-try{
-await db.query('update buser set bcard=$1 where id=$2',[bankcard,userid]);	
-}catch(e){ctx.throw(400,e);}
-ctx.body={info:"OK"};
 })
 
 /* SAVE VIDEO */
