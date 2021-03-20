@@ -1,11 +1,11 @@
-const html_head=require('./html_head'),
-    html_nav_menu=require('./html_nav_menu'),
-	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
+const html_head = require('./html_head'),
+    html_nav_menu = require('./html_nav_menu'),
+	html_admin_nav_menu = require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
-const vert_menu=require('./vert_menu.js');
-const {js_help}=require('../libs/helper.js');
-const moment=require("moment");
-const {get_banner, get_banner_podval}=require('./reklama_s');
+const vert_menu = require('./vert_menu.js');
+const {js_help} = require('../libs/helper.js');
+const moment = require("moment");
+const {get_banner, get_banner_podval} = require('./reklama_s');
 const obi = function(n){
 const buser=n.user;
 return `<!DOCTYPE html><html lang="en"><!-- obi.js -->
@@ -22,19 +22,21 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
-<h1>Доска объявлений. <a href="#obiContainer">Подать объявление.</a></h1>
-${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши нам для платного закрепления в топе</a>&nbsp;$$$</h4>':''}
-<section id="fuckSection">${n.obis&&n.obis.length>0?get_obi(n):'Пока объявлений нет.'}</section><hr>
+<h1>${buser?buser.lng=='ru'?'Доска объявлений':'Message board':'Доска объявлений'}. <a href="#obiContainer">${buser?buser.lng=='ru'?'Подать объявление':'Write a message':'Подать объявление'}.</a></h1>
+${n.banner?`<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">${buser?buser.lng=='ru'?'Напиши нам для платного закрепления в топе':'Write to us for top fix':'Напиши нам для платного закрепления в топе'}</a>&nbsp;$$$</h4>`:''}
+<section id="fuckSection">
+${n.obis && n.obis.length > 0 ? get_obi(n) : (buser?buser.lng=='ru'?'Пока объявлений нет':'Theres no message yet':'Пока объявлений нет')}
+</section><hr>
 <section id="obiContainer">
-<div id="obiDiv"><header>Подать объявление</header>
+<div id="obiDiv"><header>${buser?buser.lng=='ru'?'Подать объявление':'Write a message':'Подать объявление'}</header>
 <form name="obi" method="post" action="/api/save_obi">
-<label>Имя *<br><input type="text" maxlength="100" name="nick" value="${buser?buser.bname:''}" placeholder="Обязательно" required></label><br>
-<label>Текст объявления *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="fspan">0</span> (1500)<br>
-<textarea maxlength="1500" name="msg" oninput="finput(this);" placeholder="Объявления без контакта для связи удаляются" required></textarea></label>
+<label>${buser?buser.lng=='ru'?'Имя':'Name':'Имя'} *<br><input type="text" maxlength="100" name="nick" value="${buser?buser.bname:''}" placeholder="${buser?buser.lng=='ru'?'Обязательно':'Obligatory':'Обязательно'}" required></label><br>
+<label>${buser?buser.lng=='ru'?'Текст объявления':'Text of message':'Текст объявления'} *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="fspan">0</span> (1500)<br>
+<textarea maxlength="1500" name="msg" oninput="finput(this);" placeholder="${buser?buser.lng=='ru'?'Объявления без контакта для связи удаляются':'Messages with no contacts are removing':'Объявления без контакта для связи удаляются'}" required></textarea></label>
 <input type="hidden" name="nid" value="${buser?buser.id:''}">
 <input type="hidden" name="admin" value="${buser && buser.brole=='superadmin'?true:false}">
-<br><input type="submit" value="Опубликовать">${buser && buser.brole=='superadmin'?'&nbsp;&nbsp;<input type="checkbox" id="zakrep" name="zakrep"><label for="zakrep">закрепить</label>':''}<br><br>
-<a href="#regata" id="regata" onclick="do_reg(this);">Правила публикации</a>
+<br><input type="submit" value="${buser?buser.lng=='ru'?'Опубликовать':'Publish':'Опубликовать'}">${buser && buser.brole=='superadmin'?'&nbsp;&nbsp;<input type="checkbox" id="zakrep" name="zakrep"><label for="zakrep">закрепить</label>':''}<br><br>
+<a href="#regata" id="regata" onclick="do_reg(this);">${buser?buser.lng=='ru'?'Правила публикации':'Publication rules':'Правила публикации'}</a>
 </form>
 
 </div>
@@ -58,7 +60,9 @@ ${n.banner?'<h4 class="doskah">$$$&nbsp;<a href="/home/advertise">Напиши �
 </section>
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
-</div></main>
+</div>
+<input type="hidden" id="yourLang" value="${buser?buser.lng:'ru'}">
+</main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 </body>
 ${js_help(["/js/obi.js"])}

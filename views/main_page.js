@@ -8,13 +8,16 @@ const doska=require('./doska');
 const {people} = require('./people');
 const {get_banner, get_banner_podval}=require('./reklama_s');
 const {check_age}=require('../config/app.json');
+const board_str_ru = `Также обратите внимание на <strong>доску объявлений</strong>.
+ Без регистрации и совершенно бесплатно в ней можно разместить свое объявление`;
+const board_str_en = `Pay attention on the <strong>message board</strong>. You can write there your messages for free.`;
 
 const main_page=function(n){
 const {lusers}=n;
 const buser=n.user,roomers=n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
-<head>${html_head.html_head({title:"Globikon - вебкам сайт, стримы для всех", meta:get_meta(n.meta),
+<head>${html_head.html_head({title: `${n.site} - webcam site, стримы для всех`, meta:get_meta(n.meta),
 csslink:"/css/main2.css",cssl:["/css/main_page.css"], luser:buser})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
@@ -38,26 +41,24 @@ function gpiska(){say_no();}
 }
 }else{
 window.location.href="#message_box2";
-var qtar=document.querySelector('.overlay:target');
+var qtar = document.querySelector('.overlay:target');
 if(qtar){
-qtar.onclick=function(){in_rem_hash();}
+qtar.onclick = function(){in_rem_hash();}
 }
 }
 }
-
 check_age();
-
 function say_yes(){
-window.location.href="#";
+window.location.href = "#";
 in_rem_hash();
 set_yes();
 }
 function say_no(){
-window.location.href="https://www.yandex.ru";
+window.location.href = "https://www.yandex.ru";
 }
 function set_yes(){
 if(is_local_storage()){
-localStorage.setItem('age',1);
+localStorage.setItem('age', 1);
 }
 }
 </script>
@@ -69,51 +70,38 @@ ${vert_menu.vert_menu(n)}
 <div id="right">
 
 ${n.m?n.m.msg:''}
-<div id="privet">${buser?`Привет <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
-<article id="mainArticle"><h1>Добро пожаловать на сайт видеотрансляций!</h1>
-<p>После простой регистрации вы сможете:
+<div id="privet">${buser ? `${n.user.lng == 'ru' ? 'Привет' : 'Hello'} <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
+<article id="mainArticle"><h1>${n.user?n.user.lng=='ru'?'Добро пожаловать на сайт видеотрансляций':'Welcome to the webcam site':'Добро пожаловать на сайт видеотрансляций'}!</h1>
+<p>${n.user ? n.user.lng == 'ru' ? 'Вы можете' : 'Right now you can' : 'После простой регистрации вы сможете'}:
 <ul id="ulKomnata">
-<li><strong>стримить видео</strong>
-<li>получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>.
+<li><strong>${n.user?n.user.lng=='ru'?'стримить видео':'stream your video':'стримить видео'}</strong>
+<li>${n.user?n.user.lng=='ru'?'получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>':
+'get tips from users in <strong>bitcoins</strong> and <strong>tokens</strong>':
+'получать от юзеров <strong>чаевые в биткоинах</strong> и <strong>токенaх</strong>'}.
 </ul>
 </p>
-<p>
-Также обратите внимание на <strong>доску объявлений для знакомств</strong>.
- Без регистрации и совершенно бесплатно в ней можно разместить свое объявление</p>
-<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером!</a></button>':` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">Хочу стримить!</a></button>`}</p></article>
+<p>${n.user?n.user.lng == 'ru' ? board_str_ru : board_str_en : board_str_ru}</p>
+<p> ${!buser?' &nbsp;<button class="regabutton"><a class="rega" href="/signup">Хочу стать стримером!</a></button>':
+` &nbsp;<button class="regabutton"><a class="rega" href="/webrtc/${buser.id}">${n.user.lng == 'ru' ? 'Хочу стримить' : 'Wanna be a streamer'}!</a></button>`}</p></article>
 <hr>
 <section id="onlineVideo">
-<header id="onlineVideoHeader">Чат-комнаты</header>
+<header id="onlineVideoHeader">${n.user?n.user.lng == 'ru' ? 'Чат-комнаты':'Chat rooms':'Чат-комнаты'}</header>
 <section id="videoContainer">
 ${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) : 
-`<span id="zagln2">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
+`<span id="zagln2">${n.user?n.user.lng=='ru'?'Пока нет никого':'Nobody yet':'Пока нет никого'}.
+ &nbsp;<a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">${n.user?n.user.lng=='ru'?'Будь первым':'Be the firts one':'Будь первым'}!</a></span>`}
 </section>
 </section>
-<!--
-<hr>
-<section id="onlineSection">
-<header id="onlineHeader">Чат-комнаты.</header>
-<section id="onlineContainer">
-${lusers && lusers.length >0 ? roomers_list(lusers) : 
-`<span id="zagln">Пока нет никого. <a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">Будь первым!</a></span>`}
-</section>
-</section>
--->
-<!-- <hr>
-<section id="videoSection">
-<h3>Свежие видео</h3>
-<section id="VidContainer">
-${n.videos?`{get_videos(n.videos)}<div><a href="/videos">Смотреть все видео</a></div>`:'Пока нет видео.'}
-</section></section> -->
+
 <hr>
 <section id="newUserSection">
-<h2>Новые профили</h2>
-${n.new_users?get_new_users_list(n.new_users):'Пока нет никого.'}
+<h2>${n.user?n.user.lng=='ru'?'Новые профили':'New profiles':'Новые профили'}</h2>
+${n.new_users?get_new_users_list(n.new_users):n.user?n.user.lng=='ru'?'Пока нет никого.':'Nodody yet.':'Пока нет никого.'}
 </section>
 
-
+<input type="hidden" id="yourLang" value="${buser?buser.lng:'ru'}">
 <hr>
-${doska.doska({})}
+${doska.doska(n)}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </div></main>

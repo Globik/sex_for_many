@@ -30,7 +30,7 @@ total_pages ${n.locals.total_pages}
 ${n.posts?get_posts(n):'Пусто'}
 ${getPaginator(n)}	
 <hr>
-${doska.doska({})}
+${doska.doska(n)}
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </div></main>

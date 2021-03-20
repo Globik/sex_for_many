@@ -33,7 +33,7 @@ ${buser && buser.brole=="superadmin"?`<div class="afterpost"><button onclick='ed
 
 </div>
 <hr>
-${doska.doska({})}
+${doska.doska(n)}
 <hr>
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </div></main>

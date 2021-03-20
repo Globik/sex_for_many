@@ -170,7 +170,7 @@ ${n.owner?'':`${model.padrtest || model.padr?`<br><header>${n.user.lng=='ru'?'Б
 <!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>
 <hr>
-${doska.doska({})}
+${doska.doska(n)}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 <output id="webrtc"></output>
