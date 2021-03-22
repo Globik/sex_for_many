@@ -245,26 +245,30 @@ adm.get('/payout', authed, async ctx=>{
 let db = ctx.db;
 let payout;
 try{
-let a = await db.query('select * from buser where items > 100 and cadr IS NOT NULL');	
+let a = await db.query('select cadr, id, bname,email,items,proz from buser where items > 100 and cadr IS NOT NULL and promo=0');	
 if(a.rows)payout = a.rows;
 }catch(e){console.log(e);}
 ctx.body = await ctx.render('payout', {payout:payout});	
 })
+
 adm.post("/api/payout_money", auth, async ctx=>{
-let {amount,bcard,bname,email}=ctx.request.body;
+let {id, amount, bcard, bname, email} = ctx.request.body;
 console.log(ctx.request.body)
-if(!amount || !bname || !email){ctx.throw(400,"No data");}
-let db=ctx.db;
+if(!id || !amount || !bname || !email){ctx.throw(400,"No data");}
+let db = ctx.db;
 try{
 //await db.query('insert into token_payout(tom,suma) values($1,$2::numeric)',[bname,amount]);
 //await db.query('update buser set items=0 where bname=$1',[bname]);
-await db.query('select on_token_payout($1,$2::numeric)', [bname,amount]);
-let t=ctx.transporter;
+await db.query('select on_token_payout($1,$2::numeric)', [bname, amount]);
+let t = ctx.transporter;
 	t.sendMail({
-		from: GMAIL,
+		from: '',
 		to: email,
-		subject:'Выплата',
-		text: `Вам выплата ${amount} рублей от Globikon`
+		subject:`Выплата / Payout. From ${ctx.state.site}`,
+		text: `Привет ${bname}!Вам выплата ${amount} биткоинов от ${ctx.state.site} на биткоин адрес ${bcard}. Удачного дня!
+		Hello ${bname}! You're about receiving ${amount} BTC from ${ctx.state.site} to your BTC address ${bcard}. Have a nice day!`,
+		html: `Привет ${bname}!Вам выплата ${amount} биткоинов от ${ctx.state.site} на биткоин адрес ${bcard}. Удачного дня!<br>
+		<br>Hello ${bname}! You're about receiving ${amount} BTC from ${ctx.state.site} to your BTC address ${bcard}. Have a nice day!`
 		}
 	,(err,info)=>{
 		console.log(info)
