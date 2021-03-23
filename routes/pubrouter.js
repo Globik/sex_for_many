@@ -1012,20 +1012,35 @@ ctx.body = invoice;
 
 /* USERPAY */
 
-pub.get("/userpay/:name",authed,async ctx=>{
+pub.get("/userpay/:id", authed, async ctx=>{
 	console.log('ctx.params: ', ctx.params);
-	let db=ctx.db;
-	let payout;
-	try{
-		let a=await db.query('select*from token_payout where tom=$1', [ctx.params.name]);
-		//console.log('a.rows: ',a.rows);
-		if(a.rows.length){payout=a.rows;}else{
-ctx.body=await ctx.render('room_err',
-{mess:"Или юзера такого нет или выплат еще не производили. Потерпи, когда 1000 рублей наберется!! Cовет: заглядывайте в спам в своем почтовом ящике"});
+	let db = ctx.db;
+	let owner = false;
+	let user = ctx.state.user;
+	let id = Number(ctx.params.id);
+	if(!id){
+		ctx.body=await ctx.render('room_err', {mess: "No such user!"});
 		return;
 		}
-		}catch(e){console.log(e);}
-	ctx.body=await ctx.render('userpay',{payout:payout});
+	let payout;
+	try{
+		let a=await db.query('select*from token_payout where pid=$1', [id]);
+		//console.log('a.rows: ',a.rows);
+		if(a.rows && a.rows.length){payout=a.rows;
+			}else{
+		ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
+	return;
+	}
+		}catch(e){
+			console.log(e);
+			ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
+			return;
+			}
+		if(user){
+			if(user.id == id)owner = true;
+			//console.log("USER ID: ", user.id);
+			}	
+	ctx.body=await ctx.render('userpay',{payout, owner});
 })
 
 /* PROFILE */

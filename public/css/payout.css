@@ -1,2 +1,3 @@
 .pdiv{margin-top:10px;margin-bottom:10px;}
 .pink{background:pink;}
+input[type=number],input[type=email],input[type=text]{width:100%;height:40px;}

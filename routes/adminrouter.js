@@ -1,19 +1,20 @@
-const fs=require('fs');
-const util=require('util');
-const bodyParser=require('koa-body');
-const Router=require('koa-router');
-const walletValidator=require('wallet-address-validator');//0.2.4
-const sluger=require('limax');
-const axios=require('axios').default;
-const readdir=util.promisify(fs.readdir);
-const unlink=util.promisify(fs.unlink);
-const uploader=require('huge-uploader-nodejs')
-const {WELCOME}=require('../config/mail.js');
-const adm=new Router();
-const GMAIL="globalikslivov@gmail.com";
+const fs = require('fs');
+const util = require('util');
+const bodyParser = require('koa-body');
+const Router = require('koa-router');
+const walletValidator = require('wallet-address-validator');//0.2.4
+const sluger = require('limax');
+const axios = require('axios').default;
+const readdir = util.promisify(fs.readdir);
+const unlink = util.promisify(fs.unlink);
+const uploader = require('huge-uploader-nodejs')
+const {WELCOME, PAYOUT_INFO} = require('../config/mail.js');
+const adm = new Router();
+//const GMAIL="globalikslivov@gmail.com";
+const {payout_promo_token, payout_token} = require('../config/app.json');
 
 adm.get('/home/dashboard', authed, async ctx=>{
-	ctx.body=await ctx.render('admin_dashboard',{});
+	ctx.body = await ctx.render('admin_dashboard',{});
 });
 adm.post("/home/profile/enable_btc", auth, async ctx=>{
 console.log("ctx request body: ", ctx.request.body);
@@ -245,7 +246,7 @@ adm.get('/payout', authed, async ctx=>{
 let db = ctx.db;
 let payout;
 try{
-let a = await db.query('select cadr, id, bname,email,items,proz from buser where items > 100 and cadr IS NOT NULL and promo=0');	
+let a = await db.query('select cadr, id, bname,email,items,proz from buser where items > $1 and cadr IS NOT NULL and promo=0', [payout_token]);	
 if(a.rows)payout = a.rows;
 }catch(e){console.log(e);}
 ctx.body = await ctx.render('payout', {payout:payout});	
@@ -255,28 +256,41 @@ adm.post("/api/payout_money", auth, async ctx=>{
 let {id, amount, bcard, bname, email} = ctx.request.body;
 console.log(ctx.request.body)
 if(!id || !amount || !bname || !email){ctx.throw(400,"No data");}
+let pid = Number(id);
+console.log('pid: ', pid);
 let db = ctx.db;
 try{
 //await db.query('insert into token_payout(tom,suma) values($1,$2::numeric)',[bname,amount]);
 //await db.query('update buser set items=0 where bname=$1',[bname]);
-await db.query('select on_token_payout($1,$2::numeric)', [bname, amount]);
+await db.query('select on_token_payout($1,$2::numeric,$3)', [bname, amount, pid]);
+//bname,amount,bcard
 let t = ctx.transporter;
 	t.sendMail({
 		from: '',
 		to: email,
 		subject:`Выплата / Payout. From ${ctx.state.site}`,
-		text: `Привет ${bname}!Вам выплата ${amount} биткоинов от ${ctx.state.site} на биткоин адрес ${bcard}. Удачного дня!
-		Hello ${bname}! You're about receiving ${amount} BTC from ${ctx.state.site} to your BTC address ${bcard}. Have a nice day!`,
-		html: `Привет ${bname}!Вам выплата ${amount} биткоинов от ${ctx.state.site} на биткоин адрес ${bcard}. Удачного дня!<br>
-		<br>Hello ${bname}! You're about receiving ${amount} BTC from ${ctx.state.site} to your BTC address ${bcard}. Have a nice day!`
+		text: PAYOUT_INFO({bname, amount, bcard}).text,
+		html: PAYOUT_INFO({bname, amount, bcard}).html
 		}
 	,(err,info)=>{
 		console.log(info)
 		console.log(err);
 		}) 	
 }catch(e){ctx.throw(400,e);}
-ctx.body={info:"OK"}	
+ctx.body = {info:"OK"}	
 })
+//promo payouts
+adm.get('/promopayout', authed, async ctx=>{
+let db = ctx.db;
+let payout;
+try{
+let a = await db.query('select cadr, id, bname, email, items, proz from buser where items > $1 and cadr IS NOT NULL and promo=1', 
+[payout_promo_token]);	
+if(a.rows)payout = a.rows;
+}catch(e){console.log(e);}
+ctx.body = await ctx.render('promopayout', {payout: payout});	
+})
+
 	/* REKLAMA */
 	
 adm.get('/home/reklama', authed, async ctx=>{

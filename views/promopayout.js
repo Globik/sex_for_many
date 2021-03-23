@@ -7,10 +7,10 @@ const html_head=require('./html_head'),
   const {one_token_btc} = require('../config/app.json');
    const vert_menu = require('./vert_menu.js');
 
-const payout = n=>{
+const promopayout = n=>{
 const buser = n.user;
-return `<!DOCTYPE html><html lang="en"><!-- payout.js -->
-<head>${html_head.html_head({title:"Выплаты",
+return `<!DOCTYPE html><html lang="en"><!-- promopayout.js -->
+<head>${html_head.html_head({title:"Promo Выплаты",
 csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/payout.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
@@ -19,12 +19,12 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
-<div><a href="/promopayout">Смотреть promo выплаты</a></div>
+<div><a href="/payout">Обратно к выплатам</a></div>
 <h3>Выплаты</h3>
-${n.payout  && n.payout.length > 0 ? get_payout(n.payout, one_token_btc):'Нет выплат'}
+${n.payout && n.payout.length > 0 ? get_payout(n.payout, one_token_btc) : 'Нет выплат'}
 </div></main>
 <script src="/js/payout.js"></script>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 </body></html>`;
 }
-module.exports = {payout}
+module.exports = {promopayout}

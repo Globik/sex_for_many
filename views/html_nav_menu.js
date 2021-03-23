@@ -18,7 +18,7 @@ return `<!-- html_nav_menu.js -->
 <ul id="miniMenu" class="">
 <li><a href="/"><div class="muka"><span>${n.user?n.user.lng=='ru'?'Стримы':'Live streams':'Стримы'}</span></div></a>
 ${n.user?`<li><a href="/webrtc/${n.user.id}"><div class="muka"><span>${n.user.lng=='ru'?'Мой видеочат':'My videochat room'}</span></div></a>`:''}
-${n.user?`<li><a href="/home/profile/{n.user.bname}"><div class="muka"><span>${n.user.lng=='ru'?'Личный кабинет':'Dashboard'}</span></div></a>`:''}
+${n.user?`<li><a href="/userpay/${n.user.id}"><div class="muka"><span>${n.user.lng=='ru'?'Личный кабинет':'Dashboard'}</span></div></a>`:''}
 <li><a href="/obi"><div class="muka"><span>${n.user?n.user.lng=='ru'?'Доска объявлений':'Meassage board':'Доска объявлений'}</span></div></a>
 <!-- <li><a href="/home/users"><div class="muka"><span>Пользователи</span></div></a> -->
 <li><a href="/blog"><div class="muka"><span>${n.user?n.user.lng=='ru'?'Блог':'Blog':'Блог'}</span></div></a>

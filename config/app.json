@@ -30,6 +30,8 @@
 "check_age":false,
 "promo_token": 50,
 "one_token_btc": 0.0008,
+"payout_token":100,
+"payout_promo_token":500,
 "site_name":"globikon",
 "site_domain":"globikon.space",
 "vk":"https://vk.com/public201149312",
