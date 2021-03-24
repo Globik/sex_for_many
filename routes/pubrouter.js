@@ -1027,13 +1027,13 @@ pub.get("/userpay/:id", authed, async ctx=>{
 		let a=await db.query('select*from token_payout where pid=$1', [id]);
 		//console.log('a.rows: ',a.rows);
 		if(a.rows && a.rows.length){payout=a.rows;
-			}else{
-		ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
-	return;
+	//		}else{
+	//	ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
+	//return;
 	}
 		}catch(e){
 			console.log(e);
-			ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
+			ctx.body=await ctx.render('room_err', {mess: e});
 			return;
 			}
 		if(user){

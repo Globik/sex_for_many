@@ -21,7 +21,7 @@ ${vert_menu.vert_menu(n)}
 ${n.owner ? `<div id="btcCount">
 <p><strong>You have now <span id="btcCountTokens">${buser.items}</span> tokens = <span id="btcCountBTC">${((buser.items * buser.proz)/100) * one_token_btc}</span> BTC</strong></p>
 </div>`:''}
-<h3>${buser && buser.lng == 'ru' ? 'Выплаты' : 'Payouts'} ${n.payout && n.payout.length > 0 ? n.payout[0].tom : ''}</h3>
+<h3>${buser && buser.lng == 'ru' ? 'Выплаты' : 'Payouts'} ${n.payout && n.payout.length > 0 ? n.payout[0].tom : n.owner?buser.bname:''}</h3>
 ${n.payout && n.payout.length > 0 ? get_payout(n.payout) : 'Нет выплат'}
 </div></main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
