@@ -20,3 +20,8 @@ animation-duration:1s;
 animation-direction: alternate;
 animation-iteration-count:infinite;
 }
+input[type=text]{
+height:40px;
+width:100%;
+}
+.btndiv{margin-top:20px;}

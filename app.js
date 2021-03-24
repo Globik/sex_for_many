@@ -12,8 +12,6 @@ const ORIGINAL="https://globikon.space";
 var HPORT = 80;
 var SPORT = 443;
 var is_ssl_http = true;
-const GMAIL='globalikslivov@gmail.com';
-var GMAILPASS;
 var DB_URL = 'postgress://globi:globi@127.0.0.1:5432/globi';// for globikon
 if(proc=="yes"){
  HPORT = 3000;
@@ -143,6 +141,8 @@ var btc_percent;
 var btc_pay = false;
 var is_test_btc = false;
 var xirsys;
+var ya_sec;
+var xir_sec;
 //var banner;
 
 app.use(async (ctx, next)=>{
@@ -164,6 +164,9 @@ ctx.btc_address = btc_address;
 ctx.state.btc_percent = "10%";
 ctx.state.xirsys = xirsys;
 
+ctx.ya_sec = ya_sec;
+ctx.xir_sec = xir_sec;
+
 if(ctx.request.header["user-agent"]){
 	ctx.session.ua = ctx.request.header["user-agent"];
 	ctx.session.ref = ctx.request.header["referer"];
@@ -171,63 +174,81 @@ if(ctx.request.header["user-agent"]){
 	}
 
 if(ctx.isAuthenticated() && ctx.state.user.brole == "superadmin"){
-if(ctx.path=="/home/profile/enable_btc"){
+if(ctx.path == "/home/profile/enable_btc"){
 console.log("occured /home/profile/enable_btc");
 if(!btc_pay){
-btc_pay=true;
-ctx.state.btc_pay=btc_pay;
-}else{btc_pay=false;ctx.state.btc_pay=btc_pay;}
+btc_pay = true;
+ctx.state.btc_pay = btc_pay;
+}else{btc_pay = false;ctx.state.btc_pay = btc_pay;}
 
-}else if(ctx.path=="/home/profile/btc_test"){
+}else if(ctx.path == "/home/profile/btc_test"){
 if(is_test_btc){
-is_test_btc=false;	
-ctx.state.is_test_btc=is_test_btc;
-ctx.is_test_btc=is_test_btc;
+is_test_btc = false;	
+ctx.state.is_test_btc = is_test_btc;
+ctx.is_test_btc = is_test_btc;
 }else{
-is_test_btc=true;
-ctx.state.is_test_btc=is_test_btc;	
-ctx.is_test_btc=is_test_btc;
+is_test_btc = true;
+ctx.state.is_test_btc = is_test_btc;	
+ctx.is_test_btc = is_test_btc;
 }
-}else if(ctx.path=="/home/profile/set_btc_adr"){
+}else if(ctx.path == "/home/profile/set_btc_adr"){
 console.log("BBBBBBBBBBBBBBBBBody: ",ctx.request.body);
 //let {test}=ctx.request.body;
 //if(test){
-test_btc_address=ctx.request.body.test_btc_adr;
-ctx.state.test_btc_address=test_btc_address;
+test_btc_address = ctx.request.body.test_btc_adr;
+ctx.state.test_btc_address = test_btc_address;
 try{
 //await pool.query("update prim_adr set tadr=$1",[test_btc_address])	
 }catch(e){}
 //}else{
 btc_address = ctx.request.body.btc_adr;
 console.log('btc_address: ',btc_address);
-ctx.state.btc_address=btc_address;
+ctx.state.btc_address = btc_address;
 try{
 //await pool.query("update prim_adr set adr=$1",[btc_address])	
 }catch(e){}	
 //}
-btc_percent=ctx.request.body.percent;
-ctx.state.btc_percent=btc_percent;
+btc_percent = ctx.request.body.percent;
+ctx.state.btc_percent = btc_percent;
 
 
-}else if(ctx.path=="/home/profile/SET_BTC_ADDRESS"){
+}else if(ctx.path == "/home/profile/SET_BTC_ADDRESS"){
 	console.log("CTX>REQUEST>BODY: ", ctx.request.body);
-test_btc_address=ctx.request.body.test_btc_address;
-ctx.test_btc_address=test_btc_address;	
+test_btc_address = ctx.request.body.test_btc_address;
+ctx.test_btc_address = test_btc_address;	
 btc_address = ctx.request.body.btc_address;
 console.log('btc_address++: ',btc_address);
-ctx.btc_address=btc_address;
-}else if(ctx.path=='/api/set_xirsys'){
-	let {xir}=ctx.request.body;
-	xirsys=xir;
-	ctx.state.xirsys=xirsys;
+ctx.btc_address = btc_address;
+}else if(ctx.path == '/api/set_xirsys'){
+	let {xir} = ctx.request.body;
+	xirsys = xir;
+	ctx.state.xirsys = xirsys;
 	try{
-	await pool.query(`update prim_adr set xir=$1`,[JSON.stringify(xirsys)])
+	await pool.query(`update prim_adr set xir=$1`, [JSON.stringify(xirsys)])
 }catch(e){console.log(e);}
-	}else{}
+	}else if(ctx.path == "/api/set_ya_sec"){
+		let {yasec} = ctx.request.body;
+		ya_sec = yasec;
+		ctx.ya_sec = ya_sec;
+		try{
+			await pool.query('update prim_adr set ya_sec=$1', [ya_sec])
+			}catch(e){
+				console.log(e);
+				}
+		}else if(ctx.path == "/api/set_xir_sec"){
+			let {xirsec} = ctx.request.body;
+			xir_sec = xirsec;
+			ctx.xir_sec = xir_sec;
+			try{
+				await pool.query('update prim_adr set xir_sec=$1', [xir_sec])
+			}catch(e){
+				console.log(e);
+				}
+			}else{}
 
 }
 
-if(ctx.method=="GET"){
+if(ctx.method == "GET"){
 	//console.log("REKLAMA GET");
 	/*
 	try{
@@ -291,16 +312,17 @@ async function on_run(){
 try{
 let a=await pool.query('select * from prim_adr');
 if(a&&a.rows.length){
-	xirsys=a.rows[0].xir;
+	xirsys = a.rows[0].xir;
 	console.log('xirsys: ',xirsys);
-	test_btc_address=a.rows[0].tadr;
+	test_btc_address = a.rows[0].tadr;
 	console.log('test_btc_address: ',test_btc_address);
-	btc_address=a.rows[0].adr;
+	btc_address = a.rows[0].adr;
 	console.log('btc_address: ',btc_address);
-	is_test_btc=a.rows[0].type;
+	is_test_btc = a.rows[0].type;
 	console.log('is_test_btc: ',is_test_btc);
-	GMAILPASS=a.rows[0].gmailpass;
-	console.log("GMAIL: ",GMAILPASS);
+	ya_sec = a.rows[0].ya_sec;
+	xir_sec = a.rows[0].xir_sec;
+
 	transporter = nodemailer.createTransport(
 {
 //service:'gmail',

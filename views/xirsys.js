@@ -19,7 +19,21 @@ ${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):
 <main id="pagewrap">${vert_menu.vert_menu(n)}<div id="right"><h2>turn сервер</h2>
 <div id="xir" class="${n.xirsys?'stable':'momentan'}">${n.xirsys?JSON.stringify(n.xirsys):'Нет пока.'}</div>
 <br><br><button onclick="get_xirsys(this);">Взять сервера</button>&nbsp;|&nbsp;<button onclick="set_xirsys(this);">Сохранить сервера</button>
-<hr><button onclick="get_subscribe();">subscribe push notifications</button></div></main>
+<hr><button onclick="get_subscribe();">subscribe push notifications</button></div>
+<hr>
+<div>
+<h3>Secrets.</h3>
+<div>
+<h4>Yandex secret</h4>
+<input id="yaSec" type="text" value="${n.ya_sec ? n.ya_sec : ''}"><div class="btndiv"><button onclick="save_ya_sec(this);">save</button></div>
+</div>
+<div>
+<h4>Xirsys secret</h4>
+<input type="text" id="xirSec" value="${n.xir_sec ? n.xir_sec : ''}"><div class="btndiv"><button onclick="save_xir_sec(this);">save</button></div>
+</div>
+</div>
+<hr>
+</main>
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer>
 ${js_help(["/js/xirsys.js"])}
 </body>

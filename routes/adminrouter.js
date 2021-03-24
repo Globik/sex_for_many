@@ -217,27 +217,40 @@ adm.get('/home/xirsys', authed, async ctx=>{
 	console.log("HOSTNAME: ", ctx.hostname);
 	console.log("protocol: ", ctx.protocol);
 	console.log("secure: ", ctx.secure);
-ctx.body=await ctx.render('xirsys',{});	
+ctx.body=await ctx.render('xirsys', {xir_sec: ctx.xir_sec, ya_sec: ctx.ya_sec});	
 })
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
 let v;
-let vsec='867f06f6-1065-11ea-a46b-0242ac110003';
-let vurl="https://Globi:"+vsec+"@global.xirsys.net/_turn/alikon";
+//let vsec='867f06f6-1065-11ea-a46b-0242ac110003';
+let vsec = ctx.xir_sec;
+let vurl="https://Globi:" + vsec + "@global.xirsys.net/_turn/alikon";
 	 try{
-let bod = await axios.put(vurl,{format:"urls"});
-v=bod.data.v.iceServers;
+let bod = await axios.put(vurl, {format: "urls"});
+v = bod.data.v.iceServers;
 console.log('status: ', bod.data.status);
 console.log('statusText: ', bod.data.statusText); 
 console.log('v: ', v);
 }catch(e){ctx.throw(400, e);}
-ctx.body={xir:v}	
+ctx.body = {xir: v}	
 })
 
 adm.post('/api/set_xirsys', auth, async ctx=>{
-	let {xir}=ctx.request.body;
-	if(!xir)ctx.throw(400,"Ни одного сервера не предоставлено.");
-	ctx.body={xir:ctx.state.xirsys}
+	let {xir} = ctx.request.body;
+	if(!xir)ctx.throw(400, "Ни одного сервера не предоставлено.");
+	ctx.body = {xir: ctx.state.xirsys}
+	})
+	
+adm.post("/api/set_xir_sec", auth, async ctx=>{
+	let {xirsec} = ctx.request.body;
+	if(!xirsec)ctx.throw(400, "No xirsys secret");
+	ctx.body = {info: "OK, " + xirsec + "saved!", xirsec};
+	})
+	
+	adm.post("/api/set_ya_sec", auth, async ctx=>{
+	let {yasec} = ctx.request.body;
+	if(!yasec)ctx.throw(400, "No yandex secret");
+	ctx.body = {info: "OK, " + yasec + "saved!", yasec};
 	})
 	
 	/* PAYOUTS */

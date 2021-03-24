@@ -812,9 +812,9 @@ res()
 pub.post('/api/cb/yam', async ctx=>{
 console.log('ctx.request.body: ', ctx.request.body)
 let { notification_type, operation_id, amount, currency, datetime, sender, codepro, label, sha1_hash, withdraw_amount, test_notification } = ctx.request.body;
-let  s = `${notification_type}&${operation_id}&${amount}&${currency}&${datetime}&${sender}&${codepro}&${process.env.YANDEX_SEC}&${label}`;
-let r=(label?label:'no label')
-console.log('is label?: ',r)
+let  s = `${notification_type}&${operation_id}&${amount}&${currency}&${datetime}&${sender}&${codepro}&${ctx.ya_sec}&${label}`;
+let r = (label ? label: 'no label')
+console.log('is label?: ', r)
 console.log(s);
 let db = ctx.db;
 let sh = crypto.createHash('sha1')
