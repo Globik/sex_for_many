@@ -94,15 +94,3 @@ function save_xir_sec(el){
 		ev.className = "";
 		note({content: l, type: "error", time: 5});
 		}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

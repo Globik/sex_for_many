@@ -222,7 +222,6 @@ ctx.body=await ctx.render('xirsys', {xir_sec: ctx.xir_sec, ya_sec: ctx.ya_sec});
 
 adm.post('/api/get_xirsys', auth, async ctx=>{
 let v;
-//let vsec='867f06f6-1065-11ea-a46b-0242ac110003';
 let vsec = ctx.xir_sec;
 let vurl="https://Globi:" + vsec + "@global.xirsys.net/_turn/alikon";
 	 try{
@@ -244,13 +243,13 @@ adm.post('/api/set_xirsys', auth, async ctx=>{
 adm.post("/api/set_xir_sec", auth, async ctx=>{
 	let {xirsec} = ctx.request.body;
 	if(!xirsec)ctx.throw(400, "No xirsys secret");
-	ctx.body = {info: "OK, " + xirsec + "saved!", xirsec};
+	ctx.body = {info: "OK, " + xirsec + " saved!", xirsec};
 	})
 	
 	adm.post("/api/set_ya_sec", auth, async ctx=>{
 	let {yasec} = ctx.request.body;
 	if(!yasec)ctx.throw(400, "No yandex secret");
-	ctx.body = {info: "OK, " + yasec + "saved!", yasec};
+	ctx.body = {info: "OK, " + yasec + " saved!", yasec};
 	})
 	
 	/* PAYOUTS */
