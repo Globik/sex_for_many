@@ -46,6 +46,8 @@ is_webcam = false,
 
 ice_server = {"iceServers": []};
 
+var BTC_ENABLE = true;
+
 var loc1=location.hostname+':'+location.port;
 var loc2=location.hostname;
 var loc3=loc1 || loc2;
@@ -446,7 +448,10 @@ if(is_webcam){
 }else{
 	v.className = "streaminterupt";
 	}
-}else{
+}else if(ad.type == "btc_enable"){
+alert("btc_enable");
+BTC_ENABLE = false;	
+	}else{
 console.log('unknown type: ' + ad.type);	
 }
 
@@ -1196,6 +1201,10 @@ function BEGIN_PRIVAT(){
 var absuka = 0;
 
 function gavno_ticker(){
+	if(!BTC_ENABLE){
+		note({content: "Sorry, the service now is unavailable! Try again later", type: "info", time: 5});
+		return;
+		}
 if(!owner()){
 	if(buser()){
 	note({content: (yourLang.value == "ru" ? "Минута прошла - токен ушел" : "a minute gone and token away"), type: "info", time: 5})

@@ -138,11 +138,12 @@ var transporter;
 var test_btc_address;
 var btc_address;
 var btc_percent;
-var btc_pay = false;
+var btc_pay = true;
 var is_test_btc = false;
 var xirsys;
 var ya_sec;
 var xir_sec;
+
 //var banner;
 
 app.use(async (ctx, next)=>{
@@ -156,6 +157,7 @@ ctx.state.warnig = warnig;
 ctx.state.btc_pay = btc_pay;
 ctx.state.is_test_btc = is_test_btc;
 ctx.is_test_btc = is_test_btc;
+
 
 ctx.state.test_btc_address = test_btc_address;
 ctx.state.btc_address = btc_address;
@@ -179,7 +181,15 @@ console.log("occured /home/profile/enable_btc");
 if(!btc_pay){
 btc_pay = true;
 ctx.state.btc_pay = btc_pay;
-}else{btc_pay = false;ctx.state.btc_pay = btc_pay;}
+}else{
+	btc_pay = false;
+	ctx.state.btc_pay = btc_pay;
+	try{
+		await pool.query(`notify btc_enable, '${JSON.stringify({type:"btc_enable", is:true})}'`);
+		}catch(e){
+		console.log(e);
+		}
+	}
 
 }else if(ctx.path == "/home/profile/btc_test"){
 if(is_test_btc){
@@ -507,6 +517,13 @@ console.log('token buy: ', msg);
 	broadcast_tokens(msg);
 //}
 })
+
+ps.addChannel('btc_enable', function(msg){
+	console.log("MESSAGE: ", msg);
+	broadcasti(msg);
+	})
+
+
 function broadcast_tokens(obj){
 	console.log('broadcast_tokens');
 	wss.clients.forEach(function each(client){

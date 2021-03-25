@@ -4,9 +4,10 @@ const vert_menu = require('./vert_menu.js');
 const html_admin_nav_menu = require('./html_admin_nav_menu.js');
 const html_footer = require('./html_footer.js');
 //const {js_help} = require('../libs/helper.js');
-const {site_domain, one_token_btc} = require('../config/app.json');
+const {site_domain, one_token_btc, yandex_pay} = require('../config/app.json');
 let token = function(n){
 const buser = n.user;
+
 return `<!DOCTYPE html><html lang="en"><!-- token.js -->
 <head>${html_head.html_head({title:`${buser.lng == 'ru'? 'Купить токены' : 'Tokens purchase'}`,
  csslink:"/css/main2.css", cssl:["/css/token.css"]})}
@@ -17,6 +18,8 @@ ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
+${n.btc_pay ? `
+${yandex_pay ? `
 <h1>${buser&&buser.lng=='ru'? 'Купить токены рублями' : 'Purchase tokens in rubles'}</h1>
 <h4>${buser&&buser.lng=='ru'? '100 токенов = 3000 рублей.' : '100 tokens = 3000 rubles'}</h4>
 <!-- https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage -->
@@ -34,8 +37,8 @@ ${vert_menu.vert_menu(n)}
 <div><label class="cntlb"><b>${buser.lng=='ru'? 'Банковской картой' : 'Bank card'}</b><input type="radio" name="paymentType" checked value="AC"><span class="mark"></span></label></div>
 </div><div>
 <input type="submit" value="${buser.lng=='ru'? 'Купить' : 'Purchase'}"></div>
-</form>
-<hr><h1>${buser.lng=='ru'? 'Купить токены биткоинами' : 'Purchase tokens in bitcoins'}</h1>
+</form><hr>` : ''}
+<h1>${buser.lng=='ru'? 'Купить токены биткоинами' : 'Purchase tokens in bitcoins'}</h1>
 <form name="fbtc" method="post" action="/api/get_bitaps_invoice_2">
 <div><label class="cntlb"><b>10 ${buser.lng == 'ru'? 'токенов' : 'tokens'} = 0.008 BTC</b><input type="radio" name="sbtc" checked value="10"><span class="mark"></span></label></div>
 <div><label class="cntlb"><b>20 ${buser.lng == 'ru'? 'токенов' : 'tokens'} = 0.016 BTC</b><input type="radio" name="sbtc" value="20"><span class="mark"></span></label></div>
@@ -44,7 +47,9 @@ ${vert_menu.vert_menu(n)}
 <input type="hidden" name="bname" value="${buser.bname}">
 <div><input type="submit" value="${buser.lng == 'ru'? 'Купить' : 'Purchase'}"></div>
 </form>
-</div>
+`:'<span style="color:red;">SERVICE TEMPORARILY UNAVAILABLE. PLEASE TRY AGAIN LATER.</span>'}
+
+<!-- </div> -->
 ${buser && buser.brole == 'superadmin' ? `<div><button data-usid="${buser.id}" onclick="test_tok(this);">test cb</button></div>`:''}
 <a href="#" class="overlay" id="setBTCAddress" onclick="in_rem_hash();"></a>
 <div id="BTCAddressPop" class="popi">
