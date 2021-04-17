@@ -14,7 +14,6 @@ ${n.warnig ? `<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
 ${((buser && buser.brole=='superadmin') ? `${html_admin_nav_menu.html_admin_nav_menu({})}`:``)}
 <main id="pagewrap">${vert_menu.vert_menu(n)}<div id="right">
-<h1>privacy</h1>
 <article id="privacyArticle">${n.result?n.result.art : 'Пусто.'}</article>
 ${buser&&buser.brole=='superadmin'?get_redact():''}
 </div></main>
