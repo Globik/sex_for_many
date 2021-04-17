@@ -29,9 +29,8 @@
        <stop offset="50%" stop-color="brown"/>
        <stop offset="50%" stop-color="red"/>
        <stop offset="60%" stop-color="red"/>
-   
-    <stop offset="60%" stop-color="green"/>
-       <stop offset="100%" stop-color="green"/>
+   <stop offset="60%" stop-color="green"/>
+   <stop offset="100%" stop-color="green"/>
        </linearGradient>
        
        <rect id="rect2" width="30" height="100" x="50" y="50" fill="url(#l2)"/> 
@@ -655,6 +654,92 @@ var data = {
   "path": "devices/dates/ages", 
   "user_id": 2088
 }
+
+var arch=[];
+
+var str="2020-08-19";
+var str2=str.split('-')
+//alert(str2);
+var e="2021-04-11"
+var str3=e.split('-');
+//alert(str3);
+var day=new Date("2020,08,19");//3
+var li=day.getDay();
+//alert(li);
+var day2=new Date(str3);
+var li2=day2.getDay();//0
+alert(li2);
+var devices=[];var datas=[];
+data.data.o.forEach(function(el,i){
+//console.log(el);
+//if(Array.isArray(el.o)){alert("array")}
+if(el.o.length>0){
+el.o.forEach(function(m,d){
+	let s=m.n.split('-');
+	let s1=new Date(s);
+	let a=s1.getDay();
+arch.push({"day":m.n, "d":a });	
+})
+	}
+devices.push({v:el.v,el:el.n,t:el.t,day:el.o[0].n});	
+//alert(el.n);
+//alert(el.o[i])
+//console.log("I: ",i);
+//console.log("O:",el.o[i])
+//alert(el.o[i])
+console.log("m: ",el.o[1])
+if(el.o[i]){
+//datas.push({day:el.o[i].n});
+}
+})
+console.log('devices: ', devices);
+console.log("arch: ", arch);
+
+//alert(data.data.o[0].o[0].n)//device
+
+//alert(data.data.o[0].o[0].n);//2020-04-27
+//alert(data.data.o[1].o[0].n); 2020-04-27
+// alert(data.data.o[2].o[0].n);//2020-05-08
+//alert(data.data.o[3].o[0].n)//2020-05-13
+//alert(data.data.o[4].o[0].n);//2020-05-28
+//alert(data.data.o[5].o[0].n)//2020-08-05
+//alert(data.data.o[6].o[0].n)//2020-08-05
+//alert(data.data.o[7].o[0].n)//2020-08-05 //t,v
+//alert(data.data.o);
+//console.log("data: ",data.data.o);
+console.log("DEV: ", data.data.o[7].o[0].n);//08-05
+console.log("DEV: ", data.data.o[7].o[1].n);//2020-08-18
+console.log("DEV: ", data.data.o[7].o[2].n);//2020-08-19
+console.log("arr: ", data.data.o)
+if(data.data.o.o){
+data.data.o.o.forEach(function(el,i){
+	datas.push({d:el.n})
+	})
+}
+	console.log("datas: ", datas);
+let d=data.begin;
+let objl=data.obj_in_page;
+//alert(d + objl)//2020/03/08 + 10
+let m=data.data.n;
+let m1=data.data.o;
+//alert(m+' '+m1.length);//root , 8
+//alert(data.data.v);//30 total views
+let m2=data.data.o[0].n;
+let m3=data.data.o[0].v;
+//alert(m2+'_'+m3);//6769 , 5
+let m4=data.data.o[0].o.length;//1
+let m5=data.data.o[0].n;//6769
+//alert(m4+' '+m5);
+let m6=data.data.o[0].o[0].n;//2020-04-27
+//alert(m6);
+let m7=data.data.o[0].o[0].o.length;//5=>adult,kid,old,undefined young
+//alert(m7);
+let m8=data.data.o[0].o[0].v;//total 5
+//alert(m8);
+let m9=data.data.o[0].o[0].o[0].n;//adult
+//alert(m9);
+let m10=data.data.o[0].o[0].o[0].v;//0
+//alert(m10);
 </script>
 </body>
 </html>
