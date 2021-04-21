@@ -56,7 +56,7 @@ padding: 0.6rem 2rem;
 min-height:100%;
 width:100%;
 }
-
+.termins{padding: 1em;}
 #afterRegistration{border: 2px solid green;padding:20px;}
 
 @media screen and (min-width: 1900px) {
