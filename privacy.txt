@@ -43,3 +43,15 @@ A также можно поднять свое объявление на дос
 
 Для заказа и более подробной информации обращаться:<br>
 gru5@yandex.ru
+
+/* FAQ */
+
+<div class="termins">
+<ul>
+<li><a href="#obs">Нужно ли устанавливать OBS Studio на компьютер? / Have I to install OBS Sudio on my computer?</a>
+</ul>
+<p id="obs">Нет! Ни OBS Studio, ни любая другая сторонняя программа для видеотрансляций не требуется.
+Только последняя версия браузера Google Chrome или Firefox c поддержкой webRTC.
+<br><br>No OBS Studio is required! Please use the latest version of Google Chrome browser or Firefox which the webRTC supports.
+</p>
+</div>

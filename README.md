@@ -8,6 +8,7 @@ Vanilla.js on frontend.
 
 # Yandex Money
 
+
 Forms
 
 [https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage/](https://yandex.ru/dev/money/doc/payment-buttons/reference/forms-docpage/)
