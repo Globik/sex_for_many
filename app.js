@@ -347,7 +347,7 @@ path:'/usr/sbin/sendmail'
 	
 
 //activ or all or priv
-pool.query("delete from vroom where not typ='fake'",[],function(err,res){
+pool.query("delete from vroom where not (typ='fake' or typ='noview')",[],function(err,res){
 if(err)console.log(err);	
 })
 try{
@@ -658,15 +658,15 @@ pool.query("select on_token_transfer('Globi','dima',30)",function(e,result){
 	console.log('result minus: ',result.rows[0].on_token_transfer);
 	console.log('result plus: ',result.rows[1].on_token_transfer);
 	}) */
-}catch(e){console.log('db er: ',e)}
-send_to_client=1;
-}else if(l.type=="on_vair"){
+}catch(e){console.log('db er: ', e)}
+send_to_client = 1;
+}else if(l.type == "on_vair"){
 console.log("ON VAIR: ");
-if(l.is_first=='true'){
+if(l.is_first == 'true'){
 	try{
 		await pool.query(`update vroom set typ='all', p=$1 where nick=$2`,[l.src,l.room_name]);
 		}catch(e){console.log(e);}
-ws.on_vair=true;
+ws.on_vair = true;
 who_online(l);
 }
 
@@ -677,36 +677,36 @@ if(l.is_active=='false'){
 		let a=await pool.query(`update vroom set typ='activ' where nick=$1`,[l.room_name]);
 	
 		}catch(e){console.log(e);}
-l.type="out_vair2";
+l.type = "out_vair2";
 try{
-let a=await pool.query('select ava from buser where bname=$1',[l.room_name]);
-if(a.rows&&a.rows.length){
-l.src=a.rows[0].ava;
+let a = await pool.query('select ava from buser where bname=$1',[l.room_name]);
+if(a.rows && a.rows.length){
+l.src = a.rows[0].ava;
 }
 }catch(e){console.log(e)} 
 who_online(l);	
 
 }
-send_to_client=1;
-}else if(l.type=="out_vair"){
-ws.on_vair=false;
-broadcast_room(ws,l);
-send_to_client=1;
-}else if(l.type=="privat"){
+send_to_client = 1;
+}else if(l.type == "out_vair"){
+ws.on_vair = false;
+broadcast_room(ws, l);
+send_to_client = 1;
+}else if(l.type == "privat"){
 	try{
 		await pool.query(`update vroom set typ='priv' where nick=$1`,[l.modelname]);
-		broadcast_room(ws,l);
+		broadcast_room(ws, l);
 		who_online(l);
 		}catch(e){console.log('err in privat: ',e);}
-send_to_client=1;	
-}else if(l.type=="unprivat"){
+send_to_client = 1;	
+}else if(l.type == "unprivat"){
 	try{
-		await pool.query(`update vroom set typ='activ' where nick=$1`,[l.modelname]);
-		broadcast_room(ws,l);
+		await pool.query(`update vroom set typ='activ' where nick=$1`, [l.modelname]);
+		broadcast_room(ws, l);
 		who_online(l);
 		}catch(e){console.log('err in unprivat: ',e);}
-send_to_client=1;	
-}else if(l.type=="new_ava"){
+send_to_client = 1;	
+}else if(l.type == "new_ava"){
 who_online(l);
 send_to_client=1;	
 }else if(l.type=="candidate"){
@@ -720,15 +720,15 @@ send_to_client=1;
 }else{}
 
 
-if(send_to_client==0){
-if(l.target && l.target !==undefined && l.target.length !==0){
+if(send_to_client == 0){
+if(l.target && l.target !== undefined && l.target.length !==0){
 // ws,nick,msg
-console.log('send to one: ',l.type);
-send_to_one(ws,l.target,l);	
+console.log('send to one: ', l.type);
+send_to_one(ws, l.target, l);	
 }else{
 broadcast_room(ws, l);
-console.log('l.msg: ',l, ' ',ws.urli.substring(1));
-insert_message(l.msg,ws.nick,ws.urli.substring(1));
+console.log('l.msg: ', l, ' ', ws.urli.substring(1));
+insert_message(l.msg, ws.nick, ws.urli.substring(1));
 }
 }
 }catch(e){console.log("ERR IN WEBSOCK MSG: ",e);}
@@ -759,7 +759,7 @@ insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
 		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.urli.substring(1)});
 		broadcast_room(ws,{type:"out_vair",piska:"piska"});
 		try{
-await pool.query(`delete from vroom where nick=$1 and not typ='fake'`,[ws.roomname]);
+await pool.query(`delete from vroom where nick=$1 and not (typ='fake' or typ='noview')`,[ws.roomname]);
 //delete from vroom where not typ='fake'
 // 23 | mickey | mickey.webm | mickey.jpg | 2020-12-19 13:16:02.642671 | fake |1 | 
 //ssh root@91.217.80.183

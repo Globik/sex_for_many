@@ -173,6 +173,22 @@ ctx.throw(400,e);
 ctx.body={info:"OK",id:id};
 })
 
+/* Videofake noview */
+
+adm.post("/api/do_noview", auth, async ctx=>{
+	let {nick, visa} = ctx.request.body;
+	if(!nick)ctx.throw(400, "No nick!")
+	console.log('nick , visa: ', nick, visa);
+	let db = ctx.db
+	let typage = visa ? "noview" : "fake";
+	try{
+		await db.query("update vroom set typ=$1 where nick=$2", [typage, nick])
+		}catch(e){
+		ctx.throw(400, e);
+		}
+ctx.body = {info: "OK, " + nick + " is " + (visa ? "un" : "") + "visible now!"}	
+})
+
 /* VIDEOS */
 
 adm.post("/api/video_delete", auth, async ctx=>{

@@ -87,7 +87,7 @@ ${n.m?n.m.msg:''}
 <section id="onlineVideo">
 <header id="onlineVideoHeader">${n.user?n.user.lng == 'ru' ? 'Чат-комнаты':'Chat rooms':'Чат-комнаты'}</header>
 <section id="videoContainer">
-${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) : 
+${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers, (buser&&buser.brole == 'superadmin' ? true : false)) : 
 `<span id="zagln2">${n.user?n.user.lng=='ru'?'Пока нет никого':'Nobody yet':'Пока нет никого'}.
  &nbsp;<a class="ahero" href="${buser?`/webrtc/${buser.id}`:'/login'}">${n.user?n.user.lng=='ru'?'Будь первым':'Be the firts one':'Будь первым'}!</a></span>`}
 </section>
@@ -95,8 +95,8 @@ ${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers) :
 
 <hr>
 <section id="newUserSection">
-<h2>${n.user?n.user.lng=='ru'?'Новые профили':'New profiles':'Новые профили'}</h2>
-${n.new_users?get_new_users_list(n.new_users):n.user?n.user.lng=='ru'?'Пока нет никого.':'Nodody yet.':'Пока нет никого.'}
+<h2>${n.user ? n.user.lng == 'ru' ? 'Новые профили' : 'New profiles' : 'Новые профили'}</h2>
+${n.new_users ? get_new_users_list(n.new_users) : n.user ? n.user.lng == 'ru' ? 'Пока нет никого.' : 'Nodody yet.' : 'Пока нет никого.'}
 </section>
 
 <input type="hidden" id="yourLang" value="${buser?buser.lng:'ru'}">
@@ -112,10 +112,10 @@ ${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n
 module.exports={main_page};
 
 function roomers_list(n){
-let s='';
+let s = '';
 if(Array.isArray(n)){
  n.forEach(function(el,i){
-s+=`<div data-roomid="${el.us_id}" сlass="img-online-container">
+s+= `<div data-roomid="${el.us_id}" сlass="img-online-container">
 <img class="img-online" src="${el.ava?el.ava:'/images/default.jpg'}">
 <footer class="img-footer"><a href="/webrtc/${el.us_id}">${el.nick}</a>&nbsp;,&nbsp;${el.age?el.age:18}&nbsp;лет.&nbsp;
 (<span data-vid="${el.us_id}">${el.v}</span> чел.)</footer>
@@ -124,11 +124,14 @@ s+=`<div data-roomid="${el.us_id}" сlass="img-online-container">
  }
 return s;
 }
-function vroomers_list(n){
-let s='';
-n.forEach(function(el,i){
-s+=`<div data-roomidi="${el.us_id}" class="vroomers" itemscop itemtype="http://schema.org/VideoObject">
-${el.typ=='activ'?'':`<div data-indicator="${el.us_id}" class="indicator${el.typ=='all'|| el.typ=='fake'?' red':' green'}"></div>`}
+function vroomers_list(n, b){
+let s = '';
+
+n.forEach(function(el, i){
+
+s+= (el.typ !='noview' || b ?  `<div data-roomidi="${el.us_id}" class="vroomers" itemscop itemtype="http://schema.org/VideoObject">
+${el.typ == 'activ' ? '' : `<div data-indicator="${el.us_id}" class="indicator${el.typ=='all'|| el.typ=='fake'?' red':' green'}"></div>`}
+${b ? `<input type="checkbox" data-bnick="${el.nick}" onchange="do_noview(this);" ${el.typ == 'noview' ? 'checked' : ''} />` : ''}
 <a href="/webrtc/${el.us_id}" itemprop="url">
 <header itemprop="name">${el.nick}</header></a>
 <p itemprop="description">${el.stat?(el.stat).substring(0,52):"I'm online :)"}</p>
@@ -136,17 +139,19 @@ ${el.typ=='activ'?'':`<div data-indicator="${el.us_id}" class="indicator${el.typ
 <meta itemprop="isFamilyFriendly" content="false">
 <span itemprop="uploadDate">2020-06-05T00:00:00</span><br>
 <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-<img itemprop="contentUrl" class="videovroomers" data-avid="${el.us_id}" onerror="foto_error(this);" src="${el.typ=='fake'?'/vid/'+el.p:(el.p?el.p:(el.ava?el.ava:'/images/unnamed.jpg'))}" data-vidi="${el.us_id}">
+<img itemprop="contentUrl" class="videovroomers" data-avid="${el.us_id}" onerror="foto_error(this);"
+ src="${el.typ == 'fake' || el.typ == 'noview' ? '/vid/' + el.p : (el.p ? el.p : (el.ava ? el.ava : '/images/unnamed.jpg'))}"
+  data-vidi="${el.us_id}">
 <meta itemprop="width" content="250">
 <meta itemprop="height" content="120"></span>
 <header class="untervideo"><span class="timecl" data-min_time="${el.us_id}">${el.typ=='fake'?get_min():get_mini(el.crat).t}</span>&nbsp;<span class="timecl" data-min_str="${el.us_id}">${el.typ=='fake'?'мин':get_mini(el.crat).s}</span>,&nbsp;
 <span class="timecl" data-v_str="${el.us_id}">${el.typ=='fake'?gruss():el.v}</span>&nbsp;<span class="timecl">зрителей</span></header>
-</div>`;	
+</div>` : '');	
 })	
 return s;
 }
 function gruss(){
-return Math.floor(Math.random()*(1000-80+1))+80;	
+return Math.floor(Math.random() * (1000 - 80 + 1)) + 80;	
 }
 function get_min(){
 	return Math.floor(Math.random()*(60-10+1))+10;

@@ -148,3 +148,23 @@ d.src = el.src;
 }
 function on_foto_error(l,ev){}
 function on_foto_error_err(l,ev){}
+ function do_noview(el){
+//alert(el.checked+' '+el.getAttribute('data-bnick'));	
+let d = {};
+d.nick = el.getAttribute('data-bnick');
+d.visa = el.checked;
+ vax("post", "/api/do_noview", d, on_do_noview, on_do_noview_error, el, false);
+}
+
+function on_do_noview(l, ev){
+note({content: l.info, type: "info", time: 5});
+}
+
+function on_do_noview_error(l, ev){
+note({content: l, type: "error", time: 5});	
+if(ev.checked){
+	ev.checked=false;
+	}else{
+	ev.checked=true;
+	}
+}
