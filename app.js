@@ -602,7 +602,7 @@ var blin_id=ws.urli.substring(1);
 //console.log('blin_id: ',blin_id,ws.url)
 if(l.owner){
 broadcast_room(ws, {type: "owner_in",nick:ws.nick});
-insert_message('вошел в чат.',l.name,blin_id);
+//insert_message('вошел в чат.',l.name,blin_id);
 
 console.log('blin_id: ',blin_id);
 
@@ -740,7 +740,7 @@ console.log("websocket closed");
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 if(ws.owner){
 broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
-insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
+//insert_message('покинул чат.',ws.roomname,ws.urli.substring(1));
 //pool.query('delete from room where nick=$1',[ws.roomname],function(er,r){
 //if(er)console.log(er)
 	let d6={};
