@@ -573,7 +573,7 @@ console.log("WS URL: ", ws.urli,req.url);
 ws.nick=shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
 console.log("hi from server");
-send_history(ws,req.url.substring(1))
+//send_history(ws,req.url.substring(1))
 let siska=get_user_count(ws.urli);
 wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
 broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online,privat:siska.privat});
@@ -728,7 +728,7 @@ send_to_one(ws, l.target, l);
 }else{
 broadcast_room(ws, l);
 console.log('l.msg: ', l, ' ', ws.urli.substring(1));
-insert_message(l.msg, ws.nick, ws.urli.substring(1));
+//insert_message(l.msg, ws.nick, ws.urli.substring(1));
 }
 }
 }catch(e){console.log("ERR IN WEBSOCK MSG: ",e);}
