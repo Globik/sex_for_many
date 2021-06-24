@@ -1,11 +1,11 @@
--- \i /home/globik/sex_for_many/sql/primary_adress.sql
+-- \i /home/globi/sex_for_many/sql/prim_adr.sql
 -- heroku pg:psql --app frozen-atoll-47887
 drop table if exists prim_adr;
 create table prim_adr(
 adr varchar(40) not null,
 tadr varchar(60) not null, -- test address 
 type boolean ,-- btc test true, else false
-ya_sec, -- yandex secret
+ya_sec text, -- yandex secret
 xir_sec text, -- xirsys secret
 xir jsonb);
 

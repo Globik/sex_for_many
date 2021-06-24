@@ -17,8 +17,9 @@ if(proc=="yes"){
  HPORT = 3000;
  SPORT = 8000;
  is_ssl_http = false;
- DB_URL = 'postgress://globik:null@localhost:5432/test';
- //DB_URL='postgress://globi:null@localhost:5432/globi';
+// DB_URL = 'postgress://globik:null@localhost:5432/test';
+DB_URL = 'postgress://globi:globi@localhost:5432/globi'; 
+//DB_URL='postgress://globi:null@localhost:5432/globi';
 }else{}
 
 

@@ -34,8 +34,8 @@
     "ws": "^7.4.1"
   },
   "engines": {
-    "node": "9.3.0",
-    "npm": "6.9.0"
+    "node": "8.10.0",
+    "npm": "3.5.2"
   },
   "repository": {
     "type": "git",

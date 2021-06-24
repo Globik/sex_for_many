@@ -136,5 +136,9 @@ grant all privileges on all functions in schema public to globi;
 
 ```
 
+local machiene
+Success. You can now start the database server using:
+
+    /usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
 
 

@@ -3,7 +3,7 @@
 -- alter user suka with superuser
 create extension if not exists "uuid-ossp";
 -- drop table basic_auth.tokens;
-drop table tokens;
+drop table if exists tokens;
 
 drop type if exists token_type_enum cascade;
 create type token_type_enum as enum('validation', 'reset');

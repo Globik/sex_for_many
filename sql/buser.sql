@@ -23,7 +23,7 @@ cadr varchar(40) -- client btc address
 );
 
 -- grant all privileges on table buser to suka;
-insert into buser(pwd,bname, email) values('1234','Globi','gru5@yandex.ru');
+insert into buser(pwd,bname, email,lng,promo) values('1234','Globi','gru5@yandex.ru','ru',0);
 update buser set brole='superadmin';
 --insert into buser(pwd,bname, email,brole) values('1234','marina','marina@yandex.ru','fake');
 --insert into buser(pwd,bname, email,brole) values('1234','sveta','sveta@yandex.ru','fake');
