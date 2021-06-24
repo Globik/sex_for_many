@@ -21,7 +21,7 @@
     "limax": "1.4.1",
     "moment": "^2.24.0",
     "ms": "0.7.2",
-    "nodemailer": "^6.4.8",
+    "nodemailer": "^6.4.16",
     "passport-local": "1.0.0",
     "pg": "^7.11.0",
     "pg-pool": "^2.0.6",
