@@ -1,4 +1,4 @@
--- \i /home/globik/sex_for_many/sql/reset.sql
+-- \i /home/globi/sex_for_many/sql/reset.sql
 -- sudo -u postgres psql globi
 -- alter user suka with superuser
 create extension if not exists "uuid-ossp";
