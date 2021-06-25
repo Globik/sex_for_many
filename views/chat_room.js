@@ -41,6 +41,7 @@ ${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</
 ${vert_menu.vert_menu(n)}
 <div id="right">
 ${n.message && n.message.info == 'promo' ? buser ? buser.lng=='ru' ? AFTER_REGISTRATION({}).ru : AFTER_REGISTRATION({}).en : '' : ''}
+
 <h2>${n.user?n.user.lng=='ru'?'Комната':'Room':'Комната'} ${model?model.bname:'Анон'}</h2>
 ${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
 ${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
@@ -123,16 +124,18 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 <input id="privatinput" type="text" placeholder="Приват сообщение">
 </div>
 -->
-<button id="dopPanelbtn" title="Панель / Panel" onclick="dopPanel_out(this);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 9v-4l8 7-8 7v-4h-8v-6h8zm-2 10v-.083c-1.178.685-2.542 1.083-4 1.083-4.411 0-8-3.589-8-8s3.589-8 8-8c1.458 0 2.822.398 4 1.083v-2.245c-1.226-.536-2.577-.838-4-.838-5.522 0-10 4.477-10 10s4.478 10 10 10c1.423 0 2.774-.302 4-.838v-2.162z" fill="currentColor" fill-rule="nonzero"/></svg>
+<button id="dopPanelbtn" title="Панель / Panel" onclick="dopPanel_out(this);">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 9v-4l8 7-8 7v-4h-8v-6h8zm-2 10v-.083c-1.178.685-2.542 1.083-4 1.083-4.411 0-8-3.589-8-8s3.589-8 8-8c1.458 0 2.822.398 4 1.083v-2.245c-1.226-.536-2.577-.838-4-.838-5.522 0-10 4.477-10 10s4.478 10 10 10c1.423 0 2.774-.302 4-.838v-2.162z" fill="currentColor" fill-rule="nonzero"/></svg>
 </button>${n.owner?`<button id="webcamStart" onclick="start_webCamera(this);" title="webcamera">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.613 18.581m9.387-9.581c0 2.209-1.791 4-4 4s-4-1.791-4-4 1.791-4 4-4 4 1.791 4 4zm-2 0c0-1.103-.896-2-2-2s-2 .897-2 2 .896 2 2 2 2-.897 2-2zm-9 0c0 3.86 3.141 7 7 7s7-3.14 7-7-3.141-7-7-7-7 3.14-7 7zm16 0c0 4.97-4.029 9-9 9s-9-4.03-9-9 4.029-9 9-9 9 4.03 9 9zm-.404 12.501c1.007 1.142-.014 2.679-1.448 2.481-1.795-.245-3.236-1.702-7.147-1.702-3.91 0-5.352 1.458-7.146 1.702-1.436.198-2.456-1.34-1.449-2.481l2.898-3.289c.559.388 1.156.725 1.79.994l-2.025 2.298c1.295-.524 3.065-1.225 5.933-1.225s4.638.7 5.933 1.224l-2.025-2.298c.634-.27 1.231-.606 1.79-.994l2.896 3.29z" fill="currentColor" fill-rule="nonzero"/></svg>
 </button><button id="vStreamStart" class="btn-start" disabled onclick="start_stream(this);">${n.user.lng == 'ru' ? 'Старт стрим' : 'Start stream'}</button>`:
 
 `<button id="soundBtn" onclick="popa(this);">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 1.269l-18.455 22.731-1.545-1.269 3.841-4.731h-1.827v-10h4.986v6.091l2.014-2.463v-3.628l5.365-2.981 4.076-5.019 1.545 1.269zm-10.986 15.926v.805l8.986 5v-16.873l-8.986 11.068z"/></svg>
-</button><button class="btn-start" id="teeTip"  onclick="give_token();">${n.user?n.user.lng=='ru'?'Дать на чай':'Tip':'Дать на чай / Tip'}</button><button class="btn-start" id="btnStart" onclick="begin_privat(this);">${n.user?n.user.lng=='ru'?'Приват':'Privat':'Приват / Privat'}</button>`}
-<button id="stopPrivat" class="btn-start" onclick="stop_privat(this);" disabled>${n.user?n.user.lng=='ru'?'стоп приват':'stop privat':'стоп приват / stop privat'}</button>
-<!-- <button id="btnCancell" class="btn-start" onclick="cancel_video(this);">стоп</button> -->
+</button><button class="btn-start" id="teeTip"  onclick="give_token();">${n.user?n.user.lng=='ru'?'Дать на чай':'Tip':'Дать на чай / Tip'}</button>
+<button class="btn-start" id="btnStart" onclick="begin_privat(this);">${n.user?n.user.lng=='ru'?'Приват':'Privat':'Приват / Privat'}</button>`}
+${model.brole == "fake" ? "" : `<button id="stopPrivat" class="btn-start" onclick="stop_privat(this);" disabled>${n.user?n.user.lng=='ru'?'стоп приват':'stop privat':'стоп приват / stop privat'}</button>`}
+
 <div id="dopPanel">
 
 ${n.owner?`<label class="label-galka" id="sochrVideo"><span>${n.user.lng=='ru'?'Сохранить видео':'Save video'}</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>

@@ -98,7 +98,7 @@ app.keys=['your-secret']
 app.use(serve(__dirname+'/public'));
 app.use(session({store: pg_store}, app))
 
-render(app,{root:'views', development: true})
+render(app,{root:'views', development: (process.env.DEVELOPMENT == "yes" ?  true : false)})
 app.use(koaBody());
 //app.use(koaBody({multipart:true,formidable:{}}))
 require('./config/auth.js')(pool,passport)
