@@ -1,3 +1,4 @@
+//#800080#800080
 const html_head=require('./html_head'),
     html_nav_menu=require('./html_nav_menu'),
 	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
@@ -58,7 +59,7 @@ ${n.owner?
 </div>
 <div class="requis">
 <form name="avaprofi" action="/api/save_ava" method="post">
-<label for="avfile">${n.user.lng=='ru'?'Ваш аватар':'Your avatar'}:</label><br>
+<label for="avfile"><strong>${n.user.lng=='ru'?'Ваш аватар':'Your avatar'}:</strong></label><br>
 <input id="avfile" type="file" name="zfile" accept="image/*" onchange="thumb(this.files);" required>
 <input type="hidden" name="fname" value="${model?model.bname:''}">
 </div>
@@ -66,7 +67,26 @@ ${n.owner?
 </form>
 
 <div>
-<div class="requis"><label for="roomdescr">${n.user.lng=='ru'?'Статус':'Status'}:</label><br>
+<div class="requis">
+<form>
+<label for="alterid"><strong>${n.user.lng == 'ru' ? 'Сколько вам лет?' : 'How old are you?'}</strong></label><br>
+<input id="alterid" name="alter" type="number" value="18" required>&nbsp;&nbsp;<input type="submit" value="save age">
+</form>
+</div>
+
+<div class="profi"><form>
+	<label><strong>Вы кто?</strong></label><br>
+	<select name="gay" id="zType" required onchange="alert(1);">
+	<option value="gay" ${n.result&&n.result.bi=='gay'?' selected':''}>гей</option>
+	<option value="bi" ${n.result&&n.result.bi=='bi'?' selected':''}>би</option>
+	<option value="lesbi" ${n.result&&n.result.bi=='lesbi'?' selected':''}>лесби</option>
+	<option value="trans" ${n.result&&n.result.bi=='trans'?' selected':''}>транс</option>
+	<option value="hetero" ${n.result&&n.result.hetero=='hetero'?' selected':''}>гетеро</option>
+	</select>
+	</form>
+	</div>
+
+<div class="requis"><strong><label for="roomdescr">${n.user.lng=='ru'?'Статус':'Status'}:</strong></label><br>
 <input type="text" id="roomdescr" maxlength="200" placeholder="${n.user.lng=='ru'?'200 знаков':'200 letters'}" value="${model&&model.stat?model.stat:''}">
 </div>
 <div><button data-bname="${model?model.bname:''}" onclick="save_status(this);">${n.user.lng=='ru'?'Cохранить':'Save'}</button></div>
