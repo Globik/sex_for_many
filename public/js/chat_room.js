@@ -206,6 +206,78 @@ wsend({type:"new_ava", name:myusername, avasrc:l.path, id:modelId.value});
 
 function on_profile_err(l,ev){ev.className = "";note({content: l, type:"error", time: 5});}
 
+
+
+
+
+
+
+var alter_form = document.forms.alterform;
+	if(alter_form)alter_form.addEventListener('submit', on_submit_alter, false);
+function on_submit_alter(ev){
+ev.preventDefault();
+let d = {};
+d.name = ev.target.fname;
+d.alter = ev.target.alter;
+alert(d.name + d.alter);
+return;
+vax(ev.target.method, ev.target.action, d, on_alter_saved, on_alter_err, ev.target.submit, false);
+ev.target.className = "puls";	
+}
+
+function on_alter_saved(l, ev){
+console.log(l);
+ev.className = "";
+note({content: l.info, type:"info", time: 5});
+}
+
+function on_alter_err(l,ev){ev.className = "";
+note({content: l, type:"error", time: 5});
+}
+
+
+
+
+
+var sex_form = document.forms.sexform;
+	if(sex_form)sex_form.addEventListener('submit', on_submit_sex, false);
+function on_submit_sex(ev){
+ev.preventDefault();
+let d = {};
+d.name = ev.target.fname;
+d.sexorient = ev.target.sexorient;
+alert(d.name + d.alter);
+return;
+vax(ev.target.method, ev.target.action, d, on_sex_saved, on_sex_err, ev.target.submit, false);
+ev.target.className = "puls";	
+}
+
+function on_sex_saved(l, ev){
+console.log(l);
+ev.className = "";
+note({content: l.info, type:"info", time: 5});
+}
+
+function on_sex_err(l,ev){ev.className = "";
+note({content: l, type:"error", time: 5});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function foto_error(el){
 var avid = el.getAttribute('data-avid');
 if(!avid)return;

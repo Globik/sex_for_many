@@ -68,21 +68,25 @@ ${n.owner?
 
 <div>
 <div class="requis">
-<form>
+<form name="alterform" method="post" action="/api/save_alter">
 <label for="alterid"><strong>${n.user.lng == 'ru' ? 'Сколько вам лет?' : 'How old are you?'}</strong></label><br>
-<input id="alterid" name="alter" type="number" value="18" required>&nbsp;&nbsp;<input type="submit" value="save age">
+<input id="alterid" name="alter" type="number" min="10" max="100" value="18" required>&nbsp;&nbsp;
+<input type="hidden" name="fname" value="${model?model.bname:''}">
+<input type="submit" name="submit" value="${n.user.lng == 'ru' ? 'Сохранить' : 'Save'}">
 </form>
 </div>
 
-<div class="profi"><form>
-	<label><strong>Вы кто?</strong></label><br>
-	<select name="gay" id="zType" required onchange="alert(1);">
-	<option value="gay" ${n.result&&n.result.bi=='gay'?' selected':''}>гей</option>
-	<option value="bi" ${n.result&&n.result.bi=='bi'?' selected':''}>би</option>
-	<option value="lesbi" ${n.result&&n.result.bi=='lesbi'?' selected':''}>лесби</option>
-	<option value="trans" ${n.result&&n.result.bi=='trans'?' selected':''}>транс</option>
-	<option value="hetero" ${n.result&&n.result.hetero=='hetero'?' selected':''}>гетеро</option>
+<div class="requis"><form name="sexform" method="post" action="/api/save_sex">
+	<label for="zType"><strong>${n.user.lng == 'ru' ? 'Выберите сексуальную ориентацию' : 'Select your sexuel orientation'}</strong></label><br>
+	<select name="sexorient" id="zType" required>
+	<option value="gay">${n.user.lng == 'ru' ? 'гей' : 'gay'}</option>
+	<option value="bi" >${n.user.lng == 'ru' ? 'би' : 'bi'}</option>
+	<option value="lesbi" >${n.user.lng == 'ru' ? 'лесби' : 'lesbi'}</option>
+	<option value="trans" >${n.user.lng == 'ru' ? 'транс' : 'transi'}</option>
+	<option value="hetero">${n.user.lng == 'ru' ? 'гетеро' : 'hetero'}</option>
 	</select>
+	<input type="hidden" name="fname" value="${model?model.bname:''}">&nbsp;&nbsp;
+	<input type="submit" name="submit" value="${n.user.lng == 'ru' ? 'Сохранить' : 'Save'}">
 	</form>
 	</div>
 
