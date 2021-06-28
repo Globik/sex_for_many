@@ -1,28 +1,28 @@
-const valuid=require('uuid-validate');
-const shortid=require('shortid');
-const passport=require('koa-passport');
-const bodyParser=require('koa-body');
-const Router=require('koa-router');
-const crypto=require('crypto')
-const axios=require('axios').default;
-const fs=require('fs');
-const util=require('util');
-const path=require('path');
-var {spawn}=require('child_process');
-const readdir=util.promisify(fs.readdir);
-const unlink=util.promisify(fs.unlink);
-const mkdir=util.promisify(fs.mkdir);
-const access=util.promisify(fs.access);
-const rmdir=util.promisify(fs.rmdir);
-const lstat=util.promisify(fs.lstat);
-const {WELCOME}=require('../config/mail.js');
+const valuid = require('uuid-validate');
+const shortid = require('shortid');
+const passport = require('koa-passport');
+const bodyParser = require('koa-body');
+const Router = require('koa-router');
+const crypto = require('crypto')
+const axios = require('axios').default;
+const fs = require('fs');
+const util = require('util');
+const path = require('path');
+var {spawn} = require('child_process');
+const readdir = util.promisify(fs.readdir);
+const unlink = util.promisify(fs.unlink);
+const mkdir = util.promisify(fs.mkdir);
+const access = util.promisify(fs.access);
+const rmdir = util.promisify(fs.rmdir);
+const lstat = util.promisify(fs.lstat);
+const {WELCOME} = require('../config/mail.js');
 //const uuid=require('uuid/v4');
-const GMAIL="globalikslivov@gmail.com";
-const {is_reklama}=require('../config/app.json');
+const GMAIL = "globalikslivov@gmail.com";
+const {is_reklama} = require('../config/app.json');
 const onesignal_app_key = "NjQ5NWU0MjYtNDZjNS00MTA3LTkxODYtZWM5MzI1ODNiNDUy";
 const onesignal_app_id = "ebc1d04b-30f9-4168-b7e7-f5b9c6780e40";
-const walletValidator=require('wallet-address-validator');//0.2.4
-const {RateLimiterMemory}=require('rate-limiter-flexible');
+const walletValidator = require('wallet-address-validator');//0.2.4
+const {RateLimiterMemory} = require('rate-limiter-flexible');
 const gr = "\x1b[32m", rs = "\x1b[0m";
 
 //var moment=require('moment');
@@ -85,17 +85,17 @@ ctx.body = await ctx.render('main_page', {videoUsers:videoUsers, new_users});
 /* onesignal.com */
 pub.post("/api/onesignal_count", async ctx=>{
 if(process.env.DEVELOPMENT  !="yes"){
-	let {cnt, desc}=ctx.request.body;
-		oni(desc," :"+cnt);
+	let {cnt, desc} = ctx.request.body;
+		oni(desc, " :" + cnt);
 }
-	ctx.body={info:"OK"}
+	ctx.body = {info: "OK"}
 })
 
 /* end */
 
 pub.get('/login', async ctx=>{
 //let m=ctx.session.bmessage;
-ctx.body=await ctx.render('login'/*,{errmsg:m}*/);
+ctx.body = await ctx.render('login'/*,{errmsg:m}*/);
 //delete ctx.session.bmessage;
 });
 
@@ -1185,9 +1185,9 @@ try{
 let result = await db.query('select ava from buser where bname=$1', [ fname ] );
 
 console.log('result:',result.rows);
-if(result.rows && result.rows.length==1){
+if(result.rows && result.rows.length == 1){
 try{
-await unlink('./public'+result.rows[0].ava)
+await unlink('./public' + result.rows[0].ava)
 }catch(e){}
 }
 }catch(e){
@@ -1211,6 +1211,21 @@ await db.query(s, [ s_name, fname ]);
 ctx.body = {info: "OK - аватарка сохранена!", path: s_name}
 })
 
+pub.post("/api/save_alter", auth, async ctx=>{
+	console.log("ctx.state.user: ", ctx.state.user);
+	let {alter,  name} = ctx.request.body;
+	if(!alter || !name)ctx.throw(400,  "No alter!");
+	console.log(alter, name);
+	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, возраст сохранен!" : "OK, age saved!")}
+	});
+pub.post("/api/save_sex", auth, async ctx=>{
+	console.log("ctx.state.user: ", ctx.state.user);
+	let {sexorient,  name} = ctx.request.body;
+	if(!sexorient || !name)ctx.throw(400,  "No sexorient!");
+	console.log(sexorient, name);
+	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, сексуальная ориентация сохранена!" : "OK, sexuel orinetation saved!")}
+	});
+
 pub.post("/api/foto_error", async ctx=>{
 let {avid}=ctx.request.body;
 	if(!avid)ctx.throw(400,"no avid");
@@ -1222,7 +1237,7 @@ ctx.body={info: "ok, foto deleted"}
 })
 
 pub.post("/api/save_status", auth,async ctx=>{
-let {status,bname}=ctx.request.body;
+let {status,bname} = ctx.request.body;
 if(!status || !bname)ctx.throw(400,"no data");
 let db=ctx.db;
 try{

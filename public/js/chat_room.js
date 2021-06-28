@@ -217,10 +217,10 @@ var alter_form = document.forms.alterform;
 function on_submit_alter(ev){
 ev.preventDefault();
 let d = {};
-d.name = ev.target.fname;
-d.alter = ev.target.alter;
-alert(d.name + d.alter);
-return;
+d.name = ev.target.fname.value;
+d.alter = ev.target.alter.value;
+//alert(d.name + d.alter);
+//return;
 vax(ev.target.method, ev.target.action, d, on_alter_saved, on_alter_err, ev.target.submit, false);
 ev.target.className = "puls";	
 }
@@ -244,10 +244,10 @@ var sex_form = document.forms.sexform;
 function on_submit_sex(ev){
 ev.preventDefault();
 let d = {};
-d.name = ev.target.fname;
-d.sexorient = ev.target.sexorient;
-alert(d.name + d.alter);
-return;
+d.name = ev.target.fname.value;
+d.sexorient = ev.target.sexorient.value;
+//alert(d.name + d.sexorient);
+//return;
 vax(ev.target.method, ev.target.action, d, on_sex_saved, on_sex_err, ev.target.submit, false);
 ev.target.className = "puls";	
 }
