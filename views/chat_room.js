@@ -45,6 +45,7 @@ ${n.message && n.message.info == 'promo' ? buser ? buser.lng=='ru' ? AFTER_REGIS
 
 <h2>${n.user?n.user.lng=='ru'?'Комната':'Room':'Комната'} ${model?model.bname:'Анон'}</h2>
 ${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
+${!n.owner ? `<p>${model.bage},&nbsp;${model.sexor}</p>` : ''}
 ${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
 ${n.owner?
 `<div class="btc-footer">
@@ -70,20 +71,20 @@ ${n.owner?
 <div class="requis">
 <form name="alterform" method="post" action="/api/save_alter">
 <label for="alterid"><strong>${n.user.lng == 'ru' ? 'Сколько вам лет?' : 'How old are you?'}</strong></label><br>
-<input id="alterid" name="alter" type="number" min="10" max="100" value="18" required>&nbsp;&nbsp;
+<input id="alterid" name="alter" type="number" min="10" max="100" value="${model.bage == '18' ? '18' : model.bage}" required>&nbsp;&nbsp;
 <input type="hidden" name="fname" value="${model?model.bname:''}">
 <input type="submit" name="submit" value="${n.user.lng == 'ru' ? 'Сохранить' : 'Save'}">
 </form>
 </div>
-
+<!-- {JSON.stringify(model)}<br> -->
 <div class="requis"><form name="sexform" method="post" action="/api/save_sex">
 	<label for="zType"><strong>${n.user.lng == 'ru' ? 'Выберите сексуальную ориентацию' : 'Select your sexuel orientation'}</strong></label><br>
 	<select name="sexorient" id="zType" required>
-	<option value="gay">${n.user.lng == 'ru' ? 'гей' : 'gay'}</option>
-	<option value="bi" >${n.user.lng == 'ru' ? 'би' : 'bi'}</option>
-	<option value="lesbi" >${n.user.lng == 'ru' ? 'лесби' : 'lesbi'}</option>
-	<option value="trans" >${n.user.lng == 'ru' ? 'транс' : 'transi'}</option>
-	<option value="hetero">${n.user.lng == 'ru' ? 'гетеро' : 'hetero'}</option>
+	<option value="hetero" ${model.sexor == 'hetero' ? 'selected' : ''}>${n.user.lng == 'ru' ? 'гетеро' : 'hetero'}</option>
+	<option value="gay" ${model.sexor == 'gay' ? 'selected' : ''}>${n.user.lng == 'ru' ? 'гей' : 'gay'}</option>
+	<option value="bi" ${model.sexor == 'bi' ? 'selected' : ''}>${n.user.lng == 'ru' ? 'би' : 'bi'}</option>
+	<option value="lesbi" ${model.sexor == 'lesbi' ? 'selected' : ''}>${n.user.lng == 'ru' ? 'лесби' : 'lesbi'}</option>
+	<option value="trans" ${model.sexor == 'trans' ? 'selected' : ''}>${n.user.lng == 'ru' ? 'транс' : 'trans'}</option>
 	</select>
 	<input type="hidden" name="fname" value="${model?model.bname:''}">&nbsp;&nbsp;
 	<input type="submit" name="submit" value="${n.user.lng == 'ru' ? 'Сохранить' : 'Save'}">

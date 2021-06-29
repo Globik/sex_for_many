@@ -18,13 +18,16 @@ ll TIMESTAMP  NOT NULL default now()::timestamp, -- last logined
 lng varchar(2) not null, -- language : en, ru
 promo int not null, -- if user with promocode? 0 - no, 1 - yes
 ava text,
-stat text,
-cadr varchar(40) -- client btc address
+stat text, -- user status
+cadr varchar(40), -- client btc address
+bage int check(age >=10) not null default 18,
+sexor varchar(10) not null default 'hetero' -- sexual orientation 'hetero', 'bi', 'gay', 'hetero', 'trans'
 );
 
 -- grant all privileges on table buser to suka;
 insert into buser(pwd,bname, email,lng,promo) values('1234','Globi','gru5@yandex.ru','ru',0);
 update buser set brole='superadmin';
+-- insert into buser(pwd,bname,email,lng,promo) values('1234', 'dima','dima@yandex.ru','ru',0);
 -- insert into buser(pwd,bname, email,brole,lng,promo) values('1234','mickey','marina@yandex.ru','fake','ru',0);
 
 --insert into buser(pwd,bname, email,brole) values('1234','sveta','sveta@yandex.ru','fake');
@@ -34,6 +37,8 @@ update buser set brole='superadmin';
 -- date_part('year',interval '45 years 11 mons 27 days'); 45
 -- select date_part('year', age(dob)) as dob, bname from buser;
 
+-- alter table buser add column bage int check(bage >=10) not null default 18;
+-- alter table buser add column sexor varchar(10) not null default 'hetero';
 -- alter table buser add column email text check(email ~*'^.+@.+\..+$') unique;
 -- alter table buser add column model boolean not null default false;
 -- alter table buser add column items int not null default 0;

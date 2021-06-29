@@ -450,10 +450,10 @@ let a,result,videos,videos2, message;
 let owner = false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis = `select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, cladr.padrtest, cladr.cadrtest, 
+sis = `select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padrtest, cladr.cadrtest, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis = `select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, cladr.padr, cladr.cadr, 
+sis = `select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padr, cladr.cadr, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
@@ -1216,6 +1216,10 @@ pub.post("/api/save_alter", auth, async ctx=>{
 	let {alter,  name} = ctx.request.body;
 	if(!alter || !name)ctx.throw(400,  "No alter!");
 	console.log(alter, name);
+	let db = ctx.db;
+	try{
+		await db.query("update buser set bage=$1 where bname=$2", [alter, name]);
+		}catch(e){ctx.throw(400, e)}
 	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, возраст сохранен!" : "OK, age saved!")}
 	});
 pub.post("/api/save_sex", auth, async ctx=>{
@@ -1223,6 +1227,10 @@ pub.post("/api/save_sex", auth, async ctx=>{
 	let {sexorient,  name} = ctx.request.body;
 	if(!sexorient || !name)ctx.throw(400,  "No sexorient!");
 	console.log(sexorient, name);
+	let db = ctx.db;
+	try{
+		await db.query("update buser set sexor=$1 where bname=$2", [sexorient, name]);
+		}catch(e){ctx.throw(400, e)}
 	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, сексуальная ориентация сохранена!" : "OK, sexuel orinetation saved!")}
 	});
 
