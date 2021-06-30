@@ -1018,14 +1018,15 @@ pub.get("/userpay/:id", authed, async ctx=>{
 	let user = ctx.state.user;
 	let id = Number(ctx.params.id);
 	if(!id){
-		ctx.body=await ctx.render('room_err', {mess: "No such user!"});
+		ctx.body = await ctx.render('room_err', {mess: "No such user!"});
 		return;
 		}
 	let payout;
 	try{
-		let a=await db.query('select*from token_payout where pid=$1', [id]);
+		let a = await db.query('select*from token_payout where pid=$1', [id]);
 		//console.log('a.rows: ',a.rows);
-		if(a.rows && a.rows.length){payout=a.rows;
+		if(a.rows && a.rows.length){
+			payout = a.rows;
 	//		}else{
 	//	ctx.body=await ctx.render('room_err', {mess:"Not found error, 404"});
 	//return;
@@ -1207,7 +1208,7 @@ ctx.throw(400, e);
 //}
 await db.query(s, [ s_name, fname ]);	
 }catch(e){ctx.throw(400, e);}
-ctx.body = {info: "OK - аватарка сохранена!", path: s_name}
+ctx.body = {info: (ctx.state.user && ctx.state.user.lng == "ru" ? "OK - аватарка сохранена!" : "OK, the ava is saved!" ), path: s_name}
 })
 
 pub.post("/api/save_alter", auth, async ctx=>{
@@ -1219,7 +1220,7 @@ pub.post("/api/save_alter", auth, async ctx=>{
 	try{
 		await db.query("update buser set bage=$1 where bname=$2", [alter, name]);
 		}catch(e){ctx.throw(400, e)}
-	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, возраст сохранен!" : "OK, age saved!")}
+	ctx.body = {info: (ctx.state.user && ctx.state.user.lng == "ru" ? "OK, возраст сохранен!" : "OK, age saved!")}
 	});
 pub.post("/api/save_sex", auth, async ctx=>{
 	console.log("ctx.state.user: ", ctx.state.user);
@@ -1230,7 +1231,7 @@ pub.post("/api/save_sex", auth, async ctx=>{
 	try{
 		await db.query("update buser set sexor=$1 where bname=$2", [sexorient, name]);
 		}catch(e){ctx.throw(400, e)}
-	ctx.body = {info: (ctx.state.user.lng == "ru" ? "OK, сексуальная ориентация сохранена!" : "OK, sexuel orinetation saved!")}
+	ctx.body = {info: (ctx.state.user && ctx.state.user.lng == "ru" ? "OK, сексуальная ориентация сохранена!" : "OK, sexuel orinetation saved!")}
 	});
 
 pub.post("/api/foto_error", async ctx=>{
