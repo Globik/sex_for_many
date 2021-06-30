@@ -1,16 +1,16 @@
-//#800080#800080
-const html_head=require('./html_head'),
-    html_nav_menu=require('./html_nav_menu'),
-	html_admin_nav_menu=require('./html_admin_nav_menu.js'),
+
+const html_head = require('./html_head'),
+    html_nav_menu = require('./html_nav_menu'),
+	html_admin_nav_menu = require('./html_admin_nav_menu.js'),
    html_footer = require('./html_footer');
-   const moment=require('moment');
-   const {get_banner, get_banner_podval}=require('./reklama_s');
+   const moment = require('moment');
+   const {get_banner, get_banner_podval} = require('./reklama_s');
    const {AFTER_REGISTRATION} = require('../config/mail.js');
-   const doska=require('./doska');
-   const vert_menu=require('./vert_menu.js');
+   const doska = require('./doska');
+   const vert_menu = require('./vert_menu.js');
    
    const {people} = require('./people');
-const {js_help}=require('../libs/helper.js');
+const {js_help} = require('../libs/helper.js');
 const owner_str_ru = "Чтобы начать стрим, нажмите на 'веб камера', затем на 'Cтарт стрим'. Чтобы закончить стрим, нажмите на 'Cтоп стрим'.";
 const owner_str_en = "To start a stream press 'web camera', then press 'start stream'. To end up the stream press 'Stop stream'";
 
@@ -36,8 +36,8 @@ csslink:"/css/main2.css"/*,js:[""]*/,cssl:["/css/video_chat2.css"]})}
 </head>
 <body>${n.warnig?`<div id="warnig">${n.warnig}</div>`:''}
 <nav class="back">${html_nav_menu.html_nav_menu(n)}</nav>
-${buser && buser.brole=='superadmin'?html_admin_nav_menu.html_admin_nav_menu(n):''}
-${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
+${buser && buser.brole=='superadmin' ? html_admin_nav_menu.html_admin_nav_menu(n) : ''}
+${n.banner && n.banner.length ? `<div id="haupt-banner">${get_banner(n.banner)}</div>` : ''}
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
@@ -200,7 +200,7 @@ ${n.owner?'':`${model.padrtest || model.padr?`<br><header>${n.user.lng=='ru'?'Б
 <hr>
 ${doska.doska(n)}
 ${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
-${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
+${n.banner && n.banner.length ? `<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>` : ''}
 <output id="webrtc"></output>
 <input type="hidden" id="randomStr" value="${n.randomStr}">
 <input type="hidden" id="owner" value="${n.owner}">

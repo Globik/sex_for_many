@@ -346,71 +346,71 @@ ctx.body={info: "OK, deleted!"}
 })
 
 /* USERS */
-
+let susers = 'select id, ava, bname, crat, sexor, stat, bage, ll, items, email from buser order by crat limit 5';
 pub.get("/home/users", async ctx=>{
-let db=ctx.db;
-let result;let err;
+let db = ctx.db;
+let result;
+let err;
 //let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
-let s='select id,ava,bname,crat,ll,items,email from buser order by crat';
+
 try{
-	result = await db.query(s);
+	result = await db.query(susers);
 	}catch(e){
 	console.log(e);
-	err=e;
+	err = e;
 	}
-	ctx.body=await ctx.render("users",{result:result.rows,err:err});
+	ctx.body = await ctx.render("users", {result: result.rows, err: err});
 })
 
 pub.post("/api/fetch_all_suchen", async ctx=>{
 let db=ctx.db;
 let result;
-let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
+//let s='select buser.id, buser.bname, buser.crat, age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname limit 5';
 try{
-	result = await db.query(s);
+	result = await db.query(susers);
 	}catch(e){
 	console.log(e);
 	}
-	ctx.body={result:result.rows};
+	ctx.body = {result: result.rows};
 })
 
 pub.post("/api/get_more_users", async ctx=>{
-let {next}=ctx.request.body;
+let {next} = ctx.request.body;
 console.log("next: ",next);
 if(!next)ctx.throw(400,"No next");
 let result;
-let db=ctx.db;
-let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
- where buser.crat > $1 limit 5`;
-
+let db = ctx.db;
+//let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
+ //where buser.crat > $1 limit 5`;
+let s = `select id,bname,crat,bage,ll,items,email,stat,ava,sexor from buser where crat > $1 limit 5`;
 try{
-let a=await db.query(s,[next]);
-if(a.rows.length>0){
-result=a.rows;
+let a = await db.query(s,[next]);
+if(a.rows.length > 0){
+result = a.rows;
 }
-}catch(e){
-ctx.throw(400,e);	
-}
-ctx.body={content:result,info:"ok"}	
-})
-
-pub.post("/api/get_suchen", async ctx=>{
-let {ab,bis,city,bi,keywort}=ctx.request.body;
-let db=ctx.db;
-let result;
-let wab=(ab?ab:18);
-let wbis=(bis?bis:100);
-//select*from profile where msg like any(values('%g%'));
-//select*from profile where msg like any(values('%msg%')) and age between 18 and 60 limit 5;
-let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
- where ${city?`city='${city}' and`:''}
- ${keywort?` msg like any(values('%${keywort}%')) and`:``} bi='${bi}' and age between ${wab} and ${wbis} limit 5;`;
-try{
-console.log('S_S: ', s);
-result=await db.query(s,[]);
 }catch(e){
 ctx.throw(400, e);	
 }
-ctx.body={result:result.rows}	
+ctx.body = {content: result, info: "ok"}	
+})
+
+pub.post("/api/get_suchen", async ctx=>{
+let {ab, bis, bi, keywort} = ctx.request.body;
+let db = ctx.db;
+let result;
+let wab = ( ab ? ab: 10);
+let wbis = (bis ? bis : 100);
+//select*from profile where msg like any(values('%g%'));
+//select*from profile where msg like any(values('%msg%')) and age between 18 and 60 limit 5;
+let s=`select id,bname,crat,ll,bage,ava,stat,items,email,sexor from buser
+ where ${keywort ? ` stat like any(values('%${keywort}%')) and` : ``} sexor='${bi}' and bage between ${wab} and ${wbis} limit 5;`;
+try{
+console.log('S_S: ', s);
+result = await db.query(s,[]);
+}catch(e){
+ctx.throw(400, e);	
+}
+ctx.body = {result: result.rows}	
 })
 /*
  select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname;
@@ -420,23 +420,22 @@ ctx.body={result:result.rows}
   select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from profile left join buser on profile.bname=buser.bname;
  */ 
 pub.post("/api/update_query", async ctx=>{
-let {ab,bis,city,bi,keywort,next}=ctx.request.body;
-if(!next){ctx.throw(400,"no next");}
-let db=ctx.db;
+let {ab, bis, bi, keywort, next} = ctx.request.body;
+if(!next){ctx.throw(400, "no next");}
+let db = ctx.db;
 let result;
-let wab=(ab?ab:18);
-let wbis=(bis?bis:100);
+let wab = (ab ? ab : 10);
+let wbis = (bis ? bis : 100);
 //select*from profile where msg like any(values('%msg%')) and age between 18 and 60 limit 5;
-let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
- where ${city?`city='${city}' and`:''}
- ${keywort?` msg like any(values('%${keywort}%')) and`:``} bi='${bi}' and age between ${wab} and ${wbis} and buser.crat > '${next}' limit 5;`;
+let s=`select id,bname,crat,ll,bage,ava,stat,items,email,sexor from buser
+ where ${keywort ? ` stat like any(values('%${keywort}%')) and` : ``} sexor='${bi}' and bage between ${wab} and ${wbis} and crat > '${next}' limit 5;`;
 try{
 	console.log("S_S: ", s);
-result=await db.query(s,[]);
+result = await db.query(s,[]);
 }catch(e){
 ctx.throw(400, e);	
 }
-ctx.body={result:result.rows}	
+ctx.body = {result: result.rows}	
 })
 
 /* WEBRTC */

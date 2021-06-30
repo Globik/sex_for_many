@@ -1,20 +1,20 @@
-const file='haupt_page.js',endf=`<!-- ${file} -->`;
-const html_head=require('./html_head');
-const html_nav_menu=require('./html_nav_menu');
-const html_admin_nav_menu=require('./html_admin_nav_menu');
-const html_footer=require('./html_footer');
-const vert_menu=require('./vert_menu.js');
-const doska=require('./doska');
+const file = 'haupt_page.js', endf = `<!-- ${file} -->`;
+const html_head = require('./html_head');
+const html_nav_menu = require('./html_nav_menu');
+const html_admin_nav_menu = require('./html_admin_nav_menu');
+const html_footer = require('./html_footer');
+const vert_menu = require('./vert_menu.js');
+const doska = require('./doska');
 const {people} = require('./people');
-const {get_banner, get_banner_podval}=require('./reklama_s');
-const {check_age}=require('../config/app.json');
+const {get_banner, get_banner_podval} = require('./reklama_s');
+const {check_age} = require('../config/app.json');
 const board_str_ru = `Также обратите внимание на <strong>доску объявлений</strong>.
  Без регистрации и совершенно бесплатно в ней можно разместить свое объявление`;
 const board_str_en = `Pay attention on the <strong>message board</strong>. You can write there your messages for free.`;
 
-const main_page=function(n){
-const {lusers}=n;
-const buser=n.user,roomers=n.roomers;
+const main_page = function(n){
+const {lusers} = n;
+const buser = n.user, roomers = n.roomers;
 
 return `<!DOCTYPE html><html lang="en"><!-- main_page.js -->
 <head>${html_head.html_head({title: `${n.site} - webcam site, стримы для всех`, meta:get_meta(n.meta),
@@ -33,14 +33,14 @@ return;
 }
 if(is_dialogi()){
 dialogConfirm2.showModal();
-dialogConfirm2.onclose=function(ev){
+dialogConfirm2.onclose = function(ev){
 //alert(ev.target.returnValue);
-ev.target.returnValue=='true'?gsiska():gpiska();
+ev.target.returnValue == 'true' ? gsiska() : gpiska();
 function gsiska(){set_yes();}
 function gpiska(){say_no();}
 }
 }else{
-window.location.href="#message_box2";
+window.location.href = "#message_box2";
 var qtar = document.querySelector('.overlay:target');
 if(qtar){
 qtar.onclick = function(){in_rem_hash();}
@@ -62,14 +62,14 @@ localStorage.setItem('age', 1);
 }
 }
 </script>
-`:''}
-${n.banner && n.banner.length ?`<div id="haupt-banner">${get_banner(n.banner)}</div>`:''}
+` : ''}
+${n.banner && n.banner.length ? `<div id="haupt-banner">${get_banner(n.banner)}</div>` : ''}
 
 <main id="pagewrap">
 ${vert_menu.vert_menu(n)}
 <div id="right">
 
-${n.m?n.m.msg:''}
+${n.m ? n.m.msg : ''}
 <div id="privet">${buser ? `${n.user.lng == 'ru' ? 'Привет' : 'Hello'} <a href="/webrtc/${buser.id}">${buser.bname}</a>!`:'Привет, гость!'}</div>
 <article id="mainArticle"><h1>${n.user?n.user.lng=='ru'?'Добро пожаловать на сайт видеотрансляций':'Welcome to the webcam site':'Добро пожаловать на сайт видеотрансляций'}!</h1>
 <p>${n.user ? n.user.lng == 'ru' ? 'Вы можете' : 'Right now you can' : 'После простой регистрации вы сможете'}:
@@ -96,20 +96,20 @@ ${n.videoUsers && n.videoUsers.length > 0 ? vroomers_list(n.videoUsers, (buser&&
 <hr>
 <section id="newUserSection">
 <h2>${n.user ? n.user.lng == 'ru' ? 'Новые профили' : 'New profiles' : 'Новые профили'}</h2>
-${n.new_users ? get_new_users_list(n.new_users) : n.user ? n.user.lng == 'ru' ? 'Пока нет никого.' : 'Nodody yet.' : 'Пока нет никого.'}
+${n.new_users ? get_new_users_list(n.new_users, n.user) : n.user ? n.user.lng == 'ru' ? 'Пока нет никого.' : 'Nodody yet.' : 'Пока нет никого.'}
 </section>
 
-<input type="hidden" id="yourLang" value="${buser?buser.lng:'ru'}">
+<input type="hidden" id="yourLang" value="${buser ? buser.lng : 'ru'}">
 <hr>
 ${doska.doska(n)}
-${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
-${n.banner && n.banner.length?`<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
+${buser && buser.brole=='superadmin' ? `<hr>${people({})}` : ''}
+${n.banner && n.banner.length ? `<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>`:''}
 </div></main>
-<input type="hidden" id="buserli" value="${buser?buser.id:0}">
+<input type="hidden" id="buserli" value="${buser ? buser.id : 0}">
 <script src="/js/gesamt.js"></script>
-<footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;}
+<footer id="footer">${html_footer.html_footer({banner: n.banner})}</footer></body></html>`;}
 
-module.exports={main_page};
+module.exports = {main_page};
 
 function roomers_list(n){
 let s = '';
@@ -170,7 +170,7 @@ return {t: (c==0?1:c), s: 'мин'}
 }	
 }
 
-function get_new_users_list(n){
+function get_new_users_list(n, buser){
 let s='';
 n.forEach(function(el,i){
 s+=`<div class="newuserdiv">
@@ -180,10 +180,10 @@ s+=`<div class="newuserdiv">
 ${el.stat?`<div>${el.stat}</div>`:''}
 </div></div>`;	
 })
-//s+='<div><br><a id="newusera" href="/home/users">Смотреть все профили</a></div>';
+s+=`<div><br><a id="newusera" href="/home/users">${buser ? buser.lng == 'ru' ? 'Смотреть все профили' : 'See all profiles' : 'Смотреть все профили'}</a></div>`;
 return s;	
 }
-function get_videos(n){
+function get_videdddos(n){
 	let s='';
 	n.forEach(function(el,i){
 	s+=`<div class="videodiv" data-vvid="${el.id}">
