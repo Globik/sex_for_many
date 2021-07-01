@@ -412,9 +412,9 @@ if(is_ssl_http){
 	console.log("Must on http or localhost, port: ", HPORT, " started.");
 }
 const wss=new WebSocket.Server({server:servak,verifyClient:(info,cb)=>{
-	console.log('info.origin: ',info.origin);
-if(process.env.DEVELOPMENT==="yes"){cb(true);return;}else{
-if(info.origin===ORIGINAL){cb(true);return;}
+	console.log('info.origin: ', info.origin);
+if(process.env.DEVELOPMENT === "yes"){cb(true);return;}else{
+if(info.origin === ORIGINAL){cb(true);return;}
 cb(false);
 	}
 	}});
@@ -464,36 +464,36 @@ return;
 }
 }
 //not found, offline?
-if(msg.type=="privat_wanted")wsend(ws,{type:"no_target", who:msg.target,ontype:msg.type});
+if(msg.type=="privat_wanted")wsend(ws,{type: "no_target", who: msg.target, ontype: msg.type});
 }
 
 function get_user_count(url){
-let user_count=0;
-let on_vair=false;
-let online=false;
-let privat=false;
+let user_count = 0;
+let on_vair = false;
+let online = false;
+let privat = false;
 for(var el of wss.clients){
-if(el.urli==url){
+if(el.urli == url){
 console.log(el.urli,url);
 user_count++;
-if(el.on_vair){on_vair=el.on_vair;}
-if(el.owner){online=el.owner;}
-if(el.privat){privat=el.privat;}
-console.log('el.ON_VAIR: ',el.on_vair);
+if(el.on_vair){on_vair = el.on_vair;}
+if(el.owner){online = el.owner;}
+if(el.privat){privat = el.privat;}
+console.log('el.ON_VAIR: ', el.on_vair);
 }
 }
-return {user_count,on_vair,online,privat};	
+return {user_count, on_vair, online, privat};	
 }
 function send_to_url(msg, url){
 console.log('send to url():',url)
 var cnt = get_user_count(url);// how much users and viewers in a chat room
 for(var el of wss.clients){
 if(el.urli == url){
-if(el.readyState===WebSocket.OPEN){
+if(el.readyState === WebSocket.OPEN){
 try{
-msg.user_count=cnt.user_count;
-msg.viewers=cnt.viewers;
-msg.on_vair=cnt.on_vair;
+msg.user_count = cnt.user_count;
+msg.viewers = cnt.viewers;
+msg.on_vair = cnt.on_vair;
 let a=JSON.stringify(msg);
 el.send(a);
 }catch(e){console.log(e);}
@@ -511,7 +511,7 @@ console.log('msg: ', msg);
 });
 ps.addChannel('on_smart_cb', function(msg){
 console.log('msg notify: ',msg);
-msg.data.type="on_btc";
+msg.data.type = "on_btc";
 broadcast_satoshi(msg.data);
 });
 //perform pg_notify('token_buy', json_build_object('us_id', bitaps_cb.usid,'items', ptokens,'amt', bitaps_cb.amt)::text);
@@ -543,7 +543,7 @@ function broadcast_satoshi(obj){
 wss.clients.forEach(function each(client){
 if(client.roomname == obj.nick){
 wsend(client,obj);
-if(obj.btc_amt > 0){insert_message(' шлет '+obj.btc_amt+' сатоши.','Анон',client.url.substring(1));}
+if(obj.btc_amt > 0){insert_message(' шлет ' + obj.btc_amt + ' сатоши.', 'Анон', client.url.substring(1));}
 }
 })
 }
@@ -554,10 +554,10 @@ wsend(client, obj);
 }
 
 function noop(){}
-const interval=setInterval(function ping(){
+const interval = setInterval(function ping(){
 wss.clients.forEach(function each(ws){
-if(ws.isAlive===false)return ws.terminate();
-ws.isAlive=false;
+if(ws.isAlive === false)return ws.terminate();
+ws.isAlive = false;
 ws.ping(noop);	
 })	
 },30000)
@@ -569,91 +569,91 @@ wss.on('connection', function(ws, req){
 console.log("websock client opened!", req.url);
 broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 //console.log("clients: ", wss.clients.size);
-ws.owner=false;//if an owner 
-ws.on_vair=false;
-ws.privat=false;
+ws.owner = false;//if an owner 
+ws.on_vair = false;
+ws.privat = false;
 //ws.url=req.url;// url = us_id = room_id
-ws.urli=req.url;
+ws.urli = req.url;
 console.log("WS URL: ", ws.urli,req.url);
-ws.nick=shortid.generate();//nick or unique string for anons
+ws.nick = shortid.generate();//nick or unique string for anons
 if(req.url !== "/gesamt"){
 console.log("hi from server");
 //send_history(ws,req.url.substring(1))
-let siska=get_user_count(ws.urli);
-wsend(ws, {type:"nick", nick: ws.nick, msg: "Hi from server!"});
-broadcast_room(ws, {type: "count",user_count:siska.user_count,on_vair:siska.on_vair,online:siska.online,privat:siska.privat});
+let siska = get_user_count(ws.urli);
+wsend(ws, {type: "nick", nick: ws.nick, msg: "Hi from server!"});
+broadcast_room(ws, {type: "count", user_count: siska.user_count, on_vair: siska.on_vair, online: siska.online, privat: siska.privat});
 }else{}
 
-ws.isAlive=true;
-ws.on('pong',heartbeat);
+ws.isAlive = true;
+ws.on('pong', heartbeat);
 
 ws.on('message', async function sock_msg(msg){
-	console.log('json:',msg)
-var send_to_client=0;
+	console.log('json:', msg)
+var send_to_client = 0;
 let l;
 try{
-l=JSON.parse(msg);	
+l = JSON.parse(msg);	
 }catch(e){return;}
 try{
-if(l.type=="msg"){
-}else if(l.type=="username"){
+if(l.type == "msg"){
+}else if(l.type == "username"){
 console.log(l);
 //send_history(ws,l.roomname);
-ws.owner=l.owner;
-ws.nick=l.name;
-ws.roomname=l.roomname;//for satoshi
+ws.owner = l.owner;
+ws.nick = l.name;
+ws.roomname = l.roomname;//for satoshi
 console.log('blin_id: ',ws.urli)
-var blin_id=ws.urli.substring(1);
+var blin_id = ws.urli.substring(1);
 //console.log('blin_id: ',blin_id,ws.url)
 if(l.owner){
 broadcast_room(ws, {type: "owner_in",nick:ws.nick});
 //insert_message('вошел в чат.',l.name,blin_id);
 
-console.log('blin_id: ',blin_id);
+console.log('blin_id: ', blin_id);
 
-console.log("L: ",l);
-l.type="new_room";
-l.room_name=l.roomname;
-l.room_id=blin_id;
-l.v=1;
+console.log("L: ", l);
+l.type = "new_room";
+l.room_name = l.roomname;
+l.room_id = blin_id;
+l.v = 1;
 try{
 await pool.query('insert into vroom(us_id,nick) values($1,$2) on conflict(nick) do nothing',[blin_id,l.room_name]);
 }catch(e){console.log('db.error inserting vroom: ',e)}
 try{
-let q=await pool.query('select ava,stat from buser where bname=$1',[l.room_name]);
-if(q.rows&&q.rows.length){
-l.src=q.rows[0].ava;
-l.descr=q.rows[0].stat;
+let q = await pool.query('select ava,stat from buser where bname=$1',[l.room_name]);
+if(q.rows && q.rows.length){
+l.src = q.rows[0].ava;
+l.descr = q.rows[0].stat;
 who_online(l);	
 }
 }catch(e){console.log(e);}
 }else{
-if(ws.urli !=="/gesamt"){
+if(ws.urli !== "/gesamt"){
 pool.query('update vroom set v=v+1 where nick=$1 returning us_id,v,crat',[l.roomname],function(er,r){
 if(er)console.log(er);
 if(r.rows && r.rows.length){
-let d5={};
-d5.type="room_part";
-d5.part=r.rows[0].v;
-d5.roomid=r.rows[0].us_id;
-d5.min_t=get_mini(r.rows[0].crat).t;
-d5.min_s=get_mini(r.rows[0].crat).s;
+let d5 = {};
+d5.type = "room_part";
+d5.part = r.rows[0].v;
+d5.roomid = r.rows[0].us_id;
+d5.min_t = get_mini(r.rows[0].crat).t;
+d5.min_s = get_mini(r.rows[0].crat).s;
 who_online(d5);	
 }
 })
 }
 }
-send_to_client=1;
-}else if(l.type=="tokentransfer"){
-console.log('kuku2!: ',l);	
+send_to_client = 1;
+}else if(l.type == "tokentransfer"){
+console.log('kuku2!: ', l);	
 try{
 	//on_token_transfer(tom varchar(16),fro varchar(16), amt int)
 //await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
 //broadcast_room(ws, l);
-let li=await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname,l.from,l.amount]);
-if(li.rows&&li.rows.length){
-	l.minus=li.rows[0].on_token_transfer;
-	l.plus=li.rows[1].on_token_transfer;
+let li = await pool.query('select on_token_transfer($1,$2,$3)',[l.modelname, l.from, l.amount]);
+if(li.rows && li.rows.length){
+	l.minus = li.rows[0].on_token_transfer;
+	l.plus = li.rows[1].on_token_transfer;
 	broadcast_room(ws, l);
 	
 	}
@@ -669,17 +669,18 @@ send_to_client = 1;
 console.log("ON VAIR: ");
 if(l.is_first == 'true'){
 	try{
-		await pool.query(`update vroom set typ='all', p=$1 where nick=$2`,[l.src,l.room_name]);
+		await pool.query(`update vroom set typ='all', p=$1 where nick=$2`,[l.src, l.room_name]);
 		}catch(e){console.log(e);}
+		//mach das
 ws.on_vair = true;
 who_online(l);
 }
 
 broadcast_room(ws, l);
-if(l.is_active=='false'){
+if(l.is_active == 'false'){
 	
 	try{
-		let a=await pool.query(`update vroom set typ='activ' where nick=$1`,[l.room_name]);
+		let a = await pool.query(`update vroom set typ='activ' where nick=$1`,[l.room_name]);
 	
 		}catch(e){console.log(e);}
 l.type = "out_vair2";

@@ -9,12 +9,19 @@ var is_rus = function(){return (Lang.value == "true" ? true : false)}
 function get_more_users(el){
 if(flagi){
 do_update_query(el);
+console.log('flagi returning: ', flagi);
 return;	
 }
 	
-if(!v.lastChild)return;
+if(!v.lastChild){
+	console.log('!v.lastChild , returning');
+	return;
+	}
 var b = v.lastChild.getAttribute('data-at');
-if(!b)return;
+if(!b){
+	console.log('!b, no data-at, returning');
+	return;
+	}
 var d = {};
 d.next = b;
 vax("post", "/api/get_more_users", d, on_get_users, on_get_user_error, el, false);
@@ -53,11 +60,11 @@ newuserdiv.className = "newuserdiv";
 newuserdiv.setAttribute("data-id", el.id);
 newuserdiv.setAttribute("data-at", el.crat);
 newuserdiv.innerHTML = '<div class="newuserleft"><img class="newuserfoto" src="' + (el.ava ? el.ava : '/images/default.jpg') +
-'"></div><div class="newuserrite"><div><a href="/webrtc/' + el.id + '">' + el.bname + '</a>, ' + (el.bage ? el.bage : '18') + ', ' + el.sexor + '</div>' +
+'"></div><div><a href="/webrtc/' + el.id + '">' + el.bname + '</a>, ' + (el.bage ? el.bage : '18') + ', ' + el.sexor + '</div>' +
 (el.stat ? '<div>' + el.stat + '</div>' : '') + '<div>' + (is_rus() ? 'зарегистрирован' : 'created') + ': ' + el.crat + '</div>' +
 '<div>' + (is_rus() ? 'последний раз был' : 'last login') + ': ' + el.ll + '</div>' +
 (is_admin() ? '<div>email: ' + el.email + '</div><div><button data-id="' + el.id + '" data-email="' + el.email + '" onclick="send_welcome_mail(this);">Welcome on board</button></div>' +
-'<div>items: ' + el.items + '</div>' : '') + '</div><hr>';
+'<div>items: ' + el.items + '</div>' : '');
 frag.appendChild(newuserdiv);
 });	
 

@@ -55,18 +55,17 @@ module.exports = {users};
 function get_users(n, buser){
 let s='<section id="usersection">';
 n.forEach(function(el, i){
-s+=`<hr><div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}">
-<div>${buser && buser.lng == 'ru' ? 'зарегистрирован' : 'created'}: ${el.crat}</div>
+s+=`<div class="newuserdiv" data-id="${el.id}" data-at="${el.crat}">
 <div class="newuserleft"><img class="newuserfoto" src="${el.ava?el.ava:'/images/default.jpg'}"/></div>
-<div class="newuserrite">
 <div><a href="/webrtc/${el.id}">${el.bname}</a>,&nbsp;${el.bage},&nbsp;${el.sexor}</div>
 ${buser && buser.brole == 'superadmin' ? `<div>${el.email}</div>` : ''}
 ${el.stat ? `<div>${el.stat}</div>` : ''}
+<div>${buser && buser.lng == 'ru' ? 'зарегистрирован' : 'created'}: ${el.crat}</div>
 <div>${buser && buser.lng == 'ru' ? 'последний раз был' : 'last login'}: ${el.ll}</div>
 ${buser && buser.brole == 'superadmin' ? `<div>items: ${el.items}</div>
 <div><button data-id="${el.id}" data-nick="${el.bname}" data-email="${el.email}"
  onclick="send_welcome_mail(this);">welcome on board</button></div>` : ''}
-</div></div><hr>`;
+</div>`;
 	})
 	s+=`</section><br><br><button onclick="get_more_users(this);">${buser && buser.lng == 'ru' ? 'Показать еще' : 'Get more'}</button>`;
 	return s;

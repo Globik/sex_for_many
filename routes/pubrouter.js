@@ -377,7 +377,7 @@ try{
 pub.post("/api/get_more_users", async ctx=>{
 let {next} = ctx.request.body;
 console.log("next: ",next);
-if(!next)ctx.throw(400,"No next");
+if(!next)ctx.throw(400, "No next");
 let result;
 let db = ctx.db;
 //let s=`select buser.id,buser.bname,buser.crat,age,ava,msg,bi,city from buser left join profile on buser.bname=profile.bname
@@ -1210,7 +1210,7 @@ await db.query(s, [ s_name, fname ]);
 }catch(e){ctx.throw(400, e);}
 ctx.body = {info: (ctx.state.user && ctx.state.user.lng == "ru" ? "OK - аватарка сохранена!" : "OK, the ava is saved!" ), path: s_name}
 })
-
+//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
 pub.post("/api/save_alter", auth, async ctx=>{
 	console.log("ctx.state.user: ", ctx.state.user);
 	let {alter,  name} = ctx.request.body;

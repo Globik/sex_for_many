@@ -547,7 +547,7 @@ note({content: s, type: "info", time: 5});
 return;
 }
 if(tokencntnav){
- var t=Number(tokencntnav.textContent);
+ var t = Number(tokencntnav.textContent);
 ti=t;
 }
 wsend({type: "privat_wanted", target: modelName.value, from: myusername, amount: ti})
@@ -603,6 +603,9 @@ function stop_privat(el){
 	el.disabled = true;
 if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 IS_GRATIS = true;
+if(owner(){
+	//wsend({});
+	}
 }
 	
 function go_webrtc(el){	
