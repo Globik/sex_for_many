@@ -48,7 +48,7 @@ ${n.err?`<hr>${n.err}<hr>`:''}
 ${js_help(['/js/profiles.js'])}
 <footer id="footer">${html_footer.html_footer({banner:n.banner})}</footer></body></html>`;
 }
-module.exports={profiles};
+module.exports = {profiles};
 function get_profiles(n){
 let s='';
 n.result.forEach(function(el,i){

@@ -1,4 +1,4 @@
--- \i /home/globik/sex_for_many/sql/buser.sql
+-- \i /home/globi/sex_for_many/sql/buser.sql
 -- \i /root/sex_for_many/sql/buser.sql
 -- create extension if not exists pgcrypto;
 drop type if exists brole_type_enum cascade;

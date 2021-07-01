@@ -16,17 +16,26 @@ const {payout_promo_token, payout_token} = require('../config/app.json');
 adm.get('/home/dashboard', authed, async ctx=>{
 	ctx.body = await ctx.render('admin_dashboard',{});
 });
+adm.get('/home/seans', authed, async ctx=>{
+	let result;
+	let db = ctx.db;
+	try{
+		let a = await db.query('select*from sean');
+		result = a.rows;
+		}catch(e){console.log(e)}
+	ctx.body = await ctx.render('seans', {result: result});
+	})
 adm.post("/home/profile/enable_btc", auth, async ctx=>{
 console.log("ctx request body: ", ctx.request.body);
-ctx.body={info:"ok", btc_pay:ctx.state.btc_pay}	
+ctx.body = {info: "ok", btc_pay: ctx.state.btc_pay}	
 })
 adm.post("/home/profile/btc_test", auth, async ctx=>{
 console.log(ctx.request.body);
-let db=ctx.db;
+let db = ctx.db;
 try{
 await db.query('update prim_adr set type=$1',[ctx.state.is_test_btc]);	
 }catch(e){ctx.throw(400,e);}
-ctx.body={info:"ok", is_test_btc:ctx.state.is_test_btc};	
+ctx.body = {info: "ok", is_test_btc: ctx.state.is_test_btc};	
 })
 
 adm.post("/home/profile/save_btc_adr", auth, async ctx=>{

@@ -16,7 +16,8 @@ var a=[
 "-f","./sql/token_transfer.sql",
 "-f","./sql/token_payout.sql",
 "-f","./sql/bitaps_tmp.sql",
-"-f","./sql/tokens_buy.sql"
+"-f","./sql/tokens_buy.sql",
+"-f","./sql/sean.sql"
 ]
 //const  ls=spawn('/usr/local/pgsql/bin/psql',a);
 const ls=spawn('psql', a)

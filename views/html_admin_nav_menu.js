@@ -14,7 +14,7 @@ var html_admin_nav_menu=n=>{
 <li><a href="/home/videofiles">Видеофайлы</a></li>
 <li><a href="/home/fakevideo">Fakevideos</a></li>
 <li><a href="/payout">Выплатить</a></li>
-<li><a href="/home/users">users</a></li>
+<li><a href="/home/seans">seans</a></li>
 </ul>
 
 <!--

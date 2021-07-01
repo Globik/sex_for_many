@@ -572,6 +572,7 @@ broadcasti({type: "spanWhosOn", cnt: wss.clients.size});
 ws.owner = false;//if an owner 
 ws.on_vair = false;
 ws.privat = false;
+ws.sid = 0;
 //ws.url=req.url;// url = us_id = room_id
 ws.urli = req.url;
 console.log("WS URL: ", ws.urli,req.url);
@@ -672,6 +673,14 @@ if(l.is_first == 'true'){
 		await pool.query(`update vroom set typ='all', p=$1 where nick=$2`,[l.src, l.room_name]);
 		}catch(e){console.log(e);}
 		//mach das
+		if(ws.owner){
+		try{
+			let a3 = await pool.query('insert into sean(sname,typ) values($1,0) returning id', [l.room_name]);
+			if(a3 && a3.rows){
+				ws.sid = a3.rows[0].id;
+				}
+			}catch(e){console.log(e);}
+		}
 ws.on_vair = true;
 who_online(l);
 }
@@ -683,6 +692,12 @@ if(l.is_active == 'false'){
 		let a = await pool.query(`update vroom set typ='activ' where nick=$1`,[l.room_name]);
 	
 		}catch(e){console.log(e);}
+		if(ws.owner){
+			try{
+				await pool.query('update sean set endat=now() where id=$1', [ws.sid]);
+				ws.sid = 0;
+				}catch(e){console.log(e)}
+			}
 l.type = "out_vair2";
 try{
 let a = await pool.query('select ava from buser where bname=$1',[l.room_name]);
@@ -691,7 +706,7 @@ l.src = a.rows[0].ava;
 }
 }catch(e){console.log(e)} 
 who_online(l);	
-
+//ws.on_vair = false;
 }
 send_to_client = 1;
 }else if(l.type == "out_vair"){
@@ -703,14 +718,26 @@ send_to_client = 1;
 		await pool.query(`update vroom set typ='priv' where nick=$1`,[l.modelname]);
 		broadcast_room(ws, l);
 		who_online(l);
+		ws.privat = true;
 		}catch(e){console.log('err in privat: ',e);}
+		
+		try{
+			let a4 = await pool.query('insert into sean(sname,typ) values($1,1) returning id', [l.modelname]);
+			if(a4 && a4.rows)ws.sid = a4.rows[0].id;
+			}catch(e){console.log(e)}
+		
 send_to_client = 1;	
 }else if(l.type == "unprivat"){
 	try{
 		await pool.query(`update vroom set typ='activ' where nick=$1`, [l.modelname]);
 		broadcast_room(ws, l);
 		who_online(l);
+		ws.privat = false;
 		}catch(e){console.log('err in unprivat: ',e);}
+		try{
+			await pool.query('update sean set endat=now() where id=$1', [ws.sid]);
+			ws.sid = 0;
+			}catch(e){console.log(e)}
 send_to_client = 1;	
 }else if(l.type == "new_ava"){
 who_online(l);
@@ -759,9 +786,18 @@ broadcast_room(ws, {type: "owner_out",nick:ws.roomname});
 //	who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.url.substring(1)})
 //pool.query('delete from vroom where nick=$1',[ws.roomname],function(er,r){
 	//if(er)console.log(er);
+	try{
+				await pool.query('update sean set endat=now() where id=$1', [ws.sid]);
+				}catch(e){console.log(e)}
 	removeDir(path.join('public','video/')+ws.roomname).then(function(d){console.log('d: ',d)}).catch(function(e){console.log(e);});
 	//});
 		}
+		if(ws.privat){
+			try{
+			await pool.query('update sean set endat=now() where id=$1', [ws.sid]);
+			ws.sid = 0;
+			}catch(e){console.log(e)}
+			}
 		who_online({type:"out_vair",room_name:ws.roomname,room_id:ws.urli.substring(1)});
 		broadcast_room(ws,{type:"out_vair",piska:"piska"});
 		try{
@@ -775,24 +811,24 @@ await pool.query(`delete from vroom where nick=$1 and not (typ='fake' or typ='no
 //});
 }else{
 if(ws.urli !== "/gesamt"){
-pool.query('update vroom set v=v-1 where nick=$1 returning us_id,v,crat',[ws.roomname],function(er,r){
+pool.query('update vroom set v=v-1 where nick=$1 returning us_id,v,crat', [ws.roomname], function(er,r){
 if(er)console.log(er);
 if(r.rows && r.rows.length){
 let d9={};
-d9.type="room_part";
-d9.part=r.rows[0].v;
-d9.roomid=r.rows[0].us_id;
-d9.min_t=get_mini(r.rows[0].crat).t;
-d9.min_s=get_mini(r.rows[0].crat).s;
+d9.type = "room_part";
+d9.part = r.rows[0].v;
+d9.roomid = r.rows[0].us_id;
+d9.min_t = get_mini(r.rows[0].crat).t;
+d9.min_s = get_mini(r.rows[0].crat).s;
 who_online(d9);	
 }
 });	
 
 }
 }
-if(ws.urli=="/gesamt")return;
-let siska=get_user_count(ws.url);
-broadcast_room(ws, {type: "count",user_count:siska.user_count});
+if(ws.urli == "/gesamt")return;
+let siska = get_user_count(ws.url);
+broadcast_room(ws, {type: "count", user_count: siska.user_count});
 })
 
 })
