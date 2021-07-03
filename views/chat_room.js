@@ -42,16 +42,17 @@ ${n.banner && n.banner.length ? `<div id="haupt-banner">${get_banner(n.banner)}<
 ${vert_menu.vert_menu(n)}
 <div id="right">
 ${n.message && n.message.info == 'promo' ? buser ? buser.lng=='ru' ? AFTER_REGISTRATION({}).ru : AFTER_REGISTRATION({}).en : '' : ''}
-
-<h2>${n.user?n.user.lng=='ru'?'Комната':'Room':'Комната'} ${model?model.bname:'Анон'}</h2>
-${!n.owner?`<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
+<!-- {JSON.stringify(model)} -->
+<h2>${n.user ? n.user.lng == 'ru' ? 'Комната': 'Room': 'Комната'} ${model?model.bname : 'Анон'}</h2>
+${!n.owner ? `<img id="modelava" data-avid="${model.id}" onerror="foto_error(this);" src="${model.ava?model.ava:'/images/unnamed.jpg'}">`:''}
 ${!n.owner ? `<p>${model.bage},&nbsp;${model.sexor}</p>` : ''}
-${!n.owner?`<p>${model.stat?model.stat:''}</p>`:''}
+${!n.owner ? `<p>${model.stat ? model.stat : ''}</p>` : ''}
+${!n.owner && n.user ? `<p><b>Email:</b>&nbsp;<a href="mailto:${model.email}">${model.email}</a></p>` : ''}
 ${n.owner?
 `<div class="btc-footer">
 <!-- <button onclick="test_cb();">test callback</button> -->
-<!-- <div>У вас <span id="bitcoinCount">{(model.items*model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div> -->
-<h5>${n.user.lng=='ru'?'Прежде чем начать (необязательно)':'Before to get started (not obligatory)'}</h5>
+<!-- <div>У вас <span id="bitcoinCount">{(model.items * model.proz)/100}</span> рублей. <a href="/userpay/${model.bname}">Посмотреть выплаты.</a></div> -->
+<h5>${n.user.lng == 'ru' ? 'Прежде чем начать (необязательно)': 'Before to get started (not obligatory)'}</h5>
 <div>
 <div class="requis">
 <div id="avacontainer">
@@ -60,11 +61,11 @@ ${n.owner?
 </div>
 <div class="requis">
 <form name="avaprofi" action="/api/save_ava" method="post">
-<label for="avfile"><strong>${n.user.lng=='ru'?'Ваш аватар':'Your avatar'}:</strong></label><br>
+<label for="avfile"><strong>${n.user.lng=='ru' ? 'Ваш аватар': 'Your avatar'}:</strong></label><br>
 <input id="avfile" type="file" name="zfile" accept="image/*" onchange="thumb(this.files);" required>
 <input type="hidden" name="fname" value="${model?model.bname:''}">
 </div>
-<div class="requis"><input type="submit" value="${n.user.lng=='ru'?'загрузить':'Upload'}"></div>
+<div class="requis"><input type="submit" value="${n.user.lng == 'ru' ? 'загрузить': 'Upload'}"></div>
 </form>
 
 <div>
@@ -158,26 +159,26 @@ ${n.owner?'': model.padrtest || model.padr? `<a href="bitcoin:${n.is_test_btc? m
 `<button id="soundBtn" onclick="popa(this);">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 1.269l-18.455 22.731-1.545-1.269 3.841-4.731h-1.827v-10h4.986v6.091l2.014-2.463v-3.628l5.365-2.981 4.076-5.019 1.545 1.269zm-10.986 15.926v.805l8.986 5v-16.873l-8.986 11.068z"/></svg>
 </button><button class="btn-start" id="teeTip"  onclick="give_token();">${n.user?n.user.lng=='ru'?'Дать на чай':'Tip':'Дать на чай / Tip'}</button>
-<button class="btn-start" id="btnStart" onclick="begin_privat(this);">${n.user?n.user.lng=='ru'?'Приват':'Privat':'Приват / Privat'}</button>`}
-${model.brole == "fake" ? "" : `<button id="stopPrivat" class="btn-start" onclick="stop_privat(this);" disabled>${n.user?n.user.lng=='ru'?'стоп приват':'stop privat':'стоп приват / stop privat'}</button>`}
+<button class="btn-start" id="btnStart" onclick="begin_privat(this);">Privat</button>`}
+${model.brole == "fake" ? "" : `<button id="stopPrivat" class="btn-start" onclick="stop_privat(this);" disabled>stop privat</button>`}
 
 <div id="dopPanel">
 
-${n.owner?`<label class="label-galka" id="sochrVideo"><span>${n.user.lng=='ru'?'Сохранить видео':'Save video'}</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>
-<button id="btnStart" class="btn-start" onclick="snapshot();">${n.user.lng=='ru'?'сделать снимок':'Snapshot'}</button>`:''}
+${n.owner? `<label class="label-galka" id="sochrVideo"><span>${n.user.lng == 'ru' ? 'Сохранить видео' : 'Save video'}</span><input id="ifRecord" type="checkbox" ${buser && buser.brole=='superadmin'?'':'disabled'}/><span class="galka"></span></label>
+<button id="btnStart" class="btn-start" onclick="snapshot();">${n.user.lng == 'ru' ? 'сделать снимок' : 'Snapshot'}</button>`:''}
 <!-- mute / unmute the sound -->
 </div>
 </div>
 
 </section>
 
-<section id="chat-container"><div id="chatPanel"><div><b>${n.user?n.user.lng=='ru'?'В&nbsp;чатe&nbsp;':'In&nbsp;chat&nbsp;':'В&nbsp;чатe&nbsp;'}</b><span id="chatcnt">0</span>&nbsp;${n.user?n.user.lng=='ru'?'чел':'people':'чел'}.</div></div>
+<section id="chat-container"><div id="chatPanel"><div><b>${n.user ? n.user.lng == 'ru' ? 'В&nbsp;чатe&nbsp;' : 'In&nbsp;chat&nbsp;' : 'В&nbsp;чатe&nbsp;'}</b><span id="chatcnt">0</span>&nbsp;${n.user?n.user.lng=='ru'?'чел':'people':'чел'}.</div></div>
 <div id="chat"></div>
 <div id="under-chat">
-<textarea id="chatTxt"  class="chat-txt" type="text" placeholder="${n.user?n.user.lng=='ru'?'ваше сообщение':'your message':'ваше сообщение'}" maxlength="200"></textarea>
+<textarea id="chatTxt"  class="chat-txt" type="text" placeholder="${n.user ? n.user.lng == 'ru' ? 'ваше сообщение' : 'your message' : 'ваше сообщение'}" maxlength="200"></textarea>
 </div>
 <div id="under-chat2">
-<button id="btnFoto" onclick="insert_img();" title="${n.user?n.user.lng=='ru'?'вставить фотографию':'insert photo':'вставить фотографию'}">${n.user?n.user.lng=='ru'?'вставить фото':'insert photo':'вставить фото'}</button><button id="vasja" onclick="send_up(this);">${n.user?n.user.lng=='ru'?'отправить':'send':'отправить'}</button>
+<button id="btnFoto" onclick="insert_img();" title="${n.user ? n.user.lng == 'ru' ? 'вставить фотографию' : 'insert photo' : 'вставить фотографию'}">${n.user?n.user.lng=='ru'?'вставить фото':'insert photo':'вставить фото'}</button><button id="vasja" onclick="send_up(this);">${n.user?n.user.lng=='ru'?'отправить':'send':'отправить'}</button>
 </div>
 
 </section>
@@ -199,24 +200,24 @@ ${n.owner?'':`${model.padrtest || model.padr?`<br><header>${n.user.lng=='ru'?'Б
 </ul>
 <hr>
 ${doska.doska(n)}
-${buser && buser.brole=='superadmin'? `<hr>${people({})}`:''}
+${buser && buser.brole=='superadmin' ? `<hr>${people({})}`:''}
 ${n.banner && n.banner.length ? `<section id="reklamaPodval">${get_banner_podval(n.banner)}</section>` : ''}
 <output id="webrtc"></output>
 <input type="hidden" id="randomStr" value="${n.randomStr}">
 <input type="hidden" id="owner" value="${n.owner}">
-<input type="hidden" id="buser" value="${buser?true:false}">
+<input type="hidden" id="buser" value="${buser ? true: false}">
 <input type="hidden" id="yourNick" value="${buser ? buser.bname:'Anon'}">
 <input type="hidden" id="yourLang" value="${buser ? buser.lng : 'ru'}">
 
-<input type="hidden" id="isfake" value="${model&&model.brole=='fake'?true:false}">
-<input type="hidden" id="fakesrc" value="${n.videos?n.videos.src:''}">
+<input type="hidden" id="isfake" value="${model && model.brole == 'fake' ? true: false}">
+<input type="hidden" id="fakesrc" value="${n.videos ? n.videos.src: ''}">
 
-<input type="hidden" id="modelName" value="${model?model.bname:''}">
-<input type="hidden" id="modelId" value="${model?model.id:''}">
-<input type="hidden" id="modelProzent" value="${model?model.proz:''}">
-<input type="hidden" id="xirTarget" value='${n.xirsys?JSON.stringify(n.xirsys):''}'>
-<input type="hidden" id="invoici" value="${model.inv !==null?model.inv:''}">
-<input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT=='yes'?'y':'n'}">
+<input type="hidden" id="modelName" value="${model ? model.bname: ''}">
+<input type="hidden" id="modelId" value="${model ? model.id: ''}">
+<input type="hidden" id="modelProzent" value="${model ? model.proz: ''}">
+<input type="hidden" id="xirTarget" value='${n.xirsys ? JSON.stringify(n.xirsys): ''}'>
+<input type="hidden" id="invoici" value="${model.inv !== null ? model.inv:''}">
+<input type="hidden" id="devTarget" value="${process.env.DEVELOPMENT == 'yes' ? 'y': 'n'}">
 
 
 

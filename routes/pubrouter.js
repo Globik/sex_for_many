@@ -449,22 +449,22 @@ let a,result,videos,videos2, message;
 let owner = false;
 let sis;let descr;
 if(ctx.state.is_test_btc){
-sis = `select buser.bname ,buser.brole, buser.items,buser.proz, buser.id, buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padrtest, cladr.cadrtest, 
+sis = `select buser.bname ,buser.brole, buser.email,buser.items,buser.proz, buser.id, buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padrtest, cladr.cadrtest, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }else{
-sis = `select buser.bname , buser.brole,buser.items,buser.proz,buser.id,buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padr, cladr.cadr, 
+sis = `select buser.bname , buser.brole,buser.email,buser.items,buser.proz,buser.id,buser.stat, buser.ava, buser.sexor, buser.bage, cladr.padr, cladr.cadr, 
 cladr.btc_all, cladr.inv from buser left join cladr on buser.bname=cladr.nick where buser.id=$1`;
 }
 try{
 result = await db.query(sis,[ctx.params.buser_id]);
 a=result.rows[0];
-if(a&&a.brole == 'fake'){
+if(a && a.brole == 'fake'){
 videos2 = await db.query('select*from vroom where nick=$1',[a.bname]);
 videos = videos2.rows[0];
 
 console.log('videos: ',videos);
 }else{
-let de = await db.query('select descr from vroom where nick=$1',[a.bname]);
+//let de = await db.query('select descr from vroom where nick=$1',[a.bname]);
 
 }
 }catch(e){
@@ -480,7 +480,7 @@ if(us){
 if(us.id == ctx.params.buser_id){owner=true;}
 }
 if(ctx.session.bmessage){message = ctx.session.bmessage;}
-ctx.body = await ctx.render('chat_room', {model:a, owner:owner,videos:videos,descr:descr, randomStr: shortid.generate(), message});
+ctx.body = await ctx.render('chat_room', {model:a, owner:owner,videos:videos, randomStr: shortid.generate(), message});
 if(ctx.session.bmessage){delete ctx.session.bmessage}
 });
 

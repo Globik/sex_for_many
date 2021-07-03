@@ -603,9 +603,7 @@ function stop_privat(el){
 	el.disabled = true;
 if(NOT_GRATIS_TIMER){clearTimeout(NOT_GRATIS_TIMER);}
 IS_GRATIS = true;
-if(owner(){
-	//wsend({});
-	}
+
 }
 	
 function go_webrtc(el){	
