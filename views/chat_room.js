@@ -195,7 +195,7 @@ ${n.owner? `<label class="label-galka" id="sochrVideo"><span>${n.user.lng == 'ru
 <li><b>Возраст: </b><span id="clientAge"></span>
 <li><b>О себе: </b><br><span id="clientMsg"></span>
 <li> <br><b>Просмотров: </b><span id="clientViews"></span> -->
-${n.owner?'':`${model.padrtest || model.padr?`<br><header>${n.user.lng=='ru'?'Биткоин адрес для донатов':'Bitcoin address for donations'} ${model.bname}</header><div id="qrcodeContainer"><div id="qrcode"></div></div>`:''}`}
+${n.owner?'':`${model.padrtest || model.padr?`<br><header>${n.user ? n.user.lng == 'ru' ? 'Биткоин адрес для донатов' : 'Bitcoin address for donations' : 'Bitcoin address for donations'} ${model.bname}</header><div id="qrcodeContainer"><div id="qrcode"></div></div>`:''}`}
 <!-- {n.owner?'<li><a href="/home/profile/{model.bname}">редактировать</a>':''} -->
 </ul>
 <hr>
