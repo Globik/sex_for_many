@@ -132,7 +132,7 @@ n.forEach(function(el, i){
 s+= (el.typ !='noview' || b ?  `<div data-roomidi="${el.us_id}" class="vroomers" itemscop itemtype="http://schema.org/VideoObject">
 ${el.typ == 'activ' ? '' : `<div data-indicator="${el.us_id}" class="indicator${el.typ=='all'|| el.typ=='fake'?' red':' green'}"></div>`}
 ${b ? `<input type="checkbox" data-bnick="${el.nick}" onchange="do_noview(this);" ${el.typ == 'noview' ? 'checked' : ''} />` : ''}
-<a href="/webrtc/${el.us_id}" itemprop="url">
+<a rel="nofollow" href="/webrtc/${el.us_id}" itemprop="url">
 <header itemprop="name">${el.nick}</header></a>
 <p itemprop="description">${el.stat?(el.stat).substring(0,52):"I'm online :)"}</p>
 <meta itemprop="duration" content="PT6M58S">
